@@ -1,0 +1,383 @@
+import re
+from collections import OrderedDict
+
+
+w4 = '    '
+w8 = '        '
+pname_pat = '\``([A-Za-z0-9_\./\\\'-]*)\``'
+dtype_pat = '\|([A-Za-z0-9_\./\\-]*)\|'
+optype_pat = "\'([A-Za-z0-9_\./\\-]*)\'"
+
+special_words = {
+    'lambda': 'lamb',
+}
+
+def clean_param_names(params):
+    pms = OrderedDict()
+    for pm in params:
+        new_pm = pm
+        dtype_is_obj = False
+        if len(pm) == 1 and pm.istitle():
+            new_pm = 'big_' + pm.lower()
+        else:
+            new_pm = convert_camel_to_snake(pm)
+        if new_pm in special_words:
+            new_pm = special_words[new_pm]
+
+        if len(new_pm) > 4 and new_pm[-4:] == '_tag':
+            new_pm = new_pm[:-4]
+            dtype_is_obj = True
+        pms[new_pm] = params[pm]
+        if dtype_is_obj:
+            pms[new_pm].dtype = 'obj'
+        pms[new_pm].o3_name = new_pm
+    # if 'tag' in pms[0]:
+    #     pms = pms[1:]
+    return pms
+
+
+def convert_name_to_class_name(name):
+    name = name[0].capitalize() + name[1:]
+    name = name.replace('_', '')
+    return name
+
+
+def convert_camel_to_snake(name):
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+
+def constructor(base_type, op_type, defaults, op_kwargs):
+    kw_pms = []  # TODO: This only works if object should be split into many objects based on kwargs, but
+    # some kwargs are just to input a single value.
+    for kw in op_kwargs:
+        for pm in op_kwargs[kw]:
+            kw_pms.append(pm)
+    if not len(op_kwargs):
+        op_kwargs[''] = []
+    para = []
+    for kw in op_kwargs:
+        name_from_kw = kw.replace('-', '')
+        name_from_kw = name_from_kw.replace("'", '')
+        op_class_name = convert_name_to_class_name(op_type + name_from_kw)
+        base_class_name = base_type[0].capitalize() + base_type[1:]
+        para.append(f'class {op_class_name}({base_class_name}Base):')
+        para.append('')
+
+        pms = clean_param_names(defaults)
+        cl_pms = []  # TODO: need to add op_kwarg str
+        for pm in pms:
+            if pms[pm].org_name not in kw_pms or pms[pm].org_name in op_kwargs[kw]:
+                cl_pms.append(pm)
+
+        # Build definition string
+        pjoins = []
+        for pm in cl_pms:
+            default = pms[pm].default_value
+            if pms[pm].is_flag:
+                pjoins.append(f'{pm}=False')
+            elif default is not None:
+                if pms[pm].default_is_expression:
+                    pjoins.append(f'{pm}=None')
+                else:
+                    pjoins.append(f'{pm}={default}')
+            else:
+                if pms[pm].marker:
+                    pjoins.append(f'{pm}=None')
+                else:
+                    pjoins.append(f'{pm}')
+
+        pjoined = ', '.join(pjoins)
+        para.append(f'    def __init__(self, osi, {pjoined}):')
+
+        # Create init function saving logic
+        for i, pm in enumerate(cl_pms):
+            dtype = pms[pm].dtype
+            if dtype == 'float':
+                para.append(w8 + f'self.{pm} = float({pm})')
+            elif dtype == 'int':
+                para.append(w8 + f'self.{pm} = int({pm})')
+            else:
+                para.append(w8 + f'self.{pm} = {pm}')
+        para.append(w8 + 'osi.n_mats += 1')
+        para.append(w8 + 'self._tag = osi.mats')
+        pjoins = []
+        need_special_logic = False
+        applied_op_warg = False
+        for pm in cl_pms:
+            if pms[pm].marker:
+                continue
+            if pms[pm].is_flag:
+                continue
+            if not applied_op_warg and pm in op_kwargs[kw]:
+                applied_op_warg = True
+                pjoins.append(f"'{kw}'")
+            if pms[pm].default_is_expression:
+                need_special_logic = True
+                break
+            if pms[pm].dtype == 'obj':
+                pjoins.append(f'self.{pm}.tag')
+            elif pms[pm].packed:
+                pjoins.append('*self.' + pm)
+            else:
+                pjoins.append('self.' + pm)
+        para.append(w8 + 'self._parameters = [self.op_type, self._tag, %s]' % (', '.join(pjoins)))
+        for pm in cl_pms:
+            if pms[pm].marker:
+                para.append(w8 + f"if getattr(self, '{pm}') is not None:")
+                if pms[pm].packed:
+                    para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', *self.{pm}]")
+                else:
+                    para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', self.{pm}]")
+            if pms[pm].is_flag:
+                para.append(w8 + f"if getattr(self, '{pm}') is not None:")
+                para.append(w8 + w4 + f"self._parameters += ['-{pm}']")
+        if need_special_logic:
+            sp_logic = False
+            sp_pms = []
+            for pm in pms:
+                if pms[pm].default_is_expression:
+                    sp_logic = True
+                if sp_logic:
+                    sp_pms.append("'%s'" % pm)
+            para.append(w8 + f"special_pms = [{', '.join(sp_pms)}]")
+            para.append(w8 + 'for pm in special_pms:')
+            para.append(w8 + w4 + 'if getattr(self, pm) is not None:')
+            para.append(w8 + w8 + 'self._parameters += [getattr(self, pm)]')
+        para.append(w8 + 'self.to_process(osi)')
+
+        low_op_name = convert_camel_to_snake(op_class_name)
+        low_base_name = convert_camel_to_snake(base_class_name)
+
+        # Build test
+        para.append('')
+        para.append(f'def test_{low_op_name}():')
+        para.append(w4 + 'osi = opw.OpenseesInstance(dimensions=2)')
+        pjoins = []
+        for i, pm in enumerate(cl_pms):
+            default = pms[pm].default_value
+            dtype = pms[pm].dtype
+            if pms[pm].default_is_expression:
+                pjoins.append(f'{pm}=None')
+            elif default is not None:
+                pjoins.append(f'{pm}={default}')
+            elif dtype == 'float':
+                pjoins.append(f'{pm}=1.0')
+            elif dtype == 'obj':
+                pjoins.append(f'{pm}=obj')
+            else:
+                pjoins.append(f'{pm}=1')
+        pjoint = ', '.join(pjoins)
+        para.append(w4 + f'opw.{low_base_name}.{op_class_name}(osi, {pjoint})')
+        para.append('')
+        para.append('')
+    return '\n'.join(para)
+
+
+class Param(object):
+    def __init__(self, org_name, default_value, packed=None, dtype=None):
+        self.org_name = org_name
+        self.o3_name = None
+        self.default_value = default_value
+        self.packed = packed
+        self.dtype = dtype
+        self.default_is_expression = False
+        self.p_description = ''
+        self.marker = None
+        self.is_flag = False
+
+
+def check_if_default_is_expression(defo):
+    if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
+        return True
+    return False
+
+
+def clean_fn_line(line):
+    defaults = OrderedDict()
+    print(line)
+    base_type = line.split('.. function:: ')[-1]
+    base_type = base_type.split('(')[0]
+    optype_res = re.search(optype_pat, line)
+    optype = optype_res.group()[1:-1]
+    print(optype_res)
+    inputs_str = line.split(')')[0]
+    inputs = inputs_str.split(',')
+    inputs = inputs[2:]  # remove class definition and tag
+    op_kwargs = OrderedDict()
+    markers = OrderedDict()
+    flags = []
+    cur_kwarg = None
+    names_only = []
+    for j, inpy in enumerate(inputs):
+        name_only = inpy.replace(' ', '')
+        if '*' in name_only:
+            name_only = name_only.replace('*', '')
+            # name_only = name_only.replace('Args', '')
+        name_only = name_only.split('=')[0]
+        names_only.append(name_only)
+    for j, inpy in enumerate(inputs):
+        inpy = inpy.replace(' ', '')
+        if '=' in inpy:
+            inp, defo = inpy.split('=')
+        else:
+            inp = inpy
+            defo = None
+        if '-' in inp:
+            word = inp[2:-1]
+            if len(inputs) > j + 1 and (word == names_only[j + 1] or word + 'Args' == names_only[j + 1]):
+                markers[names_only[j + 1]] = word
+                continue
+            elif len(inputs) > j + 1 and '-' in names_only[j + 1]:  # TODO: unsure if this is best way to identify flags
+                flags.append(word)
+                inp = word
+            else:
+                cur_kwarg = '-' + word
+                op_kwargs[cur_kwarg] = []
+                continue
+        if inp[0] == '*':
+            inp = inp[1:]
+            packed = True
+        else:
+            packed = False
+        if inp in defaults:
+            i = 2
+            new_inp = inp + '_%i' % i
+            while new_inp in defaults:
+                i += 1
+                new_inp = inp + '_%i' % i
+        else:
+            new_inp = inp
+        defaults[new_inp] = Param(org_name=inp, default_value=defo, packed=packed)
+        if defo is not None and check_if_default_is_expression(defo):
+            defaults[inp].default_is_expression = True
+        if cur_kwarg is not None:
+            op_kwargs[cur_kwarg].append(inp)
+        for marker in markers:
+            defaults[marker].marker = markers[marker]
+        for flag in flags:
+            defaults[flag].is_flag = True
+
+    return base_type, optype, defaults, op_kwargs
+
+
+def parse_mat_file(ffp):
+    a = open(ffp, encoding="utf8")
+    f = a.read()
+    lines = f.splitlines()
+    doc_str_pms = []
+    dtypes = []
+    defaults = None
+    base_type = None
+    optype = None
+    op_kwargs = OrderedDict()
+    descriptions = []
+    for line in lines:
+        char_only = line.replace(' ', '')
+        char_only = char_only.replace('\t', '')
+        if not len(char_only):
+            continue
+        first_char = char_only[0]
+        if first_char == '*':
+            continue
+        res = re.search(pname_pat, line)
+        if res:
+            print(res.group()[2:4])
+            # if len(res.group()) > 4 and "'-" == res.group()[2:4]:
+            #     continue  # op_kwarg
+            ei = line.find('|')
+            dtype_res = re.search(dtype_pat, line)
+            if dtype_res is None:
+                continue
+            dtype = dtype_res.group()[1:-1]
+            des = line[dtype_res.end():]
+            des = des.replace('\t', ' ')
+            while des[0] == ' ':
+                des = des[1:]
+                if not len(des):
+                    break
+            descriptions.append(des)
+            res = re.findall(pname_pat, line[:ei])
+            for pm in res:
+                if len(pm) > 4 and "'-" == pm[0:2]:
+                    pm = pm[2:-1]
+                doc_str_pms.append(pm)
+                dtypes.append(dtype)
+        if base_type is None and '.. function:: ' in line:
+            base_type, optype, defaults, op_kwargs = clean_fn_line(line)
+    doc_str_pms = doc_str_pms[1:]  # remove mat tag
+    dtypes = dtypes[1:]
+    print('doc_str: ', doc_str_pms)
+    print('fn_inps: ', list(defaults))
+    assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
+    for i, pm in enumerate(doc_str_pms):
+        if '-' + pm in op_kwargs:
+            continue
+        defaults[pm].dtype = dtypes[i]
+        defaults[pm].p_description = descriptions[i]
+
+    pstr = constructor(base_type, optype, defaults, op_kwargs)
+    print(pstr)
+    return pstr
+    # if line[3:5] == '``':
+    #     para = line[5:]
+
+
+def parse_all_uniaxial_mat():
+    import user_paths as up
+    uni_axial_mat_file = open(up.OPY_DOCS_PATH + 'uniaxialMaterial.rst')
+    lines = uni_axial_mat_file.read().split('\n')
+    collys = {}
+    mtype = None
+    for line in lines:
+        if 'Steel & Reinforcing-Steel Materials' in line:
+            mtype = 'steel'
+            collys[mtype] = []
+            continue
+        if 'Concrete Materials' in line:
+            mtype = 'concrete'
+            collys[mtype] = []
+            continue
+        if 'Standard Uniaxial Materials' in line:
+            mtype = 'standard'
+            collys[mtype] = []
+            continue
+        if 'PyTzQz uniaxial materials' in line:
+            mtype = 'pytz'
+            collys[mtype] = []
+            continue
+        if 'Other Uniaxial Materials' in line:
+            mtype = 'other'
+            collys[mtype] = []
+            continue
+        if mtype is not None:
+            line = line.replace(' ', '')
+            line = line.replace('\t', '')
+            if ':' in line or '-' in line or '#' in line  or line == '':
+                continue
+            collys[mtype].append(line)
+    for item in collys:
+        para = ['from openseespy.wrap.command.uniaxial_material.base_material import UniaxialMaterialBase', '', '']
+        para += ['import openseespy.wrap as opw  # for testing only', '', '']
+        print(item, collys[item])
+        for mat in collys[item]:
+            if mat == 'steel4':
+                continue
+            open(up.OPY_DOCS_PATH + '%s.rst' % mat)
+            ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
+            para.append(parse_mat_file(ffp))
+        with open(f'{item}.py', 'w') as ofile:
+            ofile.write('\n'.join(para))
+
+
+
+
+if __name__ == '__main__':
+    # parse_mat_file('BoucWen.rst')
+    # parse_mat_file('Bond_SP01.rst')
+    import user_paths as up
+    # parse_mat_file(up.OPY_DOCS_PATH + 'PySimple1.rst')
+    parse_all_uniaxial_mat()
+    # defo = 'a2*k'
+    # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
+    #     print('found')

@@ -10,3 +10,4 @@ tests/__pycache__/
 dist/
 venv/
 docs/_build/
+user_paths.py
