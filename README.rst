@@ -25,7 +25,7 @@
 o3seespy
 ********
 
-Object-orientated python version of Opensees
+Object-orientated native python version of Opensees
 
 Features
 ========

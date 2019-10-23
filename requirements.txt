@@ -1,5 +1,5 @@
 numpy
-sfsimodel
+sfsimodels
 
 # testing
 pytest

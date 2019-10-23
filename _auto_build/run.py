@@ -152,7 +152,7 @@ def constructor(base_type, op_type, defaults, op_kwargs):
         # Build test
         para.append('')
         para.append(f'def test_{low_op_name}():')
-        para.append(w4 + 'osi = opw.OpenseesInstance(dimensions=2)')
+        para.append(w4 + 'osi = o3.OpenseesInstance(dimensions=2)')
         pjoins = []
         for i, pm in enumerate(cl_pms):
             default = pms[pm].default_value
@@ -168,7 +168,7 @@ def constructor(base_type, op_type, defaults, op_kwargs):
             else:
                 pjoins.append(f'{pm}=1')
         pjoint = ', '.join(pjoins)
-        para.append(w4 + f'opw.{low_base_name}.{op_class_name}(osi, {pjoint})')
+        para.append(w4 + f'o3.{low_base_name}.{op_class_name}(osi, {pjoint})')
         para.append('')
         para.append('')
     return '\n'.join(para)
@@ -357,8 +357,8 @@ def parse_all_uniaxial_mat():
                 continue
             collys[mtype].append(line)
     for item in collys:
-        para = ['from openseespy.wrap.command.uniaxial_material.base_material import UniaxialMaterialBase', '', '']
-        para += ['import openseespy.wrap as opw  # for testing only', '', '']
+        para = ['from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBase', '', '']
+        para += ['import o3seespy as o3  # for testing only', '', '']
         print(item, collys[item])
         for mat in collys[item]:
             if mat == 'steel4':
