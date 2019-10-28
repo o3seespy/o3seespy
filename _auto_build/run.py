@@ -1,11 +1,12 @@
+import os
 import re
 from collections import OrderedDict
 
-
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../"
 w4 = '    '
 w8 = '        '
 pname_pat = '\``([A-Za-z0-9_\./\\\'-]*)\``'
-dtype_pat = '\|([A-Za-z0-9_\./\\-]*)\|'
+dtype_pat = '\|([A-Za-z0-9_\./\\-\ ]*)\|'
 optype_pat = "\'([A-Za-z0-9_\./\\-]*)\'"
 
 special_words = {
@@ -55,7 +56,7 @@ def constructor(base_type, op_type, defaults, op_kwargs):
             kw_pms.append(pm)
     if not len(op_kwargs):
         op_kwargs[''] = []
-    para = []
+    para = ['']
     for kw in op_kwargs:
         name_from_kw = kw.replace('-', '')
         name_from_kw = name_from_kw.replace("'", '')
@@ -145,14 +146,13 @@ def constructor(base_type, op_type, defaults, op_kwargs):
             para.append(w8 + w4 + 'if getattr(self, pm) is not None:')
             para.append(w8 + w8 + 'self._parameters += [getattr(self, pm)]')
         para.append(w8 + 'self.to_process(osi)')
+        para.append('')
 
         low_op_name = convert_camel_to_snake(op_class_name)
         low_base_name = convert_camel_to_snake(base_class_name)
 
         # Build test
-        para.append('')
-        para.append(f'def test_{low_op_name}():')
-        para.append(w4 + 'osi = o3.OpenseesInstance(dimensions=2)')
+        tpara = ['', f'def test_{low_op_name}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
         pjoins = []
         for i, pm in enumerate(cl_pms):
             default = pms[pm].default_value
@@ -168,10 +168,10 @@ def constructor(base_type, op_type, defaults, op_kwargs):
             else:
                 pjoins.append(f'{pm}=1')
         pjoint = ', '.join(pjoins)
-        para.append(w4 + f'o3.{low_base_name}.{op_class_name}(osi, {pjoint})')
-        para.append('')
-        para.append('')
-    return '\n'.join(para)
+        tpara.append(w4 + f'o3.{low_base_name}.{op_class_name}(osi, {pjoint})')
+        tpara.append('')
+        tpara.append('')
+    return '\n'.join(para), '\n'.join(tpara)
 
 
 class Param(object):
@@ -282,7 +282,8 @@ def parse_mat_file(ffp):
             continue
         res = re.search(pname_pat, line)
         if res:
-            print(res.group()[2:4])
+            pname = res.group()[2:-2]
+            print(pname)
             # if len(res.group()) > 4 and "'-" == res.group()[2:4]:
             #     continue  # op_kwarg
             ei = line.find('|')
@@ -316,9 +317,9 @@ def parse_mat_file(ffp):
         defaults[pm].dtype = dtypes[i]
         defaults[pm].p_description = descriptions[i]
 
-    pstr = constructor(base_type, optype, defaults, op_kwargs)
-    print(pstr)
-    return pstr
+    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs)
+    print(pstr, tstr)
+    return pstr, tstr
     # if line[3:5] == '``':
     #     para = line[5:]
 
@@ -356,18 +357,24 @@ def parse_all_uniaxial_mat():
             if ':' in line or '-' in line or '#' in line  or line == '':
                 continue
             collys[mtype].append(line)
+
+    floc = ROOT_DIR + 'o3seespy/command/uniaxial_material/'
     for item in collys:
         para = ['from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBase', '', '']
-        para += ['import o3seespy as o3  # for testing only', '', '']
+        tpara = ['import o3seespy as o3  # for testing only', '', '']
         print(item, collys[item])
         for mat in collys[item]:
             if mat == 'steel4':
                 continue
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
-            para.append(parse_mat_file(ffp))
-        with open(f'{item}.py', 'w') as ofile:
+            pstr, tstr = parse_mat_file(ffp)
+            para.append(pstr)
+            tpara.append(tstr)
+        with open(floc + f'{item}.py', 'w') as ofile:
             ofile.write('\n'.join(para))
+        with open(f'test_{item}.py', 'w') as ofile:
+            ofile.write('\n'.join(tpara))
 
 
 
@@ -376,7 +383,7 @@ if __name__ == '__main__':
     # parse_mat_file('BoucWen.rst')
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
-    # parse_mat_file(up.OPY_DOCS_PATH + 'PySimple1.rst')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'ConfinedConcrete01.rst')
     parse_all_uniaxial_mat()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
