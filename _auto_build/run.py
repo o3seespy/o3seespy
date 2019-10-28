@@ -72,13 +72,24 @@ def constructor(base_type, op_type, defaults, op_kwargs):
                 cl_pms.append(pm)
 
         # Build definition string
+        # check no no default pms are after pms that have defaults
+        contains_no_default = False
+        for i in range(len(cl_pms)):
+            pm = cl_pms[-1-i]
+            if pms[pm].default_is_expression and contains_no_default:
+                pms[pm].forced_not_optional = True  # TODO: should raise a flag
+            if pms[pm].default_value is None:
+                contains_no_default = True
+
         pjoins = []
         for pm in cl_pms:
             default = pms[pm].default_value
             if pms[pm].is_flag:
                 pjoins.append(f'{pm}=False')
             elif default is not None:
-                if pms[pm].default_is_expression:
+                if pms[pm].forced_not_optional:
+                    pjoins.append(f'{pm}')
+                elif pms[pm].default_is_expression:
                     pjoins.append(f'{pm}=None')
                 else:
                     pjoins.append(f'{pm}={default}')
@@ -140,11 +151,17 @@ def constructor(base_type, op_type, defaults, op_kwargs):
                 if pms[pm].default_is_expression:
                     sp_logic = True
                 if sp_logic:
-                    sp_pms.append("'%s'" % pm)
-            para.append(w8 + f"special_pms = [{', '.join(sp_pms)}]")
-            para.append(w8 + 'for pm in special_pms:')
+                    sp_pms.append(pm)
+            sp_pm_strs = ["'%s'" % pm for pm in sp_pms]
+            para.append(w8 + f"special_pms = [{', '.join(sp_pm_strs)}]")
+            packets = [str(pms[pm].packed) for pm in sp_pms]
+            para.append(w8 + f"packets = [{', '.join(packets)}]")
+            para.append(w8 + 'for i, pm in enumerate(special_pms):')
             para.append(w8 + w4 + 'if getattr(self, pm) is not None:')
-            para.append(w8 + w8 + 'self._parameters += [getattr(self, pm)]')
+            para.append(w8 + w8 + 'if packets[i]:')
+            para.append(w8 + w8 + w4 + 'self._parameters += [*getattr(self, pm)]')
+            para.append(w8 + w8 + 'else:')
+            para.append(w8 + w8 + w4 + 'self._parameters += [getattr(self, pm)]')
         para.append(w8 + 'self.to_process(osi)')
         para.append('')
 
@@ -185,6 +202,7 @@ class Param(object):
         self.p_description = ''
         self.marker = None
         self.is_flag = False
+        self.forced_not_optional = False  # if default value precedes non default values
 
 
 def check_if_default_is_expression(defo):
@@ -389,7 +407,7 @@ if __name__ == '__main__':
     # parse_mat_file('BoucWen.rst')
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
-    # parse_mat_file(up.OPY_DOCS_PATH + 'ConfinedConcrete01.rst')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'Hysteretic.rst')
     parse_all_uniaxial_mat()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
