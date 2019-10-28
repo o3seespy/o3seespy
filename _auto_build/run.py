@@ -190,7 +190,13 @@ class Param(object):
 def check_if_default_is_expression(defo):
     if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
         return True
-    return False
+    try:
+        a = float(defo)
+        return False
+    except ValueError:
+        if any(re.findall('|'.join(['\"', "\'"]), defo)):
+            return False
+        return True
 
 
 def clean_fn_line(line):
