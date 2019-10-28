@@ -28,10 +28,10 @@ def clean_param_names(params):
         if len(new_pm) > 4 and new_pm[-4:] == '_tag':
             new_pm = new_pm[:-4]
             dtype_is_obj = True
-        pms[new_pm] = params[pm]
+        pms[pm] = params[pm]
         if dtype_is_obj:
-            pms[new_pm].dtype = 'obj'
-        pms[new_pm].o3_name = new_pm
+            pms[pm].dtype = 'obj'
+        pms[pm].o3_name = new_pm
     # if 'tag' in pms[0]:
     #     pms = pms[1:]
     return pms
@@ -66,9 +66,10 @@ def constructor(base_type, op_type, defaults, op_kwargs):
         para.append('')
 
         pms = clean_param_names(defaults)
+        # Determine what is in this class
         cl_pms = []  # TODO: need to add op_kwarg str
         for pm in pms:
-            if pms[pm].org_name not in kw_pms or pms[pm].org_name in op_kwargs[kw]:
+            if pms[pm].org_name not in kw_pms or pm in op_kwargs[kw]:
                 cl_pms.append(pm)
 
         # Build definition string
@@ -83,40 +84,43 @@ def constructor(base_type, op_type, defaults, op_kwargs):
 
         pjoins = []
         for pm in cl_pms:
+            o3_name = pms[pm].o3_name
             default = pms[pm].default_value
             if pms[pm].is_flag:
                 pjoins.append(f'{pm}=False')
             elif default is not None:
                 if pms[pm].forced_not_optional:
-                    pjoins.append(f'{pm}')
+                    pjoins.append(f'{o3_name}')
                 elif pms[pm].default_is_expression:
-                    pjoins.append(f'{pm}=None')
+                    pjoins.append(f'{o3_name}=None')
                 else:
-                    pjoins.append(f'{pm}={default}')
+                    pjoins.append(f'{o3_name}={default}')
             else:
                 if pms[pm].marker:
-                    pjoins.append(f'{pm}=None')
+                    pjoins.append(f'{o3_name}=None')
                 else:
-                    pjoins.append(f'{pm}')
+                    pjoins.append(f'{o3_name}')
 
         pjoined = ', '.join(pjoins)
         para.append(f'    def __init__(self, osi, {pjoined}):')
 
         # Create init function saving logic
         for i, pm in enumerate(cl_pms):
+            o3_name = pms[pm].o3_name
             dtype = pms[pm].dtype
             if dtype == 'float':
-                para.append(w8 + f'self.{pm} = float({pm})')
+                para.append(w8 + f'self.{o3_name} = float({o3_name})')
             elif dtype == 'int':
-                para.append(w8 + f'self.{pm} = int({pm})')
+                para.append(w8 + f'self.{o3_name} = int({o3_name})')
             else:
-                para.append(w8 + f'self.{pm} = {pm}')
+                para.append(w8 + f'self.{o3_name} = {o3_name}')
         para.append(w8 + 'osi.n_mats += 1')
         para.append(w8 + 'self._tag = osi.mats')
         pjoins = []
         need_special_logic = False
         applied_op_warg = False
         for pm in cl_pms:
+            o3_name = pms[pm].o3_name
             if pms[pm].marker:
                 continue
             if pms[pm].is_flag:
@@ -128,22 +132,23 @@ def constructor(base_type, op_type, defaults, op_kwargs):
                 need_special_logic = True
                 break
             if pms[pm].dtype == 'obj':
-                pjoins.append(f'self.{pm}.tag')
+                pjoins.append(f'self.{o3_name}.tag')
             elif pms[pm].packed:
-                pjoins.append('*self.' + pm)
+                pjoins.append('*self.' + o3_name)
             else:
-                pjoins.append('self.' + pm)
+                pjoins.append('self.' + o3_name)
         para.append(w8 + 'self._parameters = [self.op_type, self._tag, %s]' % (', '.join(pjoins)))
         for pm in cl_pms:
+            o3_name = pms[pm].o3_name
             if pms[pm].marker:
-                para.append(w8 + f"if getattr(self, '{pm}') is not None:")
+                para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
                 if pms[pm].packed:
-                    para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', *self.{pm}]")
+                    para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', *self.{o3_name}]")
                 else:
-                    para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', self.{pm}]")
+                    para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', self.{o3_name}]")
             if pms[pm].is_flag:
-                para.append(w8 + f"if getattr(self, '{pm}') is not None:")
-                para.append(w8 + w4 + f"self._parameters += ['-{pm}']")
+                para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
+                para.append(w8 + w4 + f"self._parameters += ['-{o3_name}']")  # TODO: does this always work?
         if need_special_logic:
             sp_logic = False
             sp_pms = []
@@ -152,7 +157,7 @@ def constructor(base_type, op_type, defaults, op_kwargs):
                     sp_logic = True
                 if sp_logic:
                     sp_pms.append(pm)
-            sp_pm_strs = ["'%s'" % pm for pm in sp_pms]
+            sp_pm_strs = ["'%s'" % pms[pm].o3_name for pm in sp_pms]
             para.append(w8 + f"special_pms = [{', '.join(sp_pm_strs)}]")
             packets = [str(pms[pm].packed) for pm in sp_pms]
             para.append(w8 + f"packets = [{', '.join(packets)}]")
@@ -172,18 +177,19 @@ def constructor(base_type, op_type, defaults, op_kwargs):
         tpara = ['', f'def test_{low_op_name}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
         pjoins = []
         for i, pm in enumerate(cl_pms):
+            o3_name = pms[pm].o3_name
             default = pms[pm].default_value
             dtype = pms[pm].dtype
             if pms[pm].default_is_expression:
-                pjoins.append(f'{pm}=None')
+                pjoins.append(f'{o3_name}=None')
             elif default is not None:
-                pjoins.append(f'{pm}={default}')
+                pjoins.append(f'{o3_name}={default}')
             elif dtype == 'float':
-                pjoins.append(f'{pm}=1.0')
+                pjoins.append(f'{o3_name}=1.0')
             elif dtype == 'obj':
-                pjoins.append(f'{pm}=obj')
+                pjoins.append(f'{o3_name}=obj')
             else:
-                pjoins.append(f'{pm}=1')
+                pjoins.append(f'{o3_name}=1')
         pjoint = ', '.join(pjoins)
         tpara.append(w4 + f'o3.{low_base_name}.{op_class_name}(osi, {pjoint})')
         tpara.append('')
@@ -276,7 +282,7 @@ def clean_fn_line(line):
         if defo is not None and check_if_default_is_expression(defo):
             defaults[inp].default_is_expression = True
         if cur_kwarg is not None:
-            op_kwargs[cur_kwarg].append(inp)
+            op_kwargs[cur_kwarg].append(new_inp)
         for marker in markers:
             defaults[marker].marker = markers[marker]
         for flag in flags:
@@ -407,7 +413,7 @@ if __name__ == '__main__':
     # parse_mat_file('BoucWen.rst')
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
-    # parse_mat_file(up.OPY_DOCS_PATH + 'Hysteretic.rst')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'ReinforcingSteel.rst')
     parse_all_uniaxial_mat()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):

@@ -77,6 +77,8 @@ Package conventions
     - Objects should be namespaced based on the object type (e.g. element, material)
     - For parameter that are used across many objects (e.g. atmospheric pressure) a standard name should be used
 
+* How should youngs modulus be named?
+
 
 
 Testing
