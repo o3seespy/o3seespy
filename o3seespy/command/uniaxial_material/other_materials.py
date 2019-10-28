@@ -69,7 +69,7 @@ class BoucWen(UniaxialMaterialBase):
         self.delta_nu = float(delta_nu)
         self.delta_eta = float(delta_eta)
         osi.n_mats += 1
-        self._tag = osi.mats
+        self._tag = osi.n_mats
         self._parameters = [self.op_type, self._tag, self.alpha, self.ko, self.n, self.gamma, self.beta, self.ao, self.delta_a, self.delta_nu, self.delta_eta]
         self.to_process(osi)
 
@@ -84,7 +84,7 @@ class BondSP01(UniaxialMaterialBase):
         self.b = float(b)
         self.big_r = float(big_r)
         osi.n_mats += 1
-        self._tag = osi.mats
+        self._tag = osi.n_mats
         self._parameters = [self.op_type, self._tag, self.fy, self.sy, self.fu, self.su, self.b, self.big_r]
         self.to_process(osi)
 
@@ -102,7 +102,7 @@ class BilinearOilDamper(UniaxialMaterialBase):
         self.abs_tol = float(abs_tol)
         self.max_half = int(max_half)
         osi.n_mats += 1
-        self._tag = osi.mats
+        self._tag = osi.n_mats
         self._parameters = [self.op_type, self._tag, self.k, self.cd, self.fr, self.p, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
         self.to_process(osi)
 
@@ -113,6 +113,6 @@ class InitStrainMaterial(UniaxialMaterialBase):
         self.other = other
         self.init_strain = float(init_strain)
         osi.n_mats += 1
-        self._tag = osi.mats
+        self._tag = osi.n_mats
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_strain]
         self.to_process(osi)

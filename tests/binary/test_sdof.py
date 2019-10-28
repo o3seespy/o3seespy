@@ -1,9 +1,9 @@
 import eqsig
-from eqsig import duhamels
+from eqsig import sdof
 import numpy as np
 
 import openseespy.opensees as opy
-from openseespy.wrap import static as opc
+from o3seespy import static as opc
 
 
 def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=0.0):
@@ -126,7 +126,7 @@ def test_sdof():
     r_post = 0.0
 
     periods = np.array([period])
-    resp_u, resp_v, resp_a = duhamels.response_series(motion=rec, dt=dt, periods=periods, xi=xi)
+    resp_u, resp_v, resp_a = sdof.response_series(motion=rec, dt=dt, periods=periods, xi=xi)
 
     k_spring = 4 * np.pi ** 2 * mass / period ** 2
     outputs = get_inelastic_response(mass, k_spring, f_yield, rec, dt, xi=xi, r_post=r_post)

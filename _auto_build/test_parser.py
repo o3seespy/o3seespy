@@ -1,4 +1,4 @@
-from auto_build import run
+from _auto_build import run
 
 
 def test_check_default_is_an_expression():
