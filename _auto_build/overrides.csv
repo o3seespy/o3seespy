@@ -1,0 +1,3 @@
+base_type,op_type,param,marker
+uniaxialMaterial,MinMax,min,min_strain
+uniaxialMaterial,MinMax,max,max_strain

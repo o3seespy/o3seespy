@@ -1,6 +1,7 @@
 import os
 import re
 from collections import OrderedDict
+import pandas as pd
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../"
 w4 = '    '
@@ -212,8 +213,8 @@ class Param(object):
 
 
 def check_if_default_is_expression(defo):
-    if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
-        return True
+    # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):  # deal with -1, or 1e-1
+    #     return True
     try:
         a = float(defo)
         return False
@@ -224,12 +225,15 @@ def check_if_default_is_expression(defo):
 
 
 def clean_fn_line(line):
+    df = pd.read_csv('overrides.csv')
     defaults = OrderedDict()
     print(line)
     base_type = line.split('.. function:: ')[-1]
     base_type = base_type.split('(')[0]
     optype_res = re.search(optype_pat, line)
     optype = optype_res.group()[1:-1]
+    df_op = df[(df['base_type'] == base_type) & (df['op_type'] == optype)]
+
     print(optype_res)
     inputs_str = line.split(')')[0]
     inputs = inputs_str.split(',')
@@ -255,7 +259,13 @@ def clean_fn_line(line):
             defo = None
         if '-' in inp:
             word = inp[2:-1]
-            if len(inputs) > j + 1 and (word == names_only[j + 1] or word + 'Args' == names_only[j + 1]):
+            if len(df_op):
+                df_p = df_op[df_op['param'] == word]
+                if len(df_p):
+                    if df_p['marker'].iloc[0] != '':
+                        markers[names_only[j + 1]] = word
+                        continue
+            if len(inputs) > j + 1 and (word == names_only[j + 1] or word + 'Args' == names_only[j + 1] or word + 'Tag' == names_only[j + 1]):
                 markers[names_only[j + 1]] = word
                 continue
             elif len(inputs) > j + 1 and '-' in names_only[j + 1]:  # TODO: unsure if this is best way to identify flags
@@ -327,24 +337,39 @@ def parse_mat_file(ffp):
                 des = des[1:]
                 if not len(des):
                     break
-            descriptions.append(des)
+
             res = re.findall(pname_pat, line[:ei])
             for pm in res:
                 if len(pm) > 4 and "'-" == pm[0:2]:
                     pm = pm[2:-1]
                 doc_str_pms.append(pm)
                 dtypes.append(dtype)
-        if base_type is None and '.. function:: ' in line:
-            base_type, optype, defaults, op_kwargs = clean_fn_line(line)
+                descriptions.append(des)
+        if '.. function:: ' in line:
+            if base_type is None:
+                base_type, optype, defaults, op_kwargs = clean_fn_line(line)
+            else:
+                base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line)
+                assert base_type == base_type1
+                assert optype == optype1
+                for inp in defaults1:
+                    if inp not in defaults:
+                        defaults[inp] = defaults1[inp]
+                for inp in op_kwargs1:
+                    if inp not in op_kwargs:
+                        op_kwargs[inp] = op_kwargs1[inp]
+
     doc_str_pms = doc_str_pms[1:]  # remove mat tag
     dtypes = dtypes[1:]
     print('doc_str: ', doc_str_pms)
     print('fn_inps: ', list(defaults))
+    print('op_kwargs: ', list(op_kwargs))
     assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
     for i, pm in enumerate(doc_str_pms):
         if '-' + pm in op_kwargs:
             continue
         defaults[pm].dtype = dtypes[i]
+        print(pm, i)
         defaults[pm].p_description = descriptions[i]
 
     pstr, tstr = constructor(base_type, optype, defaults, op_kwargs)
@@ -413,7 +438,7 @@ if __name__ == '__main__':
     # parse_mat_file('BoucWen.rst')
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
-    # parse_mat_file(up.OPY_DOCS_PATH + 'ReinforcingSteel.rst')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'MinMax.rst')
     parse_all_uniaxial_mat()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
