@@ -9,10 +9,6 @@
 .. image:: https://coveralls.io/repos/github/eng-tools/o3seespy/badge.svg
    :target: https://coveralls.io/github/eng-tools/o3seespy
 
-.. image:: https://img.shields.io/badge/license-MIT-blue.svg
-    :target: https://github.com/eng-tools/o3seespy/blob/master/LICENSE
-    :alt: License
-
 .. image:: https://eng-tools.github.io/static/img/ecp-badge.svg
     :target: https://eng-tools.github.io
     :alt: ECP project
@@ -32,21 +28,32 @@ Features
 
 This package provides:
 
- * A 'pythonic' version of opensees - in that the input parameters to create opensees objects are all lowercase key value arguments
- * Object-orientated implementation of Opensees. Python is object-orientated and the underlying opensees C++ source code is object orientated.
- * Type checking of before calling C++ opensees code, so that python debugging and errors can be viewed
+ 1. A 'pythonic' version of opensees
+    - all input parameters to create opensees objects are all lowercase key-value arguments
+    - all class objects are CamelCase
+    - static string variables defined in ALL_CAPS
+    - Where possible the exact name used in the original TCL version has been kept
+ 2. Fully namespaced package allowing full auto-complete e.g. 'o3.uniaxial_material.Steel01(...)'
+ 3. Object-orientated implementation of Opensees. Python is object-orientated and the underlying opensees C++ source code is object orientated. This package replicates the underlying C++ objects.
+ 4. Type checking of inputs before calling C++ opensees code, so that python debugging and errors can be viewed
+ 5. In code documentation using python docstrings - can view the documentation within your IDE
  * Additional features for using opensees in python:
     - saving and loading data directly from opensees into numpy arrays
     - saving and loading data directly from opensees into json files
-    - Save an entire model as a json file
+    - Save an entire model as a json file - allows efficient passing of models between servers
  * All object numbering handled by objects - no need for number tags!
-
-
+ * Additional logic checking of optional inputs
 
 How to Use
 ==========
 
-`pip install o3seespy`
+Installation
+------------
+
+
+.. code:: bash
+    pip install o3seespy
+
 
 Example: Inelastic SDOF
 -----------------------
@@ -58,7 +65,7 @@ Example: Inelastic SDOF
     import matplotlib.pyplot as plt
 
     import openseespy.opensees as opy
-    import o3seespy as opw
+    import o3seespy as o3
 
     from tests.conftest import TEST_DATA_DIR
 
@@ -67,34 +74,34 @@ Example: Inelastic SDOF
     rec = np.loadtxt(TEST_DATA_DIR + 'test_motion_dt0p01.txt')
 
     # Define inelastic SDOF
-    period = 1.0
+    period = 1.0  # s
     xi = 0.05
     mass = 1.0
     f_yield = 1.5  # Reduce this to make it nonlinear
     r_post = 0.0
 
     # Initialise OpenSees instance
-    osi = opw.OpenseesInstance(dimensions=2, state=0)
+    osi = o3.OpenseesInstance(dimensions=2, state=0)
 
     # Establish nodes
-    bot_node = opw.node.Node(osi, 0, 0)
-    top_node = opw.node.Node(osi, 0, 0)
+    bot_node = o3.node.Node(osi, 0, 0)
+    top_node = o3.node.Node(osi, 0, 0)
 
     # Fix bottom node
-    opw.Fix(osi, top_node, opw.static.FREE, opw.static.FIXED, opw.static.FIXED)
-    opw.Fix(osi, bot_node, opw.static.FIXED, opw.static.FIXED, opw.static.FIXED)
+    o3.Fix(osi, top_node, o3.static.FREE, o3.static.FIXED, o3.static.FIXED)
+    o3.Fix(osi, bot_node, o3.static.FIXED, o3.static.FIXED, o3.static.FIXED)
     # Set out-of-plane DOFs to be slaved
-    opw.EqualDOF(osi, top_node, bot_node, [opw.static.Y, opw.static.ROTZ])
+    o3.EqualDOF(osi, top_node, bot_node, [o3.static.Y, o3.static.ROTZ])
 
     # nodal mass (weight / g):
-    opw.Mass(osi, top_node, mass, 0., 0.)
+    o3.Mass(osi, top_node, mass, 0., 0.)
 
     # Define material
     k_spring = 4 * np.pi ** 2 * mass / period ** 2
-    bilinear_mat = opw.uniaxial_material.Steel01(osi, fy=f_yield, e0=k_spring, b=r_post)
+    bilinear_mat = o3.uniaxial_material.Steel01(osi, fy=f_yield, e0=k_spring, b=r_post)
 
     # Assign zero length element, # Note: pass actual node and material objects into element
-    opw.element.ZeroLength(osi, bot_node, top_node, mat_x=bilinear_mat, r_flag=1)
+    o3.element.ZeroLength(osi, bot_node, top_node, mat_x=bilinear_mat, r_flag=1)
 
     # Define the dynamic analysis
     load_tag_dynamic = 1
@@ -102,25 +109,24 @@ Example: Inelastic SDOF
 
     values = list(-1 * rec)  # should be negative
     opy.timeSeries('Path', load_tag_dynamic, '-dt', dt, '-values', *values)
-    opy.pattern('UniformExcitation', pattern_tag_dynamic, opw.static.X, '-accel', load_tag_dynamic)
+    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.static.X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
     angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
     beta_k = 2 * xi / angular_freq
-    opw.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
+    o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
 
     # Run the dynamic analysis
-    opw.wipe_analysis(osi)
+    o3.wipe_analysis(osi)
 
-    # Run the dynamic analysis
-    opw.algorithm.Newton(osi)
-    opw.system.SparseGeneral(osi)
-    opw.numberer.RCM(osi)
-    opw.constraint.Transformation(osi)
-    opw.integrator.Newmark(osi, gamma=0.5, beta=0.25)
-    opw.analysis.Transient(osi)
+    o3.algorithm.Newton(osi)
+    o3.system.SparseGeneral(osi)
+    o3.numberer.RCM(osi)
+    o3.constraint.Transformation(osi)
+    o3.integrator.Newmark(osi, gamma=0.5, beta=0.25)
+    o3.analysis.Transient(osi)
 
-    opw.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
+    o3.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
     analysis_time = (len(values) - 1) * dt
     analysis_dt = 0.001
     outputs = {
@@ -137,11 +143,11 @@ Example: Inelastic SDOF
         opy.analyze(1, analysis_dt)
         curr_time = opy.getTime()
         outputs["time"].append(curr_time)
-        outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, opw.static.X))
-        outputs["rel_vel"].append(opy.nodeVel(top_node.tag, opw.static.X))
-        outputs["rel_accel"].append(opy.nodeAccel(top_node.tag, opw.static.X))
+        outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, o3.static.X))
+        outputs["rel_vel"].append(opy.nodeVel(top_node.tag, o3.static.X))
+        outputs["rel_accel"].append(opy.nodeAccel(top_node.tag, o3.static.X))
         opy.reactions()
-        outputs["force"].append(-opy.nodeReaction(bot_node.tag, opw.static.X))  # Negative since diff node
+        outputs["force"].append(-opy.nodeReaction(bot_node.tag, o3.static.X))  # Negative since diff node
     opy.wipe()
     for item in outputs:
         outputs[item] = np.array(outputs[item])
