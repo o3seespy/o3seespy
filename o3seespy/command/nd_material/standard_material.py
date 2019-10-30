@@ -1,7 +1,7 @@
-from o3seespy.command.nd_material.base_material import NDMaterial
+from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
-class ElasticIsotropic(NDMaterial):
+class ElasticIsotropic(NDMaterialBase):
     type = "ElasticIsotropic"
 
     def __init__(self, osi, e_mod, v, rho=None):

@@ -1,8 +1,8 @@
-from o3seespy.command.nd_material.base_material import NDMaterial
+from o3seespy.command.nd_material.base_material import NDMaterialBase
 import numpy as np
 
 
-class PressureIndependMultiYield(NDMaterial):
+class PressureIndependMultiYield(NDMaterialBase):
     op_type = "PressureIndependMultiYield"
 
     def __init__(self, osi,  nd, rho, ref_shear_modul, ref_bulk_modul, cohesi, peak_shear_stra, friction_ang=0.,
@@ -47,7 +47,7 @@ class PressureIndependMultiYield(NDMaterial):
         self.to_process(osi)
 
 
-class PM4Sand(NDMaterial):
+class PM4Sand(NDMaterialBase):
     op_type = "PM4Sand"
 
     def __init__(self, osi, d_r, g0, hpo, den, p_atm, h0=-1.0, emax=0.8, emin=0.5, nb=0.5, nd=0.1, ado=None,
@@ -150,7 +150,7 @@ class PM4Sand(NDMaterial):
         self.to_process(osi)
 
 
-class StressDensityModel(NDMaterial):
+class StressDensityModel(NDMaterialBase):
     op_type = "StressDensityModel"
 
     def __init__(self, osi, den, e_init, big_a, n, nu, a1, b1, a2, b2, a3, b3, fd, mu_not, mu_cyc, sc, big_m, p_atm,

@@ -386,6 +386,13 @@ def parse_mat_file(ffp):
     # if line[3:5] == '``':
     #     para = line[5:]
 
+unimats = {
+    'Steel & Reinforcing-Steel Materials': 'steel',
+    'Concrete Materials': 'concrete',
+    'Standard Uniaxial Materials': 'standard',
+    'PyTzQz uniaxial materials': 'pytz',
+    'Other Uniaxial Materials': 'other'
+}
 
 def parse_all_uniaxial_mat():
     import user_paths as up
@@ -394,26 +401,15 @@ def parse_all_uniaxial_mat():
     collys = {}
     mtype = None
     for line in lines:
-        if 'Steel & Reinforcing-Steel Materials' in line:
-            mtype = 'steel'
-            collys[mtype] = []
-            continue
-        if 'Concrete Materials' in line:
-            mtype = 'concrete'
-            collys[mtype] = []
-            continue
-        if 'Standard Uniaxial Materials' in line:
-            mtype = 'standard'
-            collys[mtype] = []
-            continue
-        if 'PyTzQz uniaxial materials' in line:
-            mtype = 'pytz'
-            collys[mtype] = []
-            continue
-        if 'Other Uniaxial Materials' in line:
-            mtype = 'other'
-            collys[mtype] = []
-            continue
+        m_found = 0
+        for mopt in unimats:
+            if mopt in line:
+                mtype = unimats[mopt]
+                collys[mtype] = []
+                m_found = 1
+                break
+        if m_found:
+             continue
         if mtype is not None:
             line = line.replace(' ', '')
             line = line.replace('\t', '')
@@ -445,6 +441,62 @@ def parse_all_uniaxial_mat():
         with open(f'test_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
+ndmats = {
+    'Standard Models': 'standard',
+    'Materials for Modeling Concrete Walls': 'concrete_walls',
+    'Tsinghua Sand Models': 'tsinghua_sand',
+    'Contact Materials for 2D and 3D': 'contact',
+    'Wrapper material for Initial State Analysis': 'wrapper',
+    'UC San Diego soil models': 'uc_san_diego_soil',
+    'UC San Diego Saturated Undrained soil': 'uc_san_diego_ud_soil'
+}
+
+
+def parse_all_ndmat():
+    import user_paths as up
+    uni_axial_mat_file = open(up.OPY_DOCS_PATH + 'ndMaterial.rst')
+    lines = uni_axial_mat_file.read().split('\n')
+    collys = {}
+    mtype = None
+    for line in lines:
+        m_found = 0
+        for mopt in ndmats:
+            if mopt in line:
+                mtype = ndmats[mopt]
+                collys[mtype] = []
+                m_found = 1
+                break
+        if m_found:
+             continue
+        if mtype is not None:
+            line = line.replace(' ', '')
+            line = line.replace('\t', '')
+            if ':' in line or '-' in line or '#' in line  or line == '':
+                continue
+            collys[mtype].append(line)
+
+    floc = ROOT_DIR + 'o3seespy/command/nd_material/'
+    for item in collys:
+        para = ['from o3seespy.command.nd_material.base_material import NDMaterialBase', '']
+        tpara = ['import o3seespy as o3  # for testing only', '', '']
+        print(item, collys[item])
+        for mat in collys[item]:
+            if mat == 'PressureDependMultiYield':
+                continue
+            if mat == 'PressureDependMultiYield02':
+                continue
+
+            open(up.OPY_DOCS_PATH + '%s.rst' % mat)
+            ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
+            pstr, tstr = parse_mat_file(ffp)
+            para.append(pstr)
+            tpara.append(tstr)
+        with open(floc + f'{item}.py', 'w') as ofile:
+            ofile.write('\n'.join(para))
+        with open(f'test_{item}.py', 'w') as ofile:
+            ofile.write('\n'.join(tpara))
+
+
 
 
 
@@ -453,7 +505,8 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_mat_file(up.OPY_DOCS_PATH + 'MinMax.rst')
-    parse_all_uniaxial_mat()
+    # parse_all_uniaxial_mat()
+    parse_all_ndmat()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
     #     print('found')
