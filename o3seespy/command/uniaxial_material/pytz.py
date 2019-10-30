@@ -54,7 +54,7 @@ class PyLiq1(UniaxialMaterialBase):
         self.p_res = float(p_res)
         self.ele1 = float(ele1)
         self.ele2 = float(ele2)
-        self.time_series = time_series
+        self.time_series = time_series.tag
         osi.n_mats += 1
         self._tag = osi.mats
         self._parameters = [self.op_type, self._tag, self.soil_type, self.pult, self.y50, self.cd, self.c, self.p_res, self.ele1, self.ele2]
@@ -72,7 +72,7 @@ class TzLiq1(UniaxialMaterialBase):
         self.c = float(c)
         self.ele1 = float(ele1)
         self.ele2 = float(ele2)
-        self.time_series = time_series
+        self.time_series = time_series.tag
         osi.n_mats += 1
         self._tag = osi.mats
         self._parameters = [self.op_type, self._tag, self.tz_type, self.tult, self.z50, self.c, self.ele1, self.ele2]

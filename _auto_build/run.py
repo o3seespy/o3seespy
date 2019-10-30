@@ -113,6 +113,8 @@ def constructor(base_type, op_type, defaults, op_kwargs):
                 para.append(w8 + f'self.{o3_name} = float({o3_name})')
             elif dtype == 'int':
                 para.append(w8 + f'self.{o3_name} = int({o3_name})')
+            elif dtype == 'obj':
+                para.append(w8 + f'self.{o3_name} = {o3_name}.tag')
             else:
                 para.append(w8 + f'self.{o3_name} = {o3_name}')
         para.append(w8 + 'osi.n_mats += 1')

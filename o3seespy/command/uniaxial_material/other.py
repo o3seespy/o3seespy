@@ -242,15 +242,15 @@ class BondSP01(UniaxialMaterialBase):
 
 class Fatigue(UniaxialMaterialBase):
 
-    def __init__(self, osi, tag, e0=0.191, m=-0.458, min=-1e16, max=1e16):
-        self.tag = float(tag)
+    def __init__(self, osi, other, e0=0.191, m=-0.458, min=-1e16, max=1e16):
+        self.other = other.tag
         self.e0 = float(e0)
         self.m = float(m)
         self.min = float(min)
         self.max = float(max)
         osi.n_mats += 1
         self._tag = osi.mats
-        self._parameters = [self.op_type, self._tag, self.tag]
+        self._parameters = [self.op_type, self._tag, self.other.tag]
         if getattr(self, 'e0') is not None:
             self._parameters += ['-E0', self.e0]
         if getattr(self, 'm') is not None:
@@ -309,7 +309,7 @@ class LimitState(UniaxialMaterialBase):
         self.damage1 = float(damage1)
         self.damage2 = float(damage2)
         self.beta = float(beta)
-        self.curve = curve
+        self.curve = curve.tag
         self.curve_type = int(curve_type)
         osi.n_mats += 1
         self._tag = osi.mats
@@ -320,7 +320,7 @@ class LimitState(UniaxialMaterialBase):
 class MinMax(UniaxialMaterialBase):
 
     def __init__(self, osi, other, min_strain=1e-16, max_strain=1e16):
-        self.other = other
+        self.other = other.tag
         self.min_strain = float(min_strain)
         self.max_strain = float(max_strain)
         osi.n_mats += 1
@@ -385,7 +385,7 @@ class MultiLinear(UniaxialMaterialBase):
 class InitStrainMaterial(UniaxialMaterialBase):
 
     def __init__(self, osi, other, init_strain):
-        self.other = other
+        self.other = other.tag
         self.init_strain = float(init_strain)
         osi.n_mats += 1
         self._tag = osi.mats
@@ -396,7 +396,7 @@ class InitStrainMaterial(UniaxialMaterialBase):
 class InitStressMaterial(UniaxialMaterialBase):
 
     def __init__(self, osi, other, init_stress):
-        self.other = other
+        self.other = other.tag
         self.init_stress = float(init_stress)
         osi.n_mats += 1
         self._tag = osi.mats
