@@ -37,12 +37,12 @@ This package provides:
  3. Object-orientated implementation of Opensees. Python is object-orientated and the underlying opensees C++ source code is object orientated. This package replicates the underlying C++ objects.
  4. Type checking of inputs before calling C++ opensees code, so that python debugging and errors can be viewed
  5. In code documentation using python docstrings - can view the documentation within your IDE
- * Additional features for using opensees in python:
+ 6. Additional features for using opensees in python:
     - saving and loading data directly from opensees into numpy arrays
     - saving and loading data directly from opensees into json files
     - Save an entire model as a json file - allows efficient passing of models between servers
- * All object numbering handled by objects - no need for number tags!
- * Additional logic checking of optional inputs
+ 7. All object numbering handled by objects - no need for number tags!
+ 8. Additional logic checking of optional inputs
 
 How to Use
 ==========
