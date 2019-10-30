@@ -48,8 +48,9 @@ How to Use
 
 `pip install o3seespy`
 
-Examples
---------
+Example: Inelastic SDOF
+-----------------------
+
 
 .. code:: python
 
@@ -156,7 +157,7 @@ Examples
     plt.legend()
     plt.show()
 
-.. image:: examples/readme_example.png
+.. image:: ./examples/readme_example.png
   :width: 400
   :alt: Output from example
 
