@@ -245,6 +245,8 @@ def clean_fn_line(line):
     names_only = []
     for j, inpy in enumerate(inputs):
         name_only = inpy.replace(' ', '')
+        name_only = name_only.replace('[', '')
+        name_only = name_only.replace(']', '')
         if '*' in name_only:
             name_only = name_only.replace('*', '')
             # name_only = name_only.replace('Args', '')
@@ -252,6 +254,8 @@ def clean_fn_line(line):
         names_only.append(name_only)
     for j, inpy in enumerate(inputs):
         inpy = inpy.replace(' ', '')
+        inpy = inpy.replace('[', '')
+        inpy = inpy.replace(']', '')
         if '=' in inpy:
             inp, defo = inpy.split('=')
         else:
@@ -333,6 +337,8 @@ def parse_mat_file(ffp):
             dtype = dtype_res.group()[1:-1]
             des = line[dtype_res.end():]
             des = des.replace('\t', ' ')
+            if not len(des):
+                continue
             while des[0] == ' ':
                 des = des[1:]
                 if not len(des):
@@ -419,7 +425,13 @@ def parse_all_uniaxial_mat():
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         print(item, collys[item])
         for mat in collys[item]:
-            if mat == 'steel4':
+            if mat == 'steel4':  # consider as a single object, make all values after E0 equal to None, all -ps should be flags.
+                continue
+            if mat == 'Pinching4':
+                continue
+            if mat == 'KikuchiAikenHDR' or mat == 'KikuchiAikenLRB':
+                continue
+            if mat == 'PinchingLimitStateMaterial':
                 continue
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
