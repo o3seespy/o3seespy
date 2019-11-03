@@ -81,7 +81,7 @@ class PM4Sand(NDMaterialBase):
                                           with accumulation of fabric
         ``cdr`` |float|                    Optional, Variable that controls the rotated dilatancy surface
         ``ckaf`` |float|                   Optional, Variable that controls the effect that sustained
-                                          static shear stresses have on plastic modulus
+                                          con shear stresses have on plastic modulus
         ``big_q`` |float|                      Optional, Critical state line parameter
         ``big_r`` |float|                      Optional, Critical state line parameter
         ``m`` |float|                      Optional, Yield surface constant (radius of yield surface

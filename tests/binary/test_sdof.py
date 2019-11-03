@@ -3,7 +3,7 @@ from eqsig import sdof
 import numpy as np
 
 import openseespy.opensees as opy
-from o3seespy import static as opc
+from o3seespy import con as opc
 
 
 def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=0.0):

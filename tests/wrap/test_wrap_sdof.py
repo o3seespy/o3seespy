@@ -26,10 +26,10 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     top_node = o3.node.Node(osi, 0, 0)
 
     # Fix bottom node
-    opy.fix(top_node.tag, o3.static.FREE, o3.static.FIXED, o3.static.FIXED)
-    opy.fix(bot_node.tag, o3.static.FIXED, o3.static.FIXED, o3.static.FIXED)
+    opy.fix(top_node.tag, o3.con.FREE, o3.con.FIXED, o3.con.FIXED)
+    opy.fix(bot_node.tag, o3.con.FIXED, o3.con.FIXED, o3.con.FIXED)
     # Set out-of-plane DOFs to be slaved
-    opy.equalDOF(top_node.tag, bot_node.tag, *[o3.static.Y, o3.static.ROTZ])
+    opy.equalDOF(top_node.tag, bot_node.tag, *[o3.con.Y, o3.con.ROTZ])
 
     # nodal mass (weight / g):
     opy.mass(top_node.tag, mass, 0., 0.)
@@ -46,7 +46,7 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
 
     values = list(-1 * motion)  # should be negative
     opy.timeSeries('Path', load_tag_dynamic, '-dt', dt, '-values', *values)
-    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.static.X, '-accel', load_tag_dynamic)
+    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.con.X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
     angular_freq = opy.eigen('-fullGenLapack', 1)[0] ** 0.5
@@ -82,11 +82,11 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
         curr_time = opy.getTime()
         opy.analyze(1, analysis_dt)
         outputs["time"].append(curr_time)
-        outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, o3.static.X))
-        outputs["rel_vel"].append(opy.nodeVel(top_node.tag, o3.static.X))
-        outputs["rel_accel"].append(opy.nodeAccel(top_node.tag, o3.static.X))
+        outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, o3.con.X))
+        outputs["rel_vel"].append(opy.nodeVel(top_node.tag, o3.con.X))
+        outputs["rel_accel"].append(opy.nodeAccel(top_node.tag, o3.con.X))
         opy.reactions()
-        outputs["force"].append(-opy.nodeReaction(bot_node.tag, o3.static.X))  # Negative since diff node
+        outputs["force"].append(-opy.nodeReaction(bot_node.tag, o3.con.X))  # Negative since diff node
     opy.wipe()
     for item in outputs:
         outputs[item] = np.array(outputs[item])

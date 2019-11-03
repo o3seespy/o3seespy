@@ -88,8 +88,8 @@ Example: Inelastic SDOF
     top_node = o3.node.Node(osi, 0, 0)
 
     # Fix bottom node
-    o3.Fix(osi, top_node, o3.static.FREE, o3.static.FIXED, o3.static.FIXED)
-    o3.Fix(osi, bot_node, o3.static.FIXED, o3.static.FIXED, o3.static.FIXED)
+    o3.Fix(osi, top_node, o3.con.FREE, o3.con.FIXED, o3.con.FIXED)
+    o3.Fix(osi, bot_node, o3.con.FIXED, o3.static.FIXED, o3.static.FIXED)
     # Set out-of-plane DOFs to be slaved
     o3.EqualDOF(osi, top_node, bot_node, [o3.static.Y, o3.static.ROTZ])
 
