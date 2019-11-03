@@ -143,7 +143,7 @@ class PM4Sand(NDMaterialBase):
 
         self._parameters = [self.op_type, self._tag, self.d_r, self.g_o, self.h_po, self.den, self.p_atm, self.h_o,
                             self.e_max, self.e_min, self.n_b, self.n_d, self.a_do, self.z_max, self.c_z, self.c_e, self.phi_cv,
-                            self.nu, self.cgd, self.c_dr, self.c_kaf, self.q_bolt, self.r_bolt, self.m_par, self.f_sed,
+                            self.nu, self.g_degr, self.c_dr, self.c_kaf, self.q_bolt, self.r_bolt, self.m_par, self.f_sed,
                             self.p_sed]
 
         self.to_process(osi)
