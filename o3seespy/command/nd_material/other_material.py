@@ -50,9 +50,9 @@ class PressureIndependMultiYield(NDMaterialBase):
 class PM4Sand(NDMaterialBase):
     op_type = "PM4Sand"
 
-    def __init__(self, osi, d_r, g0, hpo, den, p_atm, h0=-1.0, emax=0.8, emin=0.5, nb=0.5, nd=0.1, ado=None,
-                 z_max=None, cz=250.0, ce=None, phic=33.0, nu=0.3, cgd=2.0, cdr=None, ckaf=None, big_q=10.0,
-                 big_r=1.5, m=0.01, fsed_min=None, p_sedo=None):
+    def __init__(self, osi, d_r, g_o, h_po, den, p_atm, h_o=-1.0, e_max=0.8, e_min=0.5, n_b=0.5, n_d=0.1, a_do=None,
+                 z_max=None, c_z=250.0, c_e=None, phi_cv=33.0, nu=0.3, g_degr=2.0, c_dr=None, c_kaf=None, q_bolt=10.0,
+                 r_bolt=1.5, m_par=0.01, f_sed=None, p_sed=None):
         """
         This command is used to construct a 2-dimensional PM4Sand material.
 
@@ -60,7 +60,7 @@ class PM4Sand(NDMaterialBase):
         ``matTag`` |int|                   integer tag identifying material
         ``d_r`` |float|                     Relative density, in fraction
         ``g0`` |float|                     Shear modulus constant
-        ``hpo`` |float|                    Contraction rate parameter
+        ``h_po`` |float|                    Contraction rate parameter
         ``Den`` |float|                    Mass density of the material
         ``P_atm`` |float|                  Optional, Atmospheric pressure
         ``h0`` |float|                     Optional, Variable that adjusts the ratio of plastic modulus
@@ -93,59 +93,58 @@ class PM4Sand(NDMaterialBase):
         ================================   =======================================================================
         """
         self.d_r = float(d_r)
-        self.g0 = float(g0)
-        self.hpo = float(hpo)
+        self.g_o = float(g_o)
+        self.h_po = float(h_po)
         self.den = float(den)
         self.p_atm = float(p_atm)
-        self.h0 = float(h0)
-        self.emax = float(emax)
-        self.emin = float(emin)
-        self.nb = float(nb)
-        self.nd = float(nd)
-        if ado is None:
-            self.ado = -1.0
+        self.h_o = float(h_o)
+        self.e_max = float(e_max)
+        self.e_min = float(e_min)
+        self.n_b = float(n_b)
+        self.n_d = float(n_d)
+        if a_do is None:
+            self.a_do = -1.0
         else:
-            self.ado = float(ado)
+            self.a_do = float(a_do)
         if z_max is None:
             self.z_max = -1.0
         else:
             self.z_max = float(z_max)
-        self.cz = float(cz)
-        if ce is None:
-            self.ce = -1.0
+        self.c_z = float(c_z)
+        if c_e is None:
+            self.c_e = -1.0
         else:
-            self.ce = float(ce)
-        self.p_atm = float(p_atm)
-        self.phic = float(phic)
+            self.c_e = float(c_e)
+        self.phi_cv = float(phi_cv)
         self.nu = float(nu)
-        self.cgd = float(cgd)
-        if cdr is None:
-            self.cdr = -1.0
+        self.g_degr = float(g_degr)
+        if c_dr is None:
+            self.c_dr = -1.0
         else:
-            self.cdr = float(cdr)
-        if ckaf is None:
-            self.ckaf = -1.0
+            self.c_dr = float(c_dr)
+        if c_kaf is None:
+            self.c_kaf = -1.0
         else:
-            self.ckaf = float(ckaf)
-        self.big_q = float(big_q)
-        self.big_r = float(big_r)
-        self.m = float(m)
-        if fsed_min is None:
-            self.fsed_min = -1.0
+            self.c_kaf = float(c_kaf)
+        self.q_bolt = float(q_bolt)
+        self.r_bolt = float(r_bolt)
+        self.m_par = float(m_par)
+        if f_sed is None:
+            self.f_sed = -1.0
         else:
-            self.fsed_min = float(fsed_min)
-        if p_sedo is None:
-            self.p_sedo = -1.0
+            self.f_sed = float(f_sed)
+        if p_sed is None:
+            self.p_sed = -1.0
         else:
-            self.p_sedo = float(p_sedo)
+            self.p_sed = float(p_sed)
 
         osi.n_mats += 1
         self._tag = osi.n_mats
 
-        self._parameters = [self.op_type, self._tag, self.d_r, self.g0, self.hpo, self.den, self.p_atm, self.h0,
-                            self.emax, self.emin, self.nb, self.nd, self.ado, self.z_max, self.cz, self.ce, self.phic,
-                            self.nu, self.cgd, self.cdr, self.ckaf, self.big_q, self.big_r, self.m, self.fsed_min,
-                            self.p_sedo]
+        self._parameters = [self.op_type, self._tag, self.d_r, self.g_o, self.h_po, self.den, self.p_atm, self.h_o,
+                            self.e_max, self.e_min, self.n_b, self.n_d, self.a_do, self.z_max, self.c_z, self.c_e, self.phi_cv,
+                            self.nu, self.cgd, self.c_dr, self.c_kaf, self.q_bolt, self.r_bolt, self.m_par, self.f_sed,
+                            self.p_sed]
 
         self.to_process(osi)
 

@@ -218,7 +218,7 @@ class ManzariDafalias(NDMaterialBase):
 
 class PM4Sand(NDMaterialBase):
 
-    def __init__(self, osi, d_r, g_o, h_po, den, p_atm, h_o, e_max, e_min, n_b, n_d, a_do, z_max, c_z, c_e, phic, nu, c_degr, c_dr, c_kaf, big_q, big_r, m, f_sed_min, p_sedo):
+    def __init__(self, osi, d_r, g_o, h_po, den, p_atm, h_o, e_max, e_min, n_b, n_d, a_do, z_max, c_z, c_e, phi_cv, nu, c_degr, c_dr, c_kaf, big_q, big_r, m, f_sed, p_sedo):
         self.d_r = float(d_r)
         self.g_o = float(g_o)
         self.h_po = float(h_po)
@@ -233,7 +233,7 @@ class PM4Sand(NDMaterialBase):
         self.z_max = float(z_max)
         self.c_z = float(c_z)
         self.c_e = float(c_e)
-        self.phic = float(phic)
+        self.phi_cv = float(phi_cv)
         self.nu = float(nu)
         self.c_degr = float(c_degr)
         self.c_dr = float(c_dr)
@@ -241,11 +241,11 @@ class PM4Sand(NDMaterialBase):
         self.big_q = float(big_q)
         self.big_r = float(big_r)
         self.m = float(m)
-        self.f_sed_min = float(f_sed_min)
+        self.f_sed = float(f_sed)
         self.p_sedo = float(p_sedo)
         osi.n_mats += 1
         self._tag = osi.mats
-        self._parameters = [self.op_type, self._tag, self.d_r, self.g_o, self.h_po, self.den, self.p_atm, self.h_o, self.e_max, self.e_min, self.n_b, self.n_d, self.a_do, self.z_max, self.c_z, self.c_e, self.phic, self.nu, self.c_degr, self.c_dr, self.c_kaf, self.big_q, self.big_r, self.m, self.f_sed_min, self.p_sedo]
+        self._parameters = [self.op_type, self._tag, self.d_r, self.g_o, self.h_po, self.den, self.p_atm, self.h_o, self.e_max, self.e_min, self.n_b, self.n_d, self.a_do, self.z_max, self.c_z, self.c_e, self.phi_cv, self.nu, self.c_degr, self.c_dr, self.c_kaf, self.big_q, self.big_r, self.m, self.f_sed, self.p_sedo]
         self.to_process(osi)
 
 
