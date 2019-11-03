@@ -10,7 +10,7 @@ with open('README.rst') as readme_file:
 # with open('HISTORY.rst') as history_file:
 #     history = history_file.read()
 
-setup(name='eqsig',
+setup(name='o3seespy',
       version=about['__version__'],
       description='Object-orientated native python version of Opensees',
       long_description=readme,  # + '\n\n' + history,
