@@ -1,138 +1,48 @@
 from o3seespy.command.element.base_element import ElementBase
 
 
-class ElastomericBearingPlasticityP(ElementBase):
+class ElastomericBearingPlasticity(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, mat, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, p_mat=None, mz_mat=None, do_rayleigh=False, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
         self.alpha1 = float(alpha1)
         self.alpha2 = float(alpha2)
         self.mu = float(mu)
-        self.mat = mat.tag
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
         self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, '-P', self.mat.tag]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class ElastomericBearingPlasticityMz(ElementBase):
-
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, mat_tag_2, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.k_init = float(k_init)
-        self.qd = float(qd)
-        self.alpha1 = float(alpha1)
-        self.alpha2 = float(alpha2)
-        self.mu = float(mu)
-        self.mat_tag_2 = mat_tag_2
-        self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, '-Mz', self.mat_tag_2]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class ElastomericBearingPlasticityorient(ElementBase):
-
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, x1, x2, x3, y1, y2, y3, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.k_init = float(k_init)
-        self.qd = float(qd)
-        self.alpha1 = float(alpha1)
-        self.alpha2 = float(alpha2)
-        self.mu = float(mu)
-        self.x1 = float(x1)
-        self.x2 = float(x2)
-        self.x3 = float(x3)
-        self.y1 = float(y1)
-        self.y2 = float(y2)
-        self.y3 = float(y3)
-        self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, '-orient', self.x1, self.x2, self.x3, self.y1, self.y2, self.y3]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class ElastomericBearingPlasticityshearDist(ElementBase):
-
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, s_dratio, do_rayleigh=False, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.k_init = float(k_init)
-        self.qd = float(qd)
-        self.alpha1 = float(alpha1)
-        self.alpha2 = float(alpha2)
-        self.mu = float(mu)
-        self.s_dratio = float(s_dratio)
         self.do_rayleigh = do_rayleigh
-        self.p_mat = p_mat.tag
         self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
+        self.orient = orient
         self.mass = float(mass)
+        self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, '-shearDist', self.s_dratio]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu]
+        if getattr(self, 'p_mat') is not None:
+            self._parameters += ['-P', self.p_mat]
+        if getattr(self, 'mz_mat') is not None:
+            self._parameters += ['-Mz', self.mz_mat]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
         if getattr(self, 't_mat') is not None:
             self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
+        if getattr(self, 'shear_dist') is not None:
+            self._parameters += ['-shearDist', self.shear_dist]
         self.to_process(osi)
 
 
-class ElastomericBearingBoucWenMz(ElementBase):
+class ElastomericBearingBoucWen(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat, orient_vals=None, shear_dist=None, do_rayleigh=False, mass=None, my_mat=None, mz_mat=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals=None, shear_dist=None, do_rayleigh=False, mass=None, t_mat=None, my_mat=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
@@ -143,18 +53,20 @@ class ElastomericBearingBoucWenMz(ElementBase):
         self.beta = float(beta)
         self.gamma = float(gamma)
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
+        self.mz_mat = mz_mat.tag
         self.orient_vals = orient_vals
         self.shear_dist = float(shear_dist)
         self.do_rayleigh = do_rayleigh
         self.mass = float(mass)
+        self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, self.gamma, '-Mz', self.t_mat.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, self.gamma]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
+        if getattr(self, 'mz_mat') is not None:
+            self._parameters += ['-Mz', self.mz_mat]
         if getattr(self, 'orient_vals') is not None:
             self._parameters += ['-orient', *self.orient_vals]
         if getattr(self, 'shear_dist') is not None:
@@ -163,305 +75,91 @@ class ElastomericBearingBoucWenMz(ElementBase):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        self.to_process(osi)
-
-
-class FlatSliderBearingP(ElementBase):
-
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, mat, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
-        self.k_init = float(k_init)
-        self.mat = mat.tag
-        self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-P', self.mat.tag]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
         if getattr(self, 't_mat') is not None:
             self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
         self.to_process(osi)
 
-class FlatSliderBearingMz(ElementBase):
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, mat_tag_2, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
+class FlatSliderBearing(ElementBase):
+
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, iter=None, tol, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl.tag
         self.k_init = float(k_init)
-        self.mat_tag_2 = mat_tag_2
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
         self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-Mz', self.mat_tag_2]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class FlatSliderBearingorient(ElementBase):
-
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, x1, x2, x3, y1, y2, y3, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
-        self.k_init = float(k_init)
-        self.x1 = float(x1)
-        self.x2 = float(x2)
-        self.x3 = float(x3)
-        self.y1 = float(y1)
-        self.y2 = float(y2)
-        self.y3 = float(y3)
-        self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-orient', self.x1, self.x2, self.x3, self.y1, self.y2, self.y3]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class FlatSliderBearingshearDist(ElementBase):
-
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, s_dratio, do_rayleigh=False, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
-        self.k_init = float(k_init)
-        self.s_dratio = float(s_dratio)
         self.do_rayleigh = do_rayleigh
-        self.p_mat = p_mat.tag
+        self.iter = int(iter)
+        self.tol = float(tol)
         self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
+        self.orient = orient
         self.mass = float(mass)
+        self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-shearDist', self.s_dratio]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, self.tol]
+        if getattr(self, 'p_mat') is not None:
+            self._parameters += ['-P', self.p_mat]
+        if getattr(self, 'mz_mat') is not None:
+            self._parameters += ['-Mz', self.mz_mat]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+        if getattr(self, 'iter') is not None:
+            self._parameters += ['-iter', self.iter]
         if getattr(self, 't_mat') is not None:
             self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class FlatSliderBearingiter(ElementBase):
-
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, max_iter, tol, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
-        self.k_init = float(k_init)
-        self.max_iter = int(max_iter)
-        self.tol = float(tol)
-        self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-iter', self.max_iter, self.tol]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
+        if getattr(self, 'shear_dist') is not None:
+            self._parameters += ['-shearDist', self.shear_dist]
         self.to_process(osi)
 
 
-class SingleFPBearingP(ElementBase):
+class SingleFPBearing(ElementBase):
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, mat, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, tol, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None, iter=None):
         self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl.tag
         self.reff = float(reff)
         self.k_init = float(k_init)
-        self.mat = mat.tag
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
         self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, '-P', self.mat.tag]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class SingleFPBearingMz(ElementBase):
-
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, mat_tag_2, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
-        self.reff = float(reff)
-        self.k_init = float(k_init)
-        self.mat_tag_2 = mat_tag_2
-        self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, '-Mz', self.mat_tag_2]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class SingleFPBearingorient(ElementBase):
-
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, x1, x2, x3, y1, y2, y3, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
-        self.reff = float(reff)
-        self.k_init = float(k_init)
-        self.x1 = float(x1)
-        self.x2 = float(x2)
-        self.x3 = float(x3)
-        self.y1 = float(y1)
-        self.y2 = float(y2)
-        self.y3 = float(y3)
-        self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, '-orient', self.x1, self.x2, self.x3, self.y1, self.y2, self.y3]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class SingleFPBearingshearDist(ElementBase):
-
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, s_dratio, do_rayleigh=False, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
-        self.reff = float(reff)
-        self.k_init = float(k_init)
-        self.s_dratio = float(s_dratio)
         self.do_rayleigh = do_rayleigh
-        self.p_mat = p_mat.tag
+        self.tol = float(tol)
         self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
+        self.orient = orient
         self.mass = float(mass)
+        self.shear_dist = float(shear_dist)
+        self.iter = int(iter)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, '-shearDist', self.s_dratio]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, self.tol]
+        if getattr(self, 'p_mat') is not None:
+            self._parameters += ['-P', self.p_mat]
+        if getattr(self, 'mz_mat') is not None:
+            self._parameters += ['-Mz', self.mz_mat]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
         if getattr(self, 't_mat') is not None:
             self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class SingleFPBearingiter(ElementBase):
-
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, max_iter, tol, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
-        self.reff = float(reff)
-        self.k_init = float(k_init)
-        self.max_iter = int(max_iter)
-        self.tol = float(tol)
-        self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
-        self.mz_mat = mz_mat.tag
-        self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, '-iter', self.max_iter, self.tol]
-        if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
-        if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
-        if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
+        if getattr(self, 'shear_dist') is not None:
+            self._parameters += ['-shearDist', self.shear_dist]
+        if getattr(self, 'iter') is not None:
+            self._parameters += ['-iter', self.iter]
         self.to_process(osi)
 
 
