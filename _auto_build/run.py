@@ -4,6 +4,7 @@ from collections import OrderedDict
 import pandas as pd
 import inspect
 from inspect import getmembers, isclass
+import copy
 
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../"
@@ -95,7 +96,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
             o3_name = pms[pm].o3_name
             default = pms[pm].default_value
             if pms[pm].is_flag:
-                pjoins.append(f'{pm}=False')
+                pjoins.append(f'{o3_name}=None')
             elif default is not None:
                 if pms[pm].forced_not_optional:
                     pjoins.append(f'{o3_name}')
@@ -150,6 +151,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
         para.append(w8 + 'self._parameters = [self.op_type, self._tag, %s]' % (', '.join(pjoins)))
         for pm in cl_pms:
             o3_name = pms[pm].o3_name
+
             if pms[pm].marker:
                 para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
                 if pms[pm].packed:
@@ -158,7 +160,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
                     para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', self.{o3_name}]")
             if pms[pm].is_flag:
                 para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
-                para.append(w8 + w4 + f"self._parameters += ['-{o3_name}']")  # TODO: does this always work?
+                para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].org_name}']")  # TODO: does this always work?
         if need_special_logic:
             sp_logic = False
             sp_pms = []
@@ -436,6 +438,21 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         del defaults['vecyp']
         defaults['orient'] = Param(org_name='orient', default_value=None, packed=True)
         defaults['orient'].marker = '-orient'
+    if "-orient" in op_kwargs and 'x1' in defaults and 'yp1' in defaults:
+        del op_kwargs["-orient"]
+        del defaults['x1']
+        del defaults['x2']
+        del defaults['x3']
+        del defaults['yp1']
+        del defaults['yp2']
+        del defaults['yp3']
+        defaults['orient'] = Param(org_name='orient', default_value=None, packed=True)
+        defaults['orient'].marker = 'orient'
+    if "-mass" in op_kwargs and 'm' in defaults:
+        del op_kwargs['-mass']
+        defaults['mass'] = copy.deepcopy(defaults['m'])
+        defaults['mass'].marker = 'mass'
+        del defaults['m']
     #assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
     # if len(op_kwargs) == 1:
     #     opk = list(op_kwargs)
@@ -646,7 +663,7 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    # parse_mat_file(up.OPY_DOCS_PATH + 'elasticBeamColumn.rst', 'ele')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'MultipleShearSpring.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'PressureIndependMultiYield.rst', 'mat')
     # parse_all_uniaxial_mat()
     # parse_all_ndmat()
