@@ -8,8 +8,8 @@ class ZeroLengthdoRayleigh(ElementBase):
         self.mat_tags = mat_tags
         self.dir_args = dir_args
         self.r_flag = float(r_flag)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, '-doRayleigh', self.r_flag]
         if getattr(self, 'mat_tags') is not None:
             self._parameters += ['-mat', *self.mat_tags]
@@ -25,8 +25,8 @@ class ZeroLengthorient(ElementBase):
         self.dir_args = dir_args
         self.vecx = vecx
         self.vecyp = vecyp
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, '-orient', *self.vecx, *self.vecyp]
         if getattr(self, 'mat_tags') is not None:
             self._parameters += ['-mat', *self.mat_tags]
@@ -43,8 +43,8 @@ class ZeroLengthNDorient(ElementBase):
         self.uni = uni.tag
         self.vecx = vecx
         self.vecyp = vecyp
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.uni.tag, '-orient', *self.vecx, self.vecyp]
         self.to_process(osi)
 
@@ -56,8 +56,8 @@ class ZeroLengthSectionorient(ElementBase):
         self.sec = sec.tag
         self.vecx = vecx
         self.vecyp = vecyp
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag, '-orient', *self.vecx, *self.vecyp]
         self.to_process(osi)
 
@@ -67,8 +67,8 @@ class ZeroLengthSectiondoRayleigh(ElementBase):
         self.ele_nodes = ele_nodes
         self.sec = sec.tag
         self.r_flag = float(r_flag)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag, '-doRayleigh', self.r_flag]
         self.to_process(osi)
 
@@ -81,8 +81,8 @@ class CoupledZeroLength(ElementBase):
         self.dirn2 = int(dirn2)
         self.mat = mat.tag
         self.r_flag = float(r_flag)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.dirn1, self.dirn2, self.mat.tag, self.r_flag]
         self.to_process(osi)
 
@@ -96,8 +96,8 @@ class ZeroLengthContact2Dnormal(ElementBase):
         self.mu = float(mu)
         self.nx = nx
         self.ny = ny
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.kn, self.kt, self.mu, '-normal', self.nx, self.ny]
         self.to_process(osi)
 
@@ -110,8 +110,8 @@ class ZeroLengthContact3D(ElementBase):
         self.mu = float(mu)
         self.c = float(c)
         self.dir = int(dir)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.kn, self.kt, self.mu, self.c, self.dir]
         self.to_process(osi)
 
@@ -125,8 +125,8 @@ class ZeroLengthContactNTS2D(ElementBase):
         self.kn = float(kn)
         self.kt = float(kt)
         self.phi = float(phi)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, self.kn, self.kt, self.phi]
         if getattr(self, 's_nd_num') is not None:
             self._parameters += ['-sNdNum', self.s_nd_num]
@@ -148,8 +148,8 @@ class ZeroLengthInterface2Ddof(ElementBase):
         self.kn = float(kn)
         self.kt = float(kt)
         self.phi = float(phi)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, '-dof', self.sdof, self.mdof, self.kn, self.kt, self.phi]
         if getattr(self, 's_nd_num') is not None:
             self._parameters += ['-sNdNum', self.s_nd_num]
@@ -172,7 +172,7 @@ class ZeroLengthImpact3D(ElementBase):
         self.kn2 = float(kn2)
         self.delta_y = float(delta_y)
         self.cohesion = float(cohesion)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.direction, self.init_gap, self.friction_ratio, self.kt, self.kn, self.kn2, self.delta_y, self.cohesion]
         self.to_process(osi)

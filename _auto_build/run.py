@@ -430,7 +430,12 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         defaults['orient'] = Param(org_name='orient', default_value=None, packed=True)
         defaults['orient'].marker = '-orient'
     #assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
-
+    # if len(op_kwargs) == 1:
+    #     opk = list(op_kwargs)
+    #     for item in opk:
+    #         defaults[item] = Param(org_name=item, default_value=False, packed=False)
+    #         defaults[item].marker = f'-{item}'
+    #         del op_kwargs[item]
     pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type)
     print(pstr, tstr)
     return pstr, tstr
@@ -601,14 +606,14 @@ def parse_all_elements():
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         print(item, collys[item])
         for ele in collys[item]:
-            # if ele == 'ZeroLength':
-            #     continue
+            if ele in ['trussEle', 'corotTruss']:
+                continue
             # if ele == 'zeroLengthND':
             #     continue
             # if mat == 'PressureDependMultiYield02':
             #     continue
 
-            open(up.OPY_DOCS_PATH + '%s.rst' % ele)
+            # open(up.OPY_DOCS_PATH + '%s.rst' % ele)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % ele
             pstr, tstr = parse_mat_file(ffp, osi_type='ele')
             para.append(pstr)
