@@ -388,8 +388,8 @@ def parse_mat_file(ffp, osi_type):
 
             res = re.findall(pname_pat, line[:ei])
             for pm in res:
-                if len(pm) > 4 and "'-" == pm[0:2]:
-                    pm = pm[2:-1]
+                # if len(pm) > 4 and "'-" == pm[0:2]:
+                #     pm = pm[2:-1]
                 doc_str_pms.append(pm)
                 dtypes.append(dtype)
                 descriptions.append(des)
