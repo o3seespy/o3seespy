@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class Tri31(ElementBase):
+    op_type = 'Tri31'
 
     def __init__(self, osi, ele_nodes, thick, type, mat, pressure, rho, b1, b2):
         self.ele_nodes = ele_nodes

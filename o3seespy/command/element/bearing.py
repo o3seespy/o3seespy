@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class ElastomericBearingPlasticity(ElementBase):
+    op_type = 'elastomericBearingPlasticity'
 
     def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, p_mat=None, mz_mat=None, do_rayleigh=False, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = ele_nodes
@@ -41,6 +42,7 @@ class ElastomericBearingPlasticity(ElementBase):
 
 
 class ElastomericBearingBoucWen(ElementBase):
+    op_type = 'elastomericBearingBoucWen'
 
     def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals=None, shear_dist=None, do_rayleigh=False, mass=None, t_mat=None, my_mat=None):
         self.ele_nodes = ele_nodes
@@ -83,6 +85,7 @@ class ElastomericBearingBoucWen(ElementBase):
 
 
 class FlatSliderBearing(ElementBase):
+    op_type = 'flatSliderBearing'
 
     def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, iter=None, tol, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = ele_nodes
@@ -123,6 +126,7 @@ class FlatSliderBearing(ElementBase):
 
 
 class SingleFPBearing(ElementBase):
+    op_type = 'singleFPBearing'
 
     def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, tol, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None, iter=None):
         self.ele_nodes = ele_nodes
@@ -164,6 +168,7 @@ class SingleFPBearing(ElementBase):
 
 
 class TFP(ElementBase):
+    op_type = 'TFP'
 
     def __init__(self, osi, ele_nodes, r1, r2, r3, r4, d1, d2, d3, d4, d1, d2, d3, d4, mu1, mu2, mu3, mu4, h1, h2, h3, h4, h0, col_load, big_k):
         self.ele_nodes = ele_nodes
@@ -197,6 +202,7 @@ class TFP(ElementBase):
 
 
 class TripleFrictionPendulum(ElementBase):
+    op_type = 'TripleFrictionPendulum'
 
     def __init__(self, osi, ele_nodes, frn_tag1, frn_tag2, frn_tag3, vert_mat, rot_z_mat, rot_x_mat, rot_y_mat, l1, l2, l3, d1, d2, d3, big_w, uy, kvt, min_fv, tol):
         self.ele_nodes = ele_nodes
@@ -225,6 +231,7 @@ class TripleFrictionPendulum(ElementBase):
 
 
 class MultipleShearSpring(ElementBase):
+    op_type = 'multipleShearSpring'
 
     def __init__(self, osi, ele_nodes, n_spring, mat=None, lim=None, mass=None, orient=None):
         self.ele_nodes = ele_nodes
@@ -248,6 +255,7 @@ class MultipleShearSpring(ElementBase):
 
 
 class KikuchiBearingadjustPDOutput(ElementBase):
+    op_type = 'KikuchiBearing'
 
     def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, ci, cj, orient=None, mass=None):
         self.ele_nodes = ele_nodes
@@ -299,6 +307,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
         self.to_process(osi)
 
 class KikuchiBearingdoBalance(ElementBase):
+    op_type = 'KikuchiBearing'
 
     def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, lim_fo, lim_fi, n_iter, orient=None, mass=None):
         self.ele_nodes = ele_nodes
@@ -352,6 +361,7 @@ class KikuchiBearingdoBalance(ElementBase):
 
 
 class YamamotoBiaxialHDRcoRS(ElementBase):
+    op_type = 'YamamotoBiaxialHDR'
 
     def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, cr, cs, mass=None):
         self.ele_nodes = ele_nodes
@@ -370,6 +380,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
         self.to_process(osi)
 
 class YamamotoBiaxialHDRorient(ElementBase):
+    op_type = 'YamamotoBiaxialHDR'
 
     def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, vecx, vecyp, mass=None):
         self.ele_nodes = ele_nodes
@@ -389,6 +400,7 @@ class YamamotoBiaxialHDRorient(ElementBase):
 
 
 class ElastomericX(ElementBase):
+    op_type = 'ElastomericX'
 
     def __init__(self, osi, ele_nodes, fy, alpha, gr, kbulk, d1, d2, ts, tr, n, x1, x2, x3, y1, y2, y3, kc, phi_m, ac, s_dratio, m, cd, tc, tag1, tag2, tag3, tag4):
         self.ele_nodes = ele_nodes
@@ -425,6 +437,7 @@ class ElastomericX(ElementBase):
 
 
 class LeadRubberX(ElementBase):
+    op_type = 'LeadRubberX'
 
     def __init__(self, osi, ele_nodes, fy, alpha, gr, kbulk, d1, d2, ts, tr, n, x1, x2, x3, y1, y2, y3, kc, phi_m, ac, s_dratio, m, cd, tc, q_l, c_l, k_s, a_s, tag1, tag2, tag3, tag4, tag5):
         self.ele_nodes = ele_nodes
@@ -466,6 +479,7 @@ class LeadRubberX(ElementBase):
 
 
 class HDR(ElementBase):
+    op_type = 'HDR'
 
     def __init__(self, osi, ele_nodes, gr, kbulk, d1, d2, ts, tr, n, a1, a2, a3, b1, b2, b3, c1, c2, c3, c4, x1, x2, x3, y1, y2, y3, kc, phi_m, ac, s_dratio, m, tc):
         self.ele_nodes = ele_nodes
@@ -505,6 +519,7 @@ class HDR(ElementBase):
 
 
 class FPBearingPTV(ElementBase):
+    op_type = 'FPBearingPTV'
 
     def __init__(self, osi, ele_nodes, mu_ref, is_pressure_dependent, p_ref, is_temperature_dependent, diffusivity, conductivity, is_velocity_dependent, rate_parameter, reffective_fp, radius__contact, k_initial, the_material_a, the_material_b, the_material_c, the_material_d, x1, x2, x3, y1, y2, y3, shear_dist, do_rayleigh, mass, iter, tol, unit):
         self.ele_nodes = ele_nodes

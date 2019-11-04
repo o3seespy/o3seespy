@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class FourNodeTetrahedron(ElementBase):
+    op_type = 'FourNodeTetrahedron'
 
     def __init__(self, osi, ele_nodes, mat, b1, b2, b3):
         self.ele_nodes = ele_nodes

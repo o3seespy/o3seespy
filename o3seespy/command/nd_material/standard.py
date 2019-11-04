@@ -2,6 +2,7 @@ from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
 class ElasticIsotropic(NDMaterialBase):
+    op_type = 'ElasticIsotropic'
 
     def __init__(self, osi, big_e, v, rho=0.0):
         self.big_e = float(big_e)
@@ -14,6 +15,7 @@ class ElasticIsotropic(NDMaterialBase):
 
 
 class ElasticOrthotropic(NDMaterialBase):
+    op_type = 'ElasticOrthotropic'
 
     def __init__(self, osi, ex, ey, ez, vxy, vyz, vzx, gxy, gyz, gzx, rho=0.0):
         self.ex = float(ex)
@@ -33,6 +35,7 @@ class ElasticOrthotropic(NDMaterialBase):
 
 
 class J2Plasticity(NDMaterialBase):
+    op_type = 'J2Plasticity'
 
     def __init__(self, osi, big_k, big_g, sig0, sig_inf, delta, big_h):
         self.big_k = float(big_k)
@@ -48,6 +51,7 @@ class J2Plasticity(NDMaterialBase):
 
 
 class DrukerPrager(NDMaterialBase):
+    op_type = 'DrukerPrager'
 
     def __init__(self, osi, big_k, big_g, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, atm_pressure=101e3):
         self.big_k = float(big_k)
@@ -70,6 +74,7 @@ class DrukerPrager(NDMaterialBase):
 
 
 class Damage2p(NDMaterialBase):
+    op_type = 'Damage2p'
 
     def __init__(self, osi, fcc, fct=None, big_e=None, ni=None, gt=None, gc=None, rho_bar=None, big_h=None, theta=None, tangent=None):
         self.fcc = float(fcc)
@@ -107,6 +112,7 @@ class Damage2p(NDMaterialBase):
 
 
 class PlaneStress(NDMaterialBase):
+    op_type = 'PlaneStress'
 
     def __init__(self, osi, three_dtag):
         self.three_dtag = int(three_dtag)
@@ -117,6 +123,7 @@ class PlaneStress(NDMaterialBase):
 
 
 class PlaneStrain(NDMaterialBase):
+    op_type = 'PlaneStrain'
 
     def __init__(self, osi, three_dtag):
         self.three_dtag = int(three_dtag)
@@ -127,6 +134,7 @@ class PlaneStrain(NDMaterialBase):
 
 
 class MultiaxialCyclicPlasticity(NDMaterialBase):
+    op_type = 'MultiaxialCyclicPlasticity'
 
     def __init__(self, osi, rho, big_k, big_g, su, ho, h, m, beta, k_coeff):
         self.rho = float(rho)
@@ -145,6 +153,7 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
 
 
 class BoundingCamClay(NDMaterialBase):
+    op_type = 'BoundingCamClay'
 
     def __init__(self, osi, mass_density, big_c, bulk_mod, ocr, mu_o, alpha, lamb, h, m):
         self.mass_density = float(mass_density)
@@ -163,6 +172,7 @@ class BoundingCamClay(NDMaterialBase):
 
 
 class PlateFiber(NDMaterialBase):
+    op_type = 'PlateFiber'
 
     def __init__(self, osi, three_d):
         self.three_d = three_d.tag
@@ -173,6 +183,7 @@ class PlateFiber(NDMaterialBase):
 
 
 class FSAM(NDMaterialBase):
+    op_type = 'FSAM'
 
     def __init__(self, osi, rho, s_x, s_y, conc, rou_x, rou_y, nu, alfadow):
         self.rho = float(rho)
@@ -190,6 +201,7 @@ class FSAM(NDMaterialBase):
 
 
 class ManzariDafalias(NDMaterialBase):
+    op_type = 'ManzariDafalias'
 
     def __init__(self, osi, g0, nu, e_init, mc, c, lambda_c, e0, ksi, p_atm, m, h0, ch, nb, a0, nd, z_max, cz, den):
         self.g0 = float(g0)
@@ -217,6 +229,7 @@ class ManzariDafalias(NDMaterialBase):
 
 
 class PM4Sand(NDMaterialBase):
+    op_type = 'PM4Sand'
 
     def __init__(self, osi, d_r, g_o, h_po, den, p_atm, h_o, e_max, e_min, n_b, n_d, a_do, z_max, c_z, c_e, phi_cv, nu, g_degr, c_dr, c_kaf, q_bolt, r_bolt, m_par, f_sed, p_sed):
         self.d_r = float(d_r)
@@ -250,6 +263,7 @@ class PM4Sand(NDMaterialBase):
 
 
 class StressDensityModel(NDMaterialBase):
+    op_type = 'StressDensityModel'
 
     def __init__(self, osi, m_den, e_not, big_a, n, nu, a1, b1, a2, b2, a3, b3, fd, mu_not, mu_cyc, sc, big_m, patm, ssl1, ssl2, ssl3, ssl4, ssl5, ssl6, ssl7, ssl8, ssl9, ssl10, hsl, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10):
         self.m_den = float(m_den)
@@ -297,6 +311,7 @@ class StressDensityModel(NDMaterialBase):
 
 
 class AcousticMedium(NDMaterialBase):
+    op_type = 'AcousticMedium'
 
     def __init__(self, osi, big_k, rho):
         self.big_k = float(big_k)

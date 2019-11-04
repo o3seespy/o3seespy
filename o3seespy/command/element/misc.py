@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class SurfaceLoad(ElementBase):
+    op_type = 'SurfaceLoad'
 
     def __init__(self, osi, ele_nodes, p):
         self.ele_nodes = ele_nodes
@@ -13,6 +14,7 @@ class SurfaceLoad(ElementBase):
 
 
 class VS3D4(ElementBase):
+    op_type = 'VS3D4'
 
     def __init__(self, osi, ele_nodes, big_e, big_g, rho, big_r, alpha_n, alpha_t):
         self.ele_nodes = ele_nodes
@@ -29,6 +31,7 @@ class VS3D4(ElementBase):
 
 
 class AC3D8(ElementBase):
+    op_type = 'AC3D8'
 
     def __init__(self, osi, ele_nodes, mat):
         self.ele_nodes = ele_nodes
@@ -40,6 +43,7 @@ class AC3D8(ElementBase):
 
 
 class ASI3D8(ElementBase):
+    op_type = 'ASI3D8'
 
     def __init__(self, osi, ele_nodes1, ele_nodes2):
         self.ele_nodes1 = ele_nodes1
@@ -51,6 +55,7 @@ class ASI3D8(ElementBase):
 
 
 class AV3D4(ElementBase):
+    op_type = 'AV3D4'
 
     def __init__(self, osi, ele_nodes, mat):
         self.ele_nodes = ele_nodes

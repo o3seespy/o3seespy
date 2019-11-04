@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class CatenaryCable(ElementBase):
+    op_type = 'CatenaryCable'
 
     def __init__(self, osi, i_node, j_node, weight, big_e, big_a, l0, alpha, temperature_change, rho, error_tol, nsubsteps, mass_type):
         self.i_node = int(i_node)

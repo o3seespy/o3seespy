@@ -2,6 +2,7 @@ from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
 class InitialStateAnalysisWrapper(NDMaterialBase):
+    op_type = 'InitialStateAnalysisWrapper'
 
     def __init__(self, osi, n_d_mat, n_dim):
         self.n_d_mat = n_d_mat.tag

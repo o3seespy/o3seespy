@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class BeamColumnJoint(ElementBase):
+    op_type = 'beamColumnJoint'
 
     def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8, mat9, mat10, mat11, mat12, mat13, ele_height_fac=1.0, ele_width_fac=1.0):
         self.ele_nodes = ele_nodes
@@ -27,6 +28,7 @@ class BeamColumnJoint(ElementBase):
 
 
 class ElasticTubularJoint(ElementBase):
+    op_type = 'ElasticTubularJoint'
 
     def __init__(self, osi, ele_nodes, brace__diameter, brace__angle, big_e, chord__diameter, chord__thickness, chord__angle):
         self.ele_nodes = ele_nodes
@@ -43,6 +45,7 @@ class ElasticTubularJoint(ElementBase):
 
 
 class Joint2D(ElementBase):
+    op_type = 'Joint2D'
 
     def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat_c, lrg_dsp):
         self.ele_nodes = ele_nodes

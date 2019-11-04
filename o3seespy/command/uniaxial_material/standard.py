@@ -3,6 +3,7 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 
 
 class Elastic(UniaxialMaterialBase):
+    op_type = 'Elastic'
 
     def __init__(self, osi, big_e, eta=0.0, eneg=None):
         self.big_e = float(big_e)
@@ -23,6 +24,7 @@ class Elastic(UniaxialMaterialBase):
 
 
 class ElasticPP(UniaxialMaterialBase):
+    op_type = 'ElasticPP'
 
     def __init__(self, osi, big_e, epsy_p, epsy_n=None, eps0=0.0):
         self.big_e = float(big_e)
@@ -44,6 +46,7 @@ class ElasticPP(UniaxialMaterialBase):
 
 
 class ElasticPPGap(UniaxialMaterialBase):
+    op_type = 'ElasticPPGap'
 
     def __init__(self, osi, big_e, fy, gap, eta=0.0, damage='noDamage'):
         self.big_e = float(big_e)
@@ -58,6 +61,7 @@ class ElasticPPGap(UniaxialMaterialBase):
 
 
 class ENT(UniaxialMaterialBase):
+    op_type = 'ENT'
 
     def __init__(self, osi, big_e):
         self.big_e = float(big_e)
@@ -68,6 +72,7 @@ class ENT(UniaxialMaterialBase):
 
 
 class Parallel(UniaxialMaterialBase):
+    op_type = 'Parallel'
 
     def __init__(self, osi, tags, factor_args=None):
         self.tags = tags
@@ -81,6 +86,7 @@ class Parallel(UniaxialMaterialBase):
 
 
 class Series(UniaxialMaterialBase):
+    op_type = 'Series'
 
     def __init__(self, osi, tags):
         self.tags = tags

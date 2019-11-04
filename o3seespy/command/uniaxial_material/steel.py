@@ -3,6 +3,7 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 
 
 class Steel01(UniaxialMaterialBase):
+    op_type = 'Steel01'
 
     def __init__(self, osi, fy, e0, b, a1, a2, a3, a4):
         self.fy = float(fy)
@@ -19,6 +20,7 @@ class Steel01(UniaxialMaterialBase):
 
 
 class Steel02(UniaxialMaterialBase):
+    op_type = 'Steel02'
 
     def __init__(self, osi, fy, e0, b, params, a1=None, a2=1.0, a3=None, a4=1.0, sig_init=0.0):
         self.fy = float(fy)
@@ -45,6 +47,7 @@ class Steel02(UniaxialMaterialBase):
 
 
 class Hysteretic(UniaxialMaterialBase):
+    op_type = 'Hysteretic'
 
     def __init__(self, osi, p1, p2, p3, n1, n2, n3, pinch_x, pinch_y, damage1, damage2, beta):
         self.p1 = p1
@@ -73,6 +76,7 @@ class Hysteretic(UniaxialMaterialBase):
 
 
 class ReinforcingSteelGABuck(UniaxialMaterialBase):
+    op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, lsr, beta, r, gamma):
         self.fy = float(fy)
@@ -91,6 +95,7 @@ class ReinforcingSteelGABuck(UniaxialMaterialBase):
         self.to_process(osi)
 
 class ReinforcingSteelDMBuck(UniaxialMaterialBase):
+    op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, lsr_2, alpha=1.0):
         self.fy = float(fy)
@@ -107,6 +112,7 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
         self.to_process(osi)
 
 class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
+    op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, cf, alpha_2, cd):
         self.fy = float(fy)
@@ -124,6 +130,7 @@ class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
         self.to_process(osi)
 
 class ReinforcingSteelIsoHard(UniaxialMaterialBase):
+    op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, a1=4.3, limit=1.0):
         self.fy = float(fy)
@@ -140,6 +147,7 @@ class ReinforcingSteelIsoHard(UniaxialMaterialBase):
         self.to_process(osi)
 
 class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
+    op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, r1=0.333, r2=18.0, r3=4.0):
         self.fy = float(fy)
@@ -158,6 +166,7 @@ class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
 
 
 class DoddRestrepo(UniaxialMaterialBase):
+    op_type = 'Dodd_Restrepo'
 
     def __init__(self, osi, fy, fsu, esh, esu, youngs, eshi, fshi, omega_fac=1.0):
         self.fy = float(fy)
@@ -175,6 +184,7 @@ class DoddRestrepo(UniaxialMaterialBase):
 
 
 class RambergOsgoodSteel(UniaxialMaterialBase):
+    op_type = 'RambergOsgoodSteel'
 
     def __init__(self, osi, fy, e0, a, n):
         self.fy = float(fy)
@@ -188,6 +198,7 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
 
 
 class SteelMPF(UniaxialMaterialBase):
+    op_type = 'SteelMPF'
 
     def __init__(self, osi, fyp, fyn, e0, bp, bn, r0, c_r1, c_r2, a1=0.0, a2=1.0, a3=0.0, a4=1.0):
         self.fyp = float(fyp)
@@ -209,6 +220,7 @@ class SteelMPF(UniaxialMaterialBase):
 
 
 class Steel01Thermal(UniaxialMaterialBase):
+    op_type = 'Steel01Thermal'
 
     def __init__(self, osi, fy, e0, b, a1, a2, a3, a4):
         self.fy = float(fy)

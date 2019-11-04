@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class SSPquadUP(ElementBase):
+    op_type = 'SSPquadUP'
 
     def __init__(self, osi, ele_nodes, mat, thick, f_bulk, f_den, k1, k2, void, alpha, b1, b2):
         self.ele_nodes = ele_nodes
@@ -22,6 +23,7 @@ class SSPquadUP(ElementBase):
 
 
 class SSPbrickUP(ElementBase):
+    op_type = 'SSPbrickUP'
 
     def __init__(self, osi, ele_nodes, mat, f_bulk, f_den, k1, k2, k3, void, alpha, b1, b2, b3):
         self.ele_nodes = ele_nodes

@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class ZeroLengthdoRayleigh(ElementBase):
+    op_type = 'zeroLength'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, r_flag=0):
         self.ele_nodes = ele_nodes
@@ -18,6 +19,7 @@ class ZeroLengthdoRayleigh(ElementBase):
         self.to_process(osi)
 
 class ZeroLengthorient(ElementBase):
+    op_type = 'zeroLength'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, vecx, vecyp):
         self.ele_nodes = ele_nodes
@@ -36,6 +38,7 @@ class ZeroLengthorient(ElementBase):
 
 
 class ZeroLengthNDorient(ElementBase):
+    op_type = 'zeroLengthND'
 
     def __init__(self, osi, ele_nodes, mat, uni, vecx, vecyp):
         self.ele_nodes = ele_nodes
@@ -50,6 +53,7 @@ class ZeroLengthNDorient(ElementBase):
 
 
 class ZeroLengthSectionorient(ElementBase):
+    op_type = 'zeroLengthSection'
 
     def __init__(self, osi, ele_nodes, sec, vecx, vecyp):
         self.ele_nodes = ele_nodes
@@ -62,6 +66,7 @@ class ZeroLengthSectionorient(ElementBase):
         self.to_process(osi)
 
 class ZeroLengthSectiondoRayleigh(ElementBase):
+    op_type = 'zeroLengthSection'
 
     def __init__(self, osi, ele_nodes, sec, r_flag):
         self.ele_nodes = ele_nodes
@@ -74,6 +79,7 @@ class ZeroLengthSectiondoRayleigh(ElementBase):
 
 
 class CoupledZeroLength(ElementBase):
+    op_type = 'CoupledZeroLength'
 
     def __init__(self, osi, ele_nodes, dirn1, dirn2, mat, r_flag=1):
         self.ele_nodes = ele_nodes
@@ -88,6 +94,7 @@ class CoupledZeroLength(ElementBase):
 
 
 class ZeroLengthContact2Dnormal(ElementBase):
+    op_type = 'zeroLengthContact2D'
 
     def __init__(self, osi, ele_nodes, kn, kt, mu, nx, ny):
         self.ele_nodes = ele_nodes
@@ -102,6 +109,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
         self.to_process(osi)
 
 class ZeroLengthContact3D(ElementBase):
+    op_type = 'zeroLengthContact3D'
 
     def __init__(self, osi, ele_nodes, kn, kt, mu, c, dir):
         self.ele_nodes = ele_nodes
@@ -117,6 +125,7 @@ class ZeroLengthContact3D(ElementBase):
 
 
 class ZeroLengthContactNTS2D(ElementBase):
+    op_type = 'zeroLengthContactNTS2D'
 
     def __init__(self, osi, s_nd_num=None, m_nd_num=None, nodes=None, kn, kt, phi):
         self.s_nd_num = int(s_nd_num)
@@ -138,6 +147,7 @@ class ZeroLengthContactNTS2D(ElementBase):
 
 
 class ZeroLengthInterface2Ddof(ElementBase):
+    op_type = 'zeroLengthInterface2D'
 
     def __init__(self, osi, s_nd_num=None, m_nd_num=None, sdof, mdof, nodes=None, kn, kt, phi):
         self.s_nd_num = int(s_nd_num)
@@ -161,6 +171,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
 
 
 class ZeroLengthImpact3D(ElementBase):
+    op_type = 'zeroLengthImpact3D'
 
     def __init__(self, osi, ele_nodes, direction, init_gap, friction_ratio, kt, kn, kn2, delta_y, cohesion):
         self.ele_nodes = ele_nodes

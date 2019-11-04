@@ -3,6 +3,7 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 
 
 class PySimple1(UniaxialMaterialBase):
+    op_type = 'PySimple1'
 
     def __init__(self, osi, soil_type, pult, y50, cd, c=0.0):
         self.soil_type = int(soil_type)
@@ -17,6 +18,7 @@ class PySimple1(UniaxialMaterialBase):
 
 
 class TzSimple1(UniaxialMaterialBase):
+    op_type = 'TzSimple1'
 
     def __init__(self, osi, soil_type, tult, z50, c=0.0):
         self.soil_type = int(soil_type)
@@ -30,6 +32,7 @@ class TzSimple1(UniaxialMaterialBase):
 
 
 class QzSimple1(UniaxialMaterialBase):
+    op_type = 'QzSimple1'
 
     def __init__(self, osi, qz_type, qult, z50, suction=0.0, c=0.0):
         self.qz_type = int(qz_type)
@@ -44,6 +47,7 @@ class QzSimple1(UniaxialMaterialBase):
 
 
 class PyLiq1(UniaxialMaterialBase):
+    op_type = 'PyLiq1'
 
     def __init__(self, osi, soil_type, pult, y50, cd, c, p_res, ele1, ele2, time_series=None):
         self.soil_type = int(soil_type)
@@ -64,6 +68,7 @@ class PyLiq1(UniaxialMaterialBase):
 
 
 class TzLiq1(UniaxialMaterialBase):
+    op_type = 'TzLiq1'
 
     def __init__(self, osi, tz_type, tult, z50, c, ele1, ele2, time_series=None):
         self.tz_type = int(tz_type)

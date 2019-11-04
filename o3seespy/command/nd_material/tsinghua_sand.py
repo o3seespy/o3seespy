@@ -2,6 +2,7 @@ from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
 class CycLiqCP(NDMaterialBase):
+    op_type = 'CycLiqCP'
 
     def __init__(self, osi, g0, kappa, h, mfc, dre1, mdc, dre2, rdr, alpha, dir, ein, rho):
         self.g0 = float(g0)
@@ -23,6 +24,7 @@ class CycLiqCP(NDMaterialBase):
 
 
 class CycLiqCPSP(NDMaterialBase):
+    op_type = 'CycLiqCPSP'
 
     def __init__(self, osi, g0, kappa, h, big_m, dre1, dre2, rdr, alpha, dir, lambdac, ksi, e0, np, nd, ein, rho):
         self.g0 = float(g0)

@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class QuadUP(ElementBase):
+    op_type = 'quadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0, t=0):
         self.ele_nodes = ele_nodes
@@ -21,6 +22,7 @@ class QuadUP(ElementBase):
 
 
 class BrickUP(ElementBase):
+    op_type = 'brickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
         self.ele_nodes = ele_nodes
@@ -40,6 +42,7 @@ class BrickUP(ElementBase):
 
 
 class BbarQuadUP(ElementBase):
+    op_type = 'bbarQuadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0, t=0):
         self.ele_nodes = ele_nodes
@@ -59,6 +62,7 @@ class BbarQuadUP(ElementBase):
 
 
 class BbarBrickUP(ElementBase):
+    op_type = 'bbarBrickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
         self.ele_nodes = ele_nodes
@@ -78,6 +82,7 @@ class BbarBrickUP(ElementBase):
 
 
 class 94QuadUP(ElementBase):
+    op_type = '9_4_QuadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0):
         self.ele_nodes = ele_nodes
@@ -96,6 +101,7 @@ class 94QuadUP(ElementBase):
 
 
 class 208BrickUP(ElementBase):
+    op_type = '20_8_BrickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
         self.ele_nodes = ele_nodes

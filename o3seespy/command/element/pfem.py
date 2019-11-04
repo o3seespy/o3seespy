@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class PFEMElementBubble(ElementBase):
+    op_type = 'PFEMElementBubble'
 
     def __init__(self, osi, nd1, nd2, nd3, nd4, rho, mu, b1, b2, b3, thickness, kappa):
         self.nd1 = int(nd1)
@@ -22,6 +23,7 @@ class PFEMElementBubble(ElementBase):
 
 
 class PFEMElementCompressible(ElementBase):
+    op_type = 'PFEMElementCompressible'
 
     def __init__(self, osi, nd1, nd2, nd3, nd4, rho, mu, b1, b2, thickness, kappa):
         self.nd1 = int(nd1)

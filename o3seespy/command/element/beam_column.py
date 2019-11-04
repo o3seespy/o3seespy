@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class ElasticBeamColumn(ElementBase):
+    op_type = 'elasticBeamColumn'
 
     def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass=None, c_mass=False, big_g, big_j, iy):
         self.ele_nodes = ele_nodes
@@ -25,6 +26,7 @@ class ElasticBeamColumn(ElementBase):
 
 
 class ModElasticBeam2Dmass(ElementBase):
+    op_type = 'ModElasticBeam2d'
 
     def __init__(self, osi, ele_nodes, big_a, big_e, iz, k11, k33, k44, transf, mass_dens, c_mass=False):
         self.ele_nodes = ele_nodes
@@ -46,6 +48,7 @@ class ModElasticBeam2Dmass(ElementBase):
 
 
 class ElasticTimoshenkoBeam(ElementBase):
+    op_type = 'ElasticTimoshenkoBeam'
 
     def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass=None, c_mass=False, jx, iy, iz_2, avz, c_mas=False):
         self.ele_nodes = ele_nodes
@@ -76,6 +79,7 @@ class ElasticTimoshenkoBeam(ElementBase):
 
 
 class DispBeamColumn(ElementBase):
+    op_type = 'dispBeamColumn'
 
     def __init__(self, osi, i_node, j_node, transf, integration, c_mass=False, mass=0.0):
         self.i_node = int(i_node)
@@ -95,6 +99,7 @@ class DispBeamColumn(ElementBase):
 
 
 class ForceBeamColumn(ElementBase):
+    op_type = 'forceBeamColumn'
 
     def __init__(self, osi, i_node, j_node, transf, integration, tol=1e-12, mass=0.0, iter=10):
         self.i_node = int(i_node)
@@ -115,6 +120,7 @@ class ForceBeamColumn(ElementBase):
 
 
 class NonlinearBeamColumnintegration(ElementBase):
+    op_type = 'nonlinearBeamColumn'
 
     def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, tol=1e-12, mass=0.0, int_type, iter=10):
         self.i_node = int(i_node)
@@ -137,6 +143,7 @@ class NonlinearBeamColumnintegration(ElementBase):
 
 
 class DispBeamColumnIntmass(ElementBase):
+    op_type = 'dispBeamColumnInt'
 
     def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, c_rot, mass_dens):
         self.ele_nodes = ele_nodes
@@ -152,6 +159,7 @@ class DispBeamColumnIntmass(ElementBase):
 
 
 class MVLEMthick(ElementBase):
+    op_type = 'MVLEM'
 
     def __init__(self, osi, dens, ele_nodes, m, c, thicknesses):
         self.dens = float(dens)
@@ -165,6 +173,7 @@ class MVLEMthick(ElementBase):
         self.to_process(osi)
 
 class MVLEMwidth(ElementBase):
+    op_type = 'MVLEM'
 
     def __init__(self, osi, dens, ele_nodes, m, c, widths):
         self.dens = float(dens)
@@ -178,6 +187,7 @@ class MVLEMwidth(ElementBase):
         self.to_process(osi)
 
 class MVLEMrho(ElementBase):
+    op_type = 'MVLEM'
 
     def __init__(self, osi, dens, ele_nodes, m, c, reinforcing_ratios):
         self.dens = float(dens)
@@ -191,6 +201,7 @@ class MVLEMrho(ElementBase):
         self.to_process(osi)
 
 class MVLEMmatConcrete(ElementBase):
+    op_type = 'MVLEM'
 
     def __init__(self, osi, dens, ele_nodes, m, c, concrete_tags):
         self.dens = float(dens)
@@ -204,6 +215,7 @@ class MVLEMmatConcrete(ElementBase):
         self.to_process(osi)
 
 class MVLEMmatSteel(ElementBase):
+    op_type = 'MVLEM'
 
     def __init__(self, osi, dens, ele_nodes, m, c, steel_tags):
         self.dens = float(dens)
@@ -217,6 +229,7 @@ class MVLEMmatSteel(ElementBase):
         self.to_process(osi)
 
 class MVLEMmatShear(ElementBase):
+    op_type = 'MVLEM'
 
     def __init__(self, osi, dens, ele_nodes, m, c, shear):
         self.dens = float(dens)
@@ -231,6 +244,7 @@ class MVLEMmatShear(ElementBase):
 
 
 class Thick(ElementBase):
+    op_type = ''
 
     def __init__(self, osi, ele_nodes, m, c, thicknesses):
         self.ele_nodes = ele_nodes
@@ -243,6 +257,7 @@ class Thick(ElementBase):
         self.to_process(osi)
 
 class Width(ElementBase):
+    op_type = ''
 
     def __init__(self, osi, ele_nodes, m, c, widths):
         self.ele_nodes = ele_nodes
@@ -255,6 +270,7 @@ class Width(ElementBase):
         self.to_process(osi)
 
 class Mat(ElementBase):
+    op_type = ''
 
     def __init__(self, osi, ele_nodes, m, c, material_tags):
         self.ele_nodes = ele_nodes

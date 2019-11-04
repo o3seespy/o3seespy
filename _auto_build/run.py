@@ -74,6 +74,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
         op_class_name = convert_name_to_class_name(op_type + name_from_kw)
         base_class_name = base_type[0].capitalize() + base_type[1:]
         para.append(f'class {op_class_name}({base_class_name}Base):')
+        para.append(w4 + f"op_type = '{op_type}'")
         para.append('')
 
         pms = clean_param_names(defaults)

@@ -3,6 +3,7 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 
 
 class Concrete01(UniaxialMaterialBase):
+    op_type = 'Concrete01'
 
     def __init__(self, osi, fpc, epsc0, fpcu, eps_u):
         self.fpc = float(fpc)
@@ -16,6 +17,7 @@ class Concrete01(UniaxialMaterialBase):
 
 
 class Concrete02(UniaxialMaterialBase):
+    op_type = 'Concrete02'
 
     def __init__(self, osi, fpc, epsc0, fpcu, eps_u, lamb, ft, ets):
         self.fpc = float(fpc)
@@ -32,6 +34,7 @@ class Concrete02(UniaxialMaterialBase):
 
 
 class Concrete04(UniaxialMaterialBase):
+    op_type = 'Concrete04'
 
     def __init__(self, osi, fc, epsc, epscu, ec, fct, et, beta):
         self.fc = float(fc)
@@ -48,6 +51,7 @@ class Concrete04(UniaxialMaterialBase):
 
 
 class Concrete06(UniaxialMaterialBase):
+    op_type = 'Concrete06'
 
     def __init__(self, osi, fc, e0, n, k, alpha1, fcr, ecr, b, alpha2):
         self.fc = float(fc)
@@ -66,6 +70,7 @@ class Concrete06(UniaxialMaterialBase):
 
 
 class Concrete07(UniaxialMaterialBase):
+    op_type = 'Concrete07'
 
     def __init__(self, osi, fc, epsc, ec, ft, et, xp, xn, r):
         self.fc = float(fc)
@@ -83,6 +88,7 @@ class Concrete07(UniaxialMaterialBase):
 
 
 class Concrete01WithSITC(UniaxialMaterialBase):
+    op_type = 'Concrete01WithSITC'
 
     def __init__(self, osi, fpc, epsc0, fpcu, eps_u, end_strain_sitc=0.01):
         self.fpc = float(fpc)
@@ -97,6 +103,7 @@ class Concrete01WithSITC(UniaxialMaterialBase):
 
 
 class ConfinedConcrete01(UniaxialMaterialBase):
+    op_type = 'ConfinedConcrete01'
 
     def __init__(self, osi, sec_type, fpc, ec, epscu_type, epscu_val, nu, l1, l2, l3, phis, big_s, fyh, es0, ha_ratio, mu, phi_lon, internal_args=None, wrap_args=None, gravel=False, silica=False, tol=None, max_num_iter=None, epscu_limit=None, st_ratio=None):
         self.sec_type = sec_type
@@ -146,6 +153,7 @@ class ConfinedConcrete01(UniaxialMaterialBase):
 
 
 class ConcreteD(UniaxialMaterialBase):
+    op_type = 'ConcreteD'
 
     def __init__(self, osi, fc, epsc, ft, epst, ec, alphac, alphat, cesp=0.25, etap=1.15):
         self.fc = float(fc)
@@ -164,6 +172,7 @@ class ConcreteD(UniaxialMaterialBase):
 
 
 class FRPConfinedConcrete(UniaxialMaterialBase):
+    op_type = 'FRPConfinedConcrete'
 
     def __init__(self, osi, fpc1, fpc2, epsc0, big_d, c, ej, sj, tj, eju, big_s, fyl, fyh, dlong, dtrans, es, vo, k, use_buck):
         self.fpc1 = float(fpc1)
@@ -191,6 +200,7 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
 
 
 class ConcreteCM(UniaxialMaterialBase):
+    op_type = 'ConcreteCM'
 
     def __init__(self, osi, fpcc, epcc, ec, rc, xcrn, ft, et, rt, xcrp, gap_close=0):
         self.fpcc = float(fpcc)

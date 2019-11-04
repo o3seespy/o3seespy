@@ -2,6 +2,7 @@ from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
 class FluidSolidPorousMaterial(NDMaterialBase):
+    op_type = 'FluidSolidPorousMaterial'
 
     def __init__(self, osi, nd, soil_mat, combined_bulk_modul, pa=101.0):
         self.nd = float(nd)

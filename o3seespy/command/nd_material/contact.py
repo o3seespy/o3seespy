@@ -2,6 +2,7 @@ from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
 class ContactMaterial2D(NDMaterialBase):
+    op_type = 'ContactMaterial2D'
 
     def __init__(self, osi, mu, big_g, c, t):
         self.mu = float(mu)
@@ -15,6 +16,7 @@ class ContactMaterial2D(NDMaterialBase):
 
 
 class ContactMaterial3D(NDMaterialBase):
+    op_type = 'ContactMaterial3D'
 
     def __init__(self, osi, mu, big_g, c, t):
         self.mu = float(mu)

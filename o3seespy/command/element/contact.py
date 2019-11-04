@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class SimpleContact2D(ElementBase):
+    op_type = 'SimpleContact2D'
 
     def __init__(self, osi, i_node, j_node, s_node, l_node, mat, g_tol, f_tol):
         self.i_node = int(i_node)
@@ -18,6 +19,7 @@ class SimpleContact2D(ElementBase):
 
 
 class SimpleContact3D(ElementBase):
+    op_type = 'SimpleContact3D'
 
     def __init__(self, osi, i_node, j_node, k_node, l_node, s_node, l_node, mat, g_tol, f_tol):
         self.i_node = int(i_node)
@@ -36,6 +38,7 @@ class SimpleContact3D(ElementBase):
 
 
 class BeamContact2D(ElementBase):
+    op_type = 'BeamContact2D'
 
     def __init__(self, osi, i_node, j_node, s_node, l_node, mat, width, g_tol, f_tol, c_flag):
         self.i_node = int(i_node)
@@ -54,6 +57,7 @@ class BeamContact2D(ElementBase):
 
 
 class BeamContact3D(ElementBase):
+    op_type = 'BeamContact3D'
 
     def __init__(self, osi, i_node, j_node, s_node, l_node, radius, crd_transf, mat, g_tol, f_tol, c_flag):
         self.i_node = int(i_node)
@@ -73,6 +77,7 @@ class BeamContact3D(ElementBase):
 
 
 class BeamEndContact3D(ElementBase):
+    op_type = 'BeamEndContact3D'
 
     def __init__(self, osi, i_node, j_node, s_node, l_node, radius, g_tol, f_tol, c_flag):
         self.i_node = int(i_node)

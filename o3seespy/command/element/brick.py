@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class StdBrick(ElementBase):
+    op_type = 'stdBrick'
 
     def __init__(self, osi, ele_nodes, mat, b1, b2, b3):
         self.ele_nodes = ele_nodes
@@ -16,6 +17,7 @@ class StdBrick(ElementBase):
 
 
 class BbarBrick(ElementBase):
+    op_type = 'bbarBrick'
 
     def __init__(self, osi, ele_nodes, mat, b1, b2, b3):
         self.ele_nodes = ele_nodes
@@ -30,6 +32,7 @@ class BbarBrick(ElementBase):
 
 
 class Brick20N(ElementBase):
+    op_type = 'Brick20N'
 
     def __init__(self, osi, ele_nodes, mat, bf1, bf2, bf3, mass_den):
         self.ele_nodes = ele_nodes
@@ -45,6 +48,7 @@ class Brick20N(ElementBase):
 
 
 class SSPbrick(ElementBase):
+    op_type = 'SSPbrick'
 
     def __init__(self, osi, ele_nodes, mat, b1, b2, b3):
         self.ele_nodes = ele_nodes

@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class Quad(ElementBase):
+    op_type = 'quad'
 
     def __init__(self, osi, ele_nodes, thick, type, mat, pressure, rho, b1, b2):
         self.ele_nodes = ele_nodes
@@ -19,6 +20,7 @@ class Quad(ElementBase):
 
 
 class ShellMITC4(ElementBase):
+    op_type = 'ShellMITC4'
 
     def __init__(self, osi, ele_nodes, sec):
         self.ele_nodes = ele_nodes
@@ -30,6 +32,7 @@ class ShellMITC4(ElementBase):
 
 
 class ShellDKGQ(ElementBase):
+    op_type = 'ShellDKGQ'
 
     def __init__(self, osi, ele_nodes, sec):
         self.ele_nodes = ele_nodes
@@ -41,6 +44,7 @@ class ShellDKGQ(ElementBase):
 
 
 class ShellDKGT(ElementBase):
+    op_type = 'ShellDKGT'
 
     def __init__(self, osi, ele_nodes, sec):
         self.ele_nodes = ele_nodes
@@ -52,6 +56,7 @@ class ShellDKGT(ElementBase):
 
 
 class ShellNLDKGQ(ElementBase):
+    op_type = 'ShellNLDKGQ'
 
     def __init__(self, osi, ele_nodes, sec):
         self.ele_nodes = ele_nodes
@@ -63,6 +68,7 @@ class ShellNLDKGQ(ElementBase):
 
 
 class ShellNLDKGT(ElementBase):
+    op_type = 'ShellNLDKGT'
 
     def __init__(self, osi, ele_nodes, sec):
         self.ele_nodes = ele_nodes
@@ -74,6 +80,7 @@ class ShellNLDKGT(ElementBase):
 
 
 class ShellNL(ElementBase):
+    op_type = 'ShellNL'
 
     def __init__(self, osi, ele_nodes, sec):
         self.ele_nodes = ele_nodes
@@ -85,6 +92,7 @@ class ShellNL(ElementBase):
 
 
 class BbarQuad(ElementBase):
+    op_type = 'bbarQuad'
 
     def __init__(self, osi, ele_nodes, thick, mat):
         self.ele_nodes = ele_nodes
@@ -97,6 +105,7 @@ class BbarQuad(ElementBase):
 
 
 class EnhancedQuad(ElementBase):
+    op_type = 'enhancedQuad'
 
     def __init__(self, osi, ele_nodes, thick, type, mat):
         self.ele_nodes = ele_nodes
@@ -110,6 +119,7 @@ class EnhancedQuad(ElementBase):
 
 
 class SSPquad(ElementBase):
+    op_type = 'SSPquad'
 
     def __init__(self, osi, ele_nodes, mat, type, thick, b1, b2):
         self.ele_nodes = ele_nodes

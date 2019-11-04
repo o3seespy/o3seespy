@@ -2,6 +2,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class TwoNodeLinkdir(ElementBase):
+    op_type = 'twoNodeLink'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dirs, mass=None):
         self.ele_nodes = ele_nodes
@@ -18,6 +19,7 @@ class TwoNodeLinkdir(ElementBase):
         self.to_process(osi)
 
 class TwoNodeLinkorient(ElementBase):
+    op_type = 'twoNodeLink'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, vecx, vecy, p_delta_vals=None, mass=None):
         self.ele_nodes = ele_nodes
@@ -38,6 +40,7 @@ class TwoNodeLinkorient(ElementBase):
         self.to_process(osi)
 
 class TwoNodeLinkshearDist(ElementBase):
+    op_type = 'twoNodeLink'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, s_dratios, do_rayleigh=False, mass=None):
         self.ele_nodes = ele_nodes

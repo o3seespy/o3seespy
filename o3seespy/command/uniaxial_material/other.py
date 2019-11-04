@@ -3,6 +3,7 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 
 
 class Hardening(UniaxialMaterialBase):
+    op_type = 'Hardening'
 
     def __init__(self, osi, big_e, sigma_y, h_iso, h_kin, eta=0.0):
         self.big_e = float(big_e)
@@ -17,6 +18,7 @@ class Hardening(UniaxialMaterialBase):
 
 
 class Cast(UniaxialMaterialBase):
+    op_type = 'Cast'
 
     def __init__(self, osi, n, bo, h, fy, big_e, big_l, b, ro, c_r1, c_r2, a1=None, a2=1.0, a3=None, a4=1.0):
         self.n = int(n)
@@ -48,6 +50,7 @@ class Cast(UniaxialMaterialBase):
 
 
 class ViscousDamper(UniaxialMaterialBase):
+    op_type = 'ViscousDamper'
 
     def __init__(self, osi, big_k, cd, alpha, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15):
         self.big_k = float(big_k)
@@ -65,6 +68,7 @@ class ViscousDamper(UniaxialMaterialBase):
 
 
 class BilinearOilDamper(UniaxialMaterialBase):
+    op_type = 'BilinearOilDamper'
 
     def __init__(self, osi, big_k, cd, fr=1.0, p=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15):
         self.big_k = float(big_k)
@@ -83,6 +87,7 @@ class BilinearOilDamper(UniaxialMaterialBase):
 
 
 class Bilin(UniaxialMaterialBase):
+    op_type = 'Bilin'
 
     def __init__(self, osi, k0, as__plus, as__neg, my__plus, my__neg, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p__plus, theta_p__neg, theta_pc__plus, theta_pc__neg, res__pos, res__neg, theta_u__plus, theta_u__neg, d__plus, d__neg, n_factor=0.0):
         self.k0 = float(k0)
@@ -116,6 +121,7 @@ class Bilin(UniaxialMaterialBase):
 
 
 class ModIMKPeakOriented(UniaxialMaterialBase):
+    op_type = 'ModIMKPeakOriented'
 
     def __init__(self, osi, k0, as__plus, as__neg, my__plus, my__neg, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p__plus, theta_p__neg, theta_pc__plus, theta_pc__neg, res__pos, res__neg, theta_u__plus, theta_u__neg, d__plus, d__neg):
         self.k0 = float(k0)
@@ -148,6 +154,7 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
 
 
 class ModIMKPinching(UniaxialMaterialBase):
+    op_type = 'ModIMKPinching'
 
     def __init__(self, osi, k0, as__plus, as__neg, my__plus, my__neg, fpr_pos, fpr_neg, a_pinch, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p__plus, theta_p__neg, theta_pc__plus, theta_pc__neg, res__pos, res__neg, theta_u__plus, theta_u__neg, d__plus, d__neg):
         self.k0 = float(k0)
@@ -183,6 +190,7 @@ class ModIMKPinching(UniaxialMaterialBase):
 
 
 class SAWS(UniaxialMaterialBase):
+    op_type = 'SAWS'
 
     def __init__(self, osi, f0, fi, du, s0, r1, r2, r3, r4, alpha, beta):
         self.f0 = float(f0)
@@ -202,6 +210,7 @@ class SAWS(UniaxialMaterialBase):
 
 
 class BarSlip(UniaxialMaterialBase):
+    op_type = 'BarSlip'
 
     def __init__(self, osi, fc, fy, es, fu, eh, db, ld, nb, depth, height, anc_lratio=1.0, bs_flag, type, damage='Damage', unit='psi'):
         self.fc = float(fc)
@@ -226,6 +235,7 @@ class BarSlip(UniaxialMaterialBase):
 
 
 class BondSP01(UniaxialMaterialBase):
+    op_type = 'Bond_SP01'
 
     def __init__(self, osi, fy, sy, fu, su, b, big_r):
         self.fy = float(fy)
@@ -241,6 +251,7 @@ class BondSP01(UniaxialMaterialBase):
 
 
 class Fatigue(UniaxialMaterialBase):
+    op_type = 'Fatigue'
 
     def __init__(self, osi, other, e0=0.191, m=-0.458, min=-1e16, max=1e16):
         self.other = other.tag
@@ -263,6 +274,7 @@ class Fatigue(UniaxialMaterialBase):
 
 
 class ImpactMaterial(UniaxialMaterialBase):
+    op_type = 'ImpactMaterial'
 
     def __init__(self, osi, k1, k2, sigy, gap):
         self.k1 = float(k1)
@@ -276,6 +288,7 @@ class ImpactMaterial(UniaxialMaterialBase):
 
 
 class HyperbolicGapMaterial(UniaxialMaterialBase):
+    op_type = 'HyperbolicGapMaterial'
 
     def __init__(self, osi, kmax, kur, rf, fult, gap):
         self.kmax = float(kmax)
@@ -290,6 +303,7 @@ class HyperbolicGapMaterial(UniaxialMaterialBase):
 
 
 class LimitState(UniaxialMaterialBase):
+    op_type = 'LimitState'
 
     def __init__(self, osi, s1p, e1p, s2p, e2p, s3p, e3p, s1n, e1n, s2n, e2n, s3n, e3n, pinch_x, pinch_y, damage1, damage2, beta, curve, curve_type):
         self.s1p = float(s1p)
@@ -318,6 +332,7 @@ class LimitState(UniaxialMaterialBase):
 
 
 class MinMax(UniaxialMaterialBase):
+    op_type = 'MinMax'
 
     def __init__(self, osi, other, min_strain=1e-16, max_strain=1e16):
         self.other = other.tag
@@ -334,6 +349,7 @@ class MinMax(UniaxialMaterialBase):
 
 
 class ElasticBilin(UniaxialMaterialBase):
+    op_type = 'ElasticBilin'
 
     def __init__(self, osi, ep1, ep2, eps_p2, en1=None, en2=None, eps_n2=None):
         self.ep1 = float(ep1)
@@ -357,6 +373,7 @@ class ElasticBilin(UniaxialMaterialBase):
 
 
 class ElasticMultiLinear(UniaxialMaterialBase):
+    op_type = 'ElasticMultiLinear'
 
     def __init__(self, osi, eta=0.0, strain=None, stress=None):
         self.eta = float(eta)
@@ -373,6 +390,7 @@ class ElasticMultiLinear(UniaxialMaterialBase):
 
 
 class MultiLinear(UniaxialMaterialBase):
+    op_type = 'MultiLinear'
 
     def __init__(self, osi, pts):
         self.pts = pts
@@ -383,6 +401,7 @@ class MultiLinear(UniaxialMaterialBase):
 
 
 class InitStrainMaterial(UniaxialMaterialBase):
+    op_type = 'InitStrainMaterial'
 
     def __init__(self, osi, other, init_strain):
         self.other = other.tag
@@ -394,6 +413,7 @@ class InitStrainMaterial(UniaxialMaterialBase):
 
 
 class InitStressMaterial(UniaxialMaterialBase):
+    op_type = 'InitStressMaterial'
 
     def __init__(self, osi, other, init_stress):
         self.other = other.tag
@@ -405,6 +425,7 @@ class InitStressMaterial(UniaxialMaterialBase):
 
 
 class PathIndependent(UniaxialMaterialBase):
+    op_type = 'PathIndependent'
 
     def __init__(self, osi, tag):
         self.tag = int(tag)
@@ -415,6 +436,7 @@ class PathIndependent(UniaxialMaterialBase):
 
 
 class ECC01(UniaxialMaterialBase):
+    op_type = 'ECC01'
 
     def __init__(self, osi, sigt0, epst0, sigt1, epst1, epst2, sigc0, epsc0, epsc1, alpha_t1, alpha_t2, alpha_c, alpha_cu, beta_t, beta_c):
         self.sigt0 = float(sigt0)
@@ -438,6 +460,7 @@ class ECC01(UniaxialMaterialBase):
 
 
 class SelfCentering(UniaxialMaterialBase):
+    op_type = 'SelfCentering'
 
     def __init__(self, osi, k1, k2, sig_act, beta, eps_slip=0, eps_bear=0, r_bear=None):
         self.k1 = float(k1)
@@ -462,6 +485,7 @@ class SelfCentering(UniaxialMaterialBase):
 
 
 class Viscous(UniaxialMaterialBase):
+    op_type = 'Viscous'
 
     def __init__(self, osi, big_c, alpha):
         self.big_c = float(big_c)
@@ -473,6 +497,7 @@ class Viscous(UniaxialMaterialBase):
 
 
 class BoucWen(UniaxialMaterialBase):
+    op_type = 'BoucWen'
 
     def __init__(self, osi, alpha, ko, n, gamma, beta, ao, delta_a, delta_nu, delta_eta):
         self.alpha = float(alpha)
@@ -491,6 +516,7 @@ class BoucWen(UniaxialMaterialBase):
 
 
 class BWBN(UniaxialMaterialBase):
+    op_type = 'BWBN'
 
     def __init__(self, osi, alpha, ko, n, gamma, beta, ao, q, zetas, p, shi, delta_shi, lamb, tol, max_iter):
         self.alpha = float(alpha)
@@ -514,6 +540,7 @@ class BWBN(UniaxialMaterialBase):
 
 
 class AxialSp(UniaxialMaterialBase):
+    op_type = 'AxialSp'
 
     def __init__(self, osi, sce, fty, fcy, bte, bty, bcy, fcr):
         self.sce = float(sce)
@@ -530,6 +557,7 @@ class AxialSp(UniaxialMaterialBase):
 
 
 class AxialSpHD(UniaxialMaterialBase):
+    op_type = 'AxialSpHD'
 
     def __init__(self, osi, sce, fty, fcy, bte, bty, bth, bcy, fcr, ath):
         self.sce = float(sce)
@@ -548,6 +576,7 @@ class AxialSpHD(UniaxialMaterialBase):
 
 
 class CFSWSWP(UniaxialMaterialBase):
+    op_type = 'CFSWSWP'
 
     def __init__(self, osi, height, width, fut, tf, ife, ifi, ts, np, ds, vs, sc, nc, type, opening_area, opening_length):
         self.height = float(height)
@@ -572,6 +601,7 @@ class CFSWSWP(UniaxialMaterialBase):
 
 
 class CFSSSWP(UniaxialMaterialBase):
+    op_type = 'CFSSSWP'
 
     def __init__(self, osi, height, width, fuf, fyf, tf, af, fus, fys, ts, np, ds, vs, sc, dt, opening_area, opening_length):
         self.height = float(height)

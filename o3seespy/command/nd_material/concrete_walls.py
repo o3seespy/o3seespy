@@ -2,6 +2,7 @@ from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
 class PlaneStressUserMaterial(NDMaterialBase):
+    op_type = 'PlaneStressUserMaterial'
 
     def __init__(self, osi, fc, ft, fcu, epsc0, epscu, epstu, stc):
         self.fc = float(fc)
@@ -18,6 +19,7 @@ class PlaneStressUserMaterial(NDMaterialBase):
 
 
 class PlateFromPlaneStress(NDMaterialBase):
+    op_type = 'PlateFromPlaneStress'
 
     def __init__(self, osi, newmat, mat, outof_plane_modulus):
         self.newmat = newmat.tag
@@ -30,6 +32,7 @@ class PlateFromPlaneStress(NDMaterialBase):
 
 
 class PlateRebar(NDMaterialBase):
+    op_type = 'PlateRebar'
 
     def __init__(self, osi, newmat, mat, sita):
         self.newmat = newmat.tag
