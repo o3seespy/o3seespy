@@ -130,9 +130,9 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             self._parameters += ['-internal', *self.internal_args]
         if getattr(self, 'wrap_args') is not None:
             self._parameters += ['-wrap', *self.wrap_args]
-        if getattr(self, 'gravel') is not None:
+        if getattr(self, 'gravel'):
             self._parameters += ['-gravel']
-        if getattr(self, 'silica') is not None:
+        if getattr(self, 'silica'):
             self._parameters += ['-silica']
         if getattr(self, 'tol') is not None:
             self._parameters += ['-tol', self.tol]

@@ -98,7 +98,7 @@ class ElastomericBearingPlasticityorient(ElementBase):
 
 class ElastomericBearingPlasticityshearDist(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, s_dratio, do_rayleigh=None, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, s_dratio, do_rayleigh=False, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
@@ -115,7 +115,7 @@ class ElastomericBearingPlasticityshearDist(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, '-shearDist', self.s_dratio]
-        if getattr(self, 'do_rayleigh') is not None:
+        if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
@@ -132,7 +132,7 @@ class ElastomericBearingPlasticityshearDist(ElementBase):
 
 class ElastomericBearingBoucWenMz(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat, orient_vals=None, shear_dist=None, do_rayleigh=None, mass=None, my_mat=None, mz_mat=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat, orient_vals=None, shear_dist=None, do_rayleigh=False, mass=None, my_mat=None, mz_mat=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
@@ -159,7 +159,7 @@ class ElastomericBearingBoucWenMz(ElementBase):
             self._parameters += ['-orient', *self.orient_vals]
         if getattr(self, 'shear_dist') is not None:
             self._parameters += ['-shearDist', self.shear_dist]
-        if getattr(self, 'do_rayleigh') is not None:
+        if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
@@ -258,7 +258,7 @@ class FlatSliderBearingorient(ElementBase):
 
 class FlatSliderBearingshearDist(ElementBase):
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, s_dratio, do_rayleigh=None, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, s_dratio, do_rayleigh=False, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
         self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl.tag
         self.k_init = float(k_init)
@@ -272,7 +272,7 @@ class FlatSliderBearingshearDist(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-shearDist', self.s_dratio]
-        if getattr(self, 'do_rayleigh') is not None:
+        if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
@@ -406,7 +406,7 @@ class SingleFPBearingorient(ElementBase):
 
 class SingleFPBearingshearDist(ElementBase):
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, s_dratio, do_rayleigh=None, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, s_dratio, do_rayleigh=False, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, mass=None):
         self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl.tag
         self.reff = float(reff)
@@ -421,7 +421,7 @@ class SingleFPBearingshearDist(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, '-shearDist', self.s_dratio]
-        if getattr(self, 'do_rayleigh') is not None:
+        if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
@@ -551,7 +551,7 @@ class MultipleShearSpring(ElementBase):
 
 class KikuchiBearingadjustPDOutput(ElementBase):
 
-    def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=None, no_tilt=None, ci, cj, orient=None, mass=None):
+    def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, ci, cj, orient=None, mass=None):
         self.ele_nodes = ele_nodes
         self.shape = float(shape)
         self.size = float(size)
@@ -590,9 +590,9 @@ class KikuchiBearingadjustPDOutput(ElementBase):
             self._parameters += ['-matMNS', self.mat_mns]
         if getattr(self, 'lamb') is not None:
             self._parameters += ['-lambda', self.lamb]
-        if getattr(self, 'no_pd_input') is not None:
+        if getattr(self, 'no_pd_input'):
             self._parameters += ['-noPDInput']
-        if getattr(self, 'no_tilt') is not None:
+        if getattr(self, 'no_tilt'):
             self._parameters += ['-noTilt']
         if getattr(self, 'orient') is not None:
             self._parameters += ['-orient', *self.orient]
@@ -602,7 +602,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
 
 class KikuchiBearingdoBalance(ElementBase):
 
-    def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=None, no_tilt=None, lim_fo, lim_fi, n_iter, orient=None, mass=None):
+    def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, lim_fo, lim_fi, n_iter, orient=None, mass=None):
         self.ele_nodes = ele_nodes
         self.shape = float(shape)
         self.size = float(size)
@@ -642,9 +642,9 @@ class KikuchiBearingdoBalance(ElementBase):
             self._parameters += ['-matMNS', self.mat_mns]
         if getattr(self, 'lamb') is not None:
             self._parameters += ['-lambda', self.lamb]
-        if getattr(self, 'no_pd_input') is not None:
+        if getattr(self, 'no_pd_input'):
             self._parameters += ['-noPDInput']
-        if getattr(self, 'no_tilt') is not None:
+        if getattr(self, 'no_tilt'):
             self._parameters += ['-noTilt']
         if getattr(self, 'orient') is not None:
             self._parameters += ['-orient', *self.orient]

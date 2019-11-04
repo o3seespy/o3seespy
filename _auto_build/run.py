@@ -96,7 +96,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
             o3_name = pms[pm].o3_name
             default = pms[pm].default_value
             if pms[pm].is_flag:
-                pjoins.append(f'{o3_name}=None')
+                pjoins.append(f'{o3_name}=False')
             elif default is not None:
                 if pms[pm].forced_not_optional:
                     pjoins.append(f'{o3_name}')
@@ -159,7 +159,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
                 else:
                     para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', self.{o3_name}]")
             if pms[pm].is_flag:
-                para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
+                para.append(w8 + f"if getattr(self, '{o3_name}'):")
                 para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].org_name}']")  # TODO: does this always work?
         if need_special_logic:
             sp_logic = False
@@ -665,8 +665,8 @@ if __name__ == '__main__':
     # parse_all_ndmat()
     # parse_mat_file(up.OPY_DOCS_PATH + 'MultipleShearSpring.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'PressureIndependMultiYield.rst', 'mat')
-    # parse_all_uniaxial_mat()
-    # parse_all_ndmat()
+    parse_all_uniaxial_mat()
+    parse_all_ndmat()
     parse_all_elements()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):

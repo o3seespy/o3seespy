@@ -3,7 +3,7 @@ from o3seespy.command.element.base_element import ElementBase
 
 class ElasticBeamColumn(ElementBase):
 
-    def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass=None, c_mass=None, big_g, big_j, iy):
+    def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass=None, c_mass=False, big_g, big_j, iy):
         self.ele_nodes = ele_nodes
         self.big_a = float(big_a)
         self.big_e = float(big_e)
@@ -19,14 +19,14 @@ class ElasticBeamColumn(ElementBase):
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.big_e, self.iz, self.transf.tag, self.big_g, self.big_j, self.iy]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        if getattr(self, 'c_mass') is not None:
+        if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         self.to_process(osi)
 
 
 class ModElasticBeam2dmass(ElementBase):
 
-    def __init__(self, osi, ele_nodes, big_a, big_e, iz, k11, k33, k44, transf, mass_dens, c_mass=None):
+    def __init__(self, osi, ele_nodes, big_a, big_e, iz, k11, k33, k44, transf, mass_dens, c_mass=False):
         self.ele_nodes = ele_nodes
         self.big_a = float(big_a)
         self.big_e = float(big_e)
@@ -40,14 +40,14 @@ class ModElasticBeam2dmass(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.big_e, self.iz, self.k11, self.k33, self.k44, self.transf.tag, '-mass', self.mass_dens]
-        if getattr(self, 'c_mass') is not None:
+        if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         self.to_process(osi)
 
 
 class ElasticTimoshenkoBeammass(ElementBase):
 
-    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass_dens, c_mass=None, jx, iy, iz_2, avz, mass=None, c_mas=None):
+    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass_dens, c_mass=False, jx, iy, iz_2, avz, mass=None, c_mas=False):
         self.ele_nodes = ele_nodes
         self.big_e = float(big_e)
         self.big_g = float(big_g)
@@ -66,11 +66,11 @@ class ElasticTimoshenkoBeammass(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_e, self.big_g, self.big_a, self.iz, self.avy, self.transf.tag, '-mass', self.mass_dens, self.jx, self.iy, self.iz_2, self.avz]
-        if getattr(self, 'c_mass') is not None:
+        if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        if getattr(self, 'c_mas') is not None:
+        if getattr(self, 'c_mas'):
             self._parameters += ['-cMas']
         self.to_process(osi)
 
@@ -78,7 +78,7 @@ class ElasticTimoshenkoBeammass(ElementBase):
 
 class DispBeamColumn(ElementBase):
 
-    def __init__(self, osi, i_node, j_node, transf, integration, c_mass=None, mass=0.0):
+    def __init__(self, osi, i_node, j_node, transf, integration, c_mass=False, mass=0.0):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.transf = transf.tag
@@ -88,7 +88,7 @@ class DispBeamColumn(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.transf.tag, self.integration.tag]
-        if getattr(self, 'c_mass') is not None:
+        if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]

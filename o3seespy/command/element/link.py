@@ -39,7 +39,7 @@ class TwoNodeLinkorient(ElementBase):
 
 class TwoNodeLinkshearDist(ElementBase):
 
-    def __init__(self, osi, ele_nodes, mat_tags=None, s_dratios, do_rayleigh=None, mass=None):
+    def __init__(self, osi, ele_nodes, mat_tags=None, s_dratios, do_rayleigh=False, mass=None):
         self.ele_nodes = ele_nodes
         self.mat_tags = mat_tags
         self.s_dratios = s_dratios
@@ -50,7 +50,7 @@ class TwoNodeLinkshearDist(ElementBase):
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, '-shearDist', *self.s_dratios]
         if getattr(self, 'mat_tags') is not None:
             self._parameters += ['-mat', *self.mat_tags]
-        if getattr(self, 'do_rayleigh') is not None:
+        if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
