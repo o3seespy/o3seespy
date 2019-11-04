@@ -229,7 +229,8 @@ def check_if_default_is_expression(defo):
             return False
         return True
 
-suffixes = ['', 'Args', 'Tag', 'Tags', 'Flag']
+
+suffixes = ['', 'Args', 'Tag', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals']
 
 
 def clean_fn_line(line):
@@ -293,6 +294,9 @@ def clean_fn_line(line):
                     cur_kwarg = '-' + word
                     op_kwargs[cur_kwarg] = []
                     continue
+            else:
+                flags.append(word)
+                inp = word
         if inp[0] == '*':
             inp = inp[1:]
             packed = True
@@ -388,8 +392,8 @@ def parse_mat_file(ffp, osi_type):
 
             res = re.findall(pname_pat, line[:ei])
             for pm in res:
-                # if len(pm) > 4 and "'-" == pm[0:2]:
-                #     pm = pm[2:-1]
+                if len(pm) > 4 and "'-" == pm[0:2]:
+                    pm = pm[2:-1]
                 doc_str_pms.append(pm)
                 dtypes.append(dtype)
                 descriptions.append(des)
@@ -606,7 +610,7 @@ def parse_all_elements():
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         print(item, collys[item])
         for ele in collys[item]:
-            if ele in ['trussEle', 'corotTruss']:
+            if ele in ['trussEle', 'corotTruss', 'RJWatsonEqsBearing']:
                 continue
             # if ele == 'zeroLengthND':
             #     continue
@@ -628,7 +632,7 @@ if __name__ == '__main__':
     # parse_mat_file('BoucWen.rst')
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
-    # parse_mat_file(up.OPY_DOCS_PATH + 'ReinforcingSteel.rst')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'elasticBeamColumn.rst', 'ele')
     # parse_all_uniaxial_mat()
     # parse_all_ndmat()
     parse_all_elements()
