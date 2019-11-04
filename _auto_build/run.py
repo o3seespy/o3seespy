@@ -29,6 +29,8 @@ def clean_param_names(params):
         if len(new_pm) > 4 and new_pm[-4:] == '_tag':
             new_pm = new_pm[:-4]
             dtype_is_obj = True
+        # if pm == 'eleNodes':
+
         pms[pm] = params[pm]
         if dtype_is_obj:
             pms[pm].dtype = 'obj'
@@ -46,10 +48,12 @@ def convert_name_to_class_name(name):
 
 def convert_camel_to_snake(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+    s1 = re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+    s1 = re.sub(r'(\d)\_', r'\1', s1)  # removes underscore after number (e.g. 2D)
+    return s1
 
 
-def constructor(base_type, op_type, defaults, op_kwargs):
+def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
     kw_pms = []  # TODO: This only works if object should be split into many objects based on kwargs, but
     # some kwargs are just to input a single value.
     for kw in op_kwargs:
@@ -84,7 +88,7 @@ def constructor(base_type, op_type, defaults, op_kwargs):
                 contains_no_default = True
 
         pjoins = []
-        for pm in cl_pms:
+        for pm in cl_pms:  # TODO: if packed and obj
             o3_name = pms[pm].o3_name
             default = pms[pm].default_value
             if pms[pm].is_flag:
@@ -117,8 +121,8 @@ def constructor(base_type, op_type, defaults, op_kwargs):
                 para.append(w8 + f'self.{o3_name} = {o3_name}.tag')
             else:
                 para.append(w8 + f'self.{o3_name} = {o3_name}')
-        para.append(w8 + 'osi.n_mats += 1')
-        para.append(w8 + 'self._tag = osi.mats')
+        para.append(w8 + f'osi.n_{osi_type} += 1')
+        para.append(w8 + f'self._tag = osi.n_{osi_type}')
         pjoins = []
         need_special_logic = False
         applied_op_warg = False
@@ -225,6 +229,8 @@ def check_if_default_is_expression(defo):
             return False
         return True
 
+suffixes = ['', 'Args', 'Tag', 'Tags', 'Flag']
+
 
 def clean_fn_line(line):
     df = pd.read_csv('overrides.csv')
@@ -271,12 +277,18 @@ def clean_fn_line(line):
                     if df_p['marker'].iloc[0] != '':
                         markers[names_only[j + 1]] = word
                         continue
-            if len(inputs) > j + 1 and (word == names_only[j + 1] or word + 'Args' == names_only[j + 1] or word + 'Tag' == names_only[j + 1]):
-                markers[names_only[j + 1]] = word
-                continue
-            elif len(inputs) > j + 1 and '-' in names_only[j + 1]:  # TODO: unsure if this is best way to identify flags
-                flags.append(word)
-                inp = word
+            if len(inputs) > j + 1:
+                suf_match = 0
+                for suffix in suffixes:
+                    if word + suffix == names_only[j + 1]:
+                        markers[names_only[j + 1]] = word
+                        suf_match = 1
+                        break
+                if suf_match:
+                    continue
+                elif '-' in names_only[j + 1]:  # TODO: unsure if this is best way to identify flags
+                    flags.append(word)
+                    inp = word
             else:
                 cur_kwarg = '-' + word
                 op_kwargs[cur_kwarg] = []
@@ -303,11 +315,14 @@ def clean_fn_line(line):
             defaults[marker].marker = markers[marker]
         for flag in flags:
             defaults[flag].is_flag = True
+    if "'-doRayleigh'" in defaults and 'rFlag' in defaults:  # e.g. ZeroLength
+        del defaults["'-doRayleigh'"]
 
     return base_type, optype, defaults, op_kwargs
 
 
 def parse_mat_file(ffp):
+    print('process: ', ffp)
     a = open(ffp, encoding="utf8")
     f = a.read()
     lines = f.splitlines()
@@ -318,11 +333,27 @@ def parse_mat_file(ffp):
     optype = None
     op_kwargs = OrderedDict()
     descriptions = []
+    found_fn_line = 0
+    doc_string_open = 0
+    pstr = ''
+    tstr = ''
     for line in lines:
+        if ' ===' in line or '\t===' in line:
+            if not doc_string_open:
+                doc_string_open = 1
+            else:
+                if not found_fn_line:
+                    raise ValueError
+                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type)
+                pstr += pstr1
+                tstr += tstr1
+                doc_string_open = 0
+            continue
         char_only = line.replace(' ', '')
         char_only = char_only.replace('\t', '')
         if not len(char_only):
             continue
+
         first_char = char_only[0]
         if first_char == '*':
             continue
@@ -353,34 +384,45 @@ def parse_mat_file(ffp):
                 doc_str_pms.append(pm)
                 dtypes.append(dtype)
                 descriptions.append(des)
-        if '.. function:: ' in line:
+        if not found_fn_line and '.. function:: ' in line:
+            found_fn_line = 1
             if base_type is None:
                 base_type, optype, defaults, op_kwargs = clean_fn_line(line)
             else:
                 base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line)
                 assert base_type == base_type1
-                assert optype == optype1
+                assert optype == optype1, (optype, optype1)
                 for inp in defaults1:
                     if inp not in defaults:
                         defaults[inp] = defaults1[inp]
                 for inp in op_kwargs1:
                     if inp not in op_kwargs:
                         op_kwargs[inp] = op_kwargs1[inp]
+    return pstr, tstr
 
+
+def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type):
     doc_str_pms = doc_str_pms[1:]  # remove mat tag
     dtypes = dtypes[1:]
     print('doc_str: ', doc_str_pms)
     print('fn_inps: ', list(defaults))
     print('op_kwargs: ', list(op_kwargs))
-    assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
+
     for i, pm in enumerate(doc_str_pms):
         if '-' + pm in op_kwargs:
             continue
         defaults[pm].dtype = dtypes[i]
-        print(pm, i)
         defaults[pm].p_description = descriptions[i]
 
-    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs)
+    if "'-orient'" in defaults and 'vecx' in defaults and 'vecyp' in defaults:
+        del defaults["'-orient'"]
+        del defaults['vecx']
+        del defaults['vecyp']
+        defaults['orient'] = Param(org_name='orient', default_value=None, packed=True)
+        defaults['orient'].marker = '-orient'
+    #assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
+
+    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type='mat')
     print(pstr, tstr)
     return pstr, tstr
     # if line[3:5] == '``':
@@ -498,6 +540,72 @@ def parse_all_ndmat():
 
 
 
+eles = {
+    'Zero-Length Element': 'zero_length_a',
+    'Truss Elements': 'truss',
+    'Beam-Column Elements': 'beam_column',
+    'Joint Elements': 'joint',
+    'Link Elements': 'link',
+    'Bearing Elements': 'bearing',
+    'Quadrilateral Elements': 'quadrilateral',
+    'Triangular Elements': 'triangular',
+    'Brick Elements': 'brick',
+    'Tetrahedron Elements': 'tetrahedron',
+    'UC San Diego u-p element (saturated soil)': 'uc_san_diego_up',
+    'Other u-p elements': 'other_up',
+    'Contact Elements': 'contact',
+    'Cable Elements': 'cable',
+    'PFEM Elements': 'pfem',
+    'Misc.': 'misc'
+
+}
+
+
+def parse_all_elements():
+    import user_paths as up
+    ele_file = open(up.OPY_DOCS_PATH + 'element.rst')
+    lines = ele_file.read().split('\n')
+    collys = {}
+    etype = None
+    for line in lines:
+        m_found = 0
+        for mopt in eles:
+            if mopt in line:
+                etype = eles[mopt]
+                collys[etype] = []
+                m_found = 1
+                break
+        if m_found:
+             continue
+        if etype is not None:
+            line = line.replace(' ', '')
+            line = line.replace('\t', '')
+            if ':' in line or '-' in line or '#' in line or line == '':
+                continue
+            collys[etype].append(line)
+
+    floc = ROOT_DIR + 'o3seespy/command/element/'
+    for item in collys:
+        para = ['from o3seespy.command.element.base_element import ElementBase', '']
+        tpara = ['import o3seespy as o3  # for testing only', '', '']
+        print(item, collys[item])
+        for ele in collys[item]:
+            # if ele == 'ZeroLength':
+            #     continue
+            # if ele == 'zeroLengthND':
+            #     continue
+            # if mat == 'PressureDependMultiYield02':
+            #     continue
+
+            open(up.OPY_DOCS_PATH + '%s.rst' % ele)
+            ffp = up.OPY_DOCS_PATH + '%s.rst' % ele
+            pstr, tstr = parse_mat_file(ffp)
+            para.append(pstr)
+            tpara.append(tstr)
+        with open(floc + f'{item}.py', 'w') as ofile:
+            ofile.write('\n'.join(para))
+        with open(f'test_{item}.py', 'w') as ofile:
+            ofile.write('\n'.join(tpara))
 
 
 if __name__ == '__main__':
@@ -506,7 +614,7 @@ if __name__ == '__main__':
     import user_paths as up
     # parse_mat_file(up.OPY_DOCS_PATH + 'MinMax.rst')
     # parse_all_uniaxial_mat()
-    parse_all_ndmat()
+    parse_all_elements()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
     #     print('found')
