@@ -2,6 +2,9 @@ import os
 import re
 from collections import OrderedDict
 import pandas as pd
+import inspect
+from inspect import getmembers, isclass
+
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../"
 w4 = '    '
@@ -454,6 +457,7 @@ unimats = {
     'Other Uniaxial Materials': 'other'
 }
 
+
 def parse_all_uniaxial_mat():
     import user_paths as up
     uni_axial_mat_file = open(up.OPY_DOCS_PATH + 'uniaxialMaterial.rst')
@@ -516,6 +520,9 @@ ndmats = {
 
 def parse_all_ndmat():
     import user_paths as up
+    from _auto_build import _custom_mat as cust_file
+
+    cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
     uni_axial_mat_file = open(up.OPY_DOCS_PATH + 'ndMaterial.rst')
     lines = uni_axial_mat_file.read().split('\n')
     collys = {}
@@ -546,6 +553,12 @@ def parse_all_ndmat():
             if mat == 'PressureDependMultiYield':
                 continue
             if mat == 'PressureDependMultiYield02':
+                continue
+            if mat in cust_obj_list:
+                source = inspect.getsource(getattr(cust_file, mat))
+                print(source)
+                para.append('')
+                para.append(source)
                 continue
 
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
@@ -632,10 +645,14 @@ if __name__ == '__main__':
     # parse_mat_file('BoucWen.rst')
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
+    # parse_all_ndmat()
     # parse_mat_file(up.OPY_DOCS_PATH + 'elasticBeamColumn.rst', 'ele')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'PressureIndependMultiYield.rst', 'mat')
     # parse_all_uniaxial_mat()
     # parse_all_ndmat()
     parse_all_elements()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
     #     print('found')
+
+

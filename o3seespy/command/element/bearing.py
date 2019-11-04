@@ -145,9 +145,9 @@ class ElastomericBearingPlasticitymass(ElementBase):
         self.to_process(osi)
 
 
-class ElastomericBearingBoucWentTagMz(ElementBase):
+class ElastomericBearingBoucWenatTagMz(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, mat, beat, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, t_mat, gamma, p_mat=None, my_mat=None, mz_mat=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
@@ -157,22 +157,18 @@ class ElastomericBearingBoucWentTagMz(ElementBase):
         self.eta = float(eta)
         self.beta = float(beta)
         self.mma'-p = mma'-p
-        self.mat = mat.tag
-        self.beat = beat
+        self.t_mat = t_mat.tag
         self.gamma = float(gamma)
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
         self.mz_mat = mz_mat.tag
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-tTag'-Mz', self.mat.tag, self.beat, self.gamma]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-atTag'-Mz', self.t_mat.tag, self.gamma]
         if getattr(self, 'mma'-p') is not None:
             self._parameters += ['-mma'-p']
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
         if getattr(self, 'mz_mat') is not None:
@@ -181,7 +177,7 @@ class ElastomericBearingBoucWentTagMz(ElementBase):
 
 class ElastomericBearingBoucWenorient(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, x1, x2, x3, y1, y2, y3, beat, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, x1, x2, x3, y1, y2, y3, gamma, p_mat=None, my_mat=None, mz_mat=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
@@ -197,21 +193,17 @@ class ElastomericBearingBoucWenorient(ElementBase):
         self.y1 = float(y1)
         self.y2 = float(y2)
         self.y3 = float(y3)
-        self.beat = beat
         self.gamma = float(gamma)
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
         self.mz_mat = mz_mat.tag
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-orient', self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.beat, self.gamma]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-orient', self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.gamma]
         if getattr(self, 'mma'-p') is not None:
             self._parameters += ['-mma'-p']
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
         if getattr(self, 'mz_mat') is not None:
@@ -220,7 +212,7 @@ class ElastomericBearingBoucWenorient(ElementBase):
 
 class ElastomericBearingBoucWenshearDist(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, s_dratio, doRayleigh=False, beat, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, s_dratio, doRayleigh=False, gamma, p_mat=None, my_mat=None, mz_mat=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
@@ -232,23 +224,19 @@ class ElastomericBearingBoucWenshearDist(ElementBase):
         self.mma'-p = mma'-p
         self.s_dratio = float(s_dratio)
         self.do_rayleigh = do_rayleigh
-        self.beat = beat
         self.gamma = float(gamma)
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
         self.mz_mat = mz_mat.tag
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-shearDist', self.s_dratio, self.beat, self.gamma]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-shearDist', self.s_dratio, self.gamma]
         if getattr(self, 'mma'-p') is not None:
             self._parameters += ['-mma'-p']
         if getattr(self, 'do_rayleigh') is not None:
             self._parameters += ['-do_rayleigh']
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
         if getattr(self, 'mz_mat') is not None:
@@ -257,7 +245,7 @@ class ElastomericBearingBoucWenshearDist(ElementBase):
 
 class ElastomericBearingBoucWenmass(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, m, beat, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, m, gamma, p_mat=None, my_mat=None, mz_mat=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
@@ -268,21 +256,17 @@ class ElastomericBearingBoucWenmass(ElementBase):
         self.beta = float(beta)
         self.mma'-p = mma'-p
         self.m = float(m)
-        self.beat = beat
         self.gamma = float(gamma)
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
         self.mz_mat = mz_mat.tag
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-mass', self.m, self.beat, self.gamma]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-mass', self.m, self.gamma]
         if getattr(self, 'mma'-p') is not None:
             self._parameters += ['-mma'-p']
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
         if getattr(self, 'mz_mat') is not None:
@@ -291,7 +275,7 @@ class ElastomericBearingBoucWenmass(ElementBase):
 
 class ElastomericBearingBoucWenmas(ElementBase):
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, m, beat, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, mma'-P=False, m, gamma, p_mat=None, my_mat=None, mz_mat=None):
         self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
@@ -302,21 +286,17 @@ class ElastomericBearingBoucWenmas(ElementBase):
         self.beta = float(beta)
         self.mma'-p = mma'-p
         self.m = float(m)
-        self.beat = beat
         self.gamma = float(gamma)
         self.p_mat = p_mat.tag
-        self.t_mat = t_mat.tag
         self.my_mat = my_mat.tag
         self.mz_mat = mz_mat.tag
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-mas', self.m, self.beat, self.gamma]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, '-mas', self.m, self.gamma]
         if getattr(self, 'mma'-p') is not None:
             self._parameters += ['-mma'-p']
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
-        if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
         if getattr(self, 'my_mat') is not None:
             self._parameters += ['-My', self.my_mat]
         if getattr(self, 'mz_mat') is not None:
