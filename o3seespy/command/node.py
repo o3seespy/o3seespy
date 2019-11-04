@@ -43,8 +43,8 @@ class Node(OpenseesObject):
         self.x_mass = x_mass
         self.y_mass = y_mass
         self.z_rot_mass = z_rot_mass
-        osi.n_nodes += 1
-        self._tag = osi.n_nodes
+        osi.n_node += 1
+        self._tag = osi.n_node
         if osi.dimensions == 2:
             self._parameters = [self._tag, *[self.x, self.y]]
             self._parameters += ["-mass", *[self.x_mass, self.y_mass, self.z_rot_mass]]

@@ -11,8 +11,8 @@ class ElasticIsotropic(NDMaterialBase):
         self.e_mod = e_mod
         self.v = v
         self.rho = rho
-        osi.n_mats += 1
-        self._tag = osi.n_mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod, self.v]
         if self.rho is not None:
             self._parameters.append(self.rho)

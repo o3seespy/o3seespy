@@ -29,8 +29,8 @@ class Steel01(UniaxialMaterialBase):
         self.a2 = a2
         self.a3 = a3
         self.a4 = a4
-        osi.n_mats += 1
-        self._tag = osi.n_mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self.tag, self.fy, self.e0, self.b]
         for a in self.a_values:
             if a is None:

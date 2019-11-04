@@ -25,7 +25,7 @@ class Concrete01(UniaxialMaterialBase):
         self.epsc0 = epsc0
         self.fpcu = fpcu
         self.eps_ult = eps_ult
-        osi.n_mats += 1
-        self._tag = osi.n_mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_ult]
         self.to_process(osi)

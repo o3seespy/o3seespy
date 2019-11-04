@@ -11,8 +11,8 @@ class PlaneStressUserMaterial(NDMaterialBase):
         self.epscu = float(epscu)
         self.epstu = float(epstu)
         self.stc = float(stc)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.ft, self.fcu, self.epsc0, self.epscu, self.epstu, self.stc]
         self.to_process(osi)
 
@@ -23,8 +23,8 @@ class PlateFromPlaneStress(NDMaterialBase):
         self.newmat = newmat.tag
         self.mat = mat.tag
         self.outof_plane_modulus = float(outof_plane_modulus)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.newmat.tag, self.mat.tag, self.outof_plane_modulus]
         self.to_process(osi)
 
@@ -35,7 +35,7 @@ class PlateRebar(NDMaterialBase):
         self.newmat = newmat.tag
         self.mat = mat.tag
         self.sita = float(sita)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.newmat.tag, self.mat.tag, self.sita]
         self.to_process(osi)

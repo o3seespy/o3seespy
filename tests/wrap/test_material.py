@@ -2,7 +2,7 @@ import openseespy.opensees as opy
 import o3seespy as o3
 
 
-def test_UniaxialSteel01():
+def test_uniaxial_steel01():
     osi = o3.OpenseesInstance(dimensions=2)
 
     # Define material
@@ -29,3 +29,7 @@ def test_init_strain_material():
     osi = o3.OpenseesInstance(dimensions=2)
     bilinear_mat = o3.uniaxial_material.Steel01(osi, fy=1, e0=1, b=1)
     o3.uniaxial_material.InitStrainMaterial(osi, other=bilinear_mat, init_strain=1.0)
+
+
+if __name__ == '__main__':
+    test_bond_sp01()

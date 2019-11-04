@@ -8,7 +8,7 @@ class FluidSolidPorousMaterial(NDMaterialBase):
         self.soil_mat = soil_mat.tag
         self.combined_bulk_modul = float(combined_bulk_modul)
         self.pa = float(pa)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.nd, self.soil_mat.tag, self.combined_bulk_modul, self.pa]
         self.to_process(osi)

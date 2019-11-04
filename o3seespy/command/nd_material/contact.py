@@ -8,8 +8,8 @@ class ContactMaterial2D(NDMaterialBase):
         self.big_g = float(big_g)
         self.c = float(c)
         self.t = float(t)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mu, self.big_g, self.c, self.t]
         self.to_process(osi)
 
@@ -21,7 +21,7 @@ class ContactMaterial3D(NDMaterialBase):
         self.big_g = float(big_g)
         self.c = float(c)
         self.t = float(t)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mu, self.big_g, self.c, self.t]
         self.to_process(osi)

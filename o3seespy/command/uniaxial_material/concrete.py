@@ -9,8 +9,8 @@ class Concrete01(UniaxialMaterialBase):
         self.epsc0 = float(epsc0)
         self.fpcu = float(fpcu)
         self.eps_u = float(eps_u)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_u]
         self.to_process(osi)
 
@@ -25,8 +25,8 @@ class Concrete02(UniaxialMaterialBase):
         self.lamb = float(lamb)
         self.ft = float(ft)
         self.ets = float(ets)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_u, self.lamb, self.ft, self.ets]
         self.to_process(osi)
 
@@ -41,8 +41,8 @@ class Concrete04(UniaxialMaterialBase):
         self.fct = float(fct)
         self.et = float(et)
         self.beta = float(beta)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.epsc, self.epscu, self.ec, self.fct, self.et, self.beta]
         self.to_process(osi)
 
@@ -59,8 +59,8 @@ class Concrete06(UniaxialMaterialBase):
         self.ecr = float(ecr)
         self.b = float(b)
         self.alpha2 = float(alpha2)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.e0, self.n, self.k, self.alpha1, self.fcr, self.ecr, self.b, self.alpha2]
         self.to_process(osi)
 
@@ -76,8 +76,8 @@ class Concrete07(UniaxialMaterialBase):
         self.xp = float(xp)
         self.xn = float(xn)
         self.r = float(r)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.epsc, self.ec, self.ft, self.et, self.xp, self.xn, self.r]
         self.to_process(osi)
 
@@ -90,8 +90,8 @@ class Concrete01WithSITC(UniaxialMaterialBase):
         self.fpcu = float(fpcu)
         self.eps_u = float(eps_u)
         self.end_strain_sitc = float(end_strain_sitc)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_u, self.end_strain_sitc]
         self.to_process(osi)
 
@@ -123,8 +123,8 @@ class ConfinedConcrete01(UniaxialMaterialBase):
         self.max_num_iter = int(max_num_iter)
         self.epscu_limit = float(epscu_limit)
         self.st_ratio = st_ratio
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.sec_type, self.fpc, self.ec, self.epscu_type, self.epscu_val, self.nu, self.l1, self.l2, self.l3, self.phis, self.big_s, self.fyh, self.es0, self.ha_ratio, self.mu, self.phi_lon]
         if getattr(self, 'internal_args') is not None:
             self._parameters += ['-internal', *self.internal_args]
@@ -157,8 +157,8 @@ class ConcreteD(UniaxialMaterialBase):
         self.alphat = float(alphat)
         self.cesp = float(cesp)
         self.etap = float(etap)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.epsc, self.ft, self.epst, self.ec, self.alphac, self.alphat, self.cesp, self.etap]
         self.to_process(osi)
 
@@ -184,8 +184,8 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         self.vo = float(vo)
         self.k = float(k)
         self.use_buck = float(use_buck)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc1, self.fpc2, self.epsc0, self.big_d, self.c, self.ej, self.sj, self.tj, self.eju, self.big_s, self.fyl, self.fyh, self.dlong, self.dtrans, self.es, self.vo, self.k, self.use_buck]
         self.to_process(osi)
 
@@ -203,8 +203,8 @@ class ConcreteCM(UniaxialMaterialBase):
         self.rt = float(rt)
         self.xcrp = float(xcrp)
         self.gap_close = float(gap_close)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpcc, self.epcc, self.ec, self.rc, self.xcrn, self.ft, self.et, self.rt, self.xcrp]
         if getattr(self, 'gap_close') is not None:
             self._parameters += ['-GapClose', self.gap_close]

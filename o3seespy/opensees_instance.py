@@ -3,16 +3,16 @@ from collections import OrderedDict
 
 
 class OpenseesInstance(object):
-    n_nodes = 0
-    n_cons = 0
-    n_eles = 0
-    n_mats = 0
-    n_sects = 0
+    n_node = 0
+    n_con = 0
+    n_ele = 0
+    n_mat = 0
+    n_sect = 0
     n_tseries = 0
-    n_pats = 0
-    n_fixs = 0
-    n_integs = 0
-    n_transformations = 0
+    n_pat = 0
+    n_fix = 0
+    n_integ = 0
+    n_transformation = 0
 
     def __init__(self, dimensions: int, node_dofs=3, state=0):
         self.dimensions = dimensions

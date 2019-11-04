@@ -10,8 +10,8 @@ class PySimple1(UniaxialMaterialBase):
         self.y50 = float(y50)
         self.cd = float(cd)
         self.c = float(c)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.soil_type, self.pult, self.y50, self.cd, self.c]
         self.to_process(osi)
 
@@ -23,8 +23,8 @@ class TzSimple1(UniaxialMaterialBase):
         self.tult = float(tult)
         self.z50 = float(z50)
         self.c = float(c)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.soil_type, self.tult, self.z50, self.c]
         self.to_process(osi)
 
@@ -37,8 +37,8 @@ class QzSimple1(UniaxialMaterialBase):
         self.z50 = float(z50)
         self.suction = float(suction)
         self.c = float(c)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.qz_type, self.qult, self.z50, self.suction, self.c]
         self.to_process(osi)
 
@@ -55,8 +55,8 @@ class PyLiq1(UniaxialMaterialBase):
         self.ele1 = float(ele1)
         self.ele2 = float(ele2)
         self.time_series = time_series.tag
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.soil_type, self.pult, self.y50, self.cd, self.c, self.p_res, self.ele1, self.ele2]
         if getattr(self, 'time_series') is not None:
             self._parameters += ['-timeSeries', self.time_series]
@@ -73,8 +73,8 @@ class TzLiq1(UniaxialMaterialBase):
         self.ele1 = float(ele1)
         self.ele2 = float(ele2)
         self.time_series = time_series.tag
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.tz_type, self.tult, self.z50, self.c, self.ele1, self.ele2]
         if getattr(self, 'time_series') is not None:
             self._parameters += ['-timeSeries', self.time_series]

@@ -7,8 +7,8 @@ class ElasticIsotropic(NDMaterialBase):
         self.big_e = float(big_e)
         self.v = float(v)
         self.rho = float(rho)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_e, self.v, self.rho]
         self.to_process(osi)
 
@@ -26,8 +26,8 @@ class ElasticOrthotropic(NDMaterialBase):
         self.gyz = float(gyz)
         self.gzx = float(gzx)
         self.rho = float(rho)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.ex, self.ey, self.ez, self.vxy, self.vyz, self.vzx, self.gxy, self.gyz, self.gzx, self.rho]
         self.to_process(osi)
 
@@ -41,8 +41,8 @@ class J2Plasticity(NDMaterialBase):
         self.sig_inf = float(sig_inf)
         self.delta = float(delta)
         self.big_h = float(big_h)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_k, self.big_g, self.sig0, self.sig_inf, self.delta, self.big_h]
         self.to_process(osi)
 
@@ -63,8 +63,8 @@ class DrukerPrager(NDMaterialBase):
         self.theta = float(theta)
         self.density = float(density)
         self.atm_pressure = float(atm_pressure)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_k, self.big_g, self.sigma_y, self.rho, self.rho_bar, self.kinf, self.ko, self.delta1, self.delta2, self.big_h, self.theta, self.density, self.atm_pressure]
         self.to_process(osi)
 
@@ -82,8 +82,8 @@ class Damage2p(NDMaterialBase):
         self.big_h = float(big_h)
         self.theta = float(theta)
         self.tangent = float(tangent)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fcc]
         if getattr(self, 'fct') is not None:
             self._parameters += ['-fct', self.fct]
@@ -110,8 +110,8 @@ class PlaneStress(NDMaterialBase):
 
     def __init__(self, osi, three_dtag):
         self.three_dtag = int(three_dtag)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.three_dtag]
         self.to_process(osi)
 
@@ -120,8 +120,8 @@ class PlaneStrain(NDMaterialBase):
 
     def __init__(self, osi, three_dtag):
         self.three_dtag = int(three_dtag)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.three_dtag]
         self.to_process(osi)
 
@@ -138,8 +138,8 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
         self.m = float(m)
         self.beta = float(beta)
         self.k_coeff = float(k_coeff)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.rho, self.big_k, self.big_g, self.su, self.ho, self.h, self.m, self.beta, self.k_coeff]
         self.to_process(osi)
 
@@ -156,8 +156,8 @@ class BoundingCamClay(NDMaterialBase):
         self.lamb = float(lamb)
         self.h = float(h)
         self.m = float(m)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mass_density, self.big_c, self.bulk_mod, self.ocr, self.mu_o, self.alpha, self.lamb, self.h, self.m]
         self.to_process(osi)
 
@@ -166,8 +166,8 @@ class PlateFiber(NDMaterialBase):
 
     def __init__(self, osi, three_d):
         self.three_d = three_d.tag
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.three_d.tag]
         self.to_process(osi)
 
@@ -183,8 +183,8 @@ class FSAM(NDMaterialBase):
         self.rou_y = float(rou_y)
         self.nu = float(nu)
         self.alfadow = float(alfadow)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.rho, self.s_x, self.s_y, self.conc, self.rou_x, self.rou_y, self.nu, self.alfadow]
         self.to_process(osi)
 
@@ -210,15 +210,15 @@ class ManzariDafalias(NDMaterialBase):
         self.z_max = float(z_max)
         self.cz = float(cz)
         self.den = float(den)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.mc, self.c, self.lambda_c, self.e0, self.ksi, self.p_atm, self.m, self.h0, self.ch, self.nb, self.a0, self.nd, self.z_max, self.cz, self.den]
         self.to_process(osi)
 
 
 class PM4Sand(NDMaterialBase):
 
-    def __init__(self, osi, d_r, g_o, h_po, den, p_atm, h_o, e_max, e_min, n_b, n_d, a_do, z_max, c_z, c_e, phi_cv, nu, c_degr, c_dr, c_kaf, big_q, big_r, m, f_sed, p_sedo):
+    def __init__(self, osi, d_r, g_o, h_po, den, p_atm, h_o, e_max, e_min, n_b, n_d, a_do, z_max, c_z, c_e, phi_cv, nu, g_degr, c_dr, c_kaf, q_bolt, r_bolt, m_par, f_sed, p_sed):
         self.d_r = float(d_r)
         self.g_o = float(g_o)
         self.h_po = float(h_po)
@@ -235,17 +235,17 @@ class PM4Sand(NDMaterialBase):
         self.c_e = float(c_e)
         self.phi_cv = float(phi_cv)
         self.nu = float(nu)
-        self.c_degr = float(c_degr)
+        self.g_degr = float(g_degr)
         self.c_dr = float(c_dr)
         self.c_kaf = float(c_kaf)
-        self.big_q = float(big_q)
-        self.big_r = float(big_r)
-        self.m = float(m)
+        self.q_bolt = float(q_bolt)
+        self.r_bolt = float(r_bolt)
+        self.m_par = float(m_par)
         self.f_sed = float(f_sed)
-        self.p_sedo = float(p_sedo)
-        osi.n_mats += 1
-        self._tag = osi.mats
-        self._parameters = [self.op_type, self._tag, self.d_r, self.g_o, self.h_po, self.den, self.p_atm, self.h_o, self.e_max, self.e_min, self.n_b, self.n_d, self.a_do, self.z_max, self.c_z, self.c_e, self.phi_cv, self.nu, self.c_degr, self.c_dr, self.c_kaf, self.big_q, self.big_r, self.m, self.f_sed, self.p_sedo]
+        self.p_sed = float(p_sed)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.d_r, self.g_o, self.h_po, self.den, self.p_atm, self.h_o, self.e_max, self.e_min, self.n_b, self.n_d, self.a_do, self.z_max, self.c_z, self.c_e, self.phi_cv, self.nu, self.g_degr, self.c_dr, self.c_kaf, self.q_bolt, self.r_bolt, self.m_par, self.f_sed, self.p_sed]
         self.to_process(osi)
 
 
@@ -290,8 +290,8 @@ class StressDensityModel(NDMaterialBase):
         self.p8 = float(p8)
         self.p9 = float(p9)
         self.p10 = float(p10)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.m_den, self.e_not, self.big_a, self.n, self.nu, self.a1, self.b1, self.a2, self.b2, self.a3, self.b3, self.fd, self.mu_not, self.mu_cyc, self.sc, self.big_m, self.patm, self.ssl1, self.ssl2, self.ssl3, self.ssl4, self.ssl5, self.ssl6, self.ssl7, self.ssl8, self.ssl9, self.ssl10, self.hsl, self.p1, self.p2, self.p3, self.p4, self.p5, self.p6, self.p7, self.p8, self.p9, self.p10]
         self.to_process(osi)
 
@@ -301,7 +301,7 @@ class AcousticMedium(NDMaterialBase):
     def __init__(self, osi, big_k, rho):
         self.big_k = float(big_k)
         self.rho = float(rho)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_k, self.rho]
         self.to_process(osi)

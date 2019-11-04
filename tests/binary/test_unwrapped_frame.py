@@ -185,7 +185,10 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     op.pattern('UniformExcitation', pattern_tag_dynamic, opc.X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
-    angular_freq = op.eigen('-fullGenLapack', 1)[0] ** 0.5
+    angular_freq2 = op.eigen('-fullGenLapack', 1)
+    if hasattr(angular_freq2, '__len__'):
+        angular_freq2 = angular_freq2[0]
+    angular_freq = angular_freq2 ** 0.5
     if isinstance(angular_freq, complex):
         raise ValueError("Angular frequency is complex, issue with stiffness or mass")
     alpha_m = 0.0

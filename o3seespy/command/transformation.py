@@ -13,8 +13,8 @@ class Linear(TransformationBase):
         self.d_i = d_i
         self.d_j = d_j
 
-        osi.n_transformations += 1
-        self._tag = osi.n_transformations
+        osi.n_transformation += 1
+        self._tag = osi.n_transformation
         self._parameters = [self.op_type, self._tag, *self.vecxz]
         if d_i is not None:
             self._parameters += ['jntOffset', self.d_i, self.d_j]

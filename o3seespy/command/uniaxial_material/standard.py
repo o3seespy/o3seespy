@@ -8,8 +8,8 @@ class Elastic(UniaxialMaterialBase):
         self.big_e = float(big_e)
         self.eta = float(eta)
         self.eneg = float(eneg)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_e, self.eta]
         special_pms = ['eneg']
         packets = [False]
@@ -29,8 +29,8 @@ class ElasticPP(UniaxialMaterialBase):
         self.epsy_p = float(epsy_p)
         self.epsy_n = float(epsy_n)
         self.eps0 = float(eps0)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_e, self.epsy_p]
         special_pms = ['epsy_n', 'eps0']
         packets = [False, False]
@@ -51,8 +51,8 @@ class ElasticPPGap(UniaxialMaterialBase):
         self.gap = float(gap)
         self.eta = float(eta)
         self.damage = damage
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_e, self.fy, self.gap, self.eta, self.damage]
         self.to_process(osi)
 
@@ -61,8 +61,8 @@ class ENT(UniaxialMaterialBase):
 
     def __init__(self, osi, big_e):
         self.big_e = float(big_e)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_e]
         self.to_process(osi)
 
@@ -72,8 +72,8 @@ class Parallel(UniaxialMaterialBase):
     def __init__(self, osi, tags, factor_args=None):
         self.tags = tags
         self.factor_args = factor_args
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.tags]
         if getattr(self, 'factor_args') is not None:
             self._parameters += ['-factor', *self.factor_args]
@@ -84,7 +84,7 @@ class Series(UniaxialMaterialBase):
 
     def __init__(self, osi, tags):
         self.tags = tags
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.tags]
         self.to_process(osi)

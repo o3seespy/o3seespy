@@ -16,8 +16,8 @@ class CycLiqCP(NDMaterialBase):
         self.dir = float(dir)
         self.ein = float(ein)
         self.rho = float(rho)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.g0, self.kappa, self.h, self.mfc, self.dre1, self.mdc, self.dre2, self.rdr, self.alpha, self.dir, self.ein, self.rho]
         self.to_process(osi)
 
@@ -41,7 +41,7 @@ class CycLiqCPSP(NDMaterialBase):
         self.nd = float(nd)
         self.ein = float(ein)
         self.rho = float(rho)
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.g0, self.kappa, self.h, self.big_m, self.dre1, self.dre2, self.rdr, self.alpha, self.dir, self.lambdac, self.ksi, self.e0, self.np, self.nd, self.ein, self.rho]
         self.to_process(osi)

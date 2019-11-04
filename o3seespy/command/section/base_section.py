@@ -17,8 +17,8 @@ class Elastic(SectionBase):
         self.j_sect = j_sect
         self.alpha_y = alpha_y
         self.alpha_z = alpha_z
-        osi.n_sects += 1
-        self._tag = osi.n_sects
+        osi.n_sect += 1
+        self._tag = osi.n_sect
 
         self._parameters = [self.op_type, self._tag, self.e_mod, self.area, self.i_zz]
         if self.g_mod is not None:
@@ -36,7 +36,7 @@ class Uniaxial(SectionBase):
     def __init__(self, osi, mat, quantity):
         self.mat = mat
         self.quantity = quantity
-        osi.n_sects += 1
-        self._tag = osi.n_sects
+        osi.n_sect += 1
+        self._tag = osi.n_sect
         self._parameters = [self.op_type, self._tag, self.mat.tag, self.quantity]
         self.to_process(osi)

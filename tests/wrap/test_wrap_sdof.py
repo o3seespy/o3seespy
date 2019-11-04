@@ -49,7 +49,10 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.con.X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
-    angular_freq = opy.eigen('-fullGenLapack', 1)[0] ** 0.5
+    angular_freq2 = opy.eigen('-fullGenLapack', 1)
+    if hasattr(angular_freq2, '__len__'):
+        angular_freq2 = angular_freq2[0]
+    angular_freq = angular_freq2 ** 0.5
     beta_k = 2 * xi / angular_freq
     o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
 

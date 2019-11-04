@@ -289,10 +289,10 @@ def clean_fn_line(line):
                 elif '-' in names_only[j + 1]:  # TODO: unsure if this is best way to identify flags
                     flags.append(word)
                     inp = word
-            else:
-                cur_kwarg = '-' + word
-                op_kwargs[cur_kwarg] = []
-                continue
+                else:
+                    cur_kwarg = '-' + word
+                    op_kwargs[cur_kwarg] = []
+                    continue
         if inp[0] == '*':
             inp = inp[1:]
             packed = True
@@ -321,7 +321,7 @@ def clean_fn_line(line):
     return base_type, optype, defaults, op_kwargs
 
 
-def parse_mat_file(ffp):
+def parse_mat_file(ffp, osi_type):
     print('process: ', ffp)
     a = open(ffp, encoding="utf8")
     f = a.read()
@@ -344,10 +344,19 @@ def parse_mat_file(ffp):
             else:
                 if not found_fn_line:
                     raise ValueError
-                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type)
+                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type)
                 pstr += pstr1
                 tstr += tstr1
+                # Reset in case two objects in same file
+                doc_str_pms = []
+                dtypes = []
                 doc_string_open = 0
+                found_fn_line = 0
+                defaults = None
+                base_type = None
+                optype = None
+                op_kwargs = OrderedDict()
+                descriptions = []
             continue
         char_only = line.replace(' ', '')
         char_only = char_only.replace('\t', '')
@@ -384,7 +393,7 @@ def parse_mat_file(ffp):
                 doc_str_pms.append(pm)
                 dtypes.append(dtype)
                 descriptions.append(des)
-        if not found_fn_line and '.. function:: ' in line:
+        if '.. function:: ' in line:
             found_fn_line = 1
             if base_type is None:
                 base_type, optype, defaults, op_kwargs = clean_fn_line(line)
@@ -401,7 +410,7 @@ def parse_mat_file(ffp):
     return pstr, tstr
 
 
-def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type):
+def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type):
     doc_str_pms = doc_str_pms[1:]  # remove mat tag
     dtypes = dtypes[1:]
     print('doc_str: ', doc_str_pms)
@@ -422,7 +431,7 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         defaults['orient'].marker = '-orient'
     #assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
 
-    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type='mat')
+    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type)
     print(pstr, tstr)
     return pstr, tstr
     # if line[3:5] == '``':
@@ -465,6 +474,8 @@ def parse_all_uniaxial_mat():
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         print(item, collys[item])
         for mat in collys[item]:
+            # if mat == 'PyLiq1':
+            #     continue
             if mat == 'steel4':  # consider as a single object, make all values after E0 equal to None, all -ps should be flags.
                 continue
             if mat == 'Pinching4':
@@ -475,7 +486,7 @@ def parse_all_uniaxial_mat():
                 continue
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
-            pstr, tstr = parse_mat_file(ffp)
+            pstr, tstr = parse_mat_file(ffp, osi_type='mat')
             para.append(pstr)
             tpara.append(tstr)
         with open(floc + f'{item}.py', 'w') as ofile:
@@ -530,7 +541,7 @@ def parse_all_ndmat():
 
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
-            pstr, tstr = parse_mat_file(ffp)
+            pstr, tstr = parse_mat_file(ffp, osi_type='mat')
             para.append(pstr)
             tpara.append(tstr)
         with open(floc + f'{item}.py', 'w') as ofile:
@@ -599,7 +610,7 @@ def parse_all_elements():
 
             open(up.OPY_DOCS_PATH + '%s.rst' % ele)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % ele
-            pstr, tstr = parse_mat_file(ffp)
+            pstr, tstr = parse_mat_file(ffp, osi_type='ele')
             para.append(pstr)
             tpara.append(tstr)
         with open(floc + f'{item}.py', 'w') as ofile:
@@ -612,8 +623,9 @@ if __name__ == '__main__':
     # parse_mat_file('BoucWen.rst')
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
-    # parse_mat_file(up.OPY_DOCS_PATH + 'MinMax.rst')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'ReinforcingSteel.rst')
     # parse_all_uniaxial_mat()
+    # parse_all_ndmat()
     parse_all_elements()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):

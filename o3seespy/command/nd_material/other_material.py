@@ -31,8 +31,8 @@ class PressureIndependMultiYield(NDMaterialBase):
         else:
             self.yield_surf = None
 
-        osi.n_mats += 1
-        self._tag = osi.n_mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
 
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.ref_shear_modul, self.ref_bulk_modul,
                             self.cohesi, self.peak_shear_stra, self.friction_ang, self.ref_press, self.press_depend_coe]
@@ -138,8 +138,8 @@ class PM4Sand(NDMaterialBase):
         else:
             self.p_sed = float(p_sed)
 
-        osi.n_mats += 1
-        self._tag = osi.n_mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
 
         self._parameters = [self.op_type, self._tag, self.d_r, self.g_o, self.h_po, self.den, self.p_atm, self.h_o,
                             self.e_max, self.e_min, self.n_b, self.n_d, self.a_do, self.z_max, self.c_z, self.c_e, self.phi_cv,
@@ -186,8 +186,8 @@ class StressDensityModel(NDMaterialBase):
         else:
             self.ps = np.array(ps, dtype=np.float)
 
-        osi.n_mats += 1
-        self._tag = osi.n_mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
 
         self._parameters = [self.osi, self.den, self.e_init, self.big_a, self.n, self.nu, self.a1, self.b1, self.a2,
                             self.b2, self.a3, self.b3, self.fd, self.mu_not, self.mu_cyc, self.sc, self.big_m,

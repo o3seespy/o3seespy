@@ -15,7 +15,7 @@ class PressureIndependMultiYield(NDMaterialBase):
         self.press_depend_coe = float(press_depend_coe)
         self.no_yield_surf = float(no_yield_surf)
         self.yield_surf = yield_surf
-        osi.n_mats += 1
-        self._tag = osi.mats
+        osi.n_mat += 1
+        self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.ref_shear_modul, self.ref_bulk_modul, self.cohesi, self.peak_shear_stra, self.friction_ang, self.ref_press, self.press_depend_coe, self.no_yield_surf, *self.yield_surf]
         self.to_process(osi)

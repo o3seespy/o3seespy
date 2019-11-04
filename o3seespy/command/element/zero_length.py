@@ -11,8 +11,8 @@ class ZeroLength(ElementBase):
         self.mat = mat
         self.mats = [mat_x, mat_y, mat_z, mat_rot_x, mat_rot_y, mat_rot_z]
         self.r_flag = r_flag
-        osi.n_eles += 1
-        self._tag = osi.n_eles
+        osi.n_ele += 1
+        self._tag = osi.n_ele
 
         self._parameters = [self.op_type, self._tag, *[self.node_i.tag, self.node_j.tag]]
         mats = []
