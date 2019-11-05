@@ -244,7 +244,7 @@ def check_if_default_is_expression(defo):
         return True
 
 
-suffixes = ['', 'Args', 'Tag', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals']
+suffixes = ['', 'Args', 'Tag', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag']
 
 
 def clean_fn_line(line):
@@ -548,7 +548,7 @@ def parse_all_uniaxial_mat():
             tpara.append(tstr)
         with open(floc + f'{item}.py', 'w') as ofile:
             ofile.write('\n'.join(para))
-        with open(f'test_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/test_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 ndmats = {
@@ -681,7 +681,57 @@ def parse_all_elements():
             tpara.append(tstr)
         with open(floc + f'{item}.py', 'w') as ofile:
             ofile.write('\n'.join(para))
-        with open(f'test_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/test_{item}.py', 'w') as ofile:
+            ofile.write('\n'.join(tpara))
+
+
+def parse_generic_single_file(obj_type):
+    o3_type = convert_camel_to_snake(obj_type)
+    import user_paths as up
+    from _auto_build import _custom_mat as cust_file
+
+    cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
+    uni_axial_mat_file = open(up.OPY_DOCS_PATH + f'{obj_type}.rst')
+    lines = uni_axial_mat_file.read().split('\n')
+    collys = {}
+    mtype = None
+    for line in lines:
+        if '.. toctree::' in line:
+            mtype = o3_type
+            collys[mtype] = []
+            continue
+
+        if mtype is not None:
+            line = line.replace(' ', '')
+            line = line.replace('\t', '')
+            if ':' in line or '-' in line or '#' in line or line == '':
+                continue
+            collys[mtype].append(line)
+
+    floc = ROOT_DIR + 'o3seespy/command/'
+    for item in collys:
+        para = ['from o3seespy.base_model import OpenseesObject', '', '']
+        para += [f'class {obj_type.title()}Base(OpenseesObject):']
+        para += [w4 + f'op_base_type = "{obj_type}"', '']
+        tpara = ['import o3seespy as o3  # for testing only', '', '']
+        print(item, collys[item])
+        for mat in collys[item]:
+
+            if mat in cust_obj_list:
+                source = inspect.getsource(getattr(cust_file, mat))
+                print(source)
+                para.append('')
+                para.append(source)
+                continue
+
+            open(up.OPY_DOCS_PATH + '%s.rst' % mat)
+            ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
+            pstr, tstr = parse_mat_file(ffp, osi_type='mat')
+            para.append(pstr)
+            tpara.append(tstr)
+        with open(floc + f'{item}.py', 'w') as ofile:
+            ofile.write('\n'.join(para))
+        with open(f'temp_tests/test_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 
@@ -690,11 +740,13 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    parse_mat_file(up.OPY_DOCS_PATH + 'SSPquadUP.rst', 'ele')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'SSPquadUP.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'PressureIndependMultiYield.rst', 'mat')
-    parse_all_uniaxial_mat()
-    parse_all_ndmat()
-    parse_all_elements()
+    # parse_generic_single_file(obj_type='pattern')
+    parse_generic_single_file(obj_type='timeSeries')
+    # parse_all_uniaxial_mat()
+    # parse_all_ndmat()
+    # parse_all_elements()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
     #     print('found')
