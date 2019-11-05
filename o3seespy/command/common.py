@@ -69,6 +69,19 @@ class Load(OpenseesObject):
         self.to_process(osi)
 
 
+class SP(OpenseesObject):
+    op_base_type = "sp"
+    op_type = None
+
+    def __init__(self, osi, node, dof, dof_values):
+        self.node = node
+        self.dof = int(dof)
+        self.dof_values = dof_values
+
+        self._parameters = [self.node.tag, self.dof, *self.dof_values]
+        self.to_process(osi)
+
+
 def analyze(osi, num_inc=1, dt=0.1, dt_min=None, dt_max=None, jd=None):
     if dt_min is None:
         parameters = [int(num_inc), float(dt)]
@@ -85,6 +98,24 @@ def analyze(osi, num_inc=1, dt=0.1, dt_min=None, dt_max=None, jd=None):
                 break
         p_str = ', '.join(para)
         osi.to_commands('opy.analyze(%s)' % p_str)
+    return 0
+
+
+def get_node_disp(osi, node, dof):
+    op_type = 'nodeDisp'
+    parameters = [node.tag, dof]
+    p_str = ', '.join([str(x) for x in parameters])
+    osi.to_commands('opy.%s(%s)' % (op_type, p_str))
+    return 0
+
+
+def remove_sp(osi, node, dof, pattern=None):
+    op_type = 'remove'
+    parameters = ['sp', node.tag, dof]
+    if pattern is not None:
+        parameters.append(pattern.tag)
+    p_str = ', '.join([str(x) for x in parameters])
+    osi.to_commands('opy.%s(%s)' % (op_type, p_str))
     return 0
 
 
