@@ -5,17 +5,17 @@ class ElastomericBearingPlasticity(ElementBase):
     op_type = 'elastomericBearingPlasticity'
 
     def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, p_mat=None, mz_mat=None, do_rayleigh=False, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.k_init = float(k_init)
         self.qd = float(qd)
         self.alpha1 = float(alpha1)
         self.alpha2 = float(alpha2)
         self.mu = float(mu)
-        self.p_mat = p_mat.tag
-        self.mz_mat = mz_mat.tag
+        self.p_mat = p_mat
+        self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
+        self.t_mat = t_mat
+        self.my_mat = my_mat
         self.orient = orient
         self.mass = float(mass)
         self.shear_dist = float(shear_dist)
@@ -45,7 +45,7 @@ class ElastomericBearingBoucWen(ElementBase):
     op_type = 'elastomericBearingBoucWen'
 
     def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals=None, shear_dist=None, do_rayleigh=False, mass=None, t_mat=None, my_mat=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.k_init = float(k_init)
         self.qd = float(qd)
         self.alpha1 = float(alpha1)
@@ -54,14 +54,14 @@ class ElastomericBearingBoucWen(ElementBase):
         self.eta = float(eta)
         self.beta = float(beta)
         self.gamma = float(gamma)
-        self.p_mat = p_mat.tag
-        self.mz_mat = mz_mat.tag
+        self.p_mat = p_mat
+        self.mz_mat = mz_mat
         self.orient_vals = orient_vals
         self.shear_dist = float(shear_dist)
         self.do_rayleigh = do_rayleigh
         self.mass = float(mass)
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
+        self.t_mat = t_mat
+        self.my_mat = my_mat
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, self.gamma]
@@ -88,16 +88,16 @@ class FlatSliderBearing(ElementBase):
     op_type = 'flatSliderBearing'
 
     def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, iter=None, tol, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
-        self.p_mat = p_mat.tag
-        self.mz_mat = mz_mat.tag
+        self.p_mat = p_mat
+        self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
         self.iter = int(iter)
         self.tol = float(tol)
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
+        self.t_mat = t_mat
+        self.my_mat = my_mat
         self.orient = orient
         self.mass = float(mass)
         self.shear_dist = float(shear_dist)
@@ -129,16 +129,16 @@ class SingleFPBearing(ElementBase):
     op_type = 'singleFPBearing'
 
     def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, tol, t_mat=None, my_mat=None, orient=None, mass=None, shear_dist=None, iter=None):
-        self.ele_nodes = ele_nodes
-        self.frn_mdl = frn_mdl.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.frn_mdl = frn_mdl
         self.reff = float(reff)
         self.k_init = float(k_init)
-        self.p_mat = p_mat.tag
-        self.mz_mat = mz_mat.tag
+        self.p_mat = p_mat
+        self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
         self.tol = float(tol)
-        self.t_mat = t_mat.tag
-        self.my_mat = my_mat.tag
+        self.t_mat = t_mat
+        self.my_mat = my_mat
         self.orient = orient
         self.mass = float(mass)
         self.shear_dist = float(shear_dist)
@@ -171,7 +171,7 @@ class TFP(ElementBase):
     op_type = 'TFP'
 
     def __init__(self, osi, ele_nodes, r1, r2, r3, r4, d1, d2, d3, d4, d1, d2, d3, d4, mu1, mu2, mu3, mu4, h1, h2, h3, h4, h0, col_load, big_k):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.r1 = float(r1)
         self.r2 = float(r2)
         self.r3 = float(r3)
@@ -205,14 +205,14 @@ class TripleFrictionPendulum(ElementBase):
     op_type = 'TripleFrictionPendulum'
 
     def __init__(self, osi, ele_nodes, frn_tag1, frn_tag2, frn_tag3, vert_mat, rot_z_mat, rot_x_mat, rot_y_mat, l1, l2, l3, d1, d2, d3, big_w, uy, kvt, min_fv, tol):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_tag1 = int(frn_tag1)
         self.frn_tag2 = int(frn_tag2)
         self.frn_tag3 = int(frn_tag3)
-        self.vert_mat = vert_mat.tag
-        self.rot_z_mat = rot_z_mat.tag
-        self.rot_x_mat = rot_x_mat.tag
-        self.rot_y_mat = rot_y_mat.tag
+        self.vert_mat = vert_mat
+        self.rot_z_mat = rot_z_mat
+        self.rot_x_mat = rot_x_mat
+        self.rot_y_mat = rot_y_mat
         self.l1 = float(l1)
         self.l2 = float(l2)
         self.l3 = float(l3)
@@ -234,9 +234,9 @@ class MultipleShearSpring(ElementBase):
     op_type = 'multipleShearSpring'
 
     def __init__(self, osi, ele_nodes, n_spring, mat=None, lim=None, mass=None, orient=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.n_spring = int(n_spring)
-        self.mat = mat.tag
+        self.mat = mat
         self.lim = float(lim)
         self.mass = float(mass)
         self.orient = orient
@@ -258,16 +258,16 @@ class KikuchiBearingadjustPDOutput(ElementBase):
     op_type = 'KikuchiBearing'
 
     def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, ci, cj, orient=None, mass=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.shape = float(shape)
         self.size = float(size)
         self.total_rubber = float(total_rubber)
         self.total_height = float(total_height)
         self.n_mss = int(n_mss)
-        self.mat_mss = mat_mss.tag
+        self.mat_mss = mat_mss
         self.lim_disp = float(lim_disp)
         self.n_mns = int(n_mns)
-        self.mat_mns = mat_mns.tag
+        self.mat_mns = mat_mns
         self.lamb = float(lamb)
         self.no_pd_input = no_pd_input
         self.no_tilt = no_tilt
@@ -310,16 +310,16 @@ class KikuchiBearingdoBalance(ElementBase):
     op_type = 'KikuchiBearing'
 
     def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, lim_fo, lim_fi, n_iter, orient=None, mass=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.shape = float(shape)
         self.size = float(size)
         self.total_rubber = float(total_rubber)
         self.total_height = float(total_height)
         self.n_mss = int(n_mss)
-        self.mat_mss = mat_mss.tag
+        self.mat_mss = mat_mss
         self.lim_disp = float(lim_disp)
         self.n_mns = int(n_mns)
-        self.mat_mns = mat_mns.tag
+        self.mat_mns = mat_mns
         self.lamb = float(lamb)
         self.no_pd_input = no_pd_input
         self.no_tilt = no_tilt
@@ -364,7 +364,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
     op_type = 'YamamotoBiaxialHDR'
 
     def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, cr, cs, mass=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.tp = int(tp)
         self.d_do = float(d_do)
         self.d_di = float(d_di)
@@ -383,7 +383,7 @@ class YamamotoBiaxialHDRorient(ElementBase):
     op_type = 'YamamotoBiaxialHDR'
 
     def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, vecx, vecyp, mass=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.tp = int(tp)
         self.d_do = float(d_do)
         self.d_di = float(d_di)
@@ -403,7 +403,7 @@ class ElastomericX(ElementBase):
     op_type = 'ElastomericX'
 
     def __init__(self, osi, ele_nodes, fy, alpha, gr, kbulk, d1, d2, ts, tr, n, x1, x2, x3, y1, y2, y3, kc, phi_m, ac, s_dratio, m, cd, tc, tag1, tag2, tag3, tag4):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.fy = float(fy)
         self.alpha = float(alpha)
         self.gr = float(gr)
@@ -440,7 +440,7 @@ class LeadRubberX(ElementBase):
     op_type = 'LeadRubberX'
 
     def __init__(self, osi, ele_nodes, fy, alpha, gr, kbulk, d1, d2, ts, tr, n, x1, x2, x3, y1, y2, y3, kc, phi_m, ac, s_dratio, m, cd, tc, q_l, c_l, k_s, a_s, tag1, tag2, tag3, tag4, tag5):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.fy = float(fy)
         self.alpha = float(alpha)
         self.gr = float(gr)
@@ -482,7 +482,7 @@ class HDR(ElementBase):
     op_type = 'HDR'
 
     def __init__(self, osi, ele_nodes, gr, kbulk, d1, d2, ts, tr, n, a1, a2, a3, b1, b2, b3, c1, c2, c3, c4, x1, x2, x3, y1, y2, y3, kc, phi_m, ac, s_dratio, m, tc):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.gr = float(gr)
         self.kbulk = float(kbulk)
         self.d1 = float(d1)
@@ -522,7 +522,7 @@ class FPBearingPTV(ElementBase):
     op_type = 'FPBearingPTV'
 
     def __init__(self, osi, ele_nodes, mu_ref, is_pressure_dependent, p_ref, is_temperature_dependent, diffusivity, conductivity, is_velocity_dependent, rate_parameter, reffective_fp, radius__contact, k_initial, the_material_a, the_material_b, the_material_c, the_material_d, x1, x2, x3, y1, y2, y3, shear_dist, do_rayleigh, mass, iter, tol, unit):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.mu_ref = float(mu_ref)
         self.is_pressure_dependent = int(is_pressure_dependent)
         self.p_ref = float(p_ref)

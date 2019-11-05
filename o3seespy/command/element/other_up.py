@@ -4,9 +4,9 @@ from o3seespy.command.element.base_element import ElementBase
 class SSPquadUP(ElementBase):
     op_type = 'SSPquadUP'
 
-    def __init__(self, osi, ele_nodes, mat, thick, f_bulk, f_den, k1, k2, void, alpha, b1, b2):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+    def __init__(self, osi, ele_nodes, mat, thick, f_bulk, f_den, k1, k2, void, alpha, b1=0.0, b2=0.0):
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.thick = float(thick)
         self.f_bulk = float(f_bulk)
         self.f_den = float(f_den)
@@ -26,8 +26,8 @@ class SSPbrickUP(ElementBase):
     op_type = 'SSPbrickUP'
 
     def __init__(self, osi, ele_nodes, mat, f_bulk, f_den, k1, k2, k3, void, alpha, b1, b2, b3):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.f_bulk = float(f_bulk)
         self.f_den = float(f_den)
         self.k1 = float(k1)

@@ -49,6 +49,8 @@ def convert_name_to_class_name(name):
     name = name.replace('_', '')
     name = name.replace('2d', '2D')
     name = name.replace('3d', '3D')
+    if name[0] in '0123456789':
+        name = 'N' + name
     return name
 
 
@@ -125,9 +127,12 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
             elif dtype == 'int':
                 para.append(w8 + f'self.{o3_name} = int({o3_name})')
             elif dtype == 'obj':
-                para.append(w8 + f'self.{o3_name} = {o3_name}.tag')
-            else:
                 para.append(w8 + f'self.{o3_name} = {o3_name}')
+            else:
+                if pms[pm].list_items_dtype == 'obj':
+                    para.append(w8 + f'self.{o3_name} = [x.tag for x in {o3_name}]')
+                else:
+                    para.append(w8 + f'self.{o3_name} = {o3_name}')
         para.append(w8 + f'osi.n_{osi_type} += 1')
         para.append(w8 + f'self._tag = osi.n_{osi_type}')
         pjoins = []
@@ -219,6 +224,7 @@ class Param(object):
         self.default_value = default_value
         self.packed = packed
         self.dtype = dtype
+        self.list_items_dtype = None
         self.default_is_expression = False
         self.p_description = ''
         self.marker = None
@@ -434,6 +440,9 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
             continue
         defaults[pm].dtype = dtypes[i]
         defaults[pm].p_description = descriptions[i]
+
+    if 'eleNodes' in defaults:
+        defaults['eleNodes'].list_items_dtype = 'obj'
 
     if "'-orient'" in defaults and 'vecx' in defaults and 'vecyp' in defaults:
         del defaults["'-orient'"]
@@ -681,7 +690,7 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    # parse_mat_file(up.OPY_DOCS_PATH + 'ElasticTimoshenkoBeam.rst', 'ele')
+    parse_mat_file(up.OPY_DOCS_PATH + 'SSPquadUP.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'PressureIndependMultiYield.rst', 'mat')
     parse_all_uniaxial_mat()
     parse_all_ndmat()

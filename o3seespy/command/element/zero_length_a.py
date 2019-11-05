@@ -5,7 +5,7 @@ class ZeroLengthdoRayleigh(ElementBase):
     op_type = 'zeroLength'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, r_flag=0):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = mat_tags
         self.dir_args = dir_args
         self.r_flag = float(r_flag)
@@ -22,7 +22,7 @@ class ZeroLengthorient(ElementBase):
     op_type = 'zeroLength'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, vecx, vecyp):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = mat_tags
         self.dir_args = dir_args
         self.vecx = vecx
@@ -41,9 +41,9 @@ class ZeroLengthNDorient(ElementBase):
     op_type = 'zeroLengthND'
 
     def __init__(self, osi, ele_nodes, mat, uni, vecx, vecyp):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
-        self.uni = uni.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
+        self.uni = uni
         self.vecx = vecx
         self.vecyp = vecyp
         osi.n_ele += 1
@@ -56,8 +56,8 @@ class ZeroLengthSectionorient(ElementBase):
     op_type = 'zeroLengthSection'
 
     def __init__(self, osi, ele_nodes, sec, vecx, vecyp):
-        self.ele_nodes = ele_nodes
-        self.sec = sec.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.sec = sec
         self.vecx = vecx
         self.vecyp = vecyp
         osi.n_ele += 1
@@ -69,8 +69,8 @@ class ZeroLengthSectiondoRayleigh(ElementBase):
     op_type = 'zeroLengthSection'
 
     def __init__(self, osi, ele_nodes, sec, r_flag):
-        self.ele_nodes = ele_nodes
-        self.sec = sec.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.sec = sec
         self.r_flag = float(r_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
@@ -82,10 +82,10 @@ class CoupledZeroLength(ElementBase):
     op_type = 'CoupledZeroLength'
 
     def __init__(self, osi, ele_nodes, dirn1, dirn2, mat, r_flag=1):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.dirn1 = int(dirn1)
         self.dirn2 = int(dirn2)
-        self.mat = mat.tag
+        self.mat = mat
         self.r_flag = float(r_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
@@ -97,7 +97,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
     op_type = 'zeroLengthContact2D'
 
     def __init__(self, osi, ele_nodes, kn, kt, mu, nx, ny):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.kn = float(kn)
         self.kt = float(kt)
         self.mu = float(mu)
@@ -112,7 +112,7 @@ class ZeroLengthContact3D(ElementBase):
     op_type = 'zeroLengthContact3D'
 
     def __init__(self, osi, ele_nodes, kn, kt, mu, c, dir):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.kn = float(kn)
         self.kt = float(kt)
         self.mu = float(mu)
@@ -174,7 +174,7 @@ class ZeroLengthImpact3D(ElementBase):
     op_type = 'zeroLengthImpact3D'
 
     def __init__(self, osi, ele_nodes, direction, init_gap, friction_ratio, kt, kn, kn2, delta_y, cohesion):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.direction = direction
         self.init_gap = float(init_gap)
         self.friction_ratio = float(friction_ratio)

@@ -5,8 +5,8 @@ class FourNodeTetrahedron(ElementBase):
     op_type = 'FourNodeTetrahedron'
 
     def __init__(self, osi, ele_nodes, mat, b1, b2, b3):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.b1 = float(b1)
         self.b2 = float(b2)
         self.b3 = float(b3)

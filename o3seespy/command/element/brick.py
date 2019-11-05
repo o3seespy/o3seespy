@@ -5,8 +5,8 @@ class StdBrick(ElementBase):
     op_type = 'stdBrick'
 
     def __init__(self, osi, ele_nodes, mat, b1, b2, b3):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.b1 = float(b1)
         self.b2 = float(b2)
         self.b3 = float(b3)
@@ -20,8 +20,8 @@ class BbarBrick(ElementBase):
     op_type = 'bbarBrick'
 
     def __init__(self, osi, ele_nodes, mat, b1, b2, b3):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.b1 = float(b1)
         self.b2 = float(b2)
         self.b3 = float(b3)
@@ -35,8 +35,8 @@ class Brick20N(ElementBase):
     op_type = 'Brick20N'
 
     def __init__(self, osi, ele_nodes, mat, bf1, bf2, bf3, mass_den):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.bf1 = float(bf1)
         self.bf2 = float(bf2)
         self.bf3 = float(bf3)
@@ -51,8 +51,8 @@ class SSPbrick(ElementBase):
     op_type = 'SSPbrick'
 
     def __init__(self, osi, ele_nodes, mat, b1, b2, b3):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.b1 = float(b1)
         self.b2 = float(b2)
         self.b3 = float(b3)

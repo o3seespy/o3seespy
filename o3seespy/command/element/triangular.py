@@ -5,10 +5,10 @@ class Tri31(ElementBase):
     op_type = 'Tri31'
 
     def __init__(self, osi, ele_nodes, thick, type, mat, pressure, rho, b1, b2):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
         self.type = type
-        self.mat = mat.tag
+        self.mat = mat
         self.pressure = float(pressure)
         self.rho = float(rho)
         self.b1 = float(b1)

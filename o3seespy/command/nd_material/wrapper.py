@@ -5,7 +5,7 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
     op_type = 'InitialStateAnalysisWrapper'
 
     def __init__(self, osi, n_d_mat, n_dim):
-        self.n_d_mat = n_d_mat.tag
+        self.n_d_mat = n_d_mat
         self.n_dim = int(n_dim)
         osi.n_mat += 1
         self._tag = osi.n_mat

@@ -6,7 +6,7 @@ class FluidSolidPorousMaterial(NDMaterialBase):
 
     def __init__(self, osi, nd, soil_mat, combined_bulk_modul, pa=101.0):
         self.nd = float(nd)
-        self.soil_mat = soil_mat.tag
+        self.soil_mat = soil_mat
         self.combined_bulk_modul = float(combined_bulk_modul)
         self.pa = float(pa)
         osi.n_mat += 1

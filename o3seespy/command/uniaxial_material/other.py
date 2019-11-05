@@ -254,7 +254,7 @@ class Fatigue(UniaxialMaterialBase):
     op_type = 'Fatigue'
 
     def __init__(self, osi, other, e0=0.191, m=-0.458, min=-1e16, max=1e16):
-        self.other = other.tag
+        self.other = other
         self.e0 = float(e0)
         self.m = float(m)
         self.min = float(min)
@@ -323,7 +323,7 @@ class LimitState(UniaxialMaterialBase):
         self.damage1 = float(damage1)
         self.damage2 = float(damage2)
         self.beta = float(beta)
-        self.curve = curve.tag
+        self.curve = curve
         self.curve_type = int(curve_type)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -335,7 +335,7 @@ class MinMax(UniaxialMaterialBase):
     op_type = 'MinMax'
 
     def __init__(self, osi, other, min_strain=1e-16, max_strain=1e16):
-        self.other = other.tag
+        self.other = other
         self.min_strain = float(min_strain)
         self.max_strain = float(max_strain)
         osi.n_mat += 1
@@ -404,7 +404,7 @@ class InitStrainMaterial(UniaxialMaterialBase):
     op_type = 'InitStrainMaterial'
 
     def __init__(self, osi, other, init_strain):
-        self.other = other.tag
+        self.other = other
         self.init_strain = float(init_strain)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -416,7 +416,7 @@ class InitStressMaterial(UniaxialMaterialBase):
     op_type = 'InitStressMaterial'
 
     def __init__(self, osi, other, init_stress):
-        self.other = other.tag
+        self.other = other
         self.init_stress = float(init_stress)
         osi.n_mat += 1
         self._tag = osi.n_mat

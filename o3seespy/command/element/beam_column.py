@@ -5,11 +5,11 @@ class ElasticBeamColumn(ElementBase):
     op_type = 'elasticBeamColumn'
 
     def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass=None, c_mass=False, big_g, big_j, iy):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_a = float(big_a)
         self.big_e = float(big_e)
         self.iz = float(iz)
-        self.transf = transf.tag
+        self.transf = transf
         self.mass = float(mass)
         self.c_mass = c_mass
         self.big_g = float(big_g)
@@ -29,14 +29,14 @@ class ModElasticBeam2Dmass(ElementBase):
     op_type = 'ModElasticBeam2d'
 
     def __init__(self, osi, ele_nodes, big_a, big_e, iz, k11, k33, k44, transf, mass_dens, c_mass=False):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_a = float(big_a)
         self.big_e = float(big_e)
         self.iz = float(iz)
         self.k11 = float(k11)
         self.k33 = float(k33)
         self.k44 = float(k44)
-        self.transf = transf.tag
+        self.transf = transf
         self.mass_dens = float(mass_dens)
         self.c_mass = c_mass
         osi.n_ele += 1
@@ -51,13 +51,13 @@ class ElasticTimoshenkoBeam(ElementBase):
     op_type = 'ElasticTimoshenkoBeam'
 
     def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass=None, c_mass=False, jx, iy, iz_2, avz, c_mas=False):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_e = float(big_e)
         self.big_g = float(big_g)
         self.big_a = float(big_a)
         self.iz = float(iz)
         self.avy = float(avy)
-        self.transf = transf.tag
+        self.transf = transf
         self.mass = float(mass)
         self.c_mass = c_mass
         self.jx = float(jx)
@@ -84,8 +84,8 @@ class DispBeamColumn(ElementBase):
     def __init__(self, osi, i_node, j_node, transf, integration, c_mass=False, mass=0.0):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
-        self.transf = transf.tag
-        self.integration = integration.tag
+        self.transf = transf
+        self.integration = integration
         self.c_mass = c_mass
         self.mass = float(mass)
         osi.n_ele += 1
@@ -104,8 +104,8 @@ class ForceBeamColumn(ElementBase):
     def __init__(self, osi, i_node, j_node, transf, integration, tol=1e-12, mass=0.0, iter=10):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
-        self.transf = transf.tag
-        self.integration = integration.tag
+        self.transf = transf
+        self.integration = integration
         self.tol = float(tol)
         self.mass = float(mass)
         self.iter = float(iter)
@@ -126,8 +126,8 @@ class NonlinearBeamColumnintegration(ElementBase):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.num_intgr_pts = int(num_intgr_pts)
-        self.sec = sec.tag
-        self.transf = transf.tag
+        self.sec = sec
+        self.transf = transf
         self.tol = float(tol)
         self.mass = float(mass)
         self.int_type = int_type
@@ -146,10 +146,10 @@ class DispBeamColumnIntmass(ElementBase):
     op_type = 'dispBeamColumnInt'
 
     def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, c_rot, mass_dens):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.num_intgr_pts = int(num_intgr_pts)
-        self.sec = sec.tag
-        self.transf = transf.tag
+        self.sec = sec
+        self.transf = transf
         self.c_rot = float(c_rot)
         self.mass_dens = float(mass_dens)
         osi.n_ele += 1
@@ -163,7 +163,7 @@ class MVLEMthick(ElementBase):
 
     def __init__(self, osi, dens, ele_nodes, m, c, thicknesses):
         self.dens = float(dens)
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
         self.thicknesses = thicknesses
@@ -177,7 +177,7 @@ class MVLEMwidth(ElementBase):
 
     def __init__(self, osi, dens, ele_nodes, m, c, widths):
         self.dens = float(dens)
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
         self.widths = widths
@@ -191,7 +191,7 @@ class MVLEMrho(ElementBase):
 
     def __init__(self, osi, dens, ele_nodes, m, c, reinforcing_ratios):
         self.dens = float(dens)
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
         self.reinforcing_ratios = reinforcing_ratios
@@ -205,7 +205,7 @@ class MVLEMmatConcrete(ElementBase):
 
     def __init__(self, osi, dens, ele_nodes, m, c, concrete_tags):
         self.dens = float(dens)
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
         self.concrete_tags = concrete_tags
@@ -219,7 +219,7 @@ class MVLEMmatSteel(ElementBase):
 
     def __init__(self, osi, dens, ele_nodes, m, c, steel_tags):
         self.dens = float(dens)
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
         self.steel_tags = steel_tags
@@ -233,10 +233,10 @@ class MVLEMmatShear(ElementBase):
 
     def __init__(self, osi, dens, ele_nodes, m, c, shear):
         self.dens = float(dens)
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
-        self.shear = shear.tag
+        self.shear = shear
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, self.dens, *self.ele_nodes, self.m, self.c, '-matShear', self.shear.tag]
@@ -247,7 +247,7 @@ class Thick(ElementBase):
     op_type = ''
 
     def __init__(self, osi, ele_nodes, m, c, thicknesses):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
         self.thicknesses = thicknesses
@@ -260,7 +260,7 @@ class Width(ElementBase):
     op_type = ''
 
     def __init__(self, osi, ele_nodes, m, c, widths):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
         self.widths = widths
@@ -273,7 +273,7 @@ class Mat(ElementBase):
     op_type = ''
 
     def __init__(self, osi, ele_nodes, m, c, material_tags):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)
         self.material_tags = material_tags

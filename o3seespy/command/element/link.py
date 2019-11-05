@@ -5,7 +5,7 @@ class TwoNodeLinkdir(ElementBase):
     op_type = 'twoNodeLink'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dirs, mass=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = mat_tags
         self.dirs = dirs
         self.mass = float(mass)
@@ -22,7 +22,7 @@ class TwoNodeLinkorient(ElementBase):
     op_type = 'twoNodeLink'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, vecx, vecy, p_delta_vals=None, mass=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = mat_tags
         self.vecx = vecx
         self.vecy = vecy
@@ -43,7 +43,7 @@ class TwoNodeLinkshearDist(ElementBase):
     op_type = 'twoNodeLink'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, s_dratios, do_rayleigh=False, mass=None):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = mat_tags
         self.s_dratios = s_dratios
         self.do_rayleigh = do_rayleigh

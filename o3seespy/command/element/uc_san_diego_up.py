@@ -5,9 +5,9 @@ class QuadUP(ElementBase):
     op_type = 'quadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0, t=0):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
-        self.mat = mat.tag
+        self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
         self.h_perm = float(h_perm)
@@ -25,8 +25,8 @@ class BrickUP(ElementBase):
     op_type = 'brickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
         self.perm_x = float(perm_x)
@@ -45,9 +45,9 @@ class BbarQuadUP(ElementBase):
     op_type = 'bbarQuadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0, t=0):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
-        self.mat = mat.tag
+        self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
         self.h_perm = float(h_perm)
@@ -65,8 +65,8 @@ class BbarBrickUP(ElementBase):
     op_type = 'bbarBrickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
         self.perm_x = float(perm_x)
@@ -81,13 +81,13 @@ class BbarBrickUP(ElementBase):
         self.to_process(osi)
 
 
-class 94QuadUP(ElementBase):
+class N94QuadUP(ElementBase):
     op_type = '9_4_QuadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
-        self.mat = mat.tag
+        self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
         self.h_perm = float(h_perm)
@@ -100,12 +100,12 @@ class 94QuadUP(ElementBase):
         self.to_process(osi)
 
 
-class 208BrickUP(ElementBase):
+class N208BrickUP(ElementBase):
     op_type = '20_8_BrickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
         self.perm_x = float(perm_x)

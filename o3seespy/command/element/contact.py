@@ -9,7 +9,7 @@ class SimpleContact2D(ElementBase):
         self.j_node = int(j_node)
         self.s_node = int(s_node)
         self.l_node = int(l_node)
-        self.mat = mat.tag
+        self.mat = mat
         self.g_tol = float(g_tol)
         self.f_tol = float(f_tol)
         osi.n_ele += 1
@@ -28,7 +28,7 @@ class SimpleContact3D(ElementBase):
         self.l_node = int(l_node)
         self.s_node = int(s_node)
         self.l_node = int(l_node)
-        self.mat = mat.tag
+        self.mat = mat
         self.g_tol = float(g_tol)
         self.f_tol = float(f_tol)
         osi.n_ele += 1
@@ -45,7 +45,7 @@ class BeamContact2D(ElementBase):
         self.j_node = int(j_node)
         self.s_node = int(s_node)
         self.l_node = int(l_node)
-        self.mat = mat.tag
+        self.mat = mat
         self.width = float(width)
         self.g_tol = float(g_tol)
         self.f_tol = float(f_tol)
@@ -66,7 +66,7 @@ class BeamContact3D(ElementBase):
         self.l_node = int(l_node)
         self.radius = float(radius)
         self.crd_transf = int(crd_transf)
-        self.mat = mat.tag
+        self.mat = mat
         self.g_tol = float(g_tol)
         self.f_tol = float(f_tol)
         self.c_flag = int(c_flag)

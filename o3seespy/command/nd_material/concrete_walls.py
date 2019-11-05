@@ -22,8 +22,8 @@ class PlateFromPlaneStress(NDMaterialBase):
     op_type = 'PlateFromPlaneStress'
 
     def __init__(self, osi, newmat, mat, outof_plane_modulus):
-        self.newmat = newmat.tag
-        self.mat = mat.tag
+        self.newmat = newmat
+        self.mat = mat
         self.outof_plane_modulus = float(outof_plane_modulus)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -35,8 +35,8 @@ class PlateRebar(NDMaterialBase):
     op_type = 'PlateRebar'
 
     def __init__(self, osi, newmat, mat, sita):
-        self.newmat = newmat.tag
-        self.mat = mat.tag
+        self.newmat = newmat
+        self.mat = mat
         self.sita = float(sita)
         osi.n_mat += 1
         self._tag = osi.n_mat

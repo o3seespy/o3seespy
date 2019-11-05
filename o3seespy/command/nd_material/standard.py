@@ -175,7 +175,7 @@ class PlateFiber(NDMaterialBase):
     op_type = 'PlateFiber'
 
     def __init__(self, osi, three_d):
-        self.three_d = three_d.tag
+        self.three_d = three_d
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.three_d.tag]

@@ -5,7 +5,7 @@ class SurfaceLoad(ElementBase):
     op_type = 'SurfaceLoad'
 
     def __init__(self, osi, ele_nodes, p):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.p = float(p)
         osi.n_ele += 1
         self._tag = osi.n_ele
@@ -17,7 +17,7 @@ class VS3D4(ElementBase):
     op_type = 'VS3D4'
 
     def __init__(self, osi, ele_nodes, big_e, big_g, rho, big_r, alpha_n, alpha_t):
-        self.ele_nodes = ele_nodes
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_e = float(big_e)
         self.big_g = float(big_g)
         self.rho = float(rho)
@@ -34,8 +34,8 @@ class AC3D8(ElementBase):
     op_type = 'AC3D8'
 
     def __init__(self, osi, ele_nodes, mat):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag]
@@ -58,8 +58,8 @@ class AV3D4(ElementBase):
     op_type = 'AV3D4'
 
     def __init__(self, osi, ele_nodes, mat):
-        self.ele_nodes = ele_nodes
-        self.mat = mat.tag
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.mat = mat
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag]
