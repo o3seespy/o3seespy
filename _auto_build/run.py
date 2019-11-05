@@ -687,6 +687,7 @@ def parse_all_elements():
 
 def parse_generic_single_file(obj_type):
     o3_type = convert_camel_to_snake(obj_type)
+    o3_class_type = convert_name_to_class_name(obj_type)
     import user_paths as up
     from _auto_build import _custom_mat as cust_file
 
@@ -711,7 +712,7 @@ def parse_generic_single_file(obj_type):
     floc = ROOT_DIR + 'o3seespy/command/'
     for item in collys:
         para = ['from o3seespy.base_model import OpenseesObject', '', '']
-        para += [f'class {obj_type.title()}Base(OpenseesObject):']
+        para += [f'class {o3_class_type}Base(OpenseesObject):']
         para += [w4 + f'op_base_type = "{obj_type}"', '']
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         print(item, collys[item])
