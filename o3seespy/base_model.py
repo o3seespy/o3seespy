@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import openseespy.opensees as opy
 from o3seespy import exceptions
+from o3seespy import extensions
 
 
 class OpenseesObject(object):
@@ -52,19 +53,7 @@ class OpenseesObject(object):
             raise exceptions.ModelError("op_base_type: '%s' does not exist in opensees module" % self.op_base_type)
 
     def to_commands(self):
-        para = []
-        for i, e in enumerate(self.parameters):
-            if isinstance(e, str):
-                e = "'%s'" % e
-            elif isinstance(e, float):
-                e = '%.6g' % e
-                if '.' not in e and 'e' not in e:
-                    e += '.0'
-            para.append(str(e))
-            if i > 40:  # avoid verbose print output
-                break
-        p_str = ', '.join(para)
-        return 'opy.%s(%s)' % (self.op_base_type, p_str)
+        return extensions.to_commands(self.op_base_type, self.parameters)
 
     @property
     def parameters(self):
@@ -81,7 +70,7 @@ class OpenseesObject(object):
     def to_dict(self):
         outputs = OrderedDict()
         for item in self.__dict__:
-            if '_' ==item[0]:  # do not export private variables
+            if '_' == item[0]:  # do not export private variables
                 continue
             value = self.__getattribute__(item)
             if value is None:
