@@ -108,7 +108,10 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
                 elif pms[pm].default_is_expression:
                     pjoins.append(f'{o3_name}=None')
                 else:
-                    pjoins.append(f'{o3_name}={default}')
+                    if pms[pm].marker:
+                        pjoins.append(f'{o3_name}=None')  # cannot have value for marker
+                    else:
+                        pjoins.append(f'{o3_name}={default}')
             else:
                 if pms[pm].marker:
                     pjoins.append(f'{o3_name}=None')
@@ -123,7 +126,13 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
             o3_name = pms[pm].o3_name
             dtype = pms[pm].dtype
             if dtype == 'float':
-                para.append(w8 + f'self.{o3_name} = float({o3_name})')
+                if pms[pm].marker:
+                    para.append(w8 + f'if {o3_name} is None:')
+                    para.append(w8 + w4 + f'self.{o3_name} = None')
+                    para.append(w8 + f'else:')
+                    para.append(w8 + w4 + f'self.{o3_name} = float({o3_name})')
+                else:
+                    para.append(w8 + f'self.{o3_name} = float({o3_name})')
             elif dtype == 'int':
                 para.append(w8 + f'self.{o3_name} = int({o3_name})')
             elif dtype == 'obj':
@@ -135,7 +144,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
                     para.append(w8 + f'self.{o3_name} = {o3_name}')
         para.append(w8 + f'osi.n_{osi_type} += 1')
         para.append(w8 + f'self._tag = osi.n_{osi_type}')
-        pjoins = []
+        pjoins = ['self.op_type', 'self._tag']
         need_special_logic = False
         applied_op_warg = False
         for pm in cl_pms:
@@ -156,11 +165,12 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
                 pjoins.append('*self.' + o3_name)
             else:
                 pjoins.append('self.' + o3_name)
-        para.append(w8 + 'self._parameters = [self.op_type, self._tag, %s]' % (', '.join(pjoins)))
+        para.append(w8 + 'self._parameters = [%s]' % (', '.join(pjoins)))
         for pm in cl_pms:
             o3_name = pms[pm].o3_name
 
             if pms[pm].marker:
+                # para.append(w8 + f"if getattr(self, '{o3_name}') not in [None, '']:")
                 para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
                 if pms[pm].packed:
                     para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', *self.{o3_name}]")

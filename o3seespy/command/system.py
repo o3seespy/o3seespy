@@ -21,3 +21,11 @@ class SparseGeneral(SystemBase):
 
         self._parameters = [self.op_type]
         self.to_process(osi)
+
+
+class FullGeneral(SystemBase):
+    op_type = "FullGeneral"
+
+    def __init__(self, osi):
+        self._parameters = [self.op_type]
+        self.to_process(osi)

@@ -8,7 +8,7 @@ class PatternBase(OpenseesObject):
 class Plain(PatternBase):
     op_type = 'Plain'
 
-    def __init__(self, osi, ts, fact=None):
+    def __init__(self, osi, ts, fact=1.):
         self.ts = ts
         self.fact = float(fact)
         osi.n_mat += 1

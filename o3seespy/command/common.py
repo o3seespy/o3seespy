@@ -112,10 +112,7 @@ def get_node_disp(osi, node, dof):
 
 
 def get_ele_response(osi, ele, arg):
-    op_type = 'eleResponse'
-    parameters = [ele.tag, arg]
-    # p_str = ', '.join([str(x) for x in parameters])
-    return osi.to_process(op_type, parameters)
+    return osi.to_process('eleResponse', [ele.tag, arg])
 
 
 def remove_sp(osi, node, dof, pattern=None):

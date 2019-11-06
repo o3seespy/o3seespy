@@ -8,11 +8,14 @@ class TimeSeriesBase(OpenseesObject):
 class Constant(TimeSeriesBase):
     op_type = 'Constant'
 
-    def __init__(self, osi, factor=1.0):
-        self.factor = float(factor)
+    def __init__(self, osi, factor=None):
+        if factor is None:
+            self.factor = None
+        else:
+            self.factor = float(factor)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, ]
+        self._parameters = [self.op_type, self._tag]
         if getattr(self, 'factor') is not None:
             self._parameters += ['-factor', self.factor]
         self.to_process(osi)
@@ -21,11 +24,14 @@ class Constant(TimeSeriesBase):
 class Linear(TimeSeriesBase):
     op_type = 'Linear'
 
-    def __init__(self, osi, factor=1.0):
-        self.factor = float(factor)
+    def __init__(self, osi, factor=None):
+        if factor is None:
+            self.factor = None
+        else:
+            self.factor = float(factor)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, ]
+        self._parameters = [self.op_type, self._tag]
         if getattr(self, 'factor') is not None:
             self._parameters += ['-factor', self.factor]
         self.to_process(osi)
@@ -34,13 +40,22 @@ class Linear(TimeSeriesBase):
 class Trig(TimeSeriesBase):
     op_type = 'Trig'
 
-    def __init__(self, osi, t_start, t_end, period, factor=1.0, shift=0.0, zero_shift=0.0):
+    def __init__(self, osi, t_start, t_end, period, factor=None, shift=None, zero_shift=None):
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
-        self.factor = float(factor)
-        self.shift = float(shift)
-        self.zero_shift = float(zero_shift)
+        if factor is None:
+            self.factor = None
+        else:
+            self.factor = float(factor)
+        if shift is None:
+            self.shift = None
+        else:
+            self.shift = float(shift)
+        if zero_shift is None:
+            self.zero_shift = None
+        else:
+            self.zero_shift = float(zero_shift)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.t_start, self.t_end, self.period]
@@ -56,13 +71,22 @@ class Trig(TimeSeriesBase):
 class Triangle(TimeSeriesBase):
     op_type = 'Triangle'
 
-    def __init__(self, osi, t_start, t_end, period, factor=1.0, shift=0.0, zero_shift=0.0):
+    def __init__(self, osi, t_start, t_end, period, factor=None, shift=None, zero_shift=None):
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
-        self.factor = float(factor)
-        self.shift = float(shift)
-        self.zero_shift = float(zero_shift)
+        if factor is None:
+            self.factor = None
+        else:
+            self.factor = float(factor)
+        if shift is None:
+            self.shift = None
+        else:
+            self.shift = float(shift)
+        if zero_shift is None:
+            self.zero_shift = None
+        else:
+            self.zero_shift = float(zero_shift)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.t_start, self.t_end, self.period]
@@ -78,10 +102,13 @@ class Triangle(TimeSeriesBase):
 class Rectangular(TimeSeriesBase):
     op_type = 'Rectangular'
 
-    def __init__(self, osi, t_start, t_end, factor=1.0):
+    def __init__(self, osi, t_start, t_end, factor=None):
         self.t_start = float(t_start)
         self.t_end = float(t_end)
-        self.factor = float(factor)
+        if factor is None:
+            self.factor = None
+        else:
+            self.factor = float(factor)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.t_start, self.t_end]
@@ -93,14 +120,26 @@ class Rectangular(TimeSeriesBase):
 class Pulse(TimeSeriesBase):
     op_type = 'Pulse'
 
-    def __init__(self, osi, t_start, t_end, period, width=0.5, shift=0.0, factor=1.0, zero_shift=0.0):
+    def __init__(self, osi, t_start, t_end, period, width=None, shift=None, factor=None, zero_shift=None):
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
-        self.width = float(width)
-        self.shift = float(shift)
-        self.factor = float(factor)
-        self.zero_shift = float(zero_shift)
+        if width is None:
+            self.width = None
+        else:
+            self.width = float(width)
+        if shift is None:
+            self.shift = None
+        else:
+            self.shift = float(shift)
+        if factor is None:
+            self.factor = None
+        else:
+            self.factor = float(factor)
+        if zero_shift is None:
+            self.zero_shift = None
+        else:
+            self.zero_shift = float(zero_shift)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.t_start, self.t_end, self.period]
@@ -118,19 +157,28 @@ class Pulse(TimeSeriesBase):
 class Path(TimeSeriesBase):
     op_type = 'Path'
 
-    def __init__(self, osi, dt=0.0, values=None, time=None, filepath='', file_time='', factor=1.0, start_time=0.0, use_last=False, prepend_zero=False):
-        self.dt = float(dt)
+    def __init__(self, osi, dt=None, values=None, time=None, filepath=None, file_time=None, factor=None, start_time=None, use_last=False, prepend_zero=False):
+        if dt is None:
+            self.dt = None
+        else:
+            self.dt = float(dt)
         self.values = values
         self.time = time
         self.filepath = filepath
         self.file_time = file_time
-        self.factor = float(factor)
-        self.start_time = float(start_time)
+        if factor is None:
+            self.factor = None
+        else:
+            self.factor = float(factor)
+        if start_time is None:
+            self.start_time = None
+        else:
+            self.start_time = float(start_time)
         self.use_last = use_last
         self.prepend_zero = prepend_zero
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, ]
+        self._parameters = [self.op_type, self._tag]
         if getattr(self, 'dt') is not None:
             self._parameters += ['-dt', self.dt]
         if getattr(self, 'values') is not None:
