@@ -63,21 +63,21 @@ def site_response(sp, asig):
         # set x and y dofs equal for left and right nodes
         if 1 == 0:
             if i != n_node_rows - 1:  # TODO: why not
-                o3.EqualDOF(osi, nd["R{0}L".format(i)], nd["R{0}R".format(i)], [o3.con.X, o3.con.Y])
+                o3.EqualDOF(osi, nd["R{0}L".format(i)], nd["R{0}R".format(i)], [o3.cc.X, o3.cc.Y])
 
     # Fix base nodes
-    o3.Fix(osi, nd["R{0}L".format(n_node_rows - 1)], o3.con.FREE, o3.con.FIXED, o3.con.FREE)
-    o3.Fix(osi, nd["R{0}R".format(n_node_rows - 1)], o3.con.FREE, o3.con.FIXED, o3.con.FREE)
+    o3.Fix(osi, nd["R{0}L".format(n_node_rows - 1)], o3.cc.FREE, o3.cc.FIXED, o3.cc.FREE)
+    o3.Fix(osi, nd["R{0}R".format(n_node_rows - 1)], o3.cc.FREE, o3.cc.FIXED, o3.cc.FREE)
 
     # Define dashpot nodes
     dashpot_node_l = o3.node.Node(osi, 0, -node_depths[-1])
     dashpot_node_2 = o3.node.Node(osi, 0, -node_depths[-1])
-    o3.Fix(osi, dashpot_node_l,  o3.con.FIXED, o3.con.FIXED, o3.con.FREE)
-    o3.Fix(osi, dashpot_node_2, o3.con.FREE, o3.con.FIXED, o3.con.FREE)
+    o3.Fix(osi, dashpot_node_l,  o3.cc.FIXED, o3.cc.FIXED, o3.cc.FREE)
+    o3.Fix(osi, dashpot_node_2, o3.cc.FREE, o3.cc.FIXED, o3.cc.FREE)
 
     # define equal DOF for dashpot and soil base nodes
-    o3.EqualDOF(osi, nd["R{0}L".format(n_node_rows - 1)], nd["R{0}R".format(n_node_rows - 1)], [o3.con.X])
-    o3.EqualDOF(osi, nd["R{0}L".format(n_node_rows - 1)], dashpot_node_2, [o3.con.X])
+    o3.EqualDOF(osi, nd["R{0}L".format(n_node_rows - 1)], nd["R{0}R".format(n_node_rows - 1)], [o3.cc.X])
+    o3.EqualDOF(osi, nd["R{0}L".format(n_node_rows - 1)], dashpot_node_2, [o3.cc.X])
 
     # define materials
     ele_thick = 1.0  # m
@@ -100,7 +100,7 @@ def site_response(sp, asig):
             nd["R{0}R".format(i)],
             nd["R{0}L".format(i)]
         ]
-        ele = o3.element.Quad(osi, nodes, ele_thick, o3.con.PLANE_STRAIN, mat, b2=grav * unit_masses[i])
+        ele = o3.element.Quad(osi, nodes, ele_thick, o3.cc.PLANE_STRAIN, mat, b2=grav * unit_masses[i])
 
     # define material and element for viscous dampers
     dashpot_c = ele_width * unit_masses[-1] * shear_vels[-1]
@@ -133,7 +133,7 @@ def site_response(sp, asig):
 
     values = list(-1 * asig.values)  # should be negative
     opy.timeSeries('Path', load_tag_dynamic, '-dt', asig.dt, '-values', *values)
-    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.con.X, '-accel', load_tag_dynamic)
+    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.cc.X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
     xi = 0.01
@@ -153,8 +153,8 @@ def site_response(sp, asig):
     analysis_time = (len(values) - 1) * asig.dt
     analysis_dt = 0.001
 
-    o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.con.X], mtype='accel')
-    na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.con.X], mtype='accel')
+    o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], mtype='accel')
+    na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.cc.X], mtype='accel')
 
     while opy.getTime() < analysis_time:
         opy.analyze(1, analysis_dt)

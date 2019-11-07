@@ -79,11 +79,11 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     # Set all nodes on a storey to have the same displacement
     for ss in range(0, fb.n_storeys + 1):
         for cc in range(1, n_cols + 1):
-            o3.set_equal_dof(nd["C{0}-S{1}".format(1, ss)], nd["C{0}-S{1}".format(cc, ss)], o3.con.X)
+            o3.set_equal_dof(nd["C{0}-S{1}".format(1, ss)], nd["C{0}-S{1}".format(cc, ss)], o3.cc.X)
 
     # Fix all base nodes
     for cc in range(1, n_cols + 1):
-        opy.fix(nd["C%i-S%i" % (cc, 0)].tag, o3.con.FIXED, o3.con.FIXED, o3.con.FIXED)
+        opy.fix(nd["C%i-S%i" % (cc, 0)].tag, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
 
     # Coordinate transformation
     transf = o3.transformation.Linear(osi, [])
@@ -139,8 +139,8 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
 
             mat = o3.uniaxial_material.ElasticBiLinear(osi, ei_beams[ss][bb - 1], 0.05 * ei_beams[ss][bb - 1], phi_y_beam[ss][bb - 1])
             md[ele_str] = mat
-            left_sect = o3.section.Uniaxial(osi, mat, quantity=o3.con.M_Z)
-            right_sect = o3.section.Uniaxial(osi, mat, quantity=o3.con.M_Z)
+            left_sect = o3.section.Uniaxial(osi, mat, quantity=o3.cc.M_Z)
+            right_sect = o3.section.Uniaxial(osi, mat, quantity=o3.cc.M_Z)
             centre_sect = o3.section.Elastic(osi, e_conc, a_beams[ss][bb - 1], i_beams[ss][bb - 1])
             integ = o3.beam_integration.HingeMidpoint(osi, left_sect, lp_i, right_sect, lp_j, centre_sect)
 
@@ -154,7 +154,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
 
     values = list(-1 * asig.values)  # should be negative
     opy.timeSeries('Path', load_tag_dynamic, '-dt', asig.dt, '-values', *values)
-    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.con.X, '-accel', load_tag_dynamic)
+    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.cc.X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
     angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
@@ -193,14 +193,14 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
         curr_time = opy.getTime()
         opy.analyze(1, analysis_dt)
         outputs["time"].append(curr_time)
-        outputs["rel_disp"].append(opy.nodeDisp(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.con.X))
-        outputs["rel_vel"].append(opy.nodeVel(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.con.X))
-        outputs["rel_accel"].append(opy.nodeAccel(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.con.X))
+        outputs["rel_disp"].append(opy.nodeDisp(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.cc.X))
+        outputs["rel_vel"].append(opy.nodeVel(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.cc.X))
+        outputs["rel_accel"].append(opy.nodeAccel(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.cc.X))
         # outputs['ele_mom'].append(opy.eleResponse('-ele', [ed['B%i-S%i' % (1, 0)], 'basicForce']))
         opy.reactions()
         react = 0
         for cc in range(1, fb.n_cols):
-            react += -opy.nodeReaction(nd["C%i-S%i" % (cc, 0)].tag, o3.con.X)
+            react += -opy.nodeReaction(nd["C%i-S%i" % (cc, 0)].tag, o3.cc.X)
         outputs["force"].append(react)  # Should be negative since diff node
     opy.wipe()
     for item in outputs:

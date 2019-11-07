@@ -25,10 +25,10 @@ bot_node = opw.node.Node(osi, 0, 0)
 top_node = opw.node.Node(osi, 0, 0)
 
 # Fix bottom node
-opw.Fix(osi, top_node, opw.con.FREE, opw.con.FIXED, opw.con.FIXED)
-opw.Fix(osi, bot_node, opw.con.FIXED, opw.con.FIXED, opw.con.FIXED)
+opw.Fix(osi, top_node, opw.cc.FREE, opw.cc.FIXED, opw.cc.FIXED)
+opw.Fix(osi, bot_node, opw.cc.FIXED, opw.cc.FIXED, opw.cc.FIXED)
 # Set out-of-plane DOFs to be slaved
-opw.EqualDOF(osi, top_node, bot_node, [opw.con.Y, opw.con.ROTZ])
+opw.EqualDOF(osi, top_node, bot_node, [opw.cc.Y, opw.cc.ROTZ])
 
 # nodal mass (weight / g):
 opw.Mass(osi, top_node, mass, 0., 0.)
@@ -46,7 +46,7 @@ pattern_tag_dynamic = 1
 
 values = list(-1 * rec)  # should be negative
 opy.timeSeries('Path', load_tag_dynamic, '-dt', dt, '-values', *values)
-opy.pattern('UniformExcitation', pattern_tag_dynamic, opw.con.X, '-accel', load_tag_dynamic)
+opy.pattern('UniformExcitation', pattern_tag_dynamic, opw.cc.X, '-accel', load_tag_dynamic)
 
 # set damping based on first eigen mode
 angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
@@ -81,11 +81,11 @@ while opy.getTime() < analysis_time:
     opy.analyze(1, analysis_dt)
     curr_time = opy.getTime()
     outputs["time"].append(curr_time)
-    outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, opw.con.X))
-    outputs["rel_vel"].append(opy.nodeVel(top_node.tag, opw.con.X))
-    outputs["rel_accel"].append(opy.nodeAccel(top_node.tag, opw.con.X))
+    outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, opw.cc.X))
+    outputs["rel_vel"].append(opy.nodeVel(top_node.tag, opw.cc.X))
+    outputs["rel_accel"].append(opy.nodeAccel(top_node.tag, opw.cc.X))
     opy.reactions()
-    outputs["force"].append(-opy.nodeReaction(bot_node.tag, opw.con.X))  # Negative since diff node
+    outputs["force"].append(-opy.nodeReaction(bot_node.tag, opw.cc.X))  # Negative since diff node
 opy.wipe()
 for item in outputs:
     outputs[item] = np.array(outputs[item])
