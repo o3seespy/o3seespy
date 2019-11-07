@@ -695,7 +695,7 @@ def parse_all_elements():
             ofile.write('\n'.join(tpara))
 
 
-def parse_generic_single_file(obj_type):
+def parse_generic_single_file(obj_type, osi_type):
     o3_type = convert_camel_to_snake(obj_type)
     o3_class_type = convert_name_to_class_name(obj_type)
     import user_paths as up
@@ -737,7 +737,7 @@ def parse_generic_single_file(obj_type):
 
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
-            pstr, tstr = parse_mat_file(ffp, osi_type='mat')
+            pstr, tstr = parse_mat_file(ffp, osi_type=osi_type)
             para.append(pstr)
             tpara.append(tstr)
         with open(floc + f'{item}.py', 'w') as ofile:
@@ -753,8 +753,8 @@ if __name__ == '__main__':
     # parse_all_ndmat()
     # parse_mat_file(up.OPY_DOCS_PATH + 'SSPquadUP.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'PressureIndependMultiYield.rst', 'mat')
-    # parse_generic_single_file(obj_type='pattern')
-    parse_generic_single_file(obj_type='timeSeries')
+    parse_generic_single_file(obj_type='pattern', osi_type='pat')
+    # parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
     # parse_all_uniaxial_mat()
     # parse_all_ndmat()
     # parse_all_elements()

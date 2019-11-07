@@ -13,8 +13,8 @@ class Constant(TimeSeriesBase):
             self.factor = None
         else:
             self.factor = float(factor)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_tseries += 1
+        self._tag = osi.n_tseries
         self._parameters = [self.op_type, self._tag]
         if getattr(self, 'factor') is not None:
             self._parameters += ['-factor', self.factor]
@@ -29,8 +29,8 @@ class Linear(TimeSeriesBase):
             self.factor = None
         else:
             self.factor = float(factor)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_tseries += 1
+        self._tag = osi.n_tseries
         self._parameters = [self.op_type, self._tag]
         if getattr(self, 'factor') is not None:
             self._parameters += ['-factor', self.factor]
@@ -56,8 +56,8 @@ class Trig(TimeSeriesBase):
             self.zero_shift = None
         else:
             self.zero_shift = float(zero_shift)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_tseries += 1
+        self._tag = osi.n_tseries
         self._parameters = [self.op_type, self._tag, self.t_start, self.t_end, self.period]
         if getattr(self, 'factor') is not None:
             self._parameters += ['-factor', self.factor]
@@ -87,8 +87,8 @@ class Triangle(TimeSeriesBase):
             self.zero_shift = None
         else:
             self.zero_shift = float(zero_shift)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_tseries += 1
+        self._tag = osi.n_tseries
         self._parameters = [self.op_type, self._tag, self.t_start, self.t_end, self.period]
         if getattr(self, 'factor') is not None:
             self._parameters += ['-factor', self.factor]
@@ -109,8 +109,8 @@ class Rectangular(TimeSeriesBase):
             self.factor = None
         else:
             self.factor = float(factor)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_tseries += 1
+        self._tag = osi.n_tseries
         self._parameters = [self.op_type, self._tag, self.t_start, self.t_end]
         if getattr(self, 'factor') is not None:
             self._parameters += ['-factor', self.factor]
@@ -140,8 +140,8 @@ class Pulse(TimeSeriesBase):
             self.zero_shift = None
         else:
             self.zero_shift = float(zero_shift)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_tseries += 1
+        self._tag = osi.n_tseries
         self._parameters = [self.op_type, self._tag, self.t_start, self.t_end, self.period]
         if getattr(self, 'width') is not None:
             self._parameters += ['-width', self.width]
@@ -176,8 +176,8 @@ class Path(TimeSeriesBase):
             self.start_time = float(start_time)
         self.use_last = use_last
         self.prepend_zero = prepend_zero
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        osi.n_tseries += 1
+        self._tag = osi.n_tseries
         self._parameters = [self.op_type, self._tag]
         if getattr(self, 'dt') is not None:
             self._parameters += ['-dt', self.dt]

@@ -57,7 +57,7 @@ class OpenseesInstance(object):
         try:
             try:
                 return getattr(opy, op_base_type)(*parameters)
-            except opy.error as e:
+            except opy.OpenSeesError as e:
                 raise ValueError('opensees.{0}({1}) caused error "{2}"'.format(op_base_type,
                                                                                ','.join(str(x) for x in parameters), e))
 

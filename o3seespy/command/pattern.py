@@ -8,11 +8,14 @@ class PatternBase(OpenseesObject):
 class Plain(PatternBase):
     op_type = 'Plain'
 
-    def __init__(self, osi, ts, fact=1.):
+    def __init__(self, osi, ts, fact=None):
         self.ts = ts
-        self.fact = float(fact)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if fact is None:
+            self.fact = None
+        else:
+            self.fact = float(fact)
+        osi.n_pat += 1
+        self._tag = osi.n_pat
         self._parameters = [self.op_type, self._tag, self.ts.tag]
         if getattr(self, 'fact') is not None:
             self._parameters += ['-fact', self.fact]
@@ -27,10 +30,16 @@ class UniformExcitation(PatternBase):
         self.disp_series = disp_series
         self.vel_series = vel_series
         self.accel_series = accel_series
-        self.vel0 = float(vel0)
-        self.fact = float(fact)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if vel0 is None:
+            self.vel0 = None
+        else:
+            self.vel0 = float(vel0)
+        if fact is None:
+            self.fact = None
+        else:
+            self.fact = float(fact)
+        osi.n_pat += 1
+        self._tag = osi.n_pat
         self._parameters = [self.op_type, self._tag, self.dir]
         if getattr(self, 'disp_series') is not None:
             self._parameters += ['-disp', self.disp_series]
@@ -49,7 +58,7 @@ class MultipleSupport(PatternBase):
     op_type = 'MultipleSupport'
 
     def __init__(self, osi, ):
-        osi.n_mat += 1
-        self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, ]
+        osi.n_pat += 1
+        self._tag = osi.n_pat
+        self._parameters = [self.op_type, self._tag]
         self.to_process(osi)
