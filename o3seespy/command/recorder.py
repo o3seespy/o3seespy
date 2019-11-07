@@ -62,13 +62,16 @@ class ElementToFile(RecorderBase):
 class ElementToArrayCache(RecorderBase):  # TODO: implement ElementToArray where data saved to memory and loaded as array without collect
     op_type = "Element"
 
-    def __init__(self, osi, element, material=None, arg_vals=None, nsd=8):
+    def __init__(self, osi, element, material=None, arg_vals=None, nsd=8, fname=None):
         if arg_vals is None:
             arg_vals = []
         extra_pms = []
         if material is not None:
             extra_pms += ['material', material]
-        self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+        if fname is None:
+            self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+        else:
+            self.tmpfname = fname
 
         self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-ele', element.tag, *extra_pms, *arg_vals]
         self.to_process(osi)

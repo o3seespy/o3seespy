@@ -124,6 +124,19 @@ def remove_sp(osi, node, dof, pattern=None):
     return osi.to_process(op_type, parameters)
 
 
+def remove_load_pattern(osi, load_pattern):
+    op_type = 'remove'
+    parameters = ['loadPattern', load_pattern.tag]
+    return osi.to_process(op_type, parameters)
+
+
+def remove(osi, o3_obj):
+    """Generic remover"""
+    op_type = 'remove'
+    parameters = [o3_obj.op_base_type, o3_obj.tag]
+    return osi.to_process(op_type, parameters)
+
+
 def set_parameter(osi, value, eles=None, ele_range=None, args=None):
     op_type = 'setParameter'
     parameters = ['-val', value]
