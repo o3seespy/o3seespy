@@ -152,7 +152,7 @@ class PM4Sand(NDMaterialBase):
 class StressDensityModel(NDMaterialBase):
     op_type = "StressDensityModel"
 
-    def __init__(self, osi, den, e_init, big_a, n, nu, a1, b1, a2, b2, a3, b3, fd, mu_not, mu_cyc, sc, big_m, p_atm,
+    def __init__(self, osi, den, e_init, big_a, n, nu, a1, b1, a2, b2, a3, b3, fd, mu_0, mu_cyc, sc, big_m, p_atm,
                  ssls=None, hsl=None, ps=None):
         self.osi = osi
         self.den = float(den)
@@ -167,31 +167,31 @@ class StressDensityModel(NDMaterialBase):
         self.a3 = float(a3)
         self.b3 = float(b3)
         self.fd = float(fd)
-        self.mu_not = float(mu_not)
+        self.mu_0 = float(mu_0)
         self.mu_cyc = float(mu_cyc)
         self.sc = float(sc)
         self.big_m = float(big_m)
         self.p_atm = float(p_atm)
-        if ssls is None:
-            self.ssls = np.array([1.0, 10.0, 30.0, 50.0, 100.0, 200.0, 400.0, 400.0, 400.0, 400.0])
-        else:
-            assert len(ssls) == 10
-            self.ssls = np.array(ssls, dtype=np.float)
-        if hsl is None:
-            self.hsl = 0.895
-        else:
-            self.hsl = float(hsl)
-        if ps is None:
-            self.ps = np.array([0.877, 0.877, 0.873, 0.870, 0.860, 0.850, 0.833, 0.833, 0.833, 0.833])
-        else:
-            self.ps = np.array(ps, dtype=np.float)
+
+
 
         osi.n_mat += 1
         self._tag = osi.n_mat
 
-        self._parameters = [self.osi, self.den, self.e_init, self.big_a, self.n, self.nu, self.a1, self.b1, self.a2,
-                            self.b2, self.a3, self.b3, self.fd, self.mu_not, self.mu_cyc, self.sc, self.big_m,
-                            self.p_atm, *self.ssls, self.hsl, *self.ps]
+        self._parameters = [self.op_type, self._tag, self.den, self.e_init, self.big_a, self.n, self.nu, self.a1, self.b1, self.a2,
+                            self.b2, self.a3, self.b3, self.fd, self.mu_0, self.mu_cyc, self.sc, self.big_m,
+                            self.p_atm]
+        if ssls is not None:
+            assert len(ssls) == 10, len(ssls)
+            self.ssls = np.array(ssls, dtype=np.float)
+            if hsl is None:
+                self.hsl = 0.895
+            else:
+                self.hsl = float(hsl)
+            self._parameters += [*self.ssls, self.hsl]
+        if ps is not None:
+            self.ps = np.array(ps, dtype=np.float)
+            self._parameters += [*self.ps]
 
         self.to_process(osi)
 

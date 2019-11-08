@@ -1,3 +1,5 @@
+from inspect import signature
+from collections import OrderedDict
 
 
 def to_commands(op_base_type, parameters):
@@ -22,3 +24,30 @@ def to_py_file(osi, ofile='ofile.py'):
     pstr += '\nopy.analyze(1, 0.1)\n'
     ofile.write(pstr)
     ofile.close()
+
+
+def get_o3_kwargs_from_obj(obj, o3_obj, custom=None, overrides=None):
+    if custom is None:
+        custom = {}
+    if overrides is None:
+        overrides = {}
+    sig = signature(o3_obj)
+    kwargs = OrderedDict()
+    args = []
+    for p in sig.parameters.values():
+        if p.name in custom:
+            pname = custom[p.name]
+        else:
+            pname = p.name
+        if pname == 'osi':
+            continue
+        if pname in overrides:
+            val = overrides[pname]
+        else:
+            val = getattr(obj, pname)
+        if p.default == p.empty:
+            args.append(val)
+        else:
+            if val is not None:
+                kwargs[p.name] = val
+    return args, kwargs

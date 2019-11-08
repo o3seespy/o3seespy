@@ -78,3 +78,6 @@ class OpenseesInstance(object):
     def state(self):
         return self._state
 
+    @state.setter
+    def state(self, value):
+        self._state = value

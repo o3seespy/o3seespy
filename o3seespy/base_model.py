@@ -29,15 +29,16 @@ class OpenseesObject(object):
         elif osi.state == 3:
             osi.to_commands(self.to_commands())
             self.to_opensees()
+        elif osi.state == 4:
+            osi.to_commands(self.to_commands())
 
     def to_opensees(self):
         try:
             try:
                 return getattr(opy, self.op_base_type)(*self.parameters)
             except opy.OpenSeesError as e:
-                raise ValueError('opensees.{0}({1}) caused error "{2}"'.format(self.op_base_type,
-                                                                               ','.join(str(x) for x in self.parameters),
-                                                                                        e))
+                com = extensions.to_commands(self.op_base_type, self.parameters)
+                raise ValueError('{0} caused error "{1}"'.format(com, e))
 
         except SystemError as e:
             if None in self.parameters:

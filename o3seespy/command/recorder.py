@@ -28,9 +28,30 @@ class NodesToFile(RecorderBase):
 class NodeToArrayCache(RecorderBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
 
-    def __init__(self, osi, node, dofs, mtype, nsd=8):
+    def __init__(self, osi, node, dofs, res_type, nsd=8):
         self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', node.tag, '-dof', *dofs, mtype]
+        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', node.tag, '-dof', *dofs, res_type]
+        self.to_process(osi)
+
+    def collect(self):
+        try:
+            a = np.loadtxt(self.tmpfname, dtype=float)
+        except ValueError as e:
+            print('Warning: Need to run opy.wipe() before collecting arrays')
+            raise ValueError(e)
+        try:
+            os.unlink(self.tmpfname)
+        except PermissionError:
+            print('Warning: Need to run opy.wipe() before collecting arrays')
+        return a
+
+class NodesToArrayCache(RecorderBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
+    op_type = "Node"
+
+    def __init__(self, osi, nodes, dofs, res_type, nsd=8):
+        node_tags = [x.tag for x in nodes]
+        self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
         self.to_process(osi)
 
     def collect(self):
