@@ -568,7 +568,7 @@ class KikuchiBearingdoBalance(ElementBase):
 class YamamotoBiaxialHDRcoRS(ElementBase):
     op_type = 'YamamotoBiaxialHDR'
 
-    def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, cr, cs, mass=None):
+    def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, cr, cs, orient=None, mass=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.tp = int(tp)
         self.d_do = float(d_do)
@@ -576,6 +576,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
         self.hr = float(hr)
         self.cr = float(cr)
         self.cs = float(cs)
+        self.orient = orient
         if mass is None:
             self.mass = None
         else:
@@ -583,28 +584,8 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.tp, self.d_do, self.d_di, self.hr, '-coRS', self.cr, self.cs]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
-
-class YamamotoBiaxialHDRorient(ElementBase):
-    op_type = 'YamamotoBiaxialHDR'
-
-    def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, vecx, vecyp, mass=None):
-        self.ele_nodes = [x.tag for x in ele_nodes]
-        self.tp = int(tp)
-        self.d_do = float(d_do)
-        self.d_di = float(d_di)
-        self.hr = float(hr)
-        self.vecx = vecx
-        self.vecyp = vecyp
-        if mass is None:
-            self.mass = None
-        else:
-            self.mass = float(mass)
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.tp, self.d_do, self.d_di, self.hr, '-orient', *self.vecx, *self.vecyp]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['--orient', *self.orient]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         self.to_process(osi)

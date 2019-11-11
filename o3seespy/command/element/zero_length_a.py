@@ -4,11 +4,12 @@ from o3seespy.command.element.base_element import ElementBase
 class ZeroLengthdoRayleigh(ElementBase):
     op_type = 'zeroLength'
 
-    def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, r_flag=0):
+    def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, orient=None, r_flag=0):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = mat_tags
         self.dir_args = dir_args
         self.r_flag = float(r_flag)
+        self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, '-doRayleigh', self.r_flag]
@@ -16,65 +17,40 @@ class ZeroLengthdoRayleigh(ElementBase):
             self._parameters += ['-mat', *self.mat_tags]
         if getattr(self, 'dir_args') is not None:
             self._parameters += ['-dir', *self.dir_args]
-        self.to_process(osi)
-
-class ZeroLengthorient(ElementBase):
-    op_type = 'zeroLength'
-
-    def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, vecx, vecyp):
-        self.ele_nodes = [x.tag for x in ele_nodes]
-        self.mat_tags = mat_tags
-        self.dir_args = dir_args
-        self.vecx = vecx
-        self.vecyp = vecyp
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, '-orient', *self.vecx, *self.vecyp]
-        if getattr(self, 'mat_tags') is not None:
-            self._parameters += ['-mat', *self.mat_tags]
-        if getattr(self, 'dir_args') is not None:
-            self._parameters += ['-dir', *self.dir_args]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['--orient', *self.orient]
         self.to_process(osi)
 
 
-class ZeroLengthNDorient(ElementBase):
+class ZeroLengthND(ElementBase):
     op_type = 'zeroLengthND'
 
-    def __init__(self, osi, ele_nodes, mat, uni, vecx, vecyp):
+    def __init__(self, osi, ele_nodes, mat, uni, orient=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
         self.uni = uni
-        self.vecx = vecx
-        self.vecyp = vecyp
+        self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.uni.tag, '-orient', *self.vecx, self.vecyp]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.uni.tag]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['--orient', *self.orient]
         self.to_process(osi)
 
-
-class ZeroLengthSectionorient(ElementBase):
-    op_type = 'zeroLengthSection'
-
-    def __init__(self, osi, ele_nodes, sec, vecx, vecyp):
-        self.ele_nodes = [x.tag for x in ele_nodes]
-        self.sec = sec
-        self.vecx = vecx
-        self.vecyp = vecyp
-        osi.n_ele += 1
-        self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag, '-orient', *self.vecx, *self.vecyp]
-        self.to_process(osi)
 
 class ZeroLengthSectiondoRayleigh(ElementBase):
     op_type = 'zeroLengthSection'
 
-    def __init__(self, osi, ele_nodes, sec, r_flag):
+    def __init__(self, osi, ele_nodes, sec, r_flag, orient=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.sec = sec
         self.r_flag = float(r_flag)
+        self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag, '-doRayleigh', self.r_flag]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['--orient', *self.orient]
         self.to_process(osi)
 
 

@@ -488,8 +488,11 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     if 'eleNodes' in defaults:
         defaults['eleNodes'].list_items_dtype = 'obj'
 
-    if "'-orient'" in defaults and 'vecx' in defaults and 'vecyp' in defaults:
-        del defaults["'-orient'"]
+    if ("'-orient'" in defaults or '-orient' in op_kwargs) and 'vecx' in defaults and 'vecyp' in defaults:
+        try:
+            del defaults["'-orient'"]
+        except KeyError:
+            del op_kwargs['-orient']
         del defaults['vecx']
         del defaults['vecyp']
         defaults['orient'] = Param(org_name='orient', default_value=None, packed=True)
@@ -785,7 +788,7 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    # parse_mat_file(up.OPY_DOCS_PATH + 'SSPquadUP.rst', 'ele')
+    parse_mat_file(up.OPY_DOCS_PATH + 'twoNodeLink.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
     # parse_mat_file(up.OPY_DOCS_PATH + 'pathTs.rst', 'tseries')
     all = 0
