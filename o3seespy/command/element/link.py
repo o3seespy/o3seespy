@@ -8,7 +8,10 @@ class TwoNodeLinkdir(ElementBase):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = mat_tags
         self.dirs = dirs
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, '-dir', *self.dirs]
@@ -27,7 +30,10 @@ class TwoNodeLinkorient(ElementBase):
         self.vecx = vecx
         self.vecy = vecy
         self.p_delta_vals = p_delta_vals
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, '-orient', *self.vecx, *self.vecy]
@@ -47,7 +53,10 @@ class TwoNodeLinkshearDist(ElementBase):
         self.mat_tags = mat_tags
         self.s_dratios = s_dratios
         self.do_rayleigh = do_rayleigh
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, '-shearDist', *self.s_dratios]

@@ -10,7 +10,10 @@ class ElasticBeamColumn(ElementBase):
         self.big_e = float(big_e)
         self.iz = float(iz)
         self.transf = transf
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         self.c_mass = c_mass
         self.big_g = float(big_g)
         self.big_j = float(big_j)
@@ -58,7 +61,10 @@ class ElasticTimoshenkoBeam(ElementBase):
         self.iz = float(iz)
         self.avy = float(avy)
         self.transf = transf
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         self.c_mass = c_mass
         self.jx = float(jx)
         self.iy = float(iy)
@@ -81,13 +87,16 @@ class ElasticTimoshenkoBeam(ElementBase):
 class DispBeamColumn(ElementBase):
     op_type = 'dispBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, transf, integration, c_mass=False, mass=0.0):
+    def __init__(self, osi, i_node, j_node, transf, integration, c_mass=False, mass=None):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.transf = transf
         self.integration = integration
         self.c_mass = c_mass
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.transf.tag, self.integration.tag]
@@ -101,14 +110,20 @@ class DispBeamColumn(ElementBase):
 class ForceBeamColumn(ElementBase):
     op_type = 'forceBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, transf, integration, tol=1e-12, mass=0.0, iter=10):
+    def __init__(self, osi, i_node, j_node, transf, integration, tol=1e-12, mass=None, iter=None):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.transf = transf
         self.integration = integration
         self.tol = float(tol)
-        self.mass = float(mass)
-        self.iter = float(iter)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        if iter is None:
+            self.iter = None
+        else:
+            self.iter = float(iter)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.transf.tag, self.integration.tag, self.tol]
@@ -122,16 +137,22 @@ class ForceBeamColumn(ElementBase):
 class NonlinearBeamColumnintegration(ElementBase):
     op_type = 'nonlinearBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, tol=1e-12, mass=0.0, int_type, iter=10):
+    def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, tol=1e-12, mass=None, int_type, iter=None):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
         self.transf = transf
         self.tol = float(tol)
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         self.int_type = int_type
-        self.iter = float(iter)
+        if iter is None:
+            self.iter = None
+        else:
+            self.iter = float(iter)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.num_intgr_pts, self.sec.tag, self.transf.tag, self.tol, '-integration', self.int_type]

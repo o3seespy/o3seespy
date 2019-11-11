@@ -126,9 +126,15 @@ class ConfinedConcrete01(UniaxialMaterialBase):
         self.wrap_args = wrap_args
         self.gravel = gravel
         self.silica = silica
-        self.tol = float(tol)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
         self.max_num_iter = int(max_num_iter)
-        self.epscu_limit = float(epscu_limit)
+        if epscu_limit is None:
+            self.epscu_limit = None
+        else:
+            self.epscu_limit = float(epscu_limit)
         self.st_ratio = st_ratio
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -202,7 +208,7 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
 class ConcreteCM(UniaxialMaterialBase):
     op_type = 'ConcreteCM'
 
-    def __init__(self, osi, fpcc, epcc, ec, rc, xcrn, ft, et, rt, xcrp, gap_close=0):
+    def __init__(self, osi, fpcc, epcc, ec, rc, xcrn, ft, et, rt, xcrp, gap_close=None):
         self.fpcc = float(fpcc)
         self.epcc = float(epcc)
         self.ec = float(ec)
@@ -212,7 +218,10 @@ class ConcreteCM(UniaxialMaterialBase):
         self.et = float(et)
         self.rt = float(rt)
         self.xcrp = float(xcrp)
-        self.gap_close = float(gap_close)
+        if gap_close is None:
+            self.gap_close = None
+        else:
+            self.gap_close = float(gap_close)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpcc, self.epcc, self.ec, self.rc, self.xcrn, self.ft, self.et, self.rt, self.xcrp]

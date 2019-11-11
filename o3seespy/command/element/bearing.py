@@ -17,8 +17,14 @@ class ElastomericBearingPlasticity(ElementBase):
         self.t_mat = t_mat
         self.my_mat = my_mat
         self.orient = orient
-        self.mass = float(mass)
-        self.shear_dist = float(shear_dist)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        if shear_dist is None:
+            self.shear_dist = None
+        else:
+            self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu]
@@ -57,9 +63,15 @@ class ElastomericBearingBoucWen(ElementBase):
         self.p_mat = p_mat
         self.mz_mat = mz_mat
         self.orient_vals = orient_vals
-        self.shear_dist = float(shear_dist)
+        if shear_dist is None:
+            self.shear_dist = None
+        else:
+            self.shear_dist = float(shear_dist)
         self.do_rayleigh = do_rayleigh
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         self.t_mat = t_mat
         self.my_mat = my_mat
         osi.n_ele += 1
@@ -99,8 +111,14 @@ class FlatSliderBearing(ElementBase):
         self.t_mat = t_mat
         self.my_mat = my_mat
         self.orient = orient
-        self.mass = float(mass)
-        self.shear_dist = float(shear_dist)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        if shear_dist is None:
+            self.shear_dist = None
+        else:
+            self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, self.tol]
@@ -140,8 +158,14 @@ class SingleFPBearing(ElementBase):
         self.t_mat = t_mat
         self.my_mat = my_mat
         self.orient = orient
-        self.mass = float(mass)
-        self.shear_dist = float(shear_dist)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        if shear_dist is None:
+            self.shear_dist = None
+        else:
+            self.shear_dist = float(shear_dist)
         self.iter = int(iter)
         osi.n_ele += 1
         self._tag = osi.n_ele
@@ -237,8 +261,14 @@ class MultipleShearSpring(ElementBase):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.n_spring = int(n_spring)
         self.mat = mat
-        self.lim = float(lim)
-        self.mass = float(mass)
+        if lim is None:
+            self.lim = None
+        else:
+            self.lim = float(lim)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
@@ -259,22 +289,40 @@ class KikuchiBearingadjustPDOutput(ElementBase):
 
     def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, ci, cj, orient=None, mass=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.shape = float(shape)
-        self.size = float(size)
+        if shape is None:
+            self.shape = None
+        else:
+            self.shape = float(shape)
+        if size is None:
+            self.size = None
+        else:
+            self.size = float(size)
         self.total_rubber = float(total_rubber)
-        self.total_height = float(total_height)
+        if total_height is None:
+            self.total_height = None
+        else:
+            self.total_height = float(total_height)
         self.n_mss = int(n_mss)
         self.mat_mss = mat_mss
-        self.lim_disp = float(lim_disp)
+        if lim_disp is None:
+            self.lim_disp = None
+        else:
+            self.lim_disp = float(lim_disp)
         self.n_mns = int(n_mns)
         self.mat_mns = mat_mns
-        self.lamb = float(lamb)
+        if lamb is None:
+            self.lamb = None
+        else:
+            self.lamb = float(lamb)
         self.no_pd_input = no_pd_input
         self.no_tilt = no_tilt
         self.ci = float(ci)
         self.cj = float(cj)
         self.orient = orient
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.total_rubber, '-adjustPDOutput', self.ci, self.cj]
@@ -311,23 +359,41 @@ class KikuchiBearingdoBalance(ElementBase):
 
     def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, lim_fo, lim_fi, n_iter, orient=None, mass=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.shape = float(shape)
-        self.size = float(size)
+        if shape is None:
+            self.shape = None
+        else:
+            self.shape = float(shape)
+        if size is None:
+            self.size = None
+        else:
+            self.size = float(size)
         self.total_rubber = float(total_rubber)
-        self.total_height = float(total_height)
+        if total_height is None:
+            self.total_height = None
+        else:
+            self.total_height = float(total_height)
         self.n_mss = int(n_mss)
         self.mat_mss = mat_mss
-        self.lim_disp = float(lim_disp)
+        if lim_disp is None:
+            self.lim_disp = None
+        else:
+            self.lim_disp = float(lim_disp)
         self.n_mns = int(n_mns)
         self.mat_mns = mat_mns
-        self.lamb = float(lamb)
+        if lamb is None:
+            self.lamb = None
+        else:
+            self.lamb = float(lamb)
         self.no_pd_input = no_pd_input
         self.no_tilt = no_tilt
         self.lim_fo = float(lim_fo)
         self.lim_fi = float(lim_fi)
         self.n_iter = float(n_iter)
         self.orient = orient
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.total_rubber, '-doBalance', self.lim_fo, self.lim_fi, self.n_iter]
@@ -371,7 +437,10 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
         self.hr = float(hr)
         self.cr = float(cr)
         self.cs = float(cs)
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.tp, self.d_do, self.d_di, self.hr, '-coRS', self.cr, self.cs]
@@ -390,7 +459,10 @@ class YamamotoBiaxialHDRorient(ElementBase):
         self.hr = float(hr)
         self.vecx = vecx
         self.vecyp = vecyp
-        self.mass = float(mass)
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.tp, self.d_do, self.d_di, self.hr, '-orient', *self.vecx, *self.vecyp]

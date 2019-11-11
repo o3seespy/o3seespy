@@ -4,10 +4,10 @@ from o3seespy.command.element.base_element import ElementBase
 class Quad(ElementBase):
     op_type = 'quad'
 
-    def __init__(self, osi, ele_nodes, thick, type, mat, pressure, rho, b1, b2):
+    def __init__(self, osi, ele_nodes, thick, otype, mat, pressure, rho, b1, b2):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
-        self.type = type
+        self.otype = otype
         self.mat = mat
         self.pressure = float(pressure)
         self.rho = float(rho)
@@ -15,7 +15,7 @@ class Quad(ElementBase):
         self.b2 = float(b2)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.type, self.mat.tag, self.pressure, self.rho, self.b1, self.b2]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.otype, self.mat.tag, self.pressure, self.rho, self.b1, self.b2]
         self.to_process(osi)
 
 
@@ -107,28 +107,28 @@ class BbarQuad(ElementBase):
 class EnhancedQuad(ElementBase):
     op_type = 'enhancedQuad'
 
-    def __init__(self, osi, ele_nodes, thick, type, mat):
+    def __init__(self, osi, ele_nodes, thick, otype, mat):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
-        self.type = type
+        self.otype = otype
         self.mat = mat
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.type, self.mat.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.otype, self.mat.tag]
         self.to_process(osi)
 
 
 class SSPquad(ElementBase):
     op_type = 'SSPquad'
 
-    def __init__(self, osi, ele_nodes, mat, type, thick, b1, b2):
+    def __init__(self, osi, ele_nodes, mat, otype, thick, b1, b2):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
-        self.type = type
+        self.otype = otype
         self.thick = float(thick)
         self.b1 = float(b1)
         self.b2 = float(b2)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.type, self.thick, self.b1, self.b2]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.otype, self.thick, self.b1, self.b2]
         self.to_process(osi)

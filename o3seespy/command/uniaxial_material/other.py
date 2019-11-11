@@ -212,7 +212,7 @@ class SAWS(UniaxialMaterialBase):
 class BarSlip(UniaxialMaterialBase):
     op_type = 'BarSlip'
 
-    def __init__(self, osi, fc, fy, es, fu, eh, db, ld, nb, depth, height, anc_lratio=1.0, bs_flag, type, damage='Damage', unit='psi'):
+    def __init__(self, osi, fc, fy, es, fu, eh, db, ld, nb, depth, height, anc_lratio=1.0, bs_flag, otype, damage='Damage', unit='psi'):
         self.fc = float(fc)
         self.fy = float(fy)
         self.es = float(es)
@@ -225,12 +225,12 @@ class BarSlip(UniaxialMaterialBase):
         self.height = float(height)
         self.anc_lratio = float(anc_lratio)
         self.bs_flag = bs_flag
-        self.type = type
+        self.otype = otype
         self.damage = damage
         self.unit = unit
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.fc, self.fy, self.es, self.fu, self.eh, self.db, self.ld, self.nb, self.depth, self.height, self.anc_lratio, self.bs_flag, self.type, self.damage, self.unit]
+        self._parameters = [self.op_type, self._tag, self.fc, self.fy, self.es, self.fu, self.eh, self.db, self.ld, self.nb, self.depth, self.height, self.anc_lratio, self.bs_flag, self.otype, self.damage, self.unit]
         self.to_process(osi)
 
 
@@ -253,12 +253,24 @@ class BondSP01(UniaxialMaterialBase):
 class Fatigue(UniaxialMaterialBase):
     op_type = 'Fatigue'
 
-    def __init__(self, osi, other, e0=0.191, m=-0.458, min=-1e16, max=1e16):
+    def __init__(self, osi, other, e0=None, m=None, min=None, max=None):
         self.other = other
-        self.e0 = float(e0)
-        self.m = float(m)
-        self.min = float(min)
-        self.max = float(max)
+        if e0 is None:
+            self.e0 = None
+        else:
+            self.e0 = float(e0)
+        if m is None:
+            self.m = None
+        else:
+            self.m = float(m)
+        if min is None:
+            self.min = None
+        else:
+            self.min = float(min)
+        if max is None:
+            self.max = None
+        else:
+            self.max = float(max)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag]
@@ -334,10 +346,16 @@ class LimitState(UniaxialMaterialBase):
 class MinMax(UniaxialMaterialBase):
     op_type = 'MinMax'
 
-    def __init__(self, osi, other, min_strain=1e-16, max_strain=1e16):
+    def __init__(self, osi, other, min_strain=None, max_strain=None):
         self.other = other
-        self.min_strain = float(min_strain)
-        self.max_strain = float(max_strain)
+        if min_strain is None:
+            self.min_strain = None
+        else:
+            self.min_strain = float(min_strain)
+        if max_strain is None:
+            self.max_strain = None
+        else:
+            self.max_strain = float(max_strain)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag]
@@ -578,7 +596,7 @@ class AxialSpHD(UniaxialMaterialBase):
 class CFSWSWP(UniaxialMaterialBase):
     op_type = 'CFSWSWP'
 
-    def __init__(self, osi, height, width, fut, tf, ife, ifi, ts, np, ds, vs, sc, nc, type, opening_area, opening_length):
+    def __init__(self, osi, height, width, fut, tf, ife, ifi, ts, np, ds, vs, sc, nc, otype, opening_area, opening_length):
         self.height = float(height)
         self.width = float(width)
         self.fut = float(fut)
@@ -591,12 +609,12 @@ class CFSWSWP(UniaxialMaterialBase):
         self.vs = float(vs)
         self.sc = float(sc)
         self.nc = float(nc)
-        self.type = int(type)
+        self.otype = int(otype)
         self.opening_area = float(opening_area)
         self.opening_length = float(opening_length)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.height, self.width, self.fut, self.tf, self.ife, self.ifi, self.ts, self.np, self.ds, self.vs, self.sc, self.nc, self.type, self.opening_area, self.opening_length]
+        self._parameters = [self.op_type, self._tag, self.height, self.width, self.fut, self.tf, self.ife, self.ifi, self.ts, self.np, self.ds, self.vs, self.sc, self.nc, self.otype, self.opening_area, self.opening_length]
         self.to_process(osi)
 
 

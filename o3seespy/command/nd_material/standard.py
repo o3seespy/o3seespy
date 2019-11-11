@@ -78,15 +78,42 @@ class Damage2p(NDMaterialBase):
 
     def __init__(self, osi, fcc, fct=None, big_e=None, ni=None, gt=None, gc=None, rho_bar=None, big_h=None, theta=None, tangent=None):
         self.fcc = float(fcc)
-        self.fct = float(fct)
-        self.big_e = float(big_e)
-        self.ni = float(ni)
-        self.gt = float(gt)
-        self.gc = float(gc)
-        self.rho_bar = float(rho_bar)
-        self.big_h = float(big_h)
-        self.theta = float(theta)
-        self.tangent = float(tangent)
+        if fct is None:
+            self.fct = None
+        else:
+            self.fct = float(fct)
+        if big_e is None:
+            self.big_e = None
+        else:
+            self.big_e = float(big_e)
+        if ni is None:
+            self.ni = None
+        else:
+            self.ni = float(ni)
+        if gt is None:
+            self.gt = None
+        else:
+            self.gt = float(gt)
+        if gc is None:
+            self.gc = None
+        else:
+            self.gc = float(gc)
+        if rho_bar is None:
+            self.rho_bar = None
+        else:
+            self.rho_bar = float(rho_bar)
+        if big_h is None:
+            self.big_h = None
+        else:
+            self.big_h = float(big_h)
+        if theta is None:
+            self.theta = None
+        else:
+            self.theta = float(theta)
+        if tangent is None:
+            self.tangent = None
+        else:
+            self.tangent = float(tangent)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fcc]

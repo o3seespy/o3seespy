@@ -16,6 +16,7 @@ optype_pat = "\'([A-Za-z0-9_\./\\-]*)\'"
 
 special_words = {
     'lambda': 'lamb',
+    'type': 'otype'
 }
 
 def clean_param_names(params):
@@ -87,12 +88,14 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
                 cl_pms.append(pm)
 
         # Build definition string
-        # check no no default pms are after pms that have defaults
+        # check there are no non-default pms are after pms that have defaults
         contains_no_default = False
         for i in range(len(cl_pms)):
             pm = cl_pms[-1-i]
             if pms[pm].default_is_expression and contains_no_default:
                 pms[pm].forced_not_optional = True  # TODO: should raise a flag
+                # raise ValueError
+                pass
             if pms[pm].default_value is None:
                 contains_no_default = True
 
@@ -752,12 +755,12 @@ if __name__ == '__main__':
     import user_paths as up
     # parse_all_ndmat()
     # parse_mat_file(up.OPY_DOCS_PATH + 'SSPquadUP.rst', 'ele')
-    # parse_mat_file(up.OPY_DOCS_PATH + 'PressureIndependMultiYield.rst', 'mat')
+    parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
     parse_generic_single_file(obj_type='pattern', osi_type='pat')
-    # parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
-    # parse_all_uniaxial_mat()
-    # parse_all_ndmat()
-    # parse_all_elements()
+    parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
+    parse_all_uniaxial_mat()
+    parse_all_ndmat()
+    parse_all_elements()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
     #     print('found')
