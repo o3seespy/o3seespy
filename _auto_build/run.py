@@ -395,7 +395,7 @@ def parse_mat_file(ffp, osi_type):
                 tstr += tstr1
                 if two_defs == '2Dand3D':
                     cl_name_suf = '3D'
-                    pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults1, op_kwargs, descriptions, optype1,
+                    pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults1, op_kwargs1, descriptions, optype1,
                                                     base_type1, osi_type, cl_name_suf)
                     pstr += pstr1
                     tstr += tstr1
@@ -464,9 +464,9 @@ def parse_mat_file(ffp, osi_type):
                     for inp in defaults1:
                         if inp not in defaults:
                             defaults[inp] = defaults1[inp]
-                for inp in op_kwargs1:
-                    if inp not in op_kwargs:
-                        op_kwargs[inp] = op_kwargs1[inp]
+                    for inp in op_kwargs1:
+                        if inp not in op_kwargs:
+                            op_kwargs[inp] = op_kwargs1[inp]
     return pstr, tstr
 
 
@@ -659,7 +659,7 @@ def parse_all_ndmat():
             tpara.append(tstr)
         with open(floc + f'{item}.py', 'w') as ofile:
             ofile.write('\n'.join(para))
-        with open(f'test_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/test_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 
@@ -788,7 +788,7 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    parse_mat_file(up.OPY_DOCS_PATH + 'twoNodeLink.rst', 'ele')
+    parse_mat_file(up.OPY_DOCS_PATH + 'singleFPBearing.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
     # parse_mat_file(up.OPY_DOCS_PATH + 'pathTs.rst', 'tseries')
     all = 0
