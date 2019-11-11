@@ -1,10 +1,10 @@
 from o3seespy.command.element.base_element import ElementBase
 
 
-class ElasticBeamColumn(ElementBase):
+class ElasticBeamColumn2D(ElementBase):
     op_type = 'elasticBeamColumn'
 
-    def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass=None, c_mass=False, big_g, big_j, iy):
+    def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass=None, c_mass=False):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_a = float(big_a)
         self.big_e = float(big_e)
@@ -15,12 +15,35 @@ class ElasticBeamColumn(ElementBase):
         else:
             self.mass = float(mass)
         self.c_mass = c_mass
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.big_e, self.iz, self.transf.tag]
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
+        if getattr(self, 'c_mass'):
+            self._parameters += ['-cMass']
+        self.to_process(osi)
+
+class ElasticBeamColumn3D(ElementBase):
+    op_type = 'elasticBeamColumn'
+
+    def __init__(self, osi, ele_nodes, big_a, big_e, big_g, big_j, iy, iz, transf, mass=None, c_mass=False):
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.big_a = float(big_a)
+        self.big_e = float(big_e)
         self.big_g = float(big_g)
         self.big_j = float(big_j)
         self.iy = float(iy)
+        self.iz = float(iz)
+        self.transf = transf
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        self.c_mass = c_mass
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.big_e, self.iz, self.transf.tag, self.big_g, self.big_j, self.iy]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.big_e, self.big_g, self.big_j, self.iy, self.iz, self.transf.tag]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'c_mass'):
@@ -50,10 +73,10 @@ class ModElasticBeam2Dmass(ElementBase):
         self.to_process(osi)
 
 
-class ElasticTimoshenkoBeam(ElementBase):
+class ElasticTimoshenkoBeam2D(ElementBase):
     op_type = 'ElasticTimoshenkoBeam'
 
-    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass=None, c_mass=False, jx, iy, iz_2, avz):
+    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass=None, c_mass=False):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_e = float(big_e)
         self.big_g = float(big_g)
@@ -66,13 +89,38 @@ class ElasticTimoshenkoBeam(ElementBase):
         else:
             self.mass = float(mass)
         self.c_mass = c_mass
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_e, self.big_g, self.big_a, self.iz, self.avy, self.transf.tag]
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
+        if getattr(self, 'c_mass'):
+            self._parameters += ['-cMass']
+        self.to_process(osi)
+
+class ElasticTimoshenkoBeam3D(ElementBase):
+    op_type = 'ElasticTimoshenkoBeam'
+
+    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, jx, iy, iz_2, avy, avz, transf, mass=None, c_mass=False):
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.big_e = float(big_e)
+        self.big_g = float(big_g)
+        self.big_a = float(big_a)
+        self.iz = float(iz)
         self.jx = float(jx)
         self.iy = float(iy)
         self.iz_2 = iz_2
+        self.avy = float(avy)
         self.avz = float(avz)
+        self.transf = transf
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        self.c_mass = c_mass
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_e, self.big_g, self.big_a, self.iz, self.avy, self.transf.tag, self.jx, self.iy, self.iz_2, self.avz]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_e, self.big_g, self.big_a, self.iz, self.jx, self.iy, self.iz_2, self.avy, self.avz, self.transf.tag]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'c_mass'):

@@ -6,7 +6,7 @@ import inspect
 from inspect import getmembers, isclass
 import copy
 
-
+glob_list = []
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../"
 w4 = '    '
 w8 = '        '
@@ -62,7 +62,7 @@ def convert_camel_to_snake(name):
     return s1
 
 
-def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
+def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf=""):
     df_ip = pd.read_csv('force_in_place.csv')
     df_ip = df_ip[(df_ip['base_type'] == base_type) & (df_ip['op_type'] == op_type)]
     kw_pms = []  # TODO: This only works if object should be split into many objects based on kwargs, but
@@ -76,7 +76,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
     for kw in op_kwargs:
         name_from_kw = kw.replace('-', '')
         name_from_kw = name_from_kw.replace("'", '')
-        op_class_name = convert_name_to_class_name(op_type + name_from_kw)
+        op_class_name = convert_name_to_class_name(op_type + name_from_kw) + cl_name_suf
         base_class_name = base_type[0].capitalize() + base_type[1:]
         para.append(f'class {op_class_name}({base_class_name}Base):')
         para.append(w4 + f"op_type = '{op_type}'")
@@ -377,6 +377,7 @@ def parse_mat_file(ffp, osi_type):
     descriptions = []
     found_fn_line = 0
     doc_string_open = 0
+    two_defs = ''
     pstr = ''
     tstr = ''
     for line in lines:
@@ -386,9 +387,18 @@ def parse_mat_file(ffp, osi_type):
             else:
                 if not found_fn_line:
                     raise ValueError
-                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type)
+                cl_name_suf = ''
+                if two_defs == '2Dand3D':
+                    cl_name_suf = '2D'
+                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf)
                 pstr += pstr1
                 tstr += tstr1
+                if two_defs == '2Dand3D':
+                    cl_name_suf = '3D'
+                    pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults1, op_kwargs, descriptions, optype1,
+                                                    base_type1, osi_type, cl_name_suf)
+                    pstr += pstr1
+                    tstr += tstr1
                 # Reset in case two objects in same file
                 doc_str_pms = []
                 dtypes = []
@@ -439,20 +449,28 @@ def parse_mat_file(ffp, osi_type):
             found_fn_line = 1
             if base_type is None:
                 base_type, optype, defaults, op_kwargs = clean_fn_line(line)
-            else:
+            else:  # multiple function definitions
+                glob_list.append(f'{base_type}-{optype}')
+
                 base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line)
+                df_td = pd.read_csv('two_definitions.csv')
+                df_td = df_td[(df_td['base_type'] == base_type) & (df_td['op_type'] == optype)]
+                two_defs = df_td['option'].iloc[0]
+                if not len(df_td):
+                    raise ValueError(f'{base_type}-{optype}')
                 assert base_type == base_type1
                 assert optype == optype1, (optype, optype1)
-                for inp in defaults1:
-                    if inp not in defaults:
-                        defaults[inp] = defaults1[inp]
+                if two_defs == 'combine':
+                    for inp in defaults1:
+                        if inp not in defaults:
+                            defaults[inp] = defaults1[inp]
                 for inp in op_kwargs1:
                     if inp not in op_kwargs:
                         op_kwargs[inp] = op_kwargs1[inp]
     return pstr, tstr
 
 
-def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type):
+def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf=""):
     doc_str_pms = doc_str_pms[1:]  # remove mat tag
     dtypes = dtypes[1:]
     print('doc_str: ', doc_str_pms)
@@ -461,6 +479,8 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
 
     for i, pm in enumerate(doc_str_pms):
         if '-' + pm in op_kwargs:
+            continue
+        if pm not in defaults:
             continue
         defaults[pm].dtype = dtypes[i]
         defaults[pm].p_description = descriptions[i]
@@ -511,7 +531,7 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     #         defaults[item] = Param(org_name=item, default_value=False, packed=False)
     #         defaults[item].marker = f'-{item}'
     #         del op_kwargs[item]
-    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type)
+    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf)
     print(pstr, tstr)
     return pstr, tstr
     # if line[3:5] == '``':
@@ -776,6 +796,8 @@ if __name__ == '__main__':
         parse_all_uniaxial_mat()
         parse_all_ndmat()
         parse_all_elements()
+    ofile = open('temp.out', 'w')
+    ofile.write('\n'.join(glob_list))
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
     #     print('found')
