@@ -177,10 +177,10 @@ class ElastomericBearingBoucWen3D(ElementBase):
         self.to_process(osi)
 
 
-class FlatSliderBearing2D(ElementBase):
+class FlatSliderBearingmaxIter2D(ElementBase):
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, iter=None, tol, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, iter, tol, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
@@ -200,15 +200,13 @@ class FlatSliderBearing2D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, self.tol]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-maxIter', self.iter, self.tol]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat]
         if getattr(self, 'mz_mat') is not None:
             self._parameters += ['-Mz', self.mz_mat]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
-        if getattr(self, 'iter') is not None:
-            self._parameters += ['-iter', self.iter]
         if getattr(self, 'orient') is not None:
             self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
@@ -220,7 +218,7 @@ class FlatSliderBearing2D(ElementBase):
 class FlatSliderBearing3D(ElementBase):
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, iter=None, tol, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
@@ -229,7 +227,7 @@ class FlatSliderBearing3D(ElementBase):
         self.my_mat = my_mat
         self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
-        self.iter = int(iter)
+        self.max_iter = max_iter
         self.tol = float(tol)
         self.orient = orient
         if mass is None:
@@ -253,8 +251,12 @@ class FlatSliderBearing3D(ElementBase):
             self._parameters += ['-Mz', self.mz_mat]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
-        if getattr(self, 'iter') is not None:
-            self._parameters += ['-iter', self.iter]
+        if getattr(self, 'max_iter') is not None:
+            self._parameters += ['-iter', self.max_iter]
+        if getattr(self, 'tol') is not None:
+            if getattr(self, 'max_iter') is None:
+                raise ValueError('Cannot set: tol and not: max_iter')
+            self._parameters += [self.tol]
         if getattr(self, 'orient') is not None:
             self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
@@ -267,7 +269,7 @@ class FlatSliderBearing3D(ElementBase):
 class SingleFPBearing2D(ElementBase):
     op_type = 'singleFPBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, tol, orient=None, mass=None, shear_dist=None, iter=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_mdl = frn_mdl
         self.reff = float(reff)
@@ -275,6 +277,7 @@ class SingleFPBearing2D(ElementBase):
         self.p_mat = p_mat
         self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
+        self.max_iter = int(max_iter)
         self.tol = float(tol)
         self.orient = orient
         if mass is None:
@@ -285,7 +288,6 @@ class SingleFPBearing2D(ElementBase):
             self.shear_dist = None
         else:
             self.shear_dist = float(shear_dist)
-        self.iter = int(iter)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, self.tol]
@@ -295,20 +297,24 @@ class SingleFPBearing2D(ElementBase):
             self._parameters += ['-Mz', self.mz_mat]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
+        if getattr(self, 'max_iter') is not None:
+            self._parameters += ['-iter', self.max_iter]
+        if getattr(self, 'tol') is not None:
+            if getattr(self, 'max_iter') is None:
+                raise ValueError('Cannot set: tol and not: max_iter')
+            self._parameters += [self.tol]
         if getattr(self, 'orient') is not None:
             self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'shear_dist') is not None:
             self._parameters += ['-shearDist', self.shear_dist]
-        if getattr(self, 'iter') is not None:
-            self._parameters += ['-iter', self.iter]
         self.to_process(osi)
 
 class SingleFPBearing3D(ElementBase):
     op_type = 'singleFPBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, tol, orient=None, mass=None, shear_dist=None, iter=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_mdl = frn_mdl
         self.reff = float(reff)
@@ -318,6 +324,7 @@ class SingleFPBearing3D(ElementBase):
         self.my_mat = my_mat
         self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
+        self.max_iter = int(max_iter)
         self.tol = float(tol)
         self.orient = orient
         if mass is None:
@@ -328,7 +335,6 @@ class SingleFPBearing3D(ElementBase):
             self.shear_dist = None
         else:
             self.shear_dist = float(shear_dist)
-        self.iter = int(iter)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, self.tol]
@@ -342,14 +348,18 @@ class SingleFPBearing3D(ElementBase):
             self._parameters += ['-Mz', self.mz_mat]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
+        if getattr(self, 'max_iter') is not None:
+            self._parameters += ['-iter', self.max_iter]
+        if getattr(self, 'tol') is not None:
+            if getattr(self, 'max_iter') is None:
+                raise ValueError('Cannot set: tol and not: max_iter')
+            self._parameters += [self.tol]
         if getattr(self, 'orient') is not None:
             self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'shear_dist') is not None:
             self._parameters += ['-shearDist', self.shear_dist]
-        if getattr(self, 'iter') is not None:
-            self._parameters += ['-iter', self.iter]
         self.to_process(osi)
 
 

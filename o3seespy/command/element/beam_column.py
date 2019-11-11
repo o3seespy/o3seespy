@@ -155,56 +155,64 @@ class DispBeamColumn(ElementBase):
 class ForceBeamColumn(ElementBase):
     op_type = 'forceBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, transf, integration, tol=1e-12, mass=None, iter=None):
+    def __init__(self, osi, i_node, j_node, transf, integration, max_iter=None, tol=None, mass=None):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.transf = transf
         self.integration = integration
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = float(max_iter)
         self.tol = float(tol)
         if mass is None:
             self.mass = None
         else:
             self.mass = float(mass)
-        if iter is None:
-            self.iter = None
-        else:
-            self.iter = float(iter)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.transf.tag, self.integration.tag, self.tol]
+        if getattr(self, 'max_iter') is not None:
+            self._parameters += ['-iter', self.max_iter]
+        if getattr(self, 'tol') is not None:
+            if getattr(self, 'max_iter') is None:
+                raise ValueError('Cannot set: tol and not: max_iter')
+            self._parameters += [self.tol]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        if getattr(self, 'iter') is not None:
-            self._parameters += ['-iter', self.iter]
         self.to_process(osi)
 
 
 class NonlinearBeamColumnintegration(ElementBase):
     op_type = 'nonlinearBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, int_type, tol=1e-12, mass=None, iter=None):
+    def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, int_type, max_iter=None, tol=None, mass=None):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
         self.transf = transf
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = float(max_iter)
         self.tol = float(tol)
         if mass is None:
             self.mass = None
         else:
             self.mass = float(mass)
         self.int_type = int_type
-        if iter is None:
-            self.iter = None
-        else:
-            self.iter = float(iter)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.num_intgr_pts, self.sec.tag, self.transf.tag, self.tol, '-integration', self.int_type]
+        if getattr(self, 'max_iter') is not None:
+            self._parameters += ['-iter', self.max_iter]
+        if getattr(self, 'tol') is not None:
+            if getattr(self, 'max_iter') is None:
+                raise ValueError('Cannot set: tol and not: max_iter')
+            self._parameters += [self.tol]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        if getattr(self, 'iter') is not None:
-            self._parameters += ['-iter', self.iter]
         self.to_process(osi)
 
 

@@ -122,12 +122,12 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                 elif pms[pm].default_is_expression:
                     pjoins.append(f'{o3_name}=None')
                 else:
-                    if pms[pm].marker:
+                    if pms[pm].marker or pms[pm].depends_on:
                         pjoins.append(f'{o3_name}=None')  # cannot have value for marker
                     else:
                         pjoins.append(f'{o3_name}={default}')
             else:
-                if pms[pm].marker:
+                if pms[pm].marker or pms[pm].depends_on:
                     pjoins.append(f'{o3_name}=None')
                 else:
                     pjoins.append(f'{o3_name}')
@@ -182,14 +182,23 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         para.append(w8 + 'self._parameters = [%s]' % (', '.join(pjoins)))
         for pm in cl_pms:
             o3_name = pms[pm].o3_name
+            if pms[pm].packed:
+                ps = '*'
+            else:
+                ps = ''
 
             if pms[pm].marker:
                 # para.append(w8 + f"if getattr(self, '{o3_name}') not in [None, '']:")
                 para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
-                if pms[pm].packed:
-                    para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', *self.{o3_name}]")
-                else:
-                    para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', self.{o3_name}]")
+                para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', {ps}self.{o3_name}]")
+
+            elif pms[pm].depends_on:
+                d_o3 = pms[pms[pm].depends_on].o3_name
+                para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
+                para.append(w8 + w4 + f"if getattr(self, '{d_o3}') is None:")
+                para.append(w8 + w8 + f"raise ValueError('Cannot set: {o3_name} and not: {d_o3}')")
+                para.append(w8 + w4 + f"self._parameters += [{ps}self.{o3_name}]")
+
             if pms[pm].is_flag:
                 para.append(w8 + f"if getattr(self, '{o3_name}'):")
                 para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].org_name}']")  # TODO: does this always work?
@@ -252,8 +261,10 @@ class Param(object):
         self.default_is_expression = False
         self.p_description = ''
         self.marker = None
+        # self.shared_marker = False  # if marker is used for
         self.is_flag = False
         self.forced_not_optional = False  # if default value precedes non default values
+        self.depends_on = None
 
 
 def check_if_default_is_expression(defo):
@@ -524,9 +535,11 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         del defaults['sDratio']
     if "-iter" in op_kwargs and 'maxIter' in defaults:
         del op_kwargs['-iter']
-        defaults['iter'] = copy.deepcopy(defaults['maxIter'])
-        defaults['iter'].marker = 'iter'
-        del defaults['maxIter']
+        # defaults['iter'] = copy.deepcopy(defaults['maxIter'])
+        defaults['maxIter'].marker = 'iter'
+        if 'tol' in defaults:
+            defaults['tol'].depends_on = 'maxIter'
+        # del defaults['maxIter']
     #assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
     # if len(op_kwargs) == 1:
     #     opk = list(op_kwargs)
@@ -783,14 +796,24 @@ def parse_generic_single_file(obj_type, osi_type):
             ofile.write('\n'.join(tpara))
 
 
+def test_clean_fn_line():
+    ln = ".. function:: element('singleFPBearing', eleTag,*eleNodes,frnMdlTag, Reff, kInit,'-P', PMatTag,'-T', TMatTag,'-My', MyMatTag,'-Mz', MzMatTag,['-orient',[x1, x2, x3], y1, y2, y3],['-shearDist', sDratio],['-doRayleigh'],['-mass', m],['-iter', maxIter, tol])"
+    base_type, optype, defaults, op_kwargs = clean_fn_line(ln)
+    print(base_type, optype)
+    print(defaults)
+    print(op_kwargs)
+    print(defaults['tol'].default_value)  # TODO: add 'depends_on' based on []
+
+
 if __name__ == '__main__':
     # parse_mat_file('BoucWen.rst')
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    parse_mat_file(up.OPY_DOCS_PATH + 'singleFPBearing.rst', 'ele')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'singleFPBearing.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
     # parse_mat_file(up.OPY_DOCS_PATH + 'pathTs.rst', 'tseries')
+    # test_clean_fn_line()
     all = 0
     all = 1
     if all:
