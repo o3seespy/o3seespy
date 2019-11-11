@@ -1,0 +1,3 @@
+base_type,op_type
+uniaxialMaterial,Hysteretic
+timeSeries,Path

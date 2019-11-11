@@ -53,7 +53,7 @@ class ModElasticBeam2Dmass(ElementBase):
 class ElasticTimoshenkoBeam(ElementBase):
     op_type = 'ElasticTimoshenkoBeam'
 
-    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass=None, c_mass=False, jx, iy, iz_2, avz, c_mas=False):
+    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass=None, c_mass=False, jx, iy, iz_2, avz):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_e = float(big_e)
         self.big_g = float(big_g)
@@ -70,7 +70,6 @@ class ElasticTimoshenkoBeam(ElementBase):
         self.iy = float(iy)
         self.iz_2 = iz_2
         self.avz = float(avz)
-        self.c_mas = c_mas
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_e, self.big_g, self.big_a, self.iz, self.avy, self.transf.tag, self.jx, self.iy, self.iz_2, self.avz]
@@ -78,8 +77,6 @@ class ElasticTimoshenkoBeam(ElementBase):
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
-        if getattr(self, 'c_mas'):
-            self._parameters += ['-cMas']
         self.to_process(osi)
 
 
@@ -137,7 +134,7 @@ class ForceBeamColumn(ElementBase):
 class NonlinearBeamColumnintegration(ElementBase):
     op_type = 'nonlinearBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, tol=1e-12, mass=None, int_type, iter=None):
+    def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, int_type, tol=1e-12, mass=None, iter=None):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.num_intgr_pts = int(num_intgr_pts)

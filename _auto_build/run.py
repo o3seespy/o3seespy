@@ -63,6 +63,8 @@ def convert_camel_to_snake(name):
 
 
 def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
+    df_ip = pd.read_csv('force_in_place.csv')
+    df_ip = df_ip[(df_ip['base_type'] == base_type) & (df_ip['op_type'] == op_type)]
     kw_pms = []  # TODO: This only works if object should be split into many objects based on kwargs, but
     # some kwargs are just to input a single value.
     for kw in op_kwargs:
@@ -90,17 +92,26 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type):
         # Build definition string
         # check there are no non-default pms are after pms that have defaults
         contains_no_default = False
+        non_defaults_reversed = []
+        con_defaults_reversed = []
         for i in range(len(cl_pms)):
             pm = cl_pms[-1-i]
             if pms[pm].default_is_expression and contains_no_default:
-                pms[pm].forced_not_optional = True  # TODO: should raise a flag
+                if len(df_ip):
+                    pms[pm].forced_not_optional = True  # TODO: should raise a flag
                 # raise ValueError
                 pass
-            if pms[pm].default_value is None:
+            if pms[pm].default_value is None:  # TODO: may need to switch to .has_default in case default=None
                 contains_no_default = True
-
+                non_defaults_reversed.append(pm)
+            else:
+                con_defaults_reversed.append(pm)
+        if not len(df_ip):
+            inp_pms_order = non_defaults_reversed[::-1] + con_defaults_reversed[::-1]
+        else:
+            inp_pms_order = list(cl_pms)
         pjoins = []
-        for pm in cl_pms:  # TODO: if packed and obj
+        for pm in inp_pms_order:  # TODO: if packed and obj
             o3_name = pms[pm].o3_name
             default = pms[pm].default_value
             if pms[pm].is_flag:
@@ -755,12 +766,16 @@ if __name__ == '__main__':
     import user_paths as up
     # parse_all_ndmat()
     # parse_mat_file(up.OPY_DOCS_PATH + 'SSPquadUP.rst', 'ele')
-    parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
-    parse_generic_single_file(obj_type='pattern', osi_type='pat')
-    parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
-    parse_all_uniaxial_mat()
-    parse_all_ndmat()
-    parse_all_elements()
+    # parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'pathTs.rst', 'tseries')
+    all = 0
+    all = 1
+    if all:
+        parse_generic_single_file(obj_type='pattern', osi_type='pat')
+        parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
+        parse_all_uniaxial_mat()
+        parse_all_ndmat()
+        parse_all_elements()
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
     #     print('found')

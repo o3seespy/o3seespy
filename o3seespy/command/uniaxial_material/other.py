@@ -212,7 +212,7 @@ class SAWS(UniaxialMaterialBase):
 class BarSlip(UniaxialMaterialBase):
     op_type = 'BarSlip'
 
-    def __init__(self, osi, fc, fy, es, fu, eh, db, ld, nb, depth, height, anc_lratio=1.0, bs_flag, otype, damage='Damage', unit='psi'):
+    def __init__(self, osi, fc, fy, es, fu, eh, db, ld, nb, depth, height, bs_flag, otype, anc_lratio=1.0, damage='Damage', unit='psi'):
         self.fc = float(fc)
         self.fy = float(fy)
         self.es = float(es)
@@ -393,7 +393,7 @@ class ElasticBilin(UniaxialMaterialBase):
 class ElasticMultiLinear(UniaxialMaterialBase):
     op_type = 'ElasticMultiLinear'
 
-    def __init__(self, osi, eta=0.0, strain=None, stress=None):
+    def __init__(self, osi, strain=None, stress=None, eta=0.0):
         self.eta = float(eta)
         self.strain = strain
         self.stress = stress
