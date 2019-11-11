@@ -393,7 +393,7 @@ class ElasticBilin(UniaxialMaterialBase):
 class ElasticMultiLinear(UniaxialMaterialBase):
     op_type = 'ElasticMultiLinear'
 
-    def __init__(self, osi, strain=None, stress=None, eta=0.0):
+    def __init__(self, osi, eta=0.0, strain=None, stress=None):
         self.eta = float(eta)
         self.strain = strain
         self.stress = stress

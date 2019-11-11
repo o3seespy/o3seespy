@@ -4,7 +4,7 @@ from o3seespy.command.element.base_element import ElementBase
 class ZeroLengthdoRayleigh(ElementBase):
     op_type = 'zeroLength'
 
-    def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, orient=None, r_flag=0):
+    def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, r_flag=0, orient=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = mat_tags
         self.dir_args = dir_args
@@ -103,7 +103,7 @@ class ZeroLengthContact3D(ElementBase):
 class ZeroLengthContactNTS2D(ElementBase):
     op_type = 'zeroLengthContactNTS2D'
 
-    def __init__(self, osi, s_nd_num=None, m_nd_num=None, nodes=None, kn, kt, phi):
+    def __init__(self, osi, kn, kt, phi, s_nd_num=None, m_nd_num=None, nodes=None):
         self.s_nd_num = int(s_nd_num)
         self.m_nd_num = int(m_nd_num)
         self.nodes = nodes
@@ -125,7 +125,7 @@ class ZeroLengthContactNTS2D(ElementBase):
 class ZeroLengthInterface2Ddof(ElementBase):
     op_type = 'zeroLengthInterface2D'
 
-    def __init__(self, osi, s_nd_num=None, m_nd_num=None, sdof, mdof, nodes=None, kn, kt, phi):
+    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num=None, m_nd_num=None, nodes=None):
         self.s_nd_num = int(s_nd_num)
         self.m_nd_num = int(m_nd_num)
         self.sdof = int(sdof)

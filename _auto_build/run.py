@@ -101,7 +101,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     pms[pm].forced_not_optional = True  # TODO: should raise a flag
                 # raise ValueError
                 pass
-            if pms[pm].default_value is None:  # TODO: may need to switch to .has_default in case default=None
+            if pms[pm].default_value is None and not pms[pm].marker and not pms[pm].is_flag:  # TODO: may need to switch to .has_default in case default=None
                 contains_no_default = True
                 non_defaults_reversed.append(pm)
             else:
@@ -810,12 +810,12 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    # parse_mat_file(up.OPY_DOCS_PATH + 'singleFPBearing.rst', 'ele')
+    parse_mat_file(up.OPY_DOCS_PATH + 'KikuchiBearing.rst', 'ele')
     # parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
     # parse_mat_file(up.OPY_DOCS_PATH + 'pathTs.rst', 'tseries')
     # test_clean_fn_line()
     all = 0
-    all = 1
+    all = 1  # TODO: KikuchiBearing
     if all:
         parse_generic_single_file(obj_type='pattern', osi_type='pat')
         parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')

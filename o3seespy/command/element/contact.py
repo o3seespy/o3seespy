@@ -21,19 +21,19 @@ class SimpleContact2D(ElementBase):
 class SimpleContact3D(ElementBase):
     op_type = 'SimpleContact3D'
 
-    def __init__(self, osi, i_node, j_node, k_node, l_node, s_node, l_node, mat, g_tol, f_tol):
+    def __init__(self, osi, i_node, j_node, k_node, l_node, s_node, lagr_node, mat, g_tol, f_tol):
         self.i_node = int(i_node)
         self.j_node = int(j_node)
         self.k_node = int(k_node)
         self.l_node = int(l_node)
         self.s_node = int(s_node)
-        self.l_node = int(l_node)
+        self.lagr_node = int(lagr_node)
         self.mat = mat
         self.g_tol = float(g_tol)
         self.f_tol = float(f_tol)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.k_node, self.l_node, self.s_node, self.l_node, self.mat.tag, self.g_tol, self.f_tol]
+        self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.k_node, self.l_node, self.s_node, self.lagr_node, self.mat.tag, self.g_tol, self.f_tol]
         self.to_process(osi)
 
 

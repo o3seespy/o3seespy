@@ -180,7 +180,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
 class FlatSliderBearingmaxIter2D(ElementBase):
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, iter, tol, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, iter, tol, p_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
@@ -218,7 +218,7 @@ class FlatSliderBearingmaxIter2D(ElementBase):
 class FlatSliderBearing3D(ElementBase):
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, tol=None, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
@@ -269,7 +269,7 @@ class FlatSliderBearing3D(ElementBase):
 class SingleFPBearing2D(ElementBase):
     op_type = 'singleFPBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, tol=None, p_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_mdl = frn_mdl
         self.reff = float(reff)
@@ -314,7 +314,7 @@ class SingleFPBearing2D(ElementBase):
 class SingleFPBearing3D(ElementBase):
     op_type = 'singleFPBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, tol=None, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, orient=None, mass=None, shear_dist=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.frn_mdl = frn_mdl
         self.reff = float(reff)
@@ -459,7 +459,7 @@ class MultipleShearSpring(ElementBase):
 class KikuchiBearingadjustPDOutput(ElementBase):
     op_type = 'KikuchiBearing'
 
-    def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, ci, cj, orient=None, mass=None):
+    def __init__(self, osi, ele_nodes, total_rubber, ci, cj, shape=None, size=None, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, orient=None, mass=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         if shape is None:
             self.shape = None
@@ -529,7 +529,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
 class KikuchiBearingdoBalance(ElementBase):
     op_type = 'KikuchiBearing'
 
-    def __init__(self, osi, ele_nodes, shape=None, size=None, total_rubber, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, lim_fo, lim_fi, n_iter, orient=None, mass=None):
+    def __init__(self, osi, ele_nodes, total_rubber, lim_fo, lim_fi, n_iter, shape=None, size=None, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, orient=None, mass=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
         if shape is None:
             self.shape = None
