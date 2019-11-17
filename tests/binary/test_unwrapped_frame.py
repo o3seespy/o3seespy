@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 import sfsimodels
 import eqsig
-import eqsig.duhamels
+import eqsig.sdof
 
 import numpy as np
 
@@ -318,7 +318,7 @@ def plot_response():
     plt.plot(time, ux_opensees, label="BB")
 
     periods = np.array([2 * 0.7147])
-    resp_u, resp_v, resp_a = eqsig.duhamels.response_series(motion=rec, dt=dt, periods=periods, xi=xi)
+    resp_u, resp_v, resp_a = eqsig.sdof.response_series(motion=rec, dt=dt, periods=periods, xi=xi)
     plt.plot(acc_signal.time, resp_u[0], label="Duhamels")
     print(np.sum(np.abs(resp_u[0])), )
     assert np.isclose(np.sum(np.abs(ux_opensees)), 113.09023), np.sum(np.abs(ux_opensees))
