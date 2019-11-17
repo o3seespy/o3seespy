@@ -44,7 +44,7 @@ def site_response(sp, asig):
     phis = sp.split['phi']
     strain_peaks = sp.split['strain_peak']
     grav = 9.81
-    damping = 0.13
+    damping = 0.1
     omega_1 = 2 * np.pi * 0.5
     omega_2 = 2 * np.pi * 10
     a0 = 2 * damping * omega_1 * omega_2 / (omega_1 + omega_2)
@@ -64,7 +64,7 @@ def site_response(sp, asig):
     for i in range(1, n_node_rows):
         # Establish left and right nodes
         nd["R{0}L".format(i)] = o3.node.Node(osi, 0, -node_depths[i])
-        nd["R{0}R".format(i)] = o3.node.Node(osi, ele_width, -node_depths[i], x_mass=0.002)  # TODO: why is mass needed for stability?
+        nd["R{0}R".format(i)] = o3.node.Node(osi, ele_width, -node_depths[i], x_mass=0.000)  # TODO: why is mass needed for stability?
         # set x and y dofs equal for left and right nodes
         if 0 == 0:
             if i != n_node_rows - 1:  # TODO: why not
@@ -90,12 +90,15 @@ def site_response(sp, asig):
     strains = np.logspace(-6, -0.5, 16)
     ref_strain = 0.005
     rats = 1. / (1 + (strains / ref_strain) ** 0.91)
+    elastic = 0
     for i in range(len(thicknesses)):
-        # mat = o3.nd_material.PressureIndependMultiYield(osi, 2, unit_masses[i], g_mods[i],
-        #                                                  bulk_mods[i], cohesions[i], strain_peaks[i],
-        #                                                  phis[i], press_depend_coe=0.0, no_yield_surf=16,
-        #                                                  strains=strains, ratios=rats)
-        mat = o3.nd_material.ElasticIsotropic(osi, youngs_mods[i], poissons_ratio[i])
+        if not elastic:
+            mat = o3.nd_material.PressureIndependMultiYield(osi, 2, unit_masses[i] / 1e3, g_mods[i],
+                                                         bulk_mods[i], cohesions[i], strain_peaks[i],
+                                                         phis[i], press_depend_coe=0.0, no_yield_surf=16,
+                                                         strains=strains, ratios=rats)
+        else:
+            mat = o3.nd_material.ElasticIsotropic(osi, youngs_mods[i], poissons_ratio[i])
         soil_mats.append(mat)
 
         # def element
