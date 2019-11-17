@@ -44,9 +44,9 @@ def site_response(sp, asig):
     phis = sp.split['phi']
     strain_peaks = sp.split['strain_peak']
     grav = 9.81
-    damping = 0.02
-    omega_1 = 2 * np.pi * 0.2
-    omega_2 = 2 * np.pi * 20
+    damping = 0.13
+    omega_1 = 2 * np.pi * 0.5
+    omega_2 = 2 * np.pi * 10
     a0 = 2 * damping * omega_1 * omega_2 / (omega_1 + omega_2)
     a1 = 2 * damping / (omega_1 + omega_2)
 
@@ -64,9 +64,9 @@ def site_response(sp, asig):
     for i in range(1, n_node_rows):
         # Establish left and right nodes
         nd["R{0}L".format(i)] = o3.node.Node(osi, 0, -node_depths[i])
-        nd["R{0}R".format(i)] = o3.node.Node(osi, ele_width, -node_depths[i], x_mass=0.0001) # TODO: why is mass needed for stability?
+        nd["R{0}R".format(i)] = o3.node.Node(osi, ele_width, -node_depths[i], x_mass=0.002)  # TODO: why is mass needed for stability?
         # set x and y dofs equal for left and right nodes
-        if 1 == 0:
+        if 0 == 0:
             if i != n_node_rows - 1:  # TODO: why not
                 o3.EqualDOF(osi, nd["R{0}L".format(i)], nd["R{0}R".format(i)], [o3.cc.X, o3.cc.Y])
 
@@ -113,6 +113,7 @@ def site_response(sp, asig):
     dashpot_mat = o3.uniaxial_material.Viscous(osi, dashpot_c, alpha=1.)
     dashpot_ele = o3.element.ZeroLength(osi, dashpot_node_l, dashpot_node_2, mat_x=dashpot_mat)
 
+    # Static analysis
     o3.constraint.Transformation(osi)
     o3.test_check.NormDispIncr(osi, tol=1.0e-5, max_iter=30, p_flag=0)
     o3.algorithm.Newton(osi)
@@ -142,11 +143,11 @@ def site_response(sp, asig):
     opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.cc.X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
-    xi = 0.01
-    # angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
-    angular_freq = 0.5
-    beta_k = 2 * xi / angular_freq
-    o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
+    # xi = 0.01
+    # # angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
+    # angular_freq = 0.5
+    # beta_k = 2 * xi / angular_freq
+    # o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
 
     # Run the dynamic analysis
     o3.algorithm.Newton(osi)
@@ -154,6 +155,7 @@ def site_response(sp, asig):
     o3.numberer.RCM(osi)
     o3.constraint.Transformation(osi)
     o3.integrator.Newmark(osi, newmark_gamma, newmark_beta)
+    o3.rayleigh.Rayleigh(osi, a0, a1, 0, 0)
     o3.analysis.Transient(osi)
 
     o3.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
@@ -226,7 +228,7 @@ def run():
     sl.unit_dry_weight = unit_mass * 9.8
     sl.strain_peak = 0.1  # set additional parameter required for PIMY model
     sl.xi = 0.03  # for linear analysis
-    soil_profile.add_layer(6, sl)
+    soil_profile.add_layer(9.5, sl)
     soil_profile.height = 12.0
     from tests.conftest import TEST_DATA_DIR
 
