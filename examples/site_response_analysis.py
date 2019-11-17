@@ -33,7 +33,7 @@ def site_response(sp, asig):
     ele_depths = (node_depths[1:] + node_depths[:-1]) / 2
     shear_vels = sp.split["shear_vel"]
     unit_masses = sp.split["unit_mass"] / 1e3
-    g_mods = unit_masses * shear_vels ** 2 / 1e3
+    g_mods = unit_masses * shear_vels ** 2 #/ 1e6
     poissons_ratio = sp.split['poissons_ratio']
     youngs_mods = 2 * g_mods * (1 - poissons_ratio)
     bulk_mods = youngs_mods / (3 * (1 - 2 * poissons_ratio))
@@ -93,7 +93,7 @@ def site_response(sp, asig):
     elastic = 0
     for i in range(len(thicknesses)):
         if not elastic:
-            mat = o3.nd_material.PressureIndependMultiYield(osi, 2, unit_masses[i] / 1e3, g_mods[i],
+            mat = o3.nd_material.PressureIndependMultiYield(osi, 2, unit_masses[i], g_mods[i],
                                                          bulk_mods[i], cohesions[i], strain_peaks[i],
                                                          phis[i], press_depend_coe=0.0, no_yield_surf=16,
                                                          strains=strains, ratios=rats)
@@ -250,8 +250,11 @@ def run():
 
     outputs = site_response(soil_profile, acc_signal)
     resp_dt = outputs['time'][2] - outputs['time'][1]
-    surf_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)  # TODO: need to get absolute acceleration
-
+    surf_rel_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)  # TODO: need to get absolute acceleration
+    surf_rel_sig = eqsig.interp_to_approx_dt(surf_rel_sig, acc_signal.dt)
+    assert np.isclose(surf_rel_sig.dt, acc_signal.dt)
+    print(surf_rel_sig.npts, acc_signal.npts)
+    surf_sig = eqsig.AccSignal(surf_rel_sig.values - acc_signal.values, acc_signal.dt)
     sps[0].plot(acc_signal.time, acc_signal.values, c='k')
     sps[0].plot(surf_sig.time, surf_sig.values, c=cbox(0))
     sps[0].plot(acc_signal.time, pysra_sig.values, c=cbox(1))
