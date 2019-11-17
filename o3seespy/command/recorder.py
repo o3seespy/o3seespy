@@ -11,8 +11,8 @@ class RecorderBase(OpenseesObject):
 class NodeToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, node, dofs, mtype, nsd=8):
-        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', node.tag, '-dof', *dofs, mtype]
+    def __init__(self, osi, fname, node, dofs, res_type, nsd=8):
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', node.tag, '-dof', *dofs, res_type]
         self.to_process(osi)
 
 

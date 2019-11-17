@@ -13,8 +13,8 @@ class Quad(ElementBase):
         self.rho = rho
         self.b1 = b1
         self.b2 = b2
-        osi.n_eles += 1
-        self._tag = osi.n_eles
+        osi.n_ele += 1
+        self._tag = osi.n_ele
         node_tags = [x.tag for x in self.nodes]
         self._parameters = [self.op_type, self._tag, *node_tags, self.thick, self.mat_type, self.mat.tag, self.pressure,
                             self.rho, self.b1, self.b2]
