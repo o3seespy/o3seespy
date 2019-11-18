@@ -4,6 +4,7 @@ import numpy as np
 import sfsimodels as sm
 import openseespy.opensees as opy
 import o3seespy as o3
+import matplotlib.pyplot as plt
 
 # for linear analysis comparison
 import liquepy as lq
@@ -12,7 +13,7 @@ from bwplot import cbox
 import json
 
 
-def site_response(sp, asig):
+def site_response(sp, asig, linear=0):
     """
     Run seismic analysis of a soil profile - example based on:
     http://opensees.berkeley.edu/wiki/index.php/Site_Response_Analysis_of_a_Layered_Soil_Column_(Total_Stress_Analysis)
@@ -23,7 +24,7 @@ def site_response(sp, asig):
         An acceleration signal
     :return:
     """
-    # TODO: THIS IS NOT WORKING CORRECTLY, RESPONSE IS WRONG
+
     osi = o3.OpenseesInstance(dimensions=2, node_dofs=2, state=3)
     assert isinstance(sp, sm.SoilProfile)
     sp.gen_split(props=['shear_vel', 'unit_mass', 'cohesion', 'phi', 'bulk_mod', 'poissons_ratio', 'strain_peak'])
@@ -34,14 +35,14 @@ def site_response(sp, asig):
     ele_depths = (node_depths[1:] + node_depths[:-1]) / 2
     shear_vels = sp.split["shear_vel"]
     unit_masses = sp.split["unit_mass"] / 1e3
-    g_mods = unit_masses * shear_vels ** 2 #/ 1e6
+    g_mods = unit_masses * shear_vels ** 2
     poissons_ratio = sp.split['poissons_ratio']
     youngs_mods = 2 * g_mods * (1 - poissons_ratio)
     bulk_mods = youngs_mods / (3 * (1 - 2 * poissons_ratio))
     bulk_mods = sp.split['bulk_mod'] / 1e3
 
     ref_pressure = 80.0
-    cohesions = sp.split['cohesion']
+    cohesions = sp.split['cohesion'] / 1e3
     phis = sp.split['phi']
     strain_peaks = sp.split['strain_peak']
     grav = 9.81
@@ -65,11 +66,9 @@ def site_response(sp, asig):
     for i in range(1, n_node_rows):
         # Establish left and right nodes
         nd["R{0}L".format(i)] = o3.node.Node(osi, 0, -node_depths[i])
-        nd["R{0}R".format(i)] = o3.node.Node(osi, ele_width, -node_depths[i], x_mass=0.000)  # TODO: why is mass needed for stability?
+        nd["R{0}R".format(i)] = o3.node.Node(osi, ele_width, -node_depths[i])
         # set x and y dofs equal for left and right nodes
-        if 0 == 0:
-            if i != n_node_rows - 1:  # TODO: why not
-                o3.EqualDOF(osi, nd["R{0}L".format(i)], nd["R{0}R".format(i)], [o3.cc.X, o3.cc.Y])
+        o3.EqualDOF(osi, nd["R{0}L".format(i)], nd["R{0}R".format(i)], [o3.cc.X, o3.cc.Y])
 
     # Fix base nodes
     o3.Fix(osi, nd["R{0}L".format(n_node_rows - 1)], o3.cc.FREE, o3.cc.FIXED, o3.cc.FREE)
@@ -91,9 +90,9 @@ def site_response(sp, asig):
     strains = np.logspace(-6, -0.5, 16)
     ref_strain = 0.005
     rats = 1. / (1 + (strains / ref_strain) ** 0.91)
-    elastic = 1
+
     for i in range(len(thicknesses)):
-        if not elastic:
+        if not linear:
             mat = o3.nd_material.PressureIndependMultiYield(osi, 2, unit_masses[i], g_mods[i],
                                                          bulk_mods[i], cohesions[i], strain_peaks[i],
                                                          phis[i], press_depend_coe=0.0, no_yield_surf=16,
@@ -123,18 +122,18 @@ def site_response(sp, asig):
     o3.numberer.RCM(osi)
     o3.system.ProfileSPD(osi)
     o3.integrator.Newmark(osi, newmark_gamma, newmark_beta)
-
     o3.analysis.Transient(osi)
     o3.analyze(osi, 40, 1.)
 
     for i in range(len(soil_mats)):
         o3.update_material_stage(osi, soil_mats[i], 1)
     o3.analyze(osi, 50, 0.5)
+
     # reset time and analysis
     o3.set_time(osi, 0.0)
     o3.wipe_analysis(osi)
 
-    o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
+    # o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
     na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
 
     # Define the dynamic analysis
@@ -170,8 +169,8 @@ def site_response(sp, asig):
 
 def run_pysra(soil_profile, asig, odepths):
     pysra_profile = lq.sra.sm_profile_to_pysra(soil_profile, d_inc=[0.5] * soil_profile.n_layers)
-    pysra_m = pysra.motion.TimeSeriesMotion(filename=asig.label, description=None, time_step=asig.dt,
-                                      accels=-asig.values / 9.8)  # Should be input as g
+    # Should be input in g
+    pysra_m = pysra.motion.TimeSeriesMotion(asig.label, None, time_step=asig.dt, accels=-asig.values / 9.8)
 
     calc = pysra.propagation.LinearElasticCalculator()
 
@@ -192,16 +191,13 @@ def run_pysra(soil_profile, asig, odepths):
 
 def run():
     sl = sm.Soil()
-    # vs = 250.
+
     vs = 160.
     unit_mass = 1700.0
     sl.cohesion = 58.0e3
     sl.phi = 0.0
-    # vs = 100.
-    # unit_mass = 1700.0
     sl.g_mod = vs ** 2 * unit_mass
     sl.poissons_ratio = 0.0
-    # sl.cohesion = 95.0e3
     sl.phi = 0.0
     sl.unit_dry_weight = unit_mass * 9.8
     sl.strain_peak = 0.1  # set additional parameter required for PIMY model
@@ -209,8 +205,8 @@ def run():
     assert np.isclose(vs, sl.get_shear_vel(saturated=False))
     soil_profile = sm.SoilProfile()
     soil_profile.add_layer(0, sl)
+
     sl = sm.Soil()
-    # vs = 250.
     vs = 400.
     unit_mass = 1700.0
     sl.g_mod = vs ** 2 * unit_mass
@@ -220,7 +216,7 @@ def run():
     sl.unit_dry_weight = unit_mass * 9.8
     sl.strain_peak = 0.1  # set additional parameter required for PIMY model
     sl.xi = 0.03  # for linear analysis
-    # soil_profile.add_layer(9.5, sl)
+    soil_profile.add_layer(9.5, sl)
     soil_profile.height = 20.0
     ecp_out = sm.Output()
     ecp_out.add_to_dict(soil_profile)
@@ -232,24 +228,19 @@ def run():
     record_path = TEST_DATA_DIR
     record_filename = 'test_motion_dt0p01.txt'
     dt = 0.01
-    rec = np.loadtxt(record_path + record_filename) / 10
+    rec = np.loadtxt(record_path + record_filename) / 2
     acc_signal = eqsig.AccSignal(rec, dt)
 
-    import matplotlib.pyplot as plt
     bf, sps = plt.subplots(nrows=3)
 
     # linear analysis with pysra
     od = run_pysra(soil_profile, acc_signal, odepths=np.array([0.0, 2.0]))
     pysra_sig = eqsig.AccSignal(od['ACCX_d0'], acc_signal.dt)
 
-    outputs = site_response(soil_profile, acc_signal)
+    outputs = site_response(soil_profile, acc_signal, linear=1)
     resp_dt = outputs['time'][2] - outputs['time'][1]
-    surf_rel_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)  # TODO: need to get absolute acceleration
-    # surf_rel_sig = eqsig.interp_to_approx_dt(surf_rel_sig, acc_signal.dt)
-    assert np.isclose(surf_rel_sig.dt, acc_signal.dt), (surf_rel_sig.dt, acc_signal.dt)
-    print(surf_rel_sig.npts, acc_signal.npts)
+    surf_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)
 
-    surf_sig = eqsig.AccSignal(surf_rel_sig.values + 0*acc_signal.values, acc_signal.dt)
     sps[0].plot(acc_signal.time, acc_signal.values, c='k')
     sps[0].plot(surf_sig.time, surf_sig.values, c=cbox(0))
     sps[0].plot(acc_signal.time, pysra_sig.values, c=cbox(1))
