@@ -9,6 +9,7 @@ import o3seespy as o3
 import liquepy as lq
 import pysra
 from bwplot import cbox
+import json
 
 
 def site_response(sp, asig):
@@ -103,7 +104,6 @@ def site_response(sp, asig):
 
         # def element
         nodes = [
-
             nd["R{0}L".format(i + 1)],
             nd["R{0}R".format(i + 1)],
             nd["R{0}R".format(i)],
@@ -112,34 +112,36 @@ def site_response(sp, asig):
         ele = o3.element.Quad(osi, nodes, ele_thick, o3.cc.PLANE_STRAIN, mat, b2=grav * unit_masses[i])
 
     # define material and element for viscous dampers
-    dashpot_c = ele_width * unit_masses[-1] * shear_vels[-1]
-    dashpot_mat = o3.uniaxial_material.Viscous(osi, dashpot_c, alpha=1.)
-    dashpot_ele = o3.element.ZeroLength(osi, dashpot_node_l, dashpot_node_2, mat_x=dashpot_mat)
+    c_base = ele_width * unit_masses[-1] * shear_vels[-1]
+    dashpot_mat = o3.uniaxial_material.Viscous(osi, c_base, alpha=1.)
+    o3.element.ZeroLength(osi, dashpot_node_l, dashpot_node_2, mat_x=dashpot_mat)
 
     # Static analysis
     o3.constraint.Transformation(osi)
-    o3.test_check.NormDispIncr(osi, tol=1.0e-5, max_iter=30, p_flag=0)
+    o3.test_check.NormDispIncr(osi, tol=1.0e-4, max_iter=30, p_flag=0)
     o3.algorithm.Newton(osi)
     o3.numberer.RCM(osi)
     o3.system.ProfileSPD(osi)
     o3.integrator.Newmark(osi, newmark_gamma, newmark_beta)
 
     o3.analysis.Transient(osi)
-    # opy.analyze(10, 5.0e3)
-    o3.analyze(osi, 10, 500.)
+    o3.analyze(osi, 40, 1.)
 
     for i in range(len(soil_mats)):
         o3.update_material_stage(osi, soil_mats[i], 1)
-        # opy.updateMaterialStage('-material', soil_mats[i].tag, '-stage', 1)
-    o3.analyze(osi, 10, 500.)
+    o3.analyze(osi, 50, 0.5)
     # reset time and analysis
     o3.set_time(osi, 0.0)
-    opy.setTime(0.0)
     o3.wipe_analysis(osi)
 
+    o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
+    na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
+
     # Define the dynamic analysis
-    ts_obj = o3.time_series.Path(osi, dt=asig.dt, values=asig.values * -1)
-    o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=ts_obj)
+    ts_obj = o3.time_series.Path(osi, dt=asig.dt, values=asig.velocity * 1, factor=c_base)
+    # o3.pattern.UniformExcitation(osi, dir=o3.cc.X, vel_series=ts_obj)
+    o3.pattern.Plain(osi, ts_obj)
+    o3.Load(osi, nd["R{0}L".format(n_node_rows - 1)], [1., 0.])
 
     # Run the dynamic analysis
     o3.algorithm.Newton(osi)
@@ -153,9 +155,6 @@ def site_response(sp, asig):
     o3.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
     analysis_time = asig.time[-1]
     analysis_dt = 0.01
-
-    o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
-    na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
 
     while opy.getTime() < analysis_time:
         print(opy.getTime())
@@ -195,11 +194,15 @@ def run_pysra(soil_profile, asig, odepths):
 def run():
     sl = sm.Soil()
     # vs = 250.
-    vs = 100.
+    vs = 160.
     unit_mass = 1700.0
+    sl.cohesion = 58.0e3
+    sl.phi = 0.0
+    # vs = 100.
+    # unit_mass = 1700.0
     sl.g_mod = vs ** 2 * unit_mass
-    sl.poissons_ratio = 0.0
-    sl.cohesion = 95.0e3
+    sl.poissons_ratio = 0.3
+    # sl.cohesion = 95.0e3
     sl.phi = 0.0
     sl.unit_dry_weight = unit_mass * 9.8
     sl.strain_peak = 0.1  # set additional parameter required for PIMY model
@@ -218,8 +221,13 @@ def run():
     sl.unit_dry_weight = unit_mass * 9.8
     sl.strain_peak = 0.1  # set additional parameter required for PIMY model
     sl.xi = 0.03  # for linear analysis
-    soil_profile.add_layer(9.5, sl)
-    soil_profile.height = 12.0
+    # soil_profile.add_layer(9.5, sl)
+    soil_profile.height = 20.0
+    ecp_out = sm.Output()
+    ecp_out.add_to_dict(soil_profile)
+    ofile = open('ecp.json', 'w')
+    ofile.write(json.dumps(ecp_out.to_dict(), indent=4))
+    ofile.close()
     from tests.conftest import TEST_DATA_DIR
 
     record_path = TEST_DATA_DIR
@@ -242,7 +250,7 @@ def run():
     assert np.isclose(surf_rel_sig.dt, acc_signal.dt), (surf_rel_sig.dt, acc_signal.dt)
     print(surf_rel_sig.npts, acc_signal.npts)
 
-    surf_sig = eqsig.AccSignal(surf_rel_sig.values - acc_signal.values, acc_signal.dt)
+    surf_sig = eqsig.AccSignal(surf_rel_sig.values - 0*acc_signal.values, acc_signal.dt)
     sps[0].plot(acc_signal.time, acc_signal.values, c='k')
     sps[0].plot(surf_sig.time, surf_sig.values, c=cbox(0))
     sps[0].plot(acc_signal.time, pysra_sig.values, c=cbox(1))
