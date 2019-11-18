@@ -45,7 +45,7 @@ def site_response(sp, asig):
     phis = sp.split['phi']
     strain_peaks = sp.split['strain_peak']
     grav = 9.81
-    damping = 0.05
+    damping = 0.03
     omega_1 = 2 * np.pi * 0.5
     omega_2 = 2 * np.pi * 10
     a0 = 2 * damping * omega_1 * omega_2 / (omega_1 + omega_2)
@@ -138,8 +138,7 @@ def site_response(sp, asig):
     na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
 
     # Define the dynamic analysis
-    ts_obj = o3.time_series.Path(osi, dt=asig.dt, values=asig.velocity * 1, factor=c_base)
-    # o3.pattern.UniformExcitation(osi, dir=o3.cc.X, vel_series=ts_obj)
+    ts_obj = o3.time_series.Path(osi, dt=asig.dt, values=asig.velocity * -1, factor=c_base)
     o3.pattern.Plain(osi, ts_obj)
     o3.Load(osi, nd["R{0}L".format(n_node_rows - 1)], [1., 0.])
 
@@ -201,7 +200,7 @@ def run():
     # vs = 100.
     # unit_mass = 1700.0
     sl.g_mod = vs ** 2 * unit_mass
-    sl.poissons_ratio = 0.3
+    sl.poissons_ratio = 0.0
     # sl.cohesion = 95.0e3
     sl.phi = 0.0
     sl.unit_dry_weight = unit_mass * 9.8
@@ -250,7 +249,7 @@ def run():
     assert np.isclose(surf_rel_sig.dt, acc_signal.dt), (surf_rel_sig.dt, acc_signal.dt)
     print(surf_rel_sig.npts, acc_signal.npts)
 
-    surf_sig = eqsig.AccSignal(surf_rel_sig.values - 0*acc_signal.values, acc_signal.dt)
+    surf_sig = eqsig.AccSignal(surf_rel_sig.values + 0*acc_signal.values, acc_signal.dt)
     sps[0].plot(acc_signal.time, acc_signal.values, c='k')
     sps[0].plot(surf_sig.time, surf_sig.values, c=cbox(0))
     sps[0].plot(acc_signal.time, pysra_sig.values, c=cbox(1))
