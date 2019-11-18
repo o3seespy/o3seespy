@@ -42,11 +42,11 @@ class UniformExcitation(PatternBase):
         self._tag = osi.n_pat
         self._parameters = [self.op_type, self._tag, self.dir]
         if getattr(self, 'disp_series') is not None:
-            self._parameters += ['-disp', self.disp_series]
+            self._parameters += ['-disp', self.disp_series.tag]
         if getattr(self, 'vel_series') is not None:
-            self._parameters += ['-vel', self.vel_series]
+            self._parameters += ['-vel', self.vel_series.tag]
         if getattr(self, 'accel_series') is not None:
-            self._parameters += ['-accel', self.accel_series]
+            self._parameters += ['-accel', self.accel_series.tag]
         if getattr(self, 'vel0') is not None:
             self._parameters += ['-vel0', self.vel0]
         if getattr(self, 'fact') is not None:

@@ -11,8 +11,11 @@ class RecorderBase(OpenseesObject):
 class NodeToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, node, dofs, res_type, nsd=8):
-        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', node.tag, '-dof', *dofs, res_type]
+    def __init__(self, osi, fname, node, dofs, res_type, nsd=8, dt=None):
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', node.tag]
+        if dt is not None:
+            self._parameters += ['-dT', dt]
+        self._parameters += ['-dof', *dofs, res_type]
         self.to_process(osi)
 
 
@@ -28,9 +31,12 @@ class NodesToFile(RecorderBase):
 class NodeToArrayCache(RecorderBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
 
-    def __init__(self, osi, node, dofs, res_type, nsd=8):
+    def __init__(self, osi, node, dofs, res_type, nsd=8, dt=None):
         self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', node.tag, '-dof', *dofs, res_type]
+        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', node.tag]
+        if dt is not None:
+            self._parameters += ['-dT', dt]
+        self._parameters += ['-dof', *dofs, res_type]
         self.to_process(osi)
 
     def collect(self):

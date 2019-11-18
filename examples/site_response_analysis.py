@@ -44,7 +44,7 @@ def site_response(sp, asig):
     phis = sp.split['phi']
     strain_peaks = sp.split['strain_peak']
     grav = 9.81
-    damping = 0.1
+    damping = 0.05
     omega_1 = 2 * np.pi * 0.5
     omega_2 = 2 * np.pi * 10
     a0 = 2 * damping * omega_1 * omega_2 / (omega_1 + omega_2)
@@ -90,7 +90,7 @@ def site_response(sp, asig):
     strains = np.logspace(-6, -0.5, 16)
     ref_strain = 0.005
     rats = 1. / (1 + (strains / ref_strain) ** 0.91)
-    elastic = 0
+    elastic = 1
     for i in range(len(thicknesses)):
         if not elastic:
             mat = o3.nd_material.PressureIndependMultiYield(osi, 2, unit_masses[i], g_mods[i],
@@ -98,7 +98,7 @@ def site_response(sp, asig):
                                                          phis[i], press_depend_coe=0.0, no_yield_surf=16,
                                                          strains=strains, ratios=rats)
         else:
-            mat = o3.nd_material.ElasticIsotropic(osi, youngs_mods[i], poissons_ratio[i])
+            mat = o3.nd_material.ElasticIsotropic(osi, youngs_mods[i], poissons_ratio[i], rho=unit_masses[i])
         soil_mats.append(mat)
 
         # def element
@@ -138,19 +138,8 @@ def site_response(sp, asig):
     o3.wipe_analysis(osi)
 
     # Define the dynamic analysis
-    load_tag_dynamic = 1
-    pattern_tag_dynamic = 1
-
-    values = list(-1 * asig.values)  # should be negative
-    opy.timeSeries('Path', load_tag_dynamic, '-dt', asig.dt, '-values', *values)
-    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.cc.X, '-accel', load_tag_dynamic)
-
-    # set damping based on first eigen mode
-    # xi = 0.01
-    # # angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
-    # angular_freq = 0.5
-    # beta_k = 2 * xi / angular_freq
-    # o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
+    ts_obj = o3.time_series.Path(osi, dt=asig.dt, values=asig.values * -1)
+    o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=ts_obj)
 
     # Run the dynamic analysis
     o3.algorithm.Newton(osi)
@@ -162,7 +151,7 @@ def site_response(sp, asig):
     o3.analysis.Transient(osi)
 
     o3.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
-    analysis_time = (len(values) - 1) * asig.dt
+    analysis_time = asig.time[-1]
     analysis_dt = 0.01
 
     o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
@@ -176,8 +165,6 @@ def site_response(sp, asig):
         "time": np.arange(0, analysis_time, analysis_dt),
         "rel_disp": [],
         "rel_accel": na.collect(),
-        "rel_vel": [],
-        "force": []
     }
 
     return outputs
@@ -251,9 +238,10 @@ def run():
     outputs = site_response(soil_profile, acc_signal)
     resp_dt = outputs['time'][2] - outputs['time'][1]
     surf_rel_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)  # TODO: need to get absolute acceleration
-    surf_rel_sig = eqsig.interp_to_approx_dt(surf_rel_sig, acc_signal.dt)
-    assert np.isclose(surf_rel_sig.dt, acc_signal.dt)
+    # surf_rel_sig = eqsig.interp_to_approx_dt(surf_rel_sig, acc_signal.dt)
+    assert np.isclose(surf_rel_sig.dt, acc_signal.dt), (surf_rel_sig.dt, acc_signal.dt)
     print(surf_rel_sig.npts, acc_signal.npts)
+
     surf_sig = eqsig.AccSignal(surf_rel_sig.values - acc_signal.values, acc_signal.dt)
     sps[0].plot(acc_signal.time, acc_signal.values, c='k')
     sps[0].plot(surf_sig.time, surf_sig.values, c=cbox(0))
