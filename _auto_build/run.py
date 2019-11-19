@@ -81,14 +81,21 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
     if not len(op_kwargs):
         op_kwargs[''] = []
     para = ['']
+    tpara = []
     for kw in op_kwargs:
         name_from_kw = kw.replace('-', '')
         name_from_kw = name_from_kw.replace("'", '')
-        op_class_name = convert_name_to_class_name(op_type + name_from_kw) + cl_name_suf
-        base_class_name = base_type[0].capitalize() + base_type[1:]
-        para.append(f'class {op_class_name}({base_class_name}Base):')
-        para.append(w4 + f"op_type = '{op_type}'")
-        para.append('')
+        if op_type is None:
+            base_class_name = base_type[0].capitalize() + base_type[1:]
+            para.append(f'class {base_class_name}(OpenseesObject):')
+            para.append(w4 + f"base_type = '{base_type}'")
+            para.append('')
+        else:
+            op_class_name = convert_name_to_class_name(op_type + name_from_kw) + cl_name_suf
+            base_class_name = base_type[0].capitalize() + base_type[1:]
+            para.append(f'class {op_class_name}({base_class_name}Base):')
+            para.append(w4 + f"op_type = '{op_type}'")
+            para.append('')
 
         pms = clean_param_names(defaults)
         # Determine what is in this class
@@ -164,7 +171,9 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     para.append(w8 + f'self.{o3_name} = [x.tag for x in {o3_name}]')
                 else:
                     para.append(w8 + f'self.{o3_name} = {o3_name}')
-        pjoins = ['self.op_type']
+        pjoins = []
+        if op_type is not None:
+            pjoins.append('self.op_type')
         if osi_type is not None:
             para.append(w8 + f'osi.n_{osi_type} += 1')
             para.append(w8 + f'self._tag = osi.n_{osi_type}')
@@ -236,31 +245,124 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         para.append(w8 + 'self.to_process(osi)')
         para.append('')
 
-        low_op_name = convert_camel_to_snake(op_class_name)
-        low_base_name = convert_camel_to_snake(base_class_name)
+        if op_type is None:
+            low_op_name = convert_camel_to_snake(base_class_name)
+            op_class_name = base_class_name
+        else:
+            low_op_name = convert_camel_to_snake(op_class_name)
+        low_base_name = convert_camel_to_snake(base_class_name)  # TODO: should actually be file name
 
         # Build test
-        tpara = [f'def test_{low_op_name}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
-        pjoins = ['osi']
-        for i, pm in enumerate(cl_pms):
-            o3_name = pms[pm].o3_name
-            default = pms[pm].default_value
-            dtype = pms[pm].dtype
-            if pms[pm].default_is_expression:
-                pjoins.append(f'{o3_name}=None')
-            elif default is not None:
-                pjoins.append(f'{o3_name}={default}')
-            elif dtype == 'float':
-                pjoins.append(f'{o3_name}=1.0')
-            elif dtype == 'obj':
-                pjoins.append(f'{o3_name}=obj')
-            else:
-                pjoins.append(f'{o3_name}=1')
-        pjoint = ', '.join(pjoins)
-        tpara.append(w4 + f'o3.{low_base_name}.{op_class_name}({pjoint})')
-        tpara.append('')
-        tpara.append('')
+        names = {
+            'low_op_name': low_op_name,
+            'low_base_name': low_base_name,
+            'op_class_name': op_class_name
+        }
+        if low_base_name == 'element':
+            tpara1 = build_test_for_element(names, pms, cl_pms)
+        elif low_base_name == 'beam_integration':
+            tpara1 = build_test_for_beamintegration(names, pms, cl_pms)
+        else:
+            tpara1 = build_test_for_generic(names, pms, cl_pms)
+        tpara += tpara1
     return '\n'.join(para), '\n'.join(tpara)
+
+
+def build_test_for_element(names, pms, cl_pms):
+    tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
+    prior_strs = []
+    pjoins = ['osi']
+    for i, pm in enumerate(cl_pms):
+        o3_name = pms[pm].o3_name
+        default = pms[pm].default_value
+        dtype = pms[pm].dtype
+        if pms[pm].default_is_expression:
+            pjoins.append(f'{o3_name}=None')
+        elif default is not None:
+            pjoins.append(f'{o3_name}={default}')
+        elif dtype == 'float':
+            pjoins.append(f'{o3_name}=1.0')
+        elif dtype == 'obj':
+            if o3_name == 'transf':
+                prior_strs.append(w4 + f'{o3_name} = o3.transformation.Linear(osi, [])')
+            elif o3_name == 'ele_nodes':
+                prior_strs.append(w4 + 'coords = [[0, 0], [1, 0], [1, 1], [0, 1]]')
+                prior_strs.append(w4 + 'ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]')
+            elif o3_name == 'i_node':
+                prior_strs.append(w4 + 'i_node = o3.node.Node(osi, 0.0, 0.0)')
+            elif o3_name == 'j_node':
+                prior_strs.append(w4 + 'j_node = o3.node.Node(osi, 0.0, 1.0)')
+            elif o3_name == 'sec':
+                prior_strs.append(w4 + 'sec = o3.section.Elastic(osi, 10.0, 1.0, 1.0)')
+            elif o3_name == 'integration':
+                prior_strs.append(w4 + 'sec = o3.section.Elastic(osi, 10.0, 1.0, 1.0)')
+                prior_strs.append(w4 + 'integration = o3.beam_integration.Lobatto(osi, sec, 5)')
+            pjoins.append(f'{o3_name}={o3_name}')
+        else:
+            pjoins.append(f'{o3_name}=1')
+    pjoint = ', '.join(pjoins)
+    tpara += prior_strs
+    tpara.append(w4 + f'o3.{names["low_base_name"]}.{names["op_class_name"]}({pjoint})')
+    tpara.append('')
+    tpara.append('')
+
+    return tpara
+
+
+def build_test_for_generic(names, pms, cl_pms):
+    tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
+    pjoins = ['osi']
+    for i, pm in enumerate(cl_pms):
+        o3_name = pms[pm].o3_name
+        default = pms[pm].default_value
+        dtype = pms[pm].dtype
+        if pms[pm].default_is_expression:
+            pjoins.append(f'{o3_name}=None')
+        elif default is not None:
+            pjoins.append(f'{o3_name}={default}')
+        elif dtype == 'float':
+            pjoins.append(f'{o3_name}=1.0')
+        elif dtype == 'obj':
+            pjoins.append(f'{o3_name}=obj')
+        else:
+            pjoins.append(f'{o3_name}=1')
+    pjoint = ', '.join(pjoins)
+    tpara.append(w4 + f'o3.{names["low_base_name"]}.{names["op_class_name"]}({pjoint})')
+    tpara.append('')
+    tpara.append('')
+
+    return tpara
+
+
+def build_test_for_beamintegration(names, pms, cl_pms):
+    tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
+    pjoins = ['osi']
+    prior_strs = []
+    for i, pm in enumerate(cl_pms):
+        o3_name = pms[pm].o3_name
+        default = pms[pm].default_value
+        dtype = pms[pm].dtype
+        if pms[pm].default_is_expression:
+            pjoins.append(f'{o3_name}=None')
+        elif default is not None:
+            pjoins.append(f'{o3_name}={default}')
+        elif dtype == 'float':
+            pjoins.append(f'{o3_name}=1.0')
+        elif dtype == 'obj':
+            if o3_name in ['sec', 'sec_i', 'sec_j', 'sec_e']:
+                prior_strs.append(w4 + f'{o3_name} = o3.section.Elastic(osi, 10.0, 1.0, 1.0)')
+            else:
+                prior_strs.append(w4 + f'{o3_name}=1')
+            pjoins.append(f'{o3_name}={o3_name}')
+        else:
+            pjoins.append(f'{o3_name}=1')
+    pjoint = ', '.join(pjoins)
+    tpara += prior_strs
+    tpara.append(w4 + f'o3.{names["low_base_name"]}.{names["op_class_name"]}({pjoint})')
+    tpara.append('')
+    tpara.append('')
+
+    return tpara
 
 
 class Param(object):
@@ -302,7 +404,10 @@ def clean_fn_line(line, has_tag=True):
     base_type = line.split('.. function:: ')[-1]
     base_type = base_type.split('(')[0]
     optype_res = re.search(optype_pat, line)
-    optype = optype_res.group()[1:-1]
+    if optype_res is None:
+        optype = None
+    else:
+        optype = optype_res.group()[1:-1]
     df_op = df[(df['base_type'] == base_type) & (df['op_type'] == optype)]
 
     print(optype_res)
@@ -526,6 +631,10 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
 
     if 'eleNodes' in defaults:
         defaults['eleNodes'].list_items_dtype = 'obj'
+    hidden_objs = ['iNode', 'jNode', 'sec', 'secI', 'secJ', 'secE']
+    for obj in hidden_objs:
+        if obj in defaults:
+            defaults[obj].dtype = 'obj'
 
     if ("'-orient'" in defaults or '-orient' in op_kwargs) and 'vecx' in defaults and 'vecyp' in defaults:
         try:
@@ -704,7 +813,6 @@ def parse_all_ndmat():
             ofile.write('\n'.join(tpara))
 
 
-
 eles = {
     'Zero-Length Element': 'zero_length_a',
     'Truss Elements': 'truss',
@@ -838,8 +946,10 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    # parse_mat_file(up.OPY_DOCS_PATH + 'KikuchiBearing.rst', 'ele')
-    parse_generic_single_file(obj_type='integrator', osi_type=None)
+    # ps, ts = parse_mat_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
+    parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
+    # print(ts)
+    # parse_generic_single_file(obj_type='integrator', osi_type=None)
     # parse_mat_file(up.OPY_DOCS_PATH + 'PenaltyMethod.rst', None)
     # parse_mat_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
     # test_clean_fn_line()

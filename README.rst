@@ -193,6 +193,7 @@ Package conventions
     - For parameter that are used across many objects (e.g. atmospheric pressure) a standard name should be used
 
 * How should youngs modulus be named?
+* Should all two node elements use i_node, j_node. Or make them all enter nodes as a list?
 
 
 

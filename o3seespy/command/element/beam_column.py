@@ -133,8 +133,8 @@ class DispBeamColumn(ElementBase):
     op_type = 'dispBeamColumn'
 
     def __init__(self, osi, i_node, j_node, transf, integration, c_mass=False, mass=None):
-        self.i_node = int(i_node)
-        self.j_node = int(j_node)
+        self.i_node = i_node
+        self.j_node = j_node
         self.transf = transf
         self.integration = integration
         self.c_mass = c_mass
@@ -144,7 +144,7 @@ class DispBeamColumn(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.transf.tag, self.integration.tag]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.transf.tag, self.integration.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         if getattr(self, 'mass') is not None:
@@ -156,14 +156,11 @@ class ForceBeamColumn(ElementBase):
     op_type = 'forceBeamColumn'
 
     def __init__(self, osi, i_node, j_node, transf, integration, max_iter=None, tol=None, mass=None):
-        self.i_node = int(i_node)
-        self.j_node = int(j_node)
+        self.i_node = i_node
+        self.j_node = j_node
         self.transf = transf
         self.integration = integration
-        if max_iter is None:
-            self.max_iter = None
-        else:
-            self.max_iter = float(max_iter)
+        self.max_iter = int(max_iter)
         self.tol = float(tol)
         if mass is None:
             self.mass = None
@@ -171,7 +168,7 @@ class ForceBeamColumn(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.transf.tag, self.integration.tag, self.tol]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.transf.tag, self.integration.tag, self.tol]
         if getattr(self, 'max_iter') is not None:
             self._parameters += ['-iter', self.max_iter]
         if getattr(self, 'tol') is not None:
@@ -187,15 +184,12 @@ class NonlinearBeamColumn(ElementBase):
     op_type = 'nonlinearBeamColumn'
 
     def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, max_iter=None, tol=None, mass=None, int_type=None):
-        self.i_node = int(i_node)
-        self.j_node = int(j_node)
+        self.i_node = i_node
+        self.j_node = j_node
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
         self.transf = transf
-        if max_iter is None:
-            self.max_iter = None
-        else:
-            self.max_iter = float(max_iter)
+        self.max_iter = int(max_iter)
         self.tol = float(tol)
         if mass is None:
             self.mass = None
@@ -204,7 +198,7 @@ class NonlinearBeamColumn(ElementBase):
         self.int_type = int_type
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node, self.j_node, self.num_intgr_pts, self.sec.tag, self.transf.tag, self.tol]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.num_intgr_pts, self.sec.tag, self.transf.tag, self.tol]
         if getattr(self, 'max_iter') is not None:
             self._parameters += ['-iter', self.max_iter]
         if getattr(self, 'tol') is not None:
