@@ -6,7 +6,7 @@ class ZeroLengthdoRayleigh(ElementBase):
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, r_flag=0, orient=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.mat_tags = mat_tags
+        self.mat_tags = [x.tag for x in mat_tags]
         self.dir_args = dir_args
         self.r_flag = float(r_flag)
         self.orient = orient

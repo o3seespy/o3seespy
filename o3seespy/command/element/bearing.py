@@ -27,9 +27,9 @@ class ElastomericBearingPlasticity2D(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu]
         if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+            self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+            self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'orient') is not None:
@@ -68,13 +68,13 @@ class ElastomericBearingPlasticity3D(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu]
         if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+            self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
+            self._parameters += ['-T', self.t_mat.tag]
         if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
+            self._parameters += ['-My', self.my_mat.tag]
         if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+            self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'orient') is not None:
@@ -115,9 +115,9 @@ class ElastomericBearingBoucWen2D(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, self.gamma]
         if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+            self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+            self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'orient_vals') is not None:
             self._parameters += ['-orient', *self.orient_vals]
         if getattr(self, 'shear_dist') is not None:
@@ -159,13 +159,13 @@ class ElastomericBearingBoucWen3D(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, self.gamma]
         if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+            self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
+            self._parameters += ['-T', self.t_mat.tag]
         if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
+            self._parameters += ['-My', self.my_mat.tag]
         if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+            self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'orient_vals') is not None:
             self._parameters += ['-orient', *self.orient_vals]
         if getattr(self, 'shear_dist') is not None:
@@ -202,9 +202,9 @@ class FlatSliderBearingmaxIter2D(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-maxIter', self.iter, self.tol]
         if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+            self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+            self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'orient') is not None:
@@ -242,13 +242,13 @@ class FlatSliderBearing3D(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, self.tol]
         if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+            self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
+            self._parameters += ['-T', self.t_mat.tag]
         if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
+            self._parameters += ['-My', self.my_mat.tag]
         if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+            self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'max_iter') is not None:
@@ -292,9 +292,9 @@ class SingleFPBearing2D(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, self.tol]
         if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+            self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+            self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'max_iter') is not None:
@@ -339,13 +339,13 @@ class SingleFPBearing3D(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, self.tol]
         if getattr(self, 'p_mat') is not None:
-            self._parameters += ['-P', self.p_mat]
+            self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
-            self._parameters += ['-T', self.t_mat]
+            self._parameters += ['-T', self.t_mat.tag]
         if getattr(self, 'my_mat') is not None:
-            self._parameters += ['-My', self.my_mat]
+            self._parameters += ['-My', self.my_mat.tag]
         if getattr(self, 'mz_mat') is not None:
-            self._parameters += ['-Mz', self.mz_mat]
+            self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'max_iter') is not None:
@@ -446,7 +446,7 @@ class MultipleShearSpring(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.n_spring]
         if getattr(self, 'mat') is not None:
-            self._parameters += ['-mat', self.mat]
+            self._parameters += ['-mat', self.mat.tag]
         if getattr(self, 'lim') is not None:
             self._parameters += ['-lim', self.lim]
         if getattr(self, 'mass') is not None:
@@ -507,13 +507,13 @@ class KikuchiBearingadjustPDOutput(ElementBase):
         if getattr(self, 'n_mss') is not None:
             self._parameters += ['-nMSS', self.n_mss]
         if getattr(self, 'mat_mss') is not None:
-            self._parameters += ['-matMSS', self.mat_mss]
+            self._parameters += ['-matMSS', self.mat_mss.tag]
         if getattr(self, 'lim_disp') is not None:
             self._parameters += ['-limDisp', self.lim_disp]
         if getattr(self, 'n_mns') is not None:
             self._parameters += ['-nMNS', self.n_mns]
         if getattr(self, 'mat_mns') is not None:
-            self._parameters += ['-matMNS', self.mat_mns]
+            self._parameters += ['-matMNS', self.mat_mns.tag]
         if getattr(self, 'lamb') is not None:
             self._parameters += ['-lambda', self.lamb]
         if getattr(self, 'no_pd_input'):
@@ -578,13 +578,13 @@ class KikuchiBearingdoBalance(ElementBase):
         if getattr(self, 'n_mss') is not None:
             self._parameters += ['-nMSS', self.n_mss]
         if getattr(self, 'mat_mss') is not None:
-            self._parameters += ['-matMSS', self.mat_mss]
+            self._parameters += ['-matMSS', self.mat_mss.tag]
         if getattr(self, 'lim_disp') is not None:
             self._parameters += ['-limDisp', self.lim_disp]
         if getattr(self, 'n_mns') is not None:
             self._parameters += ['-nMNS', self.n_mns]
         if getattr(self, 'mat_mns') is not None:
-            self._parameters += ['-matMNS', self.mat_mns]
+            self._parameters += ['-matMNS', self.mat_mns.tag]
         if getattr(self, 'lamb') is not None:
             self._parameters += ['-lambda', self.lamb]
         if getattr(self, 'no_pd_input'):

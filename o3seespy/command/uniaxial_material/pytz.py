@@ -63,7 +63,7 @@ class PyLiq1(UniaxialMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.soil_type, self.pult, self.y50, self.cd, self.c, self.p_res, self.ele1, self.ele2]
         if getattr(self, 'time_series') is not None:
-            self._parameters += ['-timeSeries', self.time_series]
+            self._parameters += ['-timeSeries', self.time_series.tag]
         self.to_process(osi)
 
 
@@ -82,5 +82,5 @@ class TzLiq1(UniaxialMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.tz_type, self.tult, self.z50, self.c, self.ele1, self.ele2]
         if getattr(self, 'time_series') is not None:
-            self._parameters += ['-timeSeries', self.time_series]
+            self._parameters += ['-timeSeries', self.time_series.tag]
         self.to_process(osi)

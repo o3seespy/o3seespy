@@ -16,18 +16,20 @@ class Plain(ConstraintsBase):
 class Lagrange(ConstraintsBase):
     op_type = 'Lagrange'
 
-    def __init__(self, osi, alpha_m=1.0):
+    def __init__(self, osi, alpha_s=1.0, alpha_m=1.0):
+        self.alpha_s = float(alpha_s)
         self.alpha_m = float(alpha_m)
-        self._parameters = [self.op_type, self.alpha_m]
+        self._parameters = [self.op_type, self.alpha_s, self.alpha_m]
         self.to_process(osi)
 
 
 class Penalty(ConstraintsBase):
     op_type = 'Penalty'
 
-    def __init__(self, osi, alpha_m=1.0):
+    def __init__(self, osi, alpha_s=1.0, alpha_m=1.0):
+        self.alpha_s = float(alpha_s)
         self.alpha_m = float(alpha_m)
-        self._parameters = [self.op_type, self.alpha_m]
+        self._parameters = [self.op_type, self.alpha_s, self.alpha_m]
         self.to_process(osi)
 
 

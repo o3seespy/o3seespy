@@ -6,7 +6,7 @@ class TwoNodeLink(ElementBase):
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dir=None, p_delta_vals=None, shear_dist=None, do_rayleigh=False, orient=None, mass=None):
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.mat_tags = mat_tags
+        self.mat_tags = [x.tag for x in mat_tags]
         self.dir = dir
         self.p_delta_vals = p_delta_vals
         self.shear_dist = shear_dist

@@ -192,7 +192,10 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             if pms[pm].marker:
                 # para.append(w8 + f"if getattr(self, '{o3_name}') not in [None, '']:")
                 para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
-                para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', {ps}self.{o3_name}]")
+                tt = ''
+                if pms[pm].dtype == 'obj':
+                    tt = '.tag'
+                para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', {ps}self.{o3_name}{tt}]")
 
             elif pms[pm].depends_on:
                 d_o3 = pms[pms[pm].depends_on].o3_name
@@ -284,7 +287,7 @@ def check_if_default_is_expression(defo):
 suffixes = ['', 'Args', 'Tag', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag']
 
 
-def clean_fn_line(line):
+def clean_fn_line(line, has_tag=True):
     df = pd.read_csv('overrides.csv')
     defaults = OrderedDict()
     print(line)
@@ -297,7 +300,10 @@ def clean_fn_line(line):
     print(optype_res)
     inputs_str = line.split(')')[0]
     inputs = inputs_str.split(',')
-    inputs = inputs[2:]  # remove class definition and tag
+    if has_tag:
+        inputs = inputs[2:]  # remove class definition and tag
+    else:
+        inputs = inputs[1:]
     op_kwargs = OrderedDict()
     markers = OrderedDict()
     flags = []
@@ -461,11 +467,11 @@ def parse_mat_file(ffp, osi_type):
         if '.. function:: ' in line:
             found_fn_line = 1
             if base_type is None:
-                base_type, optype, defaults, op_kwargs = clean_fn_line(line)
+                base_type, optype, defaults, op_kwargs = clean_fn_line(line, osi_type)
             else:  # multiple function definitions
                 glob_list.append(f'{base_type}-{optype}')
 
-                base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line)
+                base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line, osi_type)
                 df_td = pd.read_csv('two_definitions.csv')
                 df_td = df_td[(df_td['base_type'] == base_type) & (df_td['op_type'] == optype)]
                 two_defs = df_td['option'].iloc[0]
@@ -490,8 +496,9 @@ def parse_mat_file(ffp, osi_type):
 
 
 def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf=""):
-    doc_str_pms = doc_str_pms[1:]  # remove mat tag
-    dtypes = dtypes[1:]
+    if osi_type is not None:
+        doc_str_pms = doc_str_pms[1:]  # remove mat tag
+        dtypes = dtypes[1:]
     print('doc_str: ', doc_str_pms)
     print('fn_inps: ', list(defaults))
     print('op_kwargs: ', list(op_kwargs))
@@ -501,7 +508,12 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
             continue
         if pm not in defaults:
             continue
-        defaults[pm].dtype = dtypes[i]
+        if defaults[pm].org_name.endswith('Tag'):
+            defaults[pm].dtype = 'obj'
+        elif defaults[pm].org_name.endswith('Tags'):
+            defaults[pm].list_items_dtype = 'obj'
+        else:
+            defaults[pm].dtype = dtypes[i]
         defaults[pm].p_description = descriptions[i]
 
     if 'eleNodes' in defaults:
@@ -819,9 +831,9 @@ if __name__ == '__main__':
     import user_paths as up
     # parse_all_ndmat()
     # parse_mat_file(up.OPY_DOCS_PATH + 'KikuchiBearing.rst', 'ele')
-    parse_generic_single_file(obj_type='constraints', osi_type=None)
-    # parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
-    # parse_mat_file(up.OPY_DOCS_PATH + 'pathTs.rst', 'tseries')
+    # parse_generic_single_file(obj_type='constraints', osi_type=None)
+    # parse_mat_file(up.OPY_DOCS_PATH + 'PenaltyMethod.rst', None)
+    parse_mat_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
     # test_clean_fn_line()
     all = 0
     all = 1  # TODO: KikuchiBearing
