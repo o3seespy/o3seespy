@@ -1,4 +1,5 @@
 from o3seespy.command.nd_material.base_material import NDMaterialBase
+from o3seespy.command.common import update_material_stage
 import numpy as np
 
 
@@ -147,6 +148,10 @@ class PM4Sand(NDMaterialBase):
                             self.p_sed]
 
         self.to_process(osi)
+
+    def pre_dynamic(self, osi):
+        update_material_stage(osi, self, stage=1)
+        # opw.set_parameter(osi, value=0, eles=[ele], args=['FirstCall', 1])
 
 
 class StressDensityModel(NDMaterialBase):

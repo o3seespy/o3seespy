@@ -153,6 +153,7 @@ def site_response(sp, asig, linear=0):
     o3.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
     analysis_time = asig.time[-1]
     analysis_dt = 0.01
+    o3.extensions.to_py_file(osi)
 
     while opy.getTime() < analysis_time:
         print(opy.getTime())

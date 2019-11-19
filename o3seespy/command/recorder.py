@@ -22,9 +22,9 @@ class NodeToFile(RecorderBase):
 class NodesToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, nodes, dofs, mtype, nsd=8):
+    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8):
         node_tags = [x.tag for x in nodes]
-        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, mtype]
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
         self.to_process(osi)
 
 
