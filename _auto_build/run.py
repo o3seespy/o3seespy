@@ -110,7 +110,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             inp_pms_order = non_defaults_reversed[::-1] + con_defaults_reversed[::-1]
         else:
             inp_pms_order = list(cl_pms)
-        pjoins = []
+        pjoins = ['osi']
         for pm in inp_pms_order:  # TODO: if packed and obj
             o3_name = pms[pm].o3_name
             default = pms[pm].default_value
@@ -133,7 +133,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     pjoins.append(f'{o3_name}')
 
         pjoined = ', '.join(pjoins)
-        para.append(f'    def __init__(self, osi, {pjoined}):')
+        para.append(f'    def __init__(self, {pjoined}):')
 
         # Create init function saving logic
         for i, pm in enumerate(cl_pms):
@@ -156,9 +156,11 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     para.append(w8 + f'self.{o3_name} = [x.tag for x in {o3_name}]')
                 else:
                     para.append(w8 + f'self.{o3_name} = {o3_name}')
-        para.append(w8 + f'osi.n_{osi_type} += 1')
-        para.append(w8 + f'self._tag = osi.n_{osi_type}')
-        pjoins = ['self.op_type', 'self._tag']
+        pjoins = ['self.op_type']
+        if osi_type is not None:
+            para.append(w8 + f'osi.n_{osi_type} += 1')
+            para.append(w8 + f'self._tag = osi.n_{osi_type}')
+            pjoins += ['self._tag']
         need_special_logic = False
         applied_op_warg = False
         for pm in cl_pms:
@@ -227,8 +229,8 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         low_base_name = convert_camel_to_snake(base_class_name)
 
         # Build test
-        tpara = ['', f'def test_{low_op_name}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
-        pjoins = []
+        tpara = [f'def test_{low_op_name}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
+        pjoins = ['osi']
         for i, pm in enumerate(cl_pms):
             o3_name = pms[pm].o3_name
             default = pms[pm].default_value
@@ -244,7 +246,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             else:
                 pjoins.append(f'{o3_name}=1')
         pjoint = ', '.join(pjoins)
-        tpara.append(w4 + f'o3.{low_base_name}.{op_class_name}(osi, {pjoint})')
+        tpara.append(w4 + f'o3.{low_base_name}.{op_class_name}({pjoint})')
         tpara.append('')
         tpara.append('')
     return '\n'.join(para), '\n'.join(tpara)
@@ -478,6 +480,12 @@ def parse_mat_file(ffp, osi_type):
                     for inp in op_kwargs1:
                         if inp not in op_kwargs:
                             op_kwargs[inp] = op_kwargs1[inp]
+    if base_type is not None:  # when there are no inputs
+        cl_name_suf = ""
+        pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type,
+                                        osi_type, cl_name_suf)
+        pstr += pstr1
+        tstr += tstr1
     return pstr, tstr
 
 
@@ -810,7 +818,8 @@ if __name__ == '__main__':
     # parse_mat_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    parse_mat_file(up.OPY_DOCS_PATH + 'KikuchiBearing.rst', 'ele')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'KikuchiBearing.rst', 'ele')
+    parse_generic_single_file(obj_type='constraints', osi_type=None)
     # parse_mat_file(up.OPY_DOCS_PATH + 'BarSlip.rst', 'mat')
     # parse_mat_file(up.OPY_DOCS_PATH + 'pathTs.rst', 'tseries')
     # test_clean_fn_line()
@@ -819,6 +828,7 @@ if __name__ == '__main__':
     if all:
         parse_generic_single_file(obj_type='pattern', osi_type='pat')
         parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
+        parse_generic_single_file(obj_type='constraints', osi_type=None)
         parse_all_uniaxial_mat()
         parse_all_ndmat()
         parse_all_elements()

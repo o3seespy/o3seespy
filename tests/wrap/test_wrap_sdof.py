@@ -63,7 +63,7 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     newmark_beta = 0.25
 
     o3.algorithm.Newton(osi)
-    o3.constraint.Transformation(osi)
+    o3.constraints.Transformation(osi)
     o3.algorithm.Newton(osi)
     o3.numberer.RCM(osi)
     o3.system.SparseGeneral(osi)

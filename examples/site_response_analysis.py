@@ -116,7 +116,7 @@ def site_response(sp, asig, linear=0):
     o3.element.ZeroLength(osi, dashpot_node_l, dashpot_node_2, mat_x=dashpot_mat)
 
     # Static analysis
-    o3.constraint.Transformation(osi)
+    o3.constraints.Transformation(osi)
     o3.test_check.NormDispIncr(osi, tol=1.0e-4, max_iter=30, p_flag=0)
     o3.algorithm.Newton(osi)
     o3.numberer.RCM(osi)
@@ -145,7 +145,7 @@ def site_response(sp, asig, linear=0):
     o3.algorithm.Newton(osi)
     o3.system.SparseGeneral(osi)
     o3.numberer.RCM(osi)
-    o3.constraint.Transformation(osi)
+    o3.constraints.Transformation(osi)
     o3.integrator.Newmark(osi, newmark_gamma, newmark_beta)
     o3.rayleigh.Rayleigh(osi, a0, a1, 0, 0)
     o3.analysis.Transient(osi)

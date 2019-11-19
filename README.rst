@@ -122,7 +122,7 @@ Example: Inelastic SDOF
     o3.algorithm.Newton(osi)
     o3.system.SparseGeneral(osi)
     o3.numberer.RCM(osi)
-    o3.constraint.Transformation(osi)
+    o3.constraints.Transformation(osi)
     o3.integrator.Newmark(osi, gamma=0.5, beta=0.25)
     o3.analysis.Transient(osi)
 

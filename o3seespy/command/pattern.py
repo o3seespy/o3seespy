@@ -57,7 +57,7 @@ class UniformExcitation(PatternBase):
 class MultipleSupport(PatternBase):
     op_type = 'MultipleSupport'
 
-    def __init__(self, osi, ):
+    def __init__(self, osi):
         osi.n_pat += 1
         self._tag = osi.n_pat
         self._parameters = [self.op_type, self._tag]

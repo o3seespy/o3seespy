@@ -60,7 +60,7 @@ opw.wipe_analysis(osi)
 opw.algorithm.Newton(osi)
 opw.system.SparseGeneral(osi)
 opw.numberer.RCM(osi)
-opw.constraint.Transformation(osi)
+opw.constraints.Transformation(osi)
 opw.integrator.Newmark(osi, gamma=0.5, beta=0.25)
 opw.analysis.Transient(osi)
 
