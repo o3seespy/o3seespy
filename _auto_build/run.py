@@ -65,6 +65,14 @@ def convert_camel_to_snake(name):
 def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf=""):
     df_ip = pd.read_csv('force_in_place.csv')
     df_ip = df_ip[(df_ip['base_type'] == base_type) & (df_ip['op_type'] == op_type)]
+    if len(op_kwargs) == 1:
+        iis = list(op_kwargs)
+        item = iis[0]
+        pms = op_kwargs[item]
+        if len(pms) == 1:
+            defaults[pms[0]].marker = item[1:]  # remove '-' since it gets added again
+            del op_kwargs[item]
+
     kw_pms = []  # TODO: This only works if object should be split into many objects based on kwargs, but
     # some kwargs are just to input a single value.
     for kw in op_kwargs:
@@ -284,7 +292,7 @@ def check_if_default_is_expression(defo):
         return True
 
 
-suffixes = ['', 'Args', 'Tag', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag']
+suffixes = ['', 'Args', 'Tag', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag', 's']
 
 
 def clean_fn_line(line, has_tag=True):
@@ -831,9 +839,9 @@ if __name__ == '__main__':
     import user_paths as up
     # parse_all_ndmat()
     # parse_mat_file(up.OPY_DOCS_PATH + 'KikuchiBearing.rst', 'ele')
-    # parse_generic_single_file(obj_type='constraints', osi_type=None)
+    parse_generic_single_file(obj_type='integrator', osi_type=None)
     # parse_mat_file(up.OPY_DOCS_PATH + 'PenaltyMethod.rst', None)
-    parse_mat_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
+    # parse_mat_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
     # test_clean_fn_line()
     all = 0
     all = 1  # TODO: KikuchiBearing
@@ -841,6 +849,7 @@ if __name__ == '__main__':
         parse_generic_single_file(obj_type='pattern', osi_type='pat')
         parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
         parse_generic_single_file(obj_type='constraints', osi_type=None)
+        parse_generic_single_file(obj_type='integrator', osi_type=None)
         parse_all_uniaxial_mat()
         parse_all_ndmat()
         parse_all_elements()
