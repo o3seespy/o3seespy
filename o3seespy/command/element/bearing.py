@@ -40,6 +40,7 @@ class ElastomericBearingPlasticity2D(ElementBase):
             self._parameters += ['-shearDist', self.shear_dist]
         self.to_process(osi)
 
+
 class ElastomericBearingPlasticity3D(ElementBase):
     op_type = 'elastomericBearingPlasticity'
 
@@ -128,6 +129,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
             self._parameters += ['-mass', self.mass]
         self.to_process(osi)
 
+
 class ElastomericBearingBoucWen3D(ElementBase):
     op_type = 'elastomericBearingBoucWen'
 
@@ -214,6 +216,7 @@ class FlatSliderBearingmaxIter2D(ElementBase):
         if getattr(self, 'shear_dist') is not None:
             self._parameters += ['-shearDist', self.shear_dist]
         self.to_process(osi)
+
 
 class FlatSliderBearing3D(ElementBase):
     op_type = 'flatSliderBearing'
@@ -310,6 +313,7 @@ class SingleFPBearing2D(ElementBase):
         if getattr(self, 'shear_dist') is not None:
             self._parameters += ['-shearDist', self.shear_dist]
         self.to_process(osi)
+
 
 class SingleFPBearing3D(ElementBase):
     op_type = 'singleFPBearing'

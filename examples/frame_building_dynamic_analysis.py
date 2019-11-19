@@ -118,9 +118,9 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
             lp_j = 0.4  # plastic hinge length
             ele_str = "C{0}-S{1}S{2}".format(cc, ss, ss + 1)
 
-            top_sect = o3.section.Elastic(osi, e_conc, a_columns[ss][cc - 1], i_columns[ss][cc - 1])
-            bot_sect = o3.section.Elastic(osi, e_conc, a_columns[ss][cc - 1], i_columns[ss][cc - 1])
-            centre_sect = o3.section.Elastic(osi, e_conc, a_columns[ss][cc - 1], i_columns[ss][cc - 1])
+            top_sect = o3.section.Elastic2D(osi, e_conc, a_columns[ss][cc - 1], i_columns[ss][cc - 1])
+            bot_sect = o3.section.Elastic2D(osi, e_conc, a_columns[ss][cc - 1], i_columns[ss][cc - 1])
+            centre_sect = o3.section.Elastic2D(osi, e_conc, a_columns[ss][cc - 1], i_columns[ss][cc - 1])
             sd[ele_str + "T"] = top_sect
             sd[ele_str + "B"] = bot_sect
             sd[ele_str + "C"] = centre_sect
@@ -141,7 +141,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
             md[ele_str] = mat
             left_sect = o3.section.Uniaxial(osi, mat, quantity=o3.cc.M_Z)
             right_sect = o3.section.Uniaxial(osi, mat, quantity=o3.cc.M_Z)
-            centre_sect = o3.section.Elastic(osi, e_conc, a_beams[ss][bb - 1], i_beams[ss][bb - 1])
+            centre_sect = o3.section.Elastic2D(osi, e_conc, a_beams[ss][bb - 1], i_beams[ss][bb - 1])
             integ = o3.beam_integration.HingeMidpoint(osi, left_sect, lp_i, right_sect, lp_j, centre_sect)
 
             left_node = nd["C%i-S%i" % (bb, ss + 1)]

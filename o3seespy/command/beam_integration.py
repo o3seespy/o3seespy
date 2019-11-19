@@ -5,6 +5,132 @@ class BeamIntegrationBase(OpenseesObject):
     op_base_type = "beamIntegration"
 
 
+class Lobatto(BeamIntegrationBase):
+    op_type = 'Lobatto'
+
+    def __init__(self, osi, sec, big_n):
+        self.sec = sec
+        self.big_n = int(big_n)
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.sec.tag, self.big_n]
+        self.to_process(osi)
+
+
+class Legendre(BeamIntegrationBase):
+    op_type = 'Legendre'
+
+    def __init__(self, osi, sec, big_n):
+        self.sec = sec
+        self.big_n = big_n
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.sec.tag, self.big_n]
+        self.to_process(osi)
+
+
+class NewtonCotes(BeamIntegrationBase):
+    op_type = 'NewtonCotes'
+
+    def __init__(self, osi, sec, big_n):
+        self.sec = sec
+        self.big_n = big_n
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.sec.tag, self.big_n]
+        self.to_process(osi)
+
+
+class Radau(BeamIntegrationBase):
+    op_type = 'Radau'
+
+    def __init__(self, osi, sec, big_n):
+        self.sec = sec
+        self.big_n = big_n
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.sec.tag, self.big_n]
+        self.to_process(osi)
+
+
+class Trapezoidal(BeamIntegrationBase):
+    op_type = 'Trapezoidal'
+
+    def __init__(self, osi, sec, big_n):
+        self.sec = sec
+        self.big_n = big_n
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.sec.tag, self.big_n]
+        self.to_process(osi)
+
+
+class CompositeSimpson(BeamIntegrationBase):
+    op_type = 'CompositeSimpson'
+
+    def __init__(self, osi, sec, big_n):
+        self.sec = sec
+        self.big_n = big_n
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.sec.tag, self.big_n]
+        self.to_process(osi)
+
+
+class UserDefined(BeamIntegrationBase):
+    op_type = 'UserDefined'
+
+    def __init__(self, osi, big_n, sec_tags, locs, wts):
+        self.big_n = int(big_n)
+        self.sec_tags = [x.tag for x in sec_tags]
+        self.locs = locs
+        self.wts = wts
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.big_n, *self.sec_tags, *self.locs, *self.wts]
+        self.to_process(osi)
+
+
+class FixedLocation(BeamIntegrationBase):
+    op_type = 'FixedLocation'
+
+    def __init__(self, osi, big_n, sec_tags, locs):
+        self.big_n = int(big_n)
+        self.sec_tags = [x.tag for x in sec_tags]
+        self.locs = locs
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.big_n, *self.sec_tags, *self.locs]
+        self.to_process(osi)
+
+
+class LowOrder(BeamIntegrationBase):
+    op_type = 'LowOrder'
+
+    def __init__(self, osi, big_n, sec_tags, locs, wts):
+        self.big_n = int(big_n)
+        self.sec_tags = [x.tag for x in sec_tags]
+        self.locs = locs
+        self.wts = wts
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.big_n, *self.sec_tags, *self.locs, *self.wts]
+        self.to_process(osi)
+
+
+class MidDistance(BeamIntegrationBase):
+    op_type = 'MidDistance'
+
+    def __init__(self, osi, big_n, sec_tags, locs):
+        self.big_n = int(big_n)
+        self.sec_tags = [x.tag for x in sec_tags]
+        self.locs = locs
+        osi.n_integ += 1
+        self._tag = osi.n_integ
+        self._parameters = [self.op_type, self._tag, self.big_n, *self.sec_tags, *self.locs]
+        self.to_process(osi)
+
+
 class UserHinge(BeamIntegrationBase):
     op_type = 'UserHinge'
 

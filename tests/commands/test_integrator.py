@@ -1,5 +1,5 @@
 import o3seespy as o3  # for testing only
-
+import pytest
 
 def test_central_difference():
     osi = o3.OpenseesInstance(dimensions=2)
@@ -13,12 +13,12 @@ def test_newmark():
 
 def test_hht():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.integrator.HHT(osi, alpha=1.0, gamma=None, beta=None)
+    o3.integrator.HHT(osi, alpha=1.0, gamma=1.0, beta=1.0)
 
 
 def test_generalized_alpha():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.integrator.GeneralizedAlpha(osi, alpha_m=1.0, alpha_f=1.0, gamma=None, beta=None)
+    o3.integrator.GeneralizedAlpha(osi, alpha_m=1.0, alpha_f=1.0, gamma=1.0, beta=1.0)
 
 
 def test_trbdf2():

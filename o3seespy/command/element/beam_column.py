@@ -24,6 +24,7 @@ class ElasticBeamColumn2D(ElementBase):
             self._parameters += ['-cMass']
         self.to_process(osi)
 
+
 class ElasticBeamColumn3D(ElementBase):
     op_type = 'elasticBeamColumn'
 
@@ -97,6 +98,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         self.to_process(osi)
+
 
 class ElasticTimoshenkoBeam3D(ElementBase):
     op_type = 'ElasticTimoshenkoBeam'

@@ -7,3 +7,4 @@ element,elastomericBearingPlasticity,2Dand3D
 element,elastomericBearingBoucWen,2Dand3D
 element,flatSliderBearing,2Dand3D
 element,singleFPBearing,2Dand3D
+section,Elastic,2Dand3D
