@@ -509,7 +509,7 @@ def clean_fn_line(line, has_tag=True):
     return base_type, optype, defaults, op_kwargs
 
 
-def parse_mat_file(ffp, osi_type, expected_base_type=None):
+def parse_single_file(ffp, osi_type, expected_base_type=None):
     print('process: ', ffp)
     a = open(ffp, encoding="utf8")
     f = a.read()
@@ -768,7 +768,7 @@ def parse_all_uniaxial_mat():
                 continue
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
-            pstr, tstr, istr = parse_mat_file(ffp, osi_type='mat')
+            pstr, tstr, istr = parse_single_file(ffp, osi_type='mat')
             if istr not in ipara and istr != '':
                 ipara.append(istr)
             para.append(pstr)
@@ -842,7 +842,7 @@ def parse_all_ndmat():
 
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
-            pstr, tstr, istr = parse_mat_file(ffp, osi_type='mat')
+            pstr, tstr, istr = parse_single_file(ffp, osi_type='mat')
             if istr not in ipara and istr != '':
                 ipara.append(istr)
             para.append(pstr)
@@ -916,7 +916,7 @@ def parse_all_elements():
 
             # open(up.OPY_DOCS_PATH + '%s.rst' % ele)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % ele
-            pstr, tstr, istr = parse_mat_file(ffp, osi_type='ele')
+            pstr, tstr, istr = parse_single_file(ffp, osi_type='ele')
             if istr not in ipara and istr != '':
                 ipara.append(istr)
             para.append(pstr)
@@ -972,7 +972,7 @@ def parse_generic_single_file(obj_type, osi_type):
 
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
-            pstr, tstr, istr = parse_mat_file(ffp, osi_type=osi_type, expected_base_type=o3_class_type)
+            pstr, tstr, istr = parse_single_file(ffp, osi_type=osi_type, expected_base_type=o3_class_type)
             if istr not in ipara and istr != '':
                 ipara.append(istr)
             para.append(pstr)
@@ -996,20 +996,20 @@ def test_clean_fn_line():
 
 
 if __name__ == '__main__':
-    # parse_mat_file('BoucWen.rst')
-    # parse_mat_file('Bond_SP01.rst')
+    # parse_single_file('BoucWen.rst')
+    # parse_single_file('Bond_SP01.rst')
     import user_paths as up
     # parse_all_ndmat()
-    # ps, ts = parse_mat_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
+    # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
     all = 0
-    all = 1  # TODO: KikuchiBearing
+    # all = 1  # TODO: KikuchiBearing
     if not all:
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)
-        parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
-        # ps, ts, istr = parse_mat_file(up.OPY_DOCS_PATH + 'elasticBeamColumn.rst', 'ele')
+        # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
+        ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'elasticBeamColumn.rst', 'ele')
         # print(ts)
-        # parse_mat_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
+        # parse_single_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
         # test_clean_fn_line()
 
     if all:
