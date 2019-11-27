@@ -1,65 +1,65 @@
 from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBase
-
-
-class Elastic(UniaxialMaterialBase):
-    type = "Elastic"
-
-    def __init__(self, osi, e_mod, eta=0.0, e_mod_comp=None):
-        """
-        Elastic uniaxial material
-
-        Parameters
-        ----------
-        osi : opensees_pack.opensees_instance.OpenseesInstance object
-            An instance of opensees
-        e_mod : float
-            Tangent
-        eta : float, optional
-            Damping tangent
-        e_mod_comp: float, optional
-            Tangent in compression
-        """
-        self.e_mod = e_mod
-        self.eta = eta
-        if e_mod_comp is None:
-            e_mod_comp = e_mod
-        self.e_mod_comp = e_mod_comp
-        osi.n_mat += 1
-        self._tag = osi.n_mat
-        self._parameters = [self.type, self._tag, self.e_mod, self.eta, self.e_mod_comp]
-        self.to_process(osi)
-
-
-class ElasticPP(UniaxialMaterialBase):
-    type = "ElasticPP"
-
-    def __init__(self, osi, e_mod, epsy_p, epsy_n=None, eps0=0.0):
-        """
-        Elastic perfectly plastic behaviour
-
-        Parameters
-        ----------
-        osi : opensees_pack.opensees_instance.OpenseesInstance object
-            An instance of opensees
-        e_mod : float
-            Tangent
-        epsy_p : float
-            Strain or deformation at which material reaches plastic state in tension
-        epsy_n : float, optional
-            Strain or deformation at which material reaches plastic state in compression.
-        eps0 : float, optional
-            Initial strain (default is 0.0)
-        """
-        self.e_mod = e_mod
-        self.epsy_p = epsy_p
-        if epsy_n is None:
-            epsy_n = epsy_p
-        self.epsy_n = epsy_n
-        self.eps0 = eps0
-        osi.n_mat += 1
-        self._tag = osi.n_mat
-        self._parameters = [self.type, self._tag, self.e_mod, self.epsy_p, self.epsy_n, self.eps0]
-        self.to_process(osi)
+#
+#
+# class Elastic(UniaxialMaterialBase):
+#     type = "Elastic"
+#
+#     def __init__(self, osi, e_mod, eta=0.0, e_mod_comp=None):
+#         """
+#         Elastic uniaxial material
+#
+#         Parameters
+#         ----------
+#         osi : opensees_pack.opensees_instance.OpenseesInstance object
+#             An instance of opensees
+#         e_mod : float
+#             Tangent
+#         eta : float, optional
+#             Damping tangent
+#         e_mod_comp: float, optional
+#             Tangent in compression
+#         """
+#         self.e_mod = e_mod
+#         self.eta = eta
+#         if e_mod_comp is None:
+#             e_mod_comp = e_mod
+#         self.e_mod_comp = e_mod_comp
+#         osi.n_mat += 1
+#         self._tag = osi.n_mat
+#         self._parameters = [self.type, self._tag, self.e_mod, self.eta, self.e_mod_comp]
+#         self.to_process(osi)
+#
+#
+# class ElasticPP(UniaxialMaterialBase):
+#     type = "ElasticPP"
+#
+#     def __init__(self, osi, e_mod, epsy_p, epsy_n=None, eps0=0.0):
+#         """
+#         Elastic perfectly plastic behaviour
+#
+#         Parameters
+#         ----------
+#         osi : opensees_pack.opensees_instance.OpenseesInstance object
+#             An instance of opensees
+#         e_mod : float
+#             Tangent
+#         epsy_p : float
+#             Strain or deformation at which material reaches plastic state in tension
+#         epsy_n : float, optional
+#             Strain or deformation at which material reaches plastic state in compression.
+#         eps0 : float, optional
+#             Initial strain (default is 0.0)
+#         """
+#         self.e_mod = e_mod
+#         self.epsy_p = epsy_p
+#         if epsy_n is None:
+#             epsy_n = epsy_p
+#         self.epsy_n = epsy_n
+#         self.eps0 = eps0
+#         osi.n_mat += 1
+#         self._tag = osi.n_mat
+#         self._parameters = [self.type, self._tag, self.e_mod, self.epsy_p, self.epsy_n, self.eps0]
+#         self.to_process(osi)
 
 
 class PySimple1(UniaxialMaterialBase):

@@ -31,9 +31,15 @@ class Cast(UniaxialMaterialBase):
         self.ro = float(ro)
         self.c_r1 = float(c_r1)
         self.c_r2 = float(c_r2)
-        self.a1 = float(a1)
+        if a1 is None:
+            self.a1 = None
+        else:
+            self.a1 = float(a1)
         self.a2 = float(a2)
-        self.a3 = float(a3)
+        if a3 is None:
+            self.a3 = None
+        else:
+            self.a3 = float(a3)
         self.a4 = float(a4)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -220,7 +226,7 @@ class BarSlip(UniaxialMaterialBase):
         self.eh = float(eh)
         self.db = float(db)
         self.ld = float(ld)
-        self.nb = float(nb)
+        self.nb = int(nb)
         self.depth = float(depth)
         self.height = float(height)
         self.anc_lratio = float(anc_lratio)
@@ -373,9 +379,18 @@ class ElasticBilin(UniaxialMaterialBase):
         self.ep1 = float(ep1)
         self.ep2 = float(ep2)
         self.eps_p2 = float(eps_p2)
-        self.en1 = float(en1)
-        self.en2 = float(en2)
-        self.eps_n2 = float(eps_n2)
+        if en1 is None:
+            self.en1 = None
+        else:
+            self.en1 = float(en1)
+        if en2 is None:
+            self.en2 = None
+        else:
+            self.en2 = float(en2)
+        if eps_n2 is None:
+            self.eps_n2 = None
+        else:
+            self.eps_n2 = float(eps_n2)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.ep1, self.ep2, self.eps_p2]
@@ -445,11 +460,11 @@ class InitStressMaterial(UniaxialMaterialBase):
 class PathIndependent(UniaxialMaterialBase):
     op_type = 'PathIndependent'
 
-    def __init__(self, osi, tag):
-        self.tag = int(tag)
+    def __init__(self, osi, other):
+        self.other = other
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.tag]
+        self._parameters = [self.op_type, self._tag, self.other.tag]
         self.to_process(osi)
 
 
@@ -487,7 +502,10 @@ class SelfCentering(UniaxialMaterialBase):
         self.beta = float(beta)
         self.eps_slip = float(eps_slip)
         self.eps_bear = float(eps_bear)
-        self.r_bear = float(r_bear)
+        if r_bear is None:
+            self.r_bear = None
+        else:
+            self.r_bear = float(r_bear)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k1, self.k2, self.sig_act, self.beta, self.eps_slip, self.eps_bear]

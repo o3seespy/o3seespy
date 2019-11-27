@@ -27,9 +27,15 @@ class Steel02(UniaxialMaterialBase):
         self.e0 = float(e0)
         self.b = float(b)
         self.params = params
-        self.a1 = float(a1)
+        if a1 is None:
+            self.a1 = None
+        else:
+            self.a1 = float(a1)
         self.a2 = float(a2)
-        self.a3 = float(a3)
+        if a3 is None:
+            self.a3 = None
+        else:
+            self.a3 = float(a3)
         self.a4 = float(a4)
         self.sig_init = float(sig_init)
         osi.n_mat += 1

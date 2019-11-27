@@ -1,5 +1,30 @@
 import o3seespy as o3  # for testing only
-import pytest
+
+
+def test_load_control():
+    osi = o3.OpenseesInstance(dimensions=2)
+    o3.integrator.LoadControl(osi, incr=1.0, num_iter=1, min_incr=None, max_incr=None)
+
+
+def test_displacement_control():
+    osi = o3.OpenseesInstance(dimensions=2)
+    o3.integrator.DisplacementControl(osi, nd=1, dof=1, incr=1.0, num_iter=1, d_umin=None, d_umax=None)
+
+
+def test_parallel_displacement_control():
+    osi = o3.OpenseesInstance(dimensions=2)
+    o3.integrator.ParallelDisplacementControl(osi, nd=1, dof=1, incr=1.0, num_iter=1, d_umin=None, d_umax=None)
+
+
+def test_min_unbal_disp_norm():
+    osi = o3.OpenseesInstance(dimensions=2)
+    o3.integrator.MinUnbalDispNorm(osi, dlambda1=1.0, jd=1, min_lambda=None, max_lambda=None, det=None)
+
+
+def test_arc_length():
+    osi = o3.OpenseesInstance(dimensions=2)
+    o3.integrator.ArcLength(osi, s=1.0, alpha=1.0)
+
 
 def test_central_difference():
     osi = o3.OpenseesInstance(dimensions=2)
@@ -29,4 +54,3 @@ def test_trbdf2():
 def test_explicit_difference():
     osi = o3.OpenseesInstance(dimensions=2)
     o3.integrator.ExplicitDifference(osi)
-

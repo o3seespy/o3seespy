@@ -158,7 +158,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             o3_name = pms[pm].o3_name
             dtype = pms[pm].dtype
             if dtype == 'float':
-                if pms[pm].marker:
+                if pms[pm].marker or pms[pm].default_is_expression:
                     para.append(w8 + f'if {o3_name} is None:')
                     para.append(w8 + w4 + f'self.{o3_name} = None')
                     para.append(w8 + f'else:')
@@ -576,6 +576,8 @@ def parse_mat_file(ffp, osi_type, expected_base_type=None):
             if dtype_res is None:
                 continue
             dtype = dtype_res.group()[1:-1]
+            if dtype == 'str':
+                pass  # TODO: look for options: e.g. (options: ``'beamtop'``, ``'beambot'`` or ``'column'``)
             des = line[dtype_res.end():]
             des = des.replace('\t', ' ')
             if not len(des):
@@ -776,7 +778,7 @@ def parse_all_uniaxial_mat():
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/test_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/test_uniaxial_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 ndmats = {
@@ -826,6 +828,10 @@ def parse_all_ndmat():
             if mat == 'PressureDependMultiYield':
                 continue
             if mat == 'PressureDependMultiYield02':
+                continue
+            if mat == 'StressDensityModel':
+                continue
+            if mat == 'PM4Sand':
                 continue
             if mat in cust_obj_list:
                 source = inspect.getsource(getattr(cust_file, mat))
@@ -996,7 +1002,7 @@ if __name__ == '__main__':
     # parse_all_ndmat()
     # ps, ts = parse_mat_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
     all = 0
-    all = 0  # TODO: KikuchiBearing
+    all = 1  # TODO: KikuchiBearing
     if not all:
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)

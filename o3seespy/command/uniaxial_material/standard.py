@@ -8,7 +8,10 @@ class Elastic(UniaxialMaterialBase):
     def __init__(self, osi, big_e, eta=0.0, eneg=None):
         self.big_e = float(big_e)
         self.eta = float(eta)
-        self.eneg = float(eneg)
+        if eneg is None:
+            self.eneg = None
+        else:
+            self.eneg = float(eneg)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_e, self.eta]
@@ -29,7 +32,10 @@ class ElasticPP(UniaxialMaterialBase):
     def __init__(self, osi, big_e, epsy_p, epsy_n=None, eps0=0.0):
         self.big_e = float(big_e)
         self.epsy_p = float(epsy_p)
-        self.epsy_n = float(epsy_n)
+        if epsy_n is None:
+            self.epsy_n = None
+        else:
+            self.epsy_n = float(epsy_n)
         self.eps0 = float(eps0)
         osi.n_mat += 1
         self._tag = osi.n_mat
