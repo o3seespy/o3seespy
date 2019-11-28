@@ -2,9 +2,41 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class Tri31(ElementBase):
+    """
+    The Tri31 Element Class
+    
+    This command is used to construct a constant strain triangular element (Tri31) which uses three nodes and one
+    integration points.
+
+    
+    """
     op_type = 'Tri31'
 
     def __init__(self, osi, ele_nodes, thick, otype, mat, pressure, rho, b1, b2):
+        """
+        Initial method for Tri31
+
+        Parameters
+        ----------
+        ele_nodes: listi
+            A list of three element nodes in counter-clockwise order
+        thick: float
+            Element thickness
+        otype: str
+            String representing material behavior. the type parameter can be either ``'planestrain'`` or
+            ``'planestress'``
+        mat: obj
+            Tag of ndmaterial
+        pressure: float
+            Surface pressure (optional, default = 0.0)
+        rho: float
+            Element mass density (per unit volume) from which a lumped element mass matrix is computed (optional,
+            default=0.0)
+        b1: float
+            Constant body forces defined in the domain (optional, default=0.0)
+        b2: float
+            Constant body forces defined in the domain (optional, default=0.0)
+        """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
         self.otype = otype

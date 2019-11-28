@@ -3,9 +3,26 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 
 
 class Elastic(UniaxialMaterialBase):
+    """
+    The Elastic UniaxialMaterial Class
+    
+    This command is used to construct an elastic uniaxial material object.
+    """
     op_type = 'Elastic'
 
     def __init__(self, osi, big_e, eta=0.0, eneg=None):
+        """
+        Initial method for Elastic
+
+        Parameters
+        ----------
+        big_e: float
+            Tangent
+        eta: float
+            Damping tangent (optional, default=0.0)
+        eneg: float (default=True)
+            Tangent in compression (optional, default=e)
+        """
         self.big_e = float(big_e)
         self.eta = float(eta)
         if eneg is None:
@@ -27,9 +44,29 @@ class Elastic(UniaxialMaterialBase):
 
 
 class ElasticPP(UniaxialMaterialBase):
+    """
+    The ElasticPP UniaxialMaterial Class
+    
+    This command is used to construct an elastic perfectly-plastic uniaxial material object.
+    """
     op_type = 'ElasticPP'
 
     def __init__(self, osi, big_e, epsy_p, epsy_n=None, eps0=0.0):
+        """
+        Initial method for ElasticPP
+
+        Parameters
+        ----------
+        big_e: float
+            Tangent
+        epsy_p: float
+            Strain or deformation at which material reaches plastic state in tension
+        epsy_n: float (default=True)
+            Strain or deformation at which material reaches plastic state in compression. (optional, default is tension
+            value)
+        eps0: float
+            Initial strain (optional, default: zero)
+        """
         self.big_e = float(big_e)
         self.epsy_p = float(epsy_p)
         if epsy_n is None:
@@ -52,9 +89,31 @@ class ElasticPP(UniaxialMaterialBase):
 
 
 class ElasticPPGap(UniaxialMaterialBase):
+    """
+    The ElasticPPGap UniaxialMaterial Class
+    
+    This command is used to construct an elastic perfectly-plastic gap uniaxial material object.
+    """
     op_type = 'ElasticPPGap'
 
     def __init__(self, osi, big_e, fy, gap, eta=0.0, damage='noDamage'):
+        """
+        Initial method for ElasticPPGap
+
+        Parameters
+        ----------
+        big_e: float
+            Tangent
+        fy: float
+            Stress or force at which material reaches plastic state
+        gap: float
+            Initial gap (strain or deformation)
+        eta: float
+            Hardening ratio (=eh/e), which can be negative
+        damage: str
+            An optional string to specify whether to accumulate damage or not in the material. with the default
+            re-center on load reversal. is provided this recentering will not occur and gap will grow.
+        """
         self.big_e = float(big_e)
         self.fy = float(fy)
         self.gap = float(gap)
@@ -67,9 +126,22 @@ class ElasticPPGap(UniaxialMaterialBase):
 
 
 class ENT(UniaxialMaterialBase):
+    """
+    The ENT UniaxialMaterial Class
+    
+    This command is used to construct a uniaxial elastic-no tension material object.
+    """
     op_type = 'ENT'
 
     def __init__(self, osi, big_e):
+        """
+        Initial method for ENT
+
+        Parameters
+        ----------
+        big_e: float
+            Tangent
+        """
         self.big_e = float(big_e)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -78,9 +150,26 @@ class ENT(UniaxialMaterialBase):
 
 
 class Parallel(UniaxialMaterialBase):
+    """
+    The Parallel UniaxialMaterial Class
+    
+    This command is used to construct a parallel material object made up of an arbitrary number of
+    previously-constructed UniaxialMaterial objects.
+    """
     op_type = 'Parallel'
 
     def __init__(self, osi, tags, factor_args=None):
+        """
+        Initial method for Parallel
+
+        Parameters
+        ----------
+        tags: listi
+            Identification tags of materials making up the material model
+        factor_args: listf
+            Factors to create a linear combination of the specified materials. factors can be negative to subtract one
+            material from an other. (optional, default = 1.0)
+        """
         self.tags = tags
         self.factor_args = factor_args
         osi.n_mat += 1
@@ -92,9 +181,23 @@ class Parallel(UniaxialMaterialBase):
 
 
 class Series(UniaxialMaterialBase):
+    """
+    The Series UniaxialMaterial Class
+    
+    This command is used to construct a series material object made up of an arbitrary number of previously-constructed
+    UniaxialMaterial objects.
+    """
     op_type = 'Series'
 
     def __init__(self, osi, tags):
+        """
+        Initial method for Series
+
+        Parameters
+        ----------
+        tags: listi
+            Identification tags of materials making up the material model
+        """
         self.tags = tags
         osi.n_mat += 1
         self._tag = osi.n_mat

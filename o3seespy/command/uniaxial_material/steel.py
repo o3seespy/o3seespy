@@ -3,9 +3,37 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 
 
 class Steel01(UniaxialMaterialBase):
+    """
+    The Steel01 UniaxialMaterial Class
+    
+    This command is used to construct a uniaxial bilinear steel material object with kinematic hardening and optional
+    isotropic hardening described by a non-linear evolution equation (REF: Fedeas).
+    """
     op_type = 'Steel01'
 
     def __init__(self, osi, fy, e0, b, a1, a2, a3, a4):
+        """
+        Initial method for Steel01
+
+        Parameters
+        ----------
+        fy: float
+            Yield strength
+        e0: float
+            Initial elastic tangent
+        b: float
+            Strain-hardening ratio (ratio between post-yield tangent and initial elastic tangent)
+        a1: float
+            Isotropic hardening parameter, increase of compression yield envelope as proportion of yield strength after
+            a plastic strain of :math:`a_2*(f_y/e_0)` (optional)
+        a2: float
+            Isotropic hardening parameter
+        a3: float
+            Isotropic hardening parameter, increase of tension yield envelope as proportion of yield strength after a
+            plastic strain of :math:`a_4*(f_y/e_0)`. (optional)
+        a4: float
+            Isotropic hardening parameter (see explanation
+        """
         self.fy = float(fy)
         self.e0 = float(e0)
         self.b = float(b)
@@ -20,9 +48,43 @@ class Steel01(UniaxialMaterialBase):
 
 
 class Steel02(UniaxialMaterialBase):
+    """
+    The Steel02 UniaxialMaterial Class
+    
+    This command is used to construct a uniaxial Giuffre-Menegotto-Pinto steel material object with isotropic strain
+    hardening.
+    """
     op_type = 'Steel02'
 
     def __init__(self, osi, fy, e0, b, params, a1=None, a2=1.0, a3=None, a4=1.0, sig_init=0.0):
+        """
+        Initial method for Steel02
+
+        Parameters
+        ----------
+        fy: float
+            Yield strength
+        e0: float
+            Initial elastic tangent
+        b: float
+            Strain-hardening ratio (ratio between post-yield tangent and initial elastic tangent)
+        params: listf
+            Parameters to control the transition from elastic to plastic branches. ``params=[r0,cr1,cr2]``. recommended
+            values: r0=between 10 and 20, cr1=0.925, cr2=0.15
+        a1: float (default=True)
+            Isotropic hardening parameter, increase of compression yield envelope as proportion of yield strength after
+            a plastic strain of :math:`a_2*(f_y/e_0)` (optional)
+        a2: float
+            Isotropic hardening parameter
+        a3: float (default=True)
+            Isotropic hardening parameter, increase of tension yield envelope as proportion of yield strength after a
+            plastic strain of :math:`a_4*(f_y/e_0)`. (optional)
+        a4: float
+            Isotropic hardening parameter (see explanation
+        sig_init: float
+            Initial stress value (optional, default: 0.0) the strain is calculated from ``epsp=siginit/e`` :: if
+            (siginit!= 0.0) { double epsinit = siginit/e; eps = trialstrain+epsinit; } else { eps = trialstrain; }
+        """
         self.fy = float(fy)
         self.e0 = float(e0)
         self.b = float(b)
@@ -53,9 +115,49 @@ class Steel02(UniaxialMaterialBase):
 
 
 class Hysteretic(UniaxialMaterialBase):
+    """
+    The Hysteretic UniaxialMaterial Class
+    
+    This command is used to construct a uniaxial bilinear hysteretic material object with pinching of force and
+    deformation, damage due to ductility and energy, and degraded unloading stiffness based on ductility.
+    """
     op_type = 'Hysteretic'
 
     def __init__(self, osi, p1, p2, p3, n1, n2, n3, pinch_x, pinch_y, damage1, damage2, beta):
+        """
+        Initial method for Hysteretic
+
+        Parameters
+        ----------
+        p1: listf
+            ``p1=[s1p, e1p]``, stress and strain (or force & deformation) at first point of the envelope in the positive
+            direction
+        p2: listf
+            ``p2=[s2p, e2p]``, stress and strain (or force & deformation) at second point of the envelope in the
+            positive direction
+        p3: listf (default=True)
+            ``p3=[s3p, e3p]``, stress and strain (or force & deformation) at third point of the envelope in the positive
+            direction
+        n1: listf
+            ``n1=[s1n, e1n]``, stress and strain (or force & deformation) at first point of the envelope in the negative
+            direction
+        n2: listf
+            ``n2=[s2n, e2n]``, stress and strain (or force & deformation) at second point of the envelope in the
+            negative direction
+        n3: listf (default=True)
+            ``n3=[s3n, e3n]``, stress and strain (or force & deformation) at third point of the envelope in the negative
+            direction
+        pinch_x: float
+            Pinching factor for strain (or deformation) during reloading
+        pinch_y: float
+            Pinching factor for stress (or force) during reloading
+        damage1: float
+            Damage due to ductility: d1(mu-1)
+        damage2: float
+            Damage due to energy: d2(eii/eult)
+        beta: float
+            Power used to determine the degraded unloading stiffness based on ductility, mu-beta (optional, default=0.0)
+        """
         self.p1 = p1
         self.p2 = p2
         self.p3 = p3
@@ -82,9 +184,42 @@ class Hysteretic(UniaxialMaterialBase):
 
 
 class ReinforcingSteelGABuck(UniaxialMaterialBase):
+    """
+    The ReinforcingSteelGABuck UniaxialMaterial Class
+    
+    This command is used to construct a ReinforcingSteel uniaxial material object. This object is intended to be used in
+    a reinforced concrete fiber section as the steel reinforcing material.
+    """
     op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, lsr, beta, r, gamma):
+        """
+        Initial method for ReinforcingSteelGABuck
+
+        Parameters
+        ----------
+        fy: float
+            Yield stress in tension
+        fu: float
+            Ultimate stress in tension
+        es: float
+            Initial elastic tangent
+        esh: float
+            Tangent at initial strain hardening
+        eps_sh: float
+            Strain corresponding to initial strain hardening
+        eps_ult: float
+            Strain at peak stress
+        lsr: float
+            Slenderness ratio
+        beta: float
+            Amplification factor for the buckled stress strain curve.
+        r: float
+            Buckling reduction factor r can be a real number between [0.0 and 1.0] r=1.0 full reduction (no buckling)
+            r=0.0 no reduction 0.0<r<1.0 linear interpolation between buckled and unbuckled curves
+        gamma: float
+            Buckling constant
+        """
         self.fy = float(fy)
         self.fu = float(fu)
         self.es = float(es)
@@ -101,9 +236,37 @@ class ReinforcingSteelGABuck(UniaxialMaterialBase):
         self.to_process(osi)
 
 class ReinforcingSteelDMBuck(UniaxialMaterialBase):
+    """
+    The ReinforcingSteelDMBuck UniaxialMaterial Class
+    
+    This command is used to construct a ReinforcingSteel uniaxial material object. This object is intended to be used in
+    a reinforced concrete fiber section as the steel reinforcing material.
+    """
     op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, lsr_2, alpha=1.0):
+        """
+        Initial method for ReinforcingSteelDMBuck
+
+        Parameters
+        ----------
+        fy: float
+            Yield stress in tension
+        fu: float
+            Ultimate stress in tension
+        es: float
+            Initial elastic tangent
+        esh: float
+            Tangent at initial strain hardening
+        eps_sh: float
+            Strain corresponding to initial strain hardening
+        eps_ult: float
+            Strain at peak stress
+        lsr_2: None
+            
+        alpha: float
+            Coffin-manson constant a
+        """
         self.fy = float(fy)
         self.fu = float(fu)
         self.es = float(es)
@@ -118,9 +281,39 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
         self.to_process(osi)
 
 class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
+    """
+    The ReinforcingSteelCMFatigue UniaxialMaterial Class
+    
+    This command is used to construct a ReinforcingSteel uniaxial material object. This object is intended to be used in
+    a reinforced concrete fiber section as the steel reinforcing material.
+    """
     op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, cf, alpha_2, cd):
+        """
+        Initial method for ReinforcingSteelCMFatigue
+
+        Parameters
+        ----------
+        fy: float
+            Yield stress in tension
+        fu: float
+            Ultimate stress in tension
+        es: float
+            Initial elastic tangent
+        esh: float
+            Tangent at initial strain hardening
+        eps_sh: float
+            Strain corresponding to initial strain hardening
+        eps_ult: float
+            Strain at peak stress
+        cf: float
+            Coffin-manson constant c
+        alpha_2: None
+            
+        cd: float
+            Cyclic strength reduction constant
+        """
         self.fy = float(fy)
         self.fu = float(fu)
         self.es = float(es)
@@ -136,9 +329,38 @@ class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
         self.to_process(osi)
 
 class ReinforcingSteelIsoHard(UniaxialMaterialBase):
+    """
+    The ReinforcingSteelIsoHard UniaxialMaterial Class
+    
+    This command is used to construct a ReinforcingSteel uniaxial material object. This object is intended to be used in
+    a reinforced concrete fiber section as the steel reinforcing material.
+    """
     op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, a1=4.3, limit=1.0):
+        """
+        Initial method for ReinforcingSteelIsoHard
+
+        Parameters
+        ----------
+        fy: float
+            Yield stress in tension
+        fu: float
+            Ultimate stress in tension
+        es: float
+            Initial elastic tangent
+        esh: float
+            Tangent at initial strain hardening
+        eps_sh: float
+            Strain corresponding to initial strain hardening
+        eps_ult: float
+            Strain at peak stress
+        a1: float
+            Hardening constant (default = 4.3)
+        limit: float
+            Limit for the reduction of the yield plateau. % of original plateau length to remain (0.01 < limit < 1.0 )
+            limit =1.0, then no reduction takes place (default =0.01)
+        """
         self.fy = float(fy)
         self.fu = float(fu)
         self.es = float(es)
@@ -153,9 +375,39 @@ class ReinforcingSteelIsoHard(UniaxialMaterialBase):
         self.to_process(osi)
 
 class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
+    """
+    The ReinforcingSteelMPCurveParams UniaxialMaterial Class
+    
+    This command is used to construct a ReinforcingSteel uniaxial material object. This object is intended to be used in
+    a reinforced concrete fiber section as the steel reinforcing material.
+    """
     op_type = 'ReinforcingSteel'
 
     def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, r1=0.333, r2=18.0, r3=4.0):
+        """
+        Initial method for ReinforcingSteelMPCurveParams
+
+        Parameters
+        ----------
+        fy: float
+            Yield stress in tension
+        fu: float
+            Ultimate stress in tension
+        es: float
+            Initial elastic tangent
+        esh: float
+            Tangent at initial strain hardening
+        eps_sh: float
+            Strain corresponding to initial strain hardening
+        eps_ult: float
+            Strain at peak stress
+        r1: float
+            (default = 0.333)
+        r2: float
+            (default = 18)
+        r3: float
+            (default = 4)
+        """
         self.fy = float(fy)
         self.fu = float(fu)
         self.es = float(es)
@@ -172,9 +424,38 @@ class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
 
 
 class DoddRestrepo(UniaxialMaterialBase):
+    """
+    The DoddRestrepo UniaxialMaterial Class
+    
+    This command is used to construct a Dodd-Restrepo steel material
+    """
     op_type = 'Dodd_Restrepo'
 
     def __init__(self, osi, fy, fsu, esh, esu, youngs, eshi, fshi, omega_fac=1.0):
+        """
+        Initial method for DoddRestrepo
+
+        Parameters
+        ----------
+        fy: float
+            Yield strength
+        fsu: float
+            Ultimate tensile strength (uts)
+        esh: float
+            Tensile strain at initiation of strain hardening
+        esu: float
+            Tensile strain at the uts
+        youngs: float
+            Modulus of elasticity
+        eshi: float
+            Tensile strain for a point on strain hardening curve, recommended range of values for eshi: [ (esu +
+            5*esh)/6, (esu + 3*esh)/4]
+        fshi: float
+            Tensile stress at point on strain hardening curve corresponding to eshi
+        omega_fac: float
+            Roundedness factor for bauschinger curve in cycle reversals from the strain hardening curve. range: [0.75,
+            1.15]. largest value tends to near a bilinear bauschinger curve. default = 1.0.
+        """
         self.fy = float(fy)
         self.fsu = float(fsu)
         self.esh = float(esh)
@@ -190,9 +471,29 @@ class DoddRestrepo(UniaxialMaterialBase):
 
 
 class RambergOsgoodSteel(UniaxialMaterialBase):
+    """
+    The RambergOsgoodSteel UniaxialMaterial Class
+    
+    This command is used to construct a Ramberg–Osgood steel material object.
+    """
     op_type = 'RambergOsgoodSteel'
 
     def __init__(self, osi, fy, e0, a, n):
+        """
+        Initial method for RambergOsgoodSteel
+
+        Parameters
+        ----------
+        fy: float
+            Yield strength
+        e0: float
+            Initial elastic tangent
+        a: float
+            “yield offset” and the commonly used value for a is 0.002
+        n: float
+            Parameters to control the transition from elastic to plastic branches. and controls the hardening of the
+            material by increasing the "n" hardening ratio will be decreased. commonly used values for n are ~5 or greater.
+        """
         self.fy = float(fy)
         self.e0 = float(e0)
         self.a = float(a)
@@ -204,9 +505,48 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
 
 
 class SteelMPF(UniaxialMaterialBase):
+    """
+    The SteelMPF UniaxialMaterial Class
+    
+    This command is used to construct a uniaxialMaterial SteelMPF (Kolozvari et al., 2015), which represents the
+    well-known uniaxial constitutive nonlinear hysteretic material model for steel proposed by Menegotto and Pinto
+    (1973), and extended by Filippou et al. (1983) to include isotropic strain hardening effects.
+    """
     op_type = 'SteelMPF'
 
     def __init__(self, osi, fyp, fyn, e0, bp, bn, r0, c_r1, c_r2, a1=0.0, a2=1.0, a3=0.0, a4=1.0):
+        """
+        Initial method for SteelMPF
+
+        Parameters
+        ----------
+        fyp: float
+            Yield strength in tension (positive loading direction)
+        fyn: float
+            Yield strength in compression (negative loading direction)
+        e0: float
+            Initial tangent modulus
+        bp: float
+            Strain hardening ratio in tension (positive loading direction)
+        bn: float
+            Strain hardening ratio in compression (negative loading direction)
+        r0: float
+            Initial value of the curvature parameter r (r0 = 20 recommended)
+        c_r1: float
+            Curvature degradation parameter (a1 = 0.925 recommended)
+        c_r2: float
+            Curvature degradation parameter (a2 = 0.15 or 0.0015 recommended)
+        a1: float
+            Isotropic hardening in compression parameter (optional, default = 0.0). shifts compression yield envelope by
+            a proportion of compressive yield strength after a maximum plastic tensile strain of a2(fyp/e0)
+        a2: float
+            Isotropic hardening in compression parameter (optional, default = 1.0).
+        a3: float
+            Isotropic hardening in tension parameter (optional, default = 0.0). shifts tension yield envelope by a
+            proportion of tensile yield strength after a maximum plastic compressive strain of a3(fyn/e0).
+        a4: float
+            Isotropic hardening in tension parameter (optional, default = 1.0). see explanation of a3.
+        """
         self.fyp = float(fyp)
         self.fyn = float(fyn)
         self.e0 = float(e0)
@@ -226,9 +566,36 @@ class SteelMPF(UniaxialMaterialBase):
 
 
 class Steel01Thermal(UniaxialMaterialBase):
+    """
+    The Steel01Thermal UniaxialMaterial Class
+    
+    
+    """
     op_type = 'Steel01Thermal'
 
     def __init__(self, osi, fy, e0, b, a1, a2, a3, a4):
+        """
+        Initial method for Steel01Thermal
+
+        Parameters
+        ----------
+        fy: float
+            Yield strength
+        e0: float
+            Initial elastic tangent
+        b: float
+            Strain-hardening ratio (ratio between post-yield tangent and initial elastic tangent)
+        a1: float
+            Isotropic hardening parameter, increase of compression yield envelope as proportion of yield strength after
+            a plastic strain of :math:`a_2*(f_y/e_0)` (optional)
+        a2: float
+            Isotropic hardening parameter
+        a3: float
+            Isotropic hardening parameter, increase of tension yield envelope as proportion of yield strength after a
+            plastic strain of :math:`a_4*(f_y/e_0)`. (optional)
+        a4: float
+            Isotropic hardening parameter (see explanation
+        """
         self.fy = float(fy)
         self.e0 = float(e0)
         self.b = float(b)

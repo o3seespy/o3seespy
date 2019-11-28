@@ -2,9 +2,48 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class CatenaryCable(ElementBase):
+    """
+    The CatenaryCable Element Class
+    
+    This command is used to construct a catenary cable element object.
+
+    
+    """
     op_type = 'CatenaryCable'
 
     def __init__(self, osi, i_node, j_node, weight, big_e, big_a, l0, alpha, temperature_change, rho, error_tol, nsubsteps, mass_type):
+        """
+        Initial method for CatenaryCable
+
+        Parameters
+        ----------
+        i_node: obj
+            End nodes (3 dof per node)
+        j_node: obj
+            End nodes (3 dof per node)
+        weight: float
+            Undefined
+        big_e: float
+            Elastic modulus of the cable material
+        big_a: float
+            Cross-sectional area of element
+        l0: float
+            Unstretched length of the cable
+        alpha: float
+            Coefficient of thermal expansion
+        temperature_change: float
+            Temperature change for the element
+        rho: float
+            Mass per unit length
+        error_tol: float
+            Allowed tolerance for within-element equilbrium (newton-rhapson iterations)
+        nsubsteps: int
+            Number of within-element substeps into which equilibrium iterations are subdivided (not number of steps to
+            convergence)
+        mass_type: int
+            Mass matrix model to use (``masstype`` = 0 lumped mass matrix,    ``masstype`` = 1 rigid-body mass matrix
+            (in development))
+        """
         self.i_node = i_node
         self.j_node = j_node
         self.weight = float(weight)

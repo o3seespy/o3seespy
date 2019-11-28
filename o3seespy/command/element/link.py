@@ -2,9 +2,51 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class TwoNodeLink(ElementBase):
+    """
+    The TwoNodeLink Element Class
+    
+    This command is used to construct a twoNodeLink element object, which is defined by two nodes. The element can have
+    zero or non-zero length. This element can have 1 to 6 degrees of freedom, where only the transverse and rotational
+    degrees of freedom are coupled as long as the element has non-zero length. In addition, if the element length is
+    larger than zero, the user can optionally specify how the P-Delta moments around the local x- and y-axis are
+    distributed among a moment at node i, a moment at node j, and a shear couple. The sum of these three ratios
+    is always equal to 1. In addition the shear center can be specified as a fraction of the element length
+    from the iNode. The element does not contribute to the Rayleigh damping by default. If the element has
+    non-zero length, the local x-axis is determined from the nodal geometry unless the optional x-axis
+    vector is specified in which case the nodal geometry is ignored and the user-defined orientation
+    is utilized. It is important to recognize that if this element has zero length, it does not
+    consider the geometry as given by the nodal coordinates, but utilizes the user-defined
+    orientation vectors to determine the directions of the springs.
+
+    
+    """
     op_type = 'twoNodeLink'
 
     def __init__(self, osi, ele_nodes, mat_tags=None, dir=None, p_delta_vals=None, shear_dist=None, do_rayleigh=False, orient=None, mass=None):
+        """
+        Initial method for TwoNodeLink
+
+        Parameters
+        ----------
+        ele_nodes: listi
+            A list of two element nodes
+        mat_tags: None
+            A list of tags associated with previously-defined uniaxialmaterial objects
+        dir: None
+            
+        p_delta_vals: listf
+            P-delta moment contribution ratios, size of ratio vector is 2 for 2d-case and 4 for 3d-case (entries:
+            ``[my_inode, my_jnode, mz_inode, mz_jnode]``) ``my_inode`` + ``my_jnode`` <= 1.0, ``mz_inode`` + ``mz_jnode`` <=
+            1.0. remaining p-delta moments are resisted by shear couples. (optional)
+        shear_dist: None
+            
+        do_rayleigh: str
+            To include rayleigh damping from the element (optional, default = no rayleigh damping contribution)
+        orient: None
+            
+        mass: float
+            Element mass (optional, default = 0.0)
+        """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat_tags = [x.tag for x in mat_tags]
         self.dir = dir

@@ -47,7 +47,8 @@ def test_user_defined():
 @pytest.mark.skip()
 def test_fixed_location():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.beam_integration.FixedLocation(osi, big_n=1, sec_tags=1, locs=1)
+    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0, big_g=0.0, alpha_y=0.0)]
+    o3.beam_integration.FixedLocation(osi, big_n=1, sec_tags=secs, locs=1)
 
 
 @pytest.mark.skip()

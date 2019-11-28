@@ -6,9 +6,23 @@ class TimeSeriesBase(OpenseesObject):
 
 
 class Constant(TimeSeriesBase):
+    """
+    The Constant TimeSeries Class
+    
+    This command is used to construct a TimeSeries object in which the load factor applied remains constant and is
+    independent of the time in the domain, i.e. :math:`\lambda = f(t) = C`.
+    """
     op_type = 'Constant'
 
     def __init__(self, osi, factor=None):
+        """
+        Initial method for Constant
+
+        Parameters
+        ----------
+        factor: float
+            The load factor applied (optional)
+        """
         if factor is None:
             self.factor = None
         else:
@@ -22,9 +36,23 @@ class Constant(TimeSeriesBase):
 
 
 class Linear(TimeSeriesBase):
+    """
+    The Linear TimeSeries Class
+    
+    This command is used to construct a TimeSeries object in which the load factor applied is linearly proportional to
+    the time in the domain, i.e.:math:`\lambda = f(t) = cFactor * t`. 
+    """
     op_type = 'Linear'
 
     def __init__(self, osi, factor=None):
+        """
+        Initial method for Linear
+
+        Parameters
+        ----------
+        factor: float
+            Linear factor. (optional)
+        """
         if factor is None:
             self.factor = None
         else:
@@ -38,9 +66,34 @@ class Linear(TimeSeriesBase):
 
 
 class Trig(TimeSeriesBase):
+    """
+    The Trig TimeSeries Class
+    
+    This command is used to construct a TimeSeries object in which the load factor is some trigonemtric function of the
+    time in the domain.. math::\lambda = f(t) = \begin{cases}cFactor * sin(\frac{2.0\pi(t-tStart)}{period}+\phi), & 
+    tStart<=t<=tEnd\\0.0, & otherwise\end{cases}\phi = shift - \frac{period}{2.0\pi} * \arcsin(\frac{zeroShift}{cFactor})
+    """
     op_type = 'Trig'
 
     def __init__(self, osi, t_start, t_end, period, factor=None, shift=None, zero_shift=None):
+        """
+        Initial method for Trig
+
+        Parameters
+        ----------
+        t_start: float
+            Starting time of non-zero load factor.
+        t_end: float
+            Ending time of non-zero load factor.
+        period: float
+            Characteristic period of sine wave.
+        factor: float
+            Load factor. (optional)
+        shift: float
+            Phase shift in radians. (optional)
+        zero_shift: float
+            Zero shift. (optional)
+        """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
@@ -69,9 +122,38 @@ class Trig(TimeSeriesBase):
 
 
 class Triangle(TimeSeriesBase):
+    """
+    The Triangle TimeSeries Class
+    
+    This command is used to construct a TimeSeries object in which the load factor is some triangular function of the
+    time in the domain... math::\lambda = f(t) = \begin{cases}slope*k*period+zeroShift, & k <
+    0.25\\cFactor-slope*(k-0.25)*period+zeroShift, & k <
+    0.75\\-cFactor+slope*(k-0.75)*period+zeroShift, & k
+    < 1.0\\0.0, & otherwise\end{cases}.. math::slope =
+    \frac{cFactor}{period/4}k =
+    \frac{t+\phi-tStart}{period}-floor(\frac{t+\phi-tStart}{period})\phi = shift - \frac{zeroShift}{slope}
+    """
     op_type = 'Triangle'
 
     def __init__(self, osi, t_start, t_end, period, factor=None, shift=None, zero_shift=None):
+        """
+        Initial method for Triangle
+
+        Parameters
+        ----------
+        t_start: float
+            Starting time of non-zero load factor.
+        t_end: float
+            Ending time of non-zero load factor.
+        period: float
+            Characteristic period of sine wave.
+        factor: float
+            Load factor. (optional)
+        shift: float
+            Phase shift in radians. (optional)
+        zero_shift: float
+            Zero shift. (optional)
+        """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
@@ -100,9 +182,27 @@ class Triangle(TimeSeriesBase):
 
 
 class Rectangular(TimeSeriesBase):
+    """
+    The Rectangular TimeSeries Class
+    
+    This command is used to construct a TimeSeries object in which the load factor is constant for a specified period
+    and 0 otherwise, i.e... math::\lambda = f(t) = \begin{cases}cFactor, &  tStart<=t<=tEnd\\0.0, & otherwise\end{cases}
+    """
     op_type = 'Rectangular'
 
     def __init__(self, osi, t_start, t_end, factor=None):
+        """
+        Initial method for Rectangular
+
+        Parameters
+        ----------
+        t_start: float
+            Starting time of non-zero load factor.
+        t_end: float
+            Ending time of non-zero load factor.
+        factor: float
+            Load factor. (optional)
+        """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         if factor is None:
@@ -118,9 +218,36 @@ class Rectangular(TimeSeriesBase):
 
 
 class Pulse(TimeSeriesBase):
+    """
+    The Pulse TimeSeries Class
+    
+    This command is used to construct a TimeSeries object in which the load factor is some pulse function of the time in
+    the domain... math::\lambda = f(t) = \begin{cases}cFactor+zeroShift, &  k < width\\zeroshift, & k < 1\\0.0, &
+    otherwise\end{cases}.. math::k = \frac{t+shift-tStart}{period}-floor(\frac{t+shift-tStart}{period})
+    """
     op_type = 'Pulse'
 
     def __init__(self, osi, t_start, t_end, period, width=None, shift=None, factor=None, zero_shift=None):
+        """
+        Initial method for Pulse
+
+        Parameters
+        ----------
+        t_start: float
+            Starting time of non-zero load factor.
+        t_end: float
+            Ending time of non-zero load factor.
+        period: float
+            Characteristic period of pulse.
+        width: float
+            Pulse width as a fraction of the period. (optinal)
+        shift: float
+            Phase shift in seconds. (optional)
+        factor: float
+            Load factor. (optional)
+        zero_shift: float
+            Zero shift. (optional)
+        """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
@@ -155,9 +282,41 @@ class Pulse(TimeSeriesBase):
 
 
 class Path(TimeSeriesBase):
+    """
+    The Path TimeSeries Class
+    
+    The relationship between loadfactor and time is input by the user as a series of discrete points inthe 2d space
+    (load factor, time). The input points can come from afile or from a list in the script. When the time specified
+    does not matchany of the input points, linear interpolation is used between points.There are many ways to
+    specify the load path, for example,
+    """
     op_type = 'Path'
 
     def __init__(self, osi, dt=None, values=None, time=None, filepath=None, file_time=None, factor=None, start_time=None, use_last=False, prepend_zero=False):
+        """
+        Initial method for Path
+
+        Parameters
+        ----------
+        dt: float
+            Time interval between specified points. (optional)
+        values: listf
+            Load factor values in a |list|. (optional)
+        time: listf
+            Time values in a |list|. (optional)
+        filepath: str
+            File containing the load factors values. (optional)
+        file_time: str
+            File containing the time values for corresponding load factors. (optional)
+        factor: float
+            A factor to multiply load factors by. (optional)
+        start_time: float
+            Provide a start time for provided load factors. (optional)
+        use_last: str
+            Use last value after the end of the series. (optional)
+        prepend_zero: str
+            Prepend a zero value to the series of load factors. (optional)
+        """
         if dt is None:
             self.dt = None
         else:

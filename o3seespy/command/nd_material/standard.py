@@ -2,9 +2,26 @@ from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
 class ElasticIsotropic(NDMaterialBase):
+    """
+    The ElasticIsotropic NDMaterial Class
+    
+    This command is used to construct an ElasticIsotropic material object.
+    """
     op_type = 'ElasticIsotropic'
 
     def __init__(self, osi, big_e, v, rho=0.0):
+        """
+        Initial method for ElasticIsotropic
+
+        Parameters
+        ----------
+        big_e: float
+            Elastic modulus
+        v: float
+            Poisson's ratio
+        rho: float
+            Mass density (optional)
+        """
         self.big_e = float(big_e)
         self.v = float(v)
         self.rho = float(rho)
@@ -15,9 +32,40 @@ class ElasticIsotropic(NDMaterialBase):
 
 
 class ElasticOrthotropic(NDMaterialBase):
+    """
+    The ElasticOrthotropic NDMaterial Class
+    
+    This command is used to construct an ElasticOrthotropic material object.
+    """
     op_type = 'ElasticOrthotropic'
 
     def __init__(self, osi, ex, ey, ez, vxy, vyz, vzx, gxy, gyz, gzx, rho=0.0):
+        """
+        Initial method for ElasticOrthotropic
+
+        Parameters
+        ----------
+        ex: float
+            Elastic modulus in x direction
+        ey: float
+            Elastic modulus in y direction
+        ez: float
+            Elastic modulus in z direction
+        vxy: float
+            Poisson's ratios in x and y plane
+        vyz: float
+            Poisson's ratios in y and z plane
+        vzx: float
+            Poisson's ratios in z and x plane
+        gxy: float
+            Shear modulii in x and y plane
+        gyz: float
+            Shear modulii in y and z plane
+        gzx: float
+            Shear modulii in z and x plane
+        rho: float
+            Mass density (optional)
+        """
         self.ex = float(ex)
         self.ey = float(ey)
         self.ez = float(ez)
@@ -35,9 +83,33 @@ class ElasticOrthotropic(NDMaterialBase):
 
 
 class J2Plasticity(NDMaterialBase):
+    """
+    The J2Plasticity NDMaterial Class
+    
+    This command is used to construct an multi dimensional material object that has a von Mises (J2) yield criterium and
+    isotropic hardening.
+    """
     op_type = 'J2Plasticity'
 
     def __init__(self, osi, big_k, big_g, sig0, sig_inf, delta, big_h):
+        """
+        Initial method for J2Plasticity
+
+        Parameters
+        ----------
+        big_k: float
+            Bulk modulus
+        big_g: float
+            Shear modulus
+        sig0: float
+            Initial yield stress
+        sig_inf: float
+            Final saturation yield stress
+        delta: float
+            Exponential hardening parameter
+        big_h: float
+            Linear hardening parameter
+        """
         self.big_k = float(big_k)
         self.big_g = float(big_g)
         self.sig0 = float(sig0)
@@ -51,9 +123,46 @@ class J2Plasticity(NDMaterialBase):
 
 
 class DrukerPrager(NDMaterialBase):
+    """
+    The DrukerPrager NDMaterial Class
+    
+    This command is used to construct an multi dimensional material object that has a Drucker-Prager yield criterium.
+    """
     op_type = 'DrukerPrager'
 
     def __init__(self, osi, big_k, big_g, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, atm_pressure=101e3):
+        """
+        Initial method for DrukerPrager
+
+        Parameters
+        ----------
+        big_k: float
+            Bulk modulus
+        big_g: float
+            Shear modulus
+        sigma_y: float
+            Yield stress
+        rho: float
+            Frictional strength parameter
+        rho_bar: float
+            Controls evolution of plastic volume change, :math:`0\le rhobar \le rho`.
+        kinf: float
+            Nonlinear isotropic strain hardening parameter, :math:`kinf \ge 0`.
+        ko: float
+            Nonlinear isotropic strain hardening parameter, :math:`ko \ge 0`.
+        delta1: float
+            Nonlinear isotropic strain hardening parameter, :math:`delta1\ge 0`.
+        delta2: float
+            Tension softening parameter, :math:`delta2\ge 0`.
+        big_h: float
+            Linear hardening parameter, :math:`h \ge 0`.
+        theta: float
+            Controls relative proportions of isotropic and kinematic hardening, :math:`0 \le theta \le 1`.
+        density: float
+            Mass density of the material
+        atm_pressure: float
+            Optional atmospheric pressure for update of elastic bulk and shear moduli
+        """
         self.big_k = float(big_k)
         self.big_g = float(big_g)
         self.sigma_y = float(sigma_y)
@@ -74,9 +183,51 @@ class DrukerPrager(NDMaterialBase):
 
 
 class Damage2p(NDMaterialBase):
+    """
+    The Damage2p NDMaterial Class
+    
+    This command is used to construct a three-dimensional material object that has a Drucker-Prager plasticity model
+    coupled with a two-parameter damage model.
+    """
     op_type = 'Damage2p'
 
     def __init__(self, osi, fcc, fct=None, big_e=None, ni=None, gt=None, gc=None, rho_bar=None, big_h=None, theta=None, tangent=None):
+        """
+        Initial method for Damage2p
+
+        Parameters
+        ----------
+        fcc: float
+            Concrete compressive strength, negative real value (positive input is changed in sign automatically)
+        fct: float
+            Optional concrete tensile strength, positive real value (for concrete like materials is less than fcc),
+            :math:`0.1*abs(fcc)` = :math:`4750*sqrt(abs(fcc))\text{ }if\text{ }abs(fcc)<2000` because fcc is assumed in mpa
+            (see aci 318)
+        big_e: float
+            Optional young modulus, :math:`57000*sqrt(abs(fcc))` if :math:`abs(fcc)>2000` because fcc is assumed in psi
+            (see aci 318)
+        ni: float
+            Optional poisson coefficient, 0.15 (from comparison with tests by kupfer hilsdorf rusch 1969)
+        gt: float
+            Optional tension fracture energy density, positive real value (integral of the stress-strain envelope in
+            tension), :math:`1840*fct*fct/e` (from comparison with tests by gopalaratnam and shah 1985)
+        gc: float
+            Optional compression fracture energy density, positive real value (integral of the stress-strain envelope
+            after the peak in compression), :math:6250*fcc*fcc/e` (from comparison with tests by karsan and jirsa 1969)
+        rho_bar: float
+            Optional parameter of plastic volume change, positive real value :math:`0=rhobar< sqrt(2/3)`, 0.2 (from
+            comparison with tests by kupfer hilsdorf rusch 1969)
+        big_h: float
+            Optional linear hardening parameter for plasticity, positive real value (usually less than e),
+            :math:`0.25*e` (from comparison with tests by karsan and jirsa 1969 and gopalaratnam and shah 1985)
+        theta: float
+            Optional ratio between isotropic and kinematic hardening, positive real value :math:`0=theta=1` (with: 0
+            hardening kinematic only and 1 hardening isotropic only, 0.5 (from comparison with tests by karsan and jirsa 1969
+            and gopalaratnam and shah 1985)
+        tangent: float
+            Optional integer to choose the computational stiffness matrix, 0: computational tangent; 1: damaged secant
+            stiffness (hint: in case of strong nonlinearities use it with krylov-newton algorithm)
+        """
         self.fcc = float(fcc)
         if fct is None:
             self.fct = None
@@ -139,9 +290,23 @@ class Damage2p(NDMaterialBase):
 
 
 class PlaneStress(NDMaterialBase):
+    """
+    The PlaneStress NDMaterial Class
+    
+    This command is used to construct a plane-stress material wrapper which converts any three-dimensional material into
+    a plane stress material via static condensation.
+    """
     op_type = 'PlaneStress'
 
     def __init__(self, osi, three_dtag):
+        """
+        Initial method for PlaneStress
+
+        Parameters
+        ----------
+        three_dtag: int
+            Tag of perviously defined 3d ndmaterial material
+        """
         self.three_dtag = int(three_dtag)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -150,9 +315,23 @@ class PlaneStress(NDMaterialBase):
 
 
 class PlaneStrain(NDMaterialBase):
+    """
+    The PlaneStrain NDMaterial Class
+    
+    This command is used to construct a plane-stress material wrapper which converts any three-dimensional material into
+    a plane strain material by imposing plain strain conditions on the three-dimensional material.
+    """
     op_type = 'PlaneStrain'
 
     def __init__(self, osi, three_dtag):
+        """
+        Initial method for PlaneStrain
+
+        Parameters
+        ----------
+        three_dtag: int
+            Integer tag of previously defined 3d ndmaterial material
+        """
         self.three_dtag = int(three_dtag)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -161,9 +340,38 @@ class PlaneStrain(NDMaterialBase):
 
 
 class MultiaxialCyclicPlasticity(NDMaterialBase):
+    """
+    The MultiaxialCyclicPlasticity NDMaterial Class
+    
+    This command is used to construct an multiaxial Cyclic Plasticity model for clays
+    """
     op_type = 'MultiaxialCyclicPlasticity'
 
     def __init__(self, osi, rho, big_k, big_g, su, ho, h, m, beta, k_coeff):
+        """
+        Initial method for MultiaxialCyclicPlasticity
+
+        Parameters
+        ----------
+        rho: float
+            Density
+        big_k: float
+            Buck modulus
+        big_g: float
+            Maximum (small strain) shear modulus
+        su: float
+            Undrained shear strength, size of bounding surface :math:`r=\sqrt{8/3}*su`
+        ho: float
+            Linear kinematic hardening modulus of bounding surface
+        h: float
+            Hardening parameter
+        m: float
+            Hardening parameter
+        beta: float
+            Integration parameter, usually beta=0.5
+        k_coeff: float
+            Coefficient of earth pressure, k0
+        """
         self.rho = float(rho)
         self.big_k = float(big_k)
         self.big_g = float(big_g)
@@ -180,9 +388,40 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
 
 
 class BoundingCamClay(NDMaterialBase):
+    """
+    The BoundingCamClay NDMaterial Class
+    
+    This command is used to construct a multi-dimensional bounding surface Cam Clay material object after Borja et al.
+    (2001).
+    """
     op_type = 'BoundingCamClay'
 
     def __init__(self, osi, mass_density, big_c, bulk_mod, ocr, mu_o, alpha, lamb, h, m):
+        """
+        Initial method for BoundingCamClay
+
+        Parameters
+        ----------
+        mass_density: float
+            Mass density
+        big_c: float
+            Ellipsoidal axis ratio (defines shape of ellipsoidal loading/bounding surfaces)
+        bulk_mod: float
+            Initial bulk modulus
+        ocr: float
+            Overconsolidation ratio
+        mu_o: float
+            Initial shear modulus
+        alpha: float
+            Pressure-dependency parameter for modulii (greater than or equal to zero)
+        lamb: float
+            Soil compressibility index for virgin loading
+        h: float
+            Hardening parameter for plastic response inside of bounding surface (if h = 0, no hardening)
+        m: float
+            Hardening parameter (exponent) for plastic response inside of bounding surface (if m = 0, only linear
+            hardening)
+        """
         self.mass_density = float(mass_density)
         self.big_c = float(big_c)
         self.bulk_mod = float(bulk_mod)
@@ -199,9 +438,23 @@ class BoundingCamClay(NDMaterialBase):
 
 
 class PlateFiber(NDMaterialBase):
+    """
+    The PlateFiber NDMaterial Class
+    
+    This command is used to construct a plate-fiber material wrapper which converts any three-dimensional material into
+    a plate fiber material (by static condensation) appropriate for shell analysis.
+    """
     op_type = 'PlateFiber'
 
     def __init__(self, osi, three_d):
+        """
+        Initial method for PlateFiber
+
+        Parameters
+        ----------
+        three_d: obj
+            Material tag for a previously-defined three-dimensional material
+        """
         self.three_d = three_d
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -210,9 +463,56 @@ class PlateFiber(NDMaterialBase):
 
 
 class FSAM(NDMaterialBase):
+    """
+    The FSAM NDMaterial Class
+    
+    This command is used to construct a nDMaterial FSAM (Fixed-Strut-Angle-Model, Figure 1, Kolozvari et al., 2015),
+    which is a plane-stress constitutive model for simulating the behavior of RC panel elements under generalized,
+    in-plane, reversed-cyclic loading conditions (Ulugtekin, 2010; Orakcal et al., 2012). In the FSAM
+    constitutive model, the strain fields acting on concrete and reinforcing steel components of a
+    RC panel are assumed to be equal to each other, implying perfect bond assumption between
+    concrete and reinforcing steel bars. While the reinforcing steel bars develop uniaxial
+    stresses under strains in their longitudinal direction, the behavior of concrete is
+    defined using stress–strain relationships in biaxial directions, the orientation
+    of which is governed by the state of cracking in concrete. Although the
+    concrete stress–strain relationship used in the FSAM is fundamentally
+    uniaxial in nature, it also incorporates biaxial softening effects
+    including compression softening and biaxial damage. For transfer
+    of shear stresses across the cracks, a friction-based
+    elasto-plastic shear aggregate interlock model is
+    adopted, together with a linear elastic model
+    for representing dowel action on the
+    reinforcing steel bars (Kolozvari,
+    2013). Note that FSAM
+    constitutive model
+    is implemented to
+    be used with Shear-Flexure Interaction model for RC walls (SFI_MVLEM), but it could be also used elsewhere.
+    """
     op_type = 'FSAM'
 
     def __init__(self, osi, rho, s_x, s_y, conc, rou_x, rou_y, nu, alfadow):
+        """
+        Initial method for FSAM
+
+        Parameters
+        ----------
+        rho: float
+            Material density
+        s_x: float
+            Tag of uniaxialmaterial simulating horizontal (x) reinforcement
+        s_y: float
+            Tag of uniaxialmaterial simulating vertical (y) reinforcement
+        conc: float
+            Tag of uniaxialmaterial simulating concrete, shall be used with uniaxialmaterial concretecm
+        rou_x: float
+            Reinforcing ratio in horizontal (x) direction (:math:`roux = _{s,x}/a_{gross,x}`)
+        rou_y: float
+            Reinforcing ratio in vertical (x) direction (:math:`rouy = _{s,y}/a_{gross,y}`)
+        nu: float
+            Concrete friction coefficient (:math:`0.0 < \nu < 1.5`)
+        alfadow: float
+            Stiffness coefficient of reinforcement dowel action (:math:`0.0 < alfadow < 0.05`)
+        """
         self.rho = float(rho)
         self.s_x = float(s_x)
         self.s_y = float(s_y)
@@ -228,9 +528,56 @@ class FSAM(NDMaterialBase):
 
 
 class ManzariDafalias(NDMaterialBase):
+    """
+    The ManzariDafalias NDMaterial Class
+    
+    This command is used to construct a multi-dimensional Manzari-Dafalias(2004) material.
+    """
     op_type = 'ManzariDafalias'
 
     def __init__(self, osi, g0, nu, e_init, mc, c, lambda_c, e0, ksi, p_atm, m, h0, ch, nb, a0, nd, z_max, cz, den):
+        """
+        Initial method for ManzariDafalias
+
+        Parameters
+        ----------
+        g0: float
+            Shear modulus constant
+        nu: float
+            Poisson ratio
+        e_init: float
+            Initial void ratio
+        mc: float
+            Critical state stress ratio
+        c: float
+            Ratio of critical state stress ratio in extension and compression
+        lambda_c: float
+            Critical state line constant
+        e0: float
+            Critical void ratio at p = 0
+        ksi: float
+            Critical state line constant
+        p_atm: float
+            Atmospheric pressure
+        m: float
+            Yield surface constant (radius of yield surface in stress ratio space)
+        h0: float
+            Constant parameter
+        ch: float
+            Constant parameter
+        nb: float
+            Bounding surface parameter, :math:`nb \ge 0`
+        a0: float
+            Dilatancy parameter
+        nd: float
+            Dilatancy surface parameter :math:`nd \ge 0`
+        z_max: float
+            Fabric-dilatancy tensor parameter
+        cz: float
+            Fabric-dilatancy tensor parameter
+        den: float
+            Mass density of the material
+        """
         self.g0 = float(g0)
         self.nu = float(nu)
         self.e_init = float(e_init)
@@ -256,9 +603,24 @@ class ManzariDafalias(NDMaterialBase):
 
 
 class AcousticMedium(NDMaterialBase):
+    """
+    The AcousticMedium NDMaterial Class
+    
+    This command is used to construct an acoustic medium NDMaterial object.
+    """
     op_type = 'AcousticMedium'
 
     def __init__(self, osi, big_k, rho):
+        """
+        Initial method for AcousticMedium
+
+        Parameters
+        ----------
+        big_k: float
+            Bulk module of the acoustic medium
+        rho: float
+            Mass density of the acoustic medium
+        """
         self.big_k = float(big_k)
         self.rho = float(rho)
         osi.n_mat += 1

@@ -6,9 +6,28 @@ class IntegratorBase(OpenseesObject):
 
 
 class LoadControl(IntegratorBase):
+    """
+    The LoadControl Integrator Class
+    
+    Create a OpenSees LoadControl integrator object.
+    """
     op_type = 'LoadControl'
 
     def __init__(self, osi, incr, num_iter=1, min_incr=None, max_incr=None):
+        """
+        Initial method for LoadControl
+
+        Parameters
+        ----------
+        incr: float
+            Load factor increment :math:`\lambda`.
+        num_iter: int
+            Number of iterations the user would like to occur in the solution algorithm. (optional)
+        min_incr: float (default=True)
+            Min stepsize the user will allow :math:`\lambda_{min}`. (optional)
+        max_incr: float (default=True)
+            Max stepsize the user will allow :math:`\lambda_{max}`. (optional)
+        """
         self.incr = float(incr)
         self.num_iter = int(num_iter)
         if min_incr is None:
@@ -32,9 +51,34 @@ class LoadControl(IntegratorBase):
 
 
 class DisplacementControl(IntegratorBase):
+    """
+    The DisplacementControl Integrator Class
+    
+    Create a DisplacementControl integrator.  In an analysis step with Displacement Control we seek to determine the
+    time step that will result in a displacement increment for a particular degree-of-freedom at a node to be a
+    prescribed value.
+    """
     op_type = 'DisplacementControl'
 
     def __init__(self, osi, nd, dof, incr, num_iter=1, d_umin=None, d_umax=None):
+        """
+        Initial method for DisplacementControl
+
+        Parameters
+        ----------
+        nd: int
+            Tag of node whose response controls solution
+        dof: int
+            Degree of freedom at the node, 1 through ndf.
+        incr: float
+            First displacement increment :math:`\delta u_{dof}`.
+        num_iter: int
+            Number of iterations the user would like to occur in the solution algorithm. (optional)
+        d_umin: None (default=True)
+            
+        d_umax: None (default=True)
+            
+        """
         self.nd = int(nd)
         self.dof = int(dof)
         self.incr = float(incr)
@@ -54,9 +98,34 @@ class DisplacementControl(IntegratorBase):
 
 
 class ParallelDisplacementControl(IntegratorBase):
+    """
+    The ParallelDisplacementControl Integrator Class
+    
+    Create a Parallel version of DisplacementControl integrator.  In an analysis step with Displacement Control we seek
+    to determine the time step that will result in a displacement increment for a particular degree-of-freedom at a node
+    to be a prescribed value.
+    """
     op_type = 'ParallelDisplacementControl'
 
     def __init__(self, osi, nd, dof, incr, num_iter=1, d_umin=None, d_umax=None):
+        """
+        Initial method for ParallelDisplacementControl
+
+        Parameters
+        ----------
+        nd: int
+            Tag of node whose response controls solution
+        dof: int
+            Degree of freedom at the node, 1 through ndf.
+        incr: float
+            First displacement increment :math:`\delta u_{dof}`.
+        num_iter: int
+            Number of iterations the user would like to occur in the solution algorithm. (optional)
+        d_umin: None (default=True)
+            
+        d_umax: None (default=True)
+            
+        """
         self.nd = int(nd)
         self.dof = int(dof)
         self.incr = float(incr)
@@ -76,9 +145,31 @@ class ParallelDisplacementControl(IntegratorBase):
 
 
 class MinUnbalDispNorm(IntegratorBase):
+    """
+    The MinUnbalDispNorm Integrator Class
+    
+    Create a MinUnbalDispNorm integrator.
+    """
     op_type = 'MinUnbalDispNorm'
 
     def __init__(self, osi, dlambda1, jd=1, min_lambda=None, max_lambda=None, det=None):
+        """
+        Initial method for MinUnbalDispNorm
+
+        Parameters
+        ----------
+        dlambda1: float
+            First load increment (pseudo-time step) at the first iteration in the next invocation of the analysis
+            command.
+        jd: int
+            Factor relating first load increment at subsequent time steps. (optional)
+        min_lambda: float (default=True)
+            Min load increment. (optional)
+        max_lambda: float (default=True)
+            Max load increment. (optional)
+        det: None (default=True)
+            
+        """
         self.dlambda1 = float(dlambda1)
         self.jd = int(jd)
         if min_lambda is None:
@@ -103,9 +194,25 @@ class MinUnbalDispNorm(IntegratorBase):
 
 
 class ArcLength(IntegratorBase):
+    """
+    The ArcLength Integrator Class
+    
+    Create a ArcLength integrator. In an analysis step with ArcLength we seek to determine the time step that will
+    result in our constraint equation being satisfied.
+    """
     op_type = 'ArcLength'
 
     def __init__(self, osi, s, alpha):
+        """
+        Initial method for ArcLength
+
+        Parameters
+        ----------
+        s: float
+            The arclength.
+        alpha: float
+            :math:`\alpha` a scaling factor on the reference loads.
+        """
         self.s = float(s)
         self.alpha = float(alpha)
         self._parameters = [self.op_type, self.s, self.alpha]
@@ -113,17 +220,49 @@ class ArcLength(IntegratorBase):
 
 
 class CentralDifference(IntegratorBase):
+    """
+    The CentralDifference Integrator Class
+    
+    Create a centralDifference integrator.#. The calculation of :math:`U_t + \Delta t`, is based on using the
+    equilibrium equation at time t. For this reason the method is called an explicit integration method.#. If
+    there is no rayleigh damping and the C matrix is 0, for a diagonal mass matrix a diagonal solver may and
+    should be used.#. For stability, :math:`\frac{\Delta t}{T_n} < \frac{1}{\pi}`
+    """
     op_type = 'CentralDifference'
 
     def __init__(self, osi):
+        """
+        Initial method for CentralDifference
+
+        Parameters
+        ----------
+        """
         self._parameters = [self.op_type]
         self.to_process(osi)
 
 
 class Newmark(IntegratorBase):
+    """
+    The Newmark Integrator Class
+    
+    Create a Newmark integrator.
+    """
     op_type = 'Newmark'
 
     def __init__(self, osi, gamma, beta, form=None):
+        """
+        Initial method for Newmark
+
+        Parameters
+        ----------
+        gamma: float
+            :math:`\gamma` factor.
+        beta: float
+            :math:`\beta` factor.
+        form: str
+            Flag to indicate which variable to be used as primary variable (optional) * ``'d'`` -- displacement
+            (default) * ``'v'`` -- velocity * ``'a'`` -- acceleration
+        """
         self.gamma = float(gamma)
         self.beta = float(beta)
         self.form = form
@@ -134,9 +273,28 @@ class Newmark(IntegratorBase):
 
 
 class HHT(IntegratorBase):
+    """
+    The HHT Integrator Class
+    
+    Create a Hilber-Hughes-Taylor (HHT) integrator. This is an implicit method that allows for energy dissipation and
+    second order accuracy (which is not possible with the regular Newmark object). Depending on choices of input
+    parameters, the method can be unconditionally stable.
+    """
     op_type = 'HHT'
 
     def __init__(self, osi, alpha, gamma=None, beta=None):
+        """
+        Initial method for HHT
+
+        Parameters
+        ----------
+        alpha: float
+            :math:`\alpha` factor.
+        gamma: float (default=True)
+            :math:`\gamma` factor. (optional)
+        beta: float (default=True)
+            :math:`\beta` factor. (optional)
+        """
         self.alpha = float(alpha)
         if gamma is None:
             self.gamma = None
@@ -159,9 +317,30 @@ class HHT(IntegratorBase):
 
 
 class GeneralizedAlpha(IntegratorBase):
+    """
+    The GeneralizedAlpha Integrator Class
+    
+    Create a GeneralizedAlpha integrator. This is an implicit method that like the HHT method allows for high frequency
+    energy dissipation and second order accuracy, i.e. :math:`\Delta t^2`. Depending on choices of input parameters, the
+    method can be unconditionally stable.
+    """
     op_type = 'GeneralizedAlpha'
 
     def __init__(self, osi, alpha_m, alpha_f, gamma=None, beta=None):
+        """
+        Initial method for GeneralizedAlpha
+
+        Parameters
+        ----------
+        alpha_m: float
+            :math:`\alpha_m` factor.
+        alpha_f: float
+            :math:`\alpha_f` factor.
+        gamma: float (default=True)
+            :math:`\gamma` factor. (optional)
+        beta: float (default=True)
+            :math:`\beta` factor. (optional)
+        """
         self.alpha_m = float(alpha_m)
         self.alpha_f = float(alpha_f)
         if gamma is None:
@@ -185,16 +364,46 @@ class GeneralizedAlpha(IntegratorBase):
 
 
 class TRBDF2(IntegratorBase):
+    """
+    The TRBDF2 Integrator Class
+    
+    Create a TRBDF2 integrator. The TRBDF2 integrator is a composite scheme that alternates between the Trapezoidal
+    scheme and a 3 point backward Euler scheme. It does this in an attempt to conserve energy and momentum, something
+    Newmark does not always do.As opposed to dividing the time-step in 2 as outlined in the `Bathe2007`_, we just
+    switch alternate between the 2 integration strategies,i.e. the time step in our implementation is double
+    that described in the `Bathe2007`_.
+    """
     op_type = 'TRBDF2'
 
     def __init__(self, osi):
+        """
+        Initial method for TRBDF2
+
+        Parameters
+        ----------
+        """
         self._parameters = [self.op_type]
         self.to_process(osi)
 
 
 class ExplicitDifference(IntegratorBase):
+    """
+    The ExplicitDifference Integrator Class
+    
+    Create a ExplicitDifference integrator.#. When using Rayleigh damping, the damping ratio of high vibration modes is
+    overrated, and the critical time step size will be much smaller. Hence Modal damping is more suitable for this
+    method.#. There should be no zero element on the diagonal of the mass matrix when using this method.#.
+    Diagonal solver should be used when lumped mass matrix is used because the equations are uncoupled.#.
+    For stability, :math:`\Delta t \leq \left(\sqrt{\zeta^2+1}-\zeta\right)\frac{2}{\omega}`
+    """
     op_type = 'ExplicitDifference'
 
     def __init__(self, osi):
+        """
+        Initial method for ExplicitDifference
+
+        Parameters
+        ----------
+        """
         self._parameters = [self.op_type]
         self.to_process(osi)

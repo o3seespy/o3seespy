@@ -10,6 +10,8 @@ glob_list = []
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../"
 w4 = '    '
 w8 = '        '
+w12 = w8 + w4
+w16 = w8 + w8
 pname_pat = '\``([A-Za-z0-9_\./\\\'-]*)\``'
 dtype_pat = '\|([A-Za-z0-9_\./\\-\ ]*)\|'
 optype_pat = "\'([A-Za-z0-9_\./\\-]*)\'"
@@ -63,7 +65,7 @@ def convert_camel_to_snake(name):
     return s1
 
 
-def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf=""):
+def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="", obj_blurb=""):
     df_ip = pd.read_csv('force_in_place.csv')
     df_ip = df_ip[(df_ip['base_type'] == base_type) & (df_ip['op_type'] == op_type)]
     if len(op_kwargs) == 1:
@@ -90,6 +92,8 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             base_class_name = convert_name_to_class_name(base_type)
             # base_class_name = base_type[0].capitalize() + base_type[1:]
             para.append(f'class {base_class_name}(OpenseesObject):')
+            cur_obj_class_name = base_type
+            para += build_obj_docstring(base_type, base_class_name, obj_blurb)
             para.append(w4 + f"base_type = '{base_type}'")
             para.append('')
         else:
@@ -97,6 +101,8 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             base_class_name = convert_name_to_class_name(base_type)
             # base_class_name = base_type[0].capitalize() + base_type[1:]
             para.append(f'class {op_class_name}({base_class_name}Base):')
+            cur_obj_class_name = op_class_name
+            para += build_obj_docstring(op_class_name, base_class_name, obj_blurb)
             para.append(w4 + f"op_type = '{op_type}'")
             para.append('')
 
@@ -152,6 +158,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
 
         pjoined = ', '.join(pjoins)
         para.append(f'    def __init__(self, {pjoined}):')
+        para += build_init_method_docstring(cur_obj_class_name, pms, inp_pms_order)
 
         # Create init function saving logic
         for i, pm in enumerate(cl_pms):
@@ -322,61 +329,51 @@ def build_test_for_generic(names, pms, cl_pms):
 
     return tpara
 
-#
-# def build_test_for_generic(names, pms, cl_pms):
-#     tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
-#     pjoins = ['osi']
-#     for i, pm in enumerate(cl_pms):
-#         o3_name = pms[pm].o3_name
-#         default = pms[pm].default_value
-#         dtype = pms[pm].dtype
-#         if pms[pm].default_is_expression:
-#             pjoins.append(f'{o3_name}=None')
-#         elif default is not None:
-#             pjoins.append(f'{o3_name}={default}')
-#         elif dtype == 'float':
-#             pjoins.append(f'{o3_name}=1.0')
-#         elif dtype == 'obj':
-#             pjoins.append(f'{o3_name}=obj')
-#         else:
-#             pjoins.append(f'{o3_name}=1')
-#     pjoint = ', '.join(pjoins)
-#     tpara.append(w4 + f'o3.{names["low_base_name"]}.{names["op_class_name"]}({pjoint})')
-#     tpara.append('')
-#     tpara.append('')
-#
-#     return tpara
 
-#
-# def build_test_for_beamintegration(names, pms, cl_pms):
-#     tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
-#     pjoins = ['osi']
-#     prior_strs = []
-#     for i, pm in enumerate(cl_pms):
-#         o3_name = pms[pm].o3_name
-#         default = pms[pm].default_value
-#         dtype = pms[pm].dtype
-#         if pms[pm].default_is_expression:
-#             pjoins.append(f'{o3_name}=None')
-#         elif default is not None:
-#             pjoins.append(f'{o3_name}={default}')
-#         elif dtype == 'float':
-#             pjoins.append(f'{o3_name}=1.0')
-#         elif dtype == 'obj':
-#             if o3_name in ['sec', 'sec_i', 'sec_j', 'sec_e']:
-#                 prior_strs.append(w4 + f'{o3_name} = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)')
-#             else:
-#                 prior_strs.append(w4 + f'{o3_name}=1')
-#             pjoins.append(f'{o3_name}={o3_name}')
-#         else:
-#             pjoins.append(f'{o3_name}=1')
-#     pjoint = ', '.join(pjoins)
-#     tpara += prior_strs
-#     tpara.append(w4 + f'o3.{names["low_base_name"]}.{names["op_class_name"]}({pjoint})')
-#     tpara.append('')
-#     tpara.append('')
-#
-#     return tpara
+def build_obj_docstring(op_class_name, base_class_name, obj_blurb):
+    para = []
+    para.append(w4 + '"""')
+    para.append(w4 + f'The {op_class_name} {base_class_name} Class')
+    para.append(w4 + '')
+    para.append(force_line_char_limit(w4 + f'{obj_blurb}', w4))
+    para.append(w4 + '"""')
+    return para
+
+def force_line_char_limit(line, indent):
+    """
+    If line is longer than limit then create new line at a space in the text
+
+    :param line:
+    :return:
+    """
+    clim = 120
+    if len(line) <= clim:
+        return line
+    rem = line
+    oline = ''
+    for i in range(clim):
+        j = clim - i
+        if rem[j] == ' ':
+            oline += rem[:j] + '\n' + indent
+            rem = rem[j + 1:]
+            if len(rem) < clim:
+                oline += rem
+                break
+    return oline
+
+
+def build_init_method_docstring(classname, pms, pms_ordered):
+    init_blurb = f'Initial method for {classname}'
+    dstr = [w8 + '"""', w8 + init_blurb, '', w8 + 'Parameters', w8 + '----------']
+    for pm in pms_ordered:
+        op_str = ''
+        if pms[pm].default_is_expression:
+            op_str = f' (default={pms[pm].default_is_expression})'
+        dstr.append(w8 + f'{pms[pm].o3_name}: {pms[pm].dtype}{op_str}')
+        descr = force_line_char_limit(w12 + f'{pms[pm].p_description.capitalize()}', w12)
+        dstr.append(descr)
+    dstr.append(w8 + '"""')
+    return dstr
 
 
 class Param(object):
@@ -509,6 +506,14 @@ def clean_fn_line(line, has_tag=True):
     return base_type, optype, defaults, op_kwargs
 
 
+def trim_leading_whitespace(line):
+    while line[0] in [' ', '\t']:
+        line = line[1:]
+        if not len(line):
+            break
+    return line
+
+
 def parse_single_file(ffp, osi_type, expected_base_type=None):
     print('process: ', ffp)
     a = open(ffp, encoding="utf8")
@@ -520,42 +525,59 @@ def parse_single_file(ffp, osi_type, expected_base_type=None):
     base_type = None
     optype = None
     op_kwargs = OrderedDict()
-    descriptions = []
-    found_fn_line = 0
+    descriptions = {}
+    fn_line_counter = 0
     doc_string_open = 0
+    title_marker = 0
     two_defs = ''
     pstr = ''
     tstr = ''
+    cur_res = []
+    obj_blurb = ''
+    sub_obj_blurbs = ['']
     ipara = []
     for line in lines:
+        if len(line) > 3 and line[:3] == '===':
+            title_marker += 1
+            continue
         if ' ===' in line or '\t===' in line:
             if not doc_string_open:
                 doc_string_open = 1
             else:
-                if not found_fn_line:
+                if not fn_line_counter:
                     raise ValueError
                 cl_name_suf = ''
                 if two_defs == '2Dand3D':
                     cl_name_suf = '2D'
-                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf)
+                if len(obj_blurb):
+                    cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[0]
+                else:
+                    cur_obj_blurb = sub_obj_blurbs[0]
+                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype,
+                                                base_type, osi_type, cl_name_suf, cur_obj_blurb)
                 pstr += pstr1
                 tstr += tstr1
                 if two_defs == '2Dand3D':
                     cl_name_suf = '3D'
+                    if len(obj_blurb):
+                        cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[1]
+                    else:
+                        cur_obj_blurb = sub_obj_blurbs[1]
                     pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults1, op_kwargs1, descriptions, optype1,
-                                                    base_type1, osi_type, cl_name_suf)
+                                                    base_type1, osi_type, cl_name_suf, cur_obj_blurb)
                     pstr += '\n' + pstr1
                     tstr += tstr1
                 # Reset in case two objects in same file
                 doc_str_pms = []
                 dtypes = []
                 doc_string_open = 0
-                found_fn_line = 0
+                fn_line_counter = 0
+                sub_obj_blurbs = []
                 defaults = None
                 base_type = None
                 optype = None
                 op_kwargs = OrderedDict()
-                descriptions = []
+                descriptions = {}
             continue
         char_only = line.replace(' ', '')
         char_only = char_only.replace('\t', '')
@@ -563,10 +585,8 @@ def parse_single_file(ffp, osi_type, expected_base_type=None):
             continue
 
         first_char = char_only[0]
-        if first_char == '*':
-            continue
         res = re.search(pname_pat, line)
-        if res:
+        if first_char != '*' and res:
             pname = res.group()[2:-2]
             print(pname)
             # if len(res.group()) > 4 and "'-" == res.group()[2:4]:
@@ -582,10 +602,11 @@ def parse_single_file(ffp, osi_type, expected_base_type=None):
             des = des.replace('\t', ' ')
             if not len(des):
                 continue
-            while des[0] == ' ':
-                des = des[1:]
-                if not len(des):
-                    break
+            # while des[0] == ' ':
+            #     des = des[1:]
+            #     if not len(des):
+            #         break
+            des = trim_leading_whitespace(des)
 
             res = re.findall(pname_pat, line[:ei])
             for pm in res:
@@ -593,9 +614,11 @@ def parse_single_file(ffp, osi_type, expected_base_type=None):
                     pm = pm[2:-1]
                 doc_str_pms.append(pm)
                 dtypes.append(dtype)
-                descriptions.append(des)
-        if '.. function:: ' in line:
-            found_fn_line = 1
+                descriptions[pm] = des
+            cur_res = list(res)
+        elif '.. function:: ' in line:
+            fn_line_counter += 1
+            sub_obj_blurbs.append('')
             if base_type is None:
                 base_type, optype, defaults, op_kwargs = clean_fn_line(line, osi_type)
                 base_class_name = convert_name_to_class_name(base_type)
@@ -625,17 +648,45 @@ def parse_single_file(ffp, osi_type, expected_base_type=None):
                     for inp in op_kwargs1:
                         if inp not in op_kwargs:
                             op_kwargs[inp] = op_kwargs1[inp]
+        elif doc_string_open and len(cur_res):
+            line = trim_leading_whitespace(line)
+            # while line[0] == ' ':
+            #     line = line[1:]
+            #     if not len(line):
+            #         break
+            if len(line):
+                line = ' ' + line
+            for pm in cur_res:
+                descriptions[pm] += line
+        elif len(line) > 7 and '   :noi' in line[:7]:
+            # if len(line) > 7 and '   :ref' in line[:7]:
+            #     pass
+            # else:
+            continue
+        elif not doc_string_open:
+            line = line.replace(':ref:', '')
+            if fn_line_counter:
+                line = trim_leading_whitespace(line)
+                sub_obj_blurbs[fn_line_counter - 1] += line
+            elif title_marker == 2:
+                line = trim_leading_whitespace(line)
+                obj_blurb += line
+
     if base_type is not None:  # when there are no inputs
         cl_name_suf = ""
+        if len(obj_blurb):
+            cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[fn_line_counter - 1]
+        else:
+            cur_obj_blurb = sub_obj_blurbs[fn_line_counter - 1]
         pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type,
-                                        osi_type, cl_name_suf)
+                                        osi_type, cl_name_suf, cur_obj_blurb)
         pstr += pstr1
         tstr += tstr1
     istr = '\n'.join(ipara)
     return pstr, tstr, istr
 
 
-def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf=""):
+def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=''):
     if osi_type is not None:
         doc_str_pms = doc_str_pms[1:]  # remove mat tag
         dtypes = dtypes[1:]
@@ -654,7 +705,7 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
             defaults[pm].list_items_dtype = 'obj'
         else:
             defaults[pm].dtype = dtypes[i]
-        defaults[pm].p_description = descriptions[i]
+        defaults[pm].p_description = descriptions[pm]
 
     if 'eleNodes' in defaults:
         defaults['eleNodes'].list_items_dtype = 'obj'
@@ -711,7 +762,7 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     #         defaults[item] = Param(org_name=item, default_value=False, packed=False)
     #         defaults[item].marker = f'-{item}'
     #         del op_kwargs[item]
-    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf)
+    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf, obj_blurb=obj_blurb)
     print(pstr, tstr)
     return pstr, tstr
     # if line[3:5] == '``':
@@ -1002,7 +1053,7 @@ if __name__ == '__main__':
     # parse_all_ndmat()
     # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
     all = 0
-    # all = 1  # TODO: KikuchiBearing
+    all = 1  # TODO: KikuchiBearing
     if not all:
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)

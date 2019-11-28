@@ -2,9 +2,44 @@ from o3seespy.command.element.base_element import ElementBase
 
 
 class SSPquadUP(ElementBase):
+    """
+    The SSPquadUP Element Class
+    
+    This command is used to construct a SSPquadUP element object.
+
+    
+    """
     op_type = 'SSPquadUP'
 
     def __init__(self, osi, ele_nodes, mat, thick, f_bulk, f_den, k1, k2, void, alpha, b1=0.0, b2=0.0):
+        """
+        Initial method for SSPquadUP
+
+        Parameters
+        ----------
+        ele_nodes: listi
+            A list of four element nodes in counter-clockwise order
+        mat: obj
+            Unique integer tag associated with previously-defined ndmaterial object
+        thick: float
+            Thickness of the element in out-of-plane direction
+        f_bulk: float
+            Bulk modulus of the pore fluid
+        f_den: float
+            Mass density of the pore fluid
+        k1: float
+            Permeability coefficients in global x- and y-directions, respectively
+        k2: float
+            Permeability coefficients in global x- and y-directions, respectively
+        void: float
+            Voids ratio
+        alpha: float
+            Spatial pressure field stabilization parameter (see discussion below for more information)
+        b1: float
+            Constant body forces in global x- and y-directions, respectively (optional, default = 0.0) - see note 3
+        b2: float
+            Constant body forces in global x- and y-directions, respectively (optional, default = 0.0) - see note 3
+        """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
         self.thick = float(thick)
@@ -23,9 +58,46 @@ class SSPquadUP(ElementBase):
 
 
 class SSPbrickUP(ElementBase):
+    """
+    The SSPbrickUP Element Class
+    
+    This command is used to construct a SSPbrickUP element object.
+
+    
+    """
     op_type = 'SSPbrickUP'
 
     def __init__(self, osi, ele_nodes, mat, f_bulk, f_den, k1, k2, k3, void, alpha, b1, b2, b3):
+        """
+        Initial method for SSPbrickUP
+
+        Parameters
+        ----------
+        ele_nodes: listi
+            A list of eight element nodes in counter-clockwise order
+        mat: obj
+            Unique integer tag associated with previously-defined ndmaterial object
+        f_bulk: float
+            Bulk modulus of the pore fluid
+        f_den: float
+            Mass density of the pore fluid
+        k1: float
+            Permeability coefficients in global x-, y-, and z-directions, respectively
+        k2: float
+            Permeability coefficients in global x-, y-, and z-directions, respectively
+        k3: float
+            Permeability coefficients in global x-, y-, and z-directions, respectively
+        void: float
+            Voids ratio
+        alpha: float
+            Spatial pressure field stabilization parameter (see discussion below for more information)
+        b1: float
+            Constant body forces in global x-, y-, and z-directions, respectively (optional, default = 0.0) - see note 3
+        b2: float
+            Constant body forces in global x-, y-, and z-directions, respectively (optional, default = 0.0) - see note 3
+        b3: float
+            Constant body forces in global x-, y-, and z-directions, respectively (optional, default = 0.0) - see note 3
+        """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
         self.f_bulk = float(f_bulk)
