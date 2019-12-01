@@ -30,7 +30,10 @@ class ZeroLength(ElementBase):
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.mat_tags = [x.tag for x in mat_tags]
+        if mat_tags is None:
+            self.mat_tags = None
+        else:
+            self.mat_tags = [x.tag for x in mat_tags]
         self.dir_args = dir_args
         if r_flag is None:
             self.r_flag = None
@@ -273,8 +276,14 @@ class ZeroLengthContactNTS2D(ElementBase):
         nodes: listi
             Slave and master node tags respectively
         """
-        self.s_nd_num = int(s_nd_num)
-        self.m_nd_num = int(m_nd_num)
+        if s_nd_num is None:
+            self.s_nd_num = None
+        else:
+            self.s_nd_num = int(s_nd_num)
+        if m_nd_num is None:
+            self.m_nd_num = None
+        else:
+            self.m_nd_num = int(m_nd_num)
         self.nodes = nodes
         self.kn = float(kn)
         self.kt = float(kt)
@@ -322,8 +331,14 @@ class ZeroLengthInterface2Ddof(ElementBase):
         nodes: listi
             Slave and master node tags respectively
         """
-        self.s_nd_num = int(s_nd_num)
-        self.m_nd_num = int(m_nd_num)
+        if s_nd_num is None:
+            self.s_nd_num = None
+        else:
+            self.s_nd_num = int(s_nd_num)
+        if m_nd_num is None:
+            self.m_nd_num = None
+        else:
+            self.m_nd_num = int(m_nd_num)
         self.sdof = int(sdof)
         self.mdof = int(mdof)
         self.nodes = nodes

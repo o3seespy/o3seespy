@@ -9,14 +9,6 @@
 .. image:: https://coveralls.io/repos/github/eng-tools/o3seespy/badge.svg
    :target: https://coveralls.io/github/eng-tools/o3seespy
 
-.. image:: https://eng-tools.github.io/static/img/ecp-badge.svg
-    :target: https://eng-tools.github.io
-    :alt: ECP project
-
-.. image:: https://zenodo.org/badge/125842866.svg
-   :target: https://zenodo.org/badge/latestdoi/125842866
-   :alt: DOI
-
 ********
 o3seespy
 ********

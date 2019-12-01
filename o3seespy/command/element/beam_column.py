@@ -388,8 +388,14 @@ class ForceBeamColumn(ElementBase):
         self.j_node = j_node
         self.transf = transf
         self.integration = integration
-        self.max_iter = int(max_iter)
-        self.tol = float(tol)
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = int(max_iter)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
         if mass is None:
             self.mass = None
         else:
@@ -447,8 +453,14 @@ class NonlinearBeamColumn(ElementBase):
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
         self.transf = transf
-        self.max_iter = int(max_iter)
-        self.tol = float(tol)
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = int(max_iter)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
         if mass is None:
             self.mass = None
         else:
@@ -575,8 +587,14 @@ class MVLEM(ElementBase):
         self.thick = thick
         self.widths = widths
         self.rho = rho
-        self.mat_concrete_tags = [x.tag for x in mat_concrete_tags]
-        self.mat_steel_tags = [x.tag for x in mat_steel_tags]
+        if mat_concrete_tags is None:
+            self.mat_concrete_tags = None
+        else:
+            self.mat_concrete_tags = [x.tag for x in mat_concrete_tags]
+        if mat_steel_tags is None:
+            self.mat_steel_tags = None
+        else:
+            self.mat_steel_tags = [x.tag for x in mat_steel_tags]
         self.mat_shear = mat_shear
         osi.n_ele += 1
         self._tag = osi.n_ele

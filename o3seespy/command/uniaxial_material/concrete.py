@@ -363,7 +363,10 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             self.tol = None
         else:
             self.tol = float(tol)
-        self.max_num_iter = int(max_num_iter)
+        if max_num_iter is None:
+            self.max_num_iter = None
+        else:
+            self.max_num_iter = int(max_num_iter)
         if epscu_limit is None:
             self.epscu_limit = None
         else:

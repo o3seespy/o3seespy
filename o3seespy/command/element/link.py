@@ -48,7 +48,10 @@ class TwoNodeLink(ElementBase):
             Element mass (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.mat_tags = [x.tag for x in mat_tags]
+        if mat_tags is None:
+            self.mat_tags = None
+        else:
+            self.mat_tags = [x.tag for x in mat_tags]
         self.dir = dir
         self.p_delta_vals = p_delta_vals
         self.shear_dist = shear_dist

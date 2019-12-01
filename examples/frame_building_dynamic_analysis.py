@@ -22,17 +22,6 @@ def calc_yield_curvature(depth, eps_yield):
     return 2.1 * eps_yield / depth
 
 
-def elastic_bilin(ep1, ep2, eps_p2, en1=None, en2=None, eps_n2=None):
-    if en1 is None:
-        en1 = ep1
-    if en2 is None:
-        en2 = ep2
-    if eps_n2 is None:
-        eps_n2 = eps_p2
-
-    return [ep1, ep2, eps_p2, en1, en2, eps_n2]
-
-
 def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001):
     """
     Run seismic analysis of a nonlinear FrameBuilding
@@ -137,7 +126,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
             lp_j = 0.5
             ele_str = "C{0}C{1}-S{2}".format(bb - 1, bb, ss)
 
-            mat = o3.uniaxial_material.ElasticBiLinear(osi, ei_beams[ss][bb - 1], 0.05 * ei_beams[ss][bb - 1], phi_y_beam[ss][bb - 1])
+            mat = o3.uniaxial_material.ElasticBilin(osi, ei_beams[ss][bb - 1], 0.05 * ei_beams[ss][bb - 1], phi_y_beam[ss][bb - 1])
             md[ele_str] = mat
             left_sect = o3.section.Uniaxial(osi, mat, quantity=o3.cc.M_Z)
             right_sect = o3.section.Uniaxial(osi, mat, quantity=o3.cc.M_Z)
@@ -168,15 +157,15 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     opy.wipeAnalysis()
 
     o3.algorithm.Newton(osi)
-    opy.system('SparseGeneral')
-    opy.numberer('RCM')
-    opy.constraints('Transformation')
-    opy.integrator('Newmark', 0.5, 0.25)
-    opy.analysis('Transient')
-    #op.test("NormDispIncr", 1.0e-1, 2, 0)
+    o3.system.SparseGeneral(osi)
+    o3.numberer.RCM(osi)
+    o3.constraints.Transformation(osi)
+    o3.integrator.Newmark(osi, 0.5, 0.25)
+    o3.analysis.Transient(osi)
+
     tol = 1.0e-4
     iter = 4
-    opy.test('EnergyIncr', tol, iter, 0, 2)
+    o3.test_check.EnergyIncr(osi, tol, iter, 0, 2)
     analysis_time = (len(values) - 1) * asig.dt + extra_time
     outputs = {
         "time": [],

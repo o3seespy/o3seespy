@@ -145,14 +145,17 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     pjoins.append(f'{o3_name}')
                 elif pms[pm].default_is_expression:
                     pjoins.append(f'{o3_name}=None')
+                    pms[pm].o3_default_is_none = True
                 else:
                     if pms[pm].marker or pms[pm].depends_on:
                         pjoins.append(f'{o3_name}=None')  # cannot have value for marker
+                        pms[pm].o3_default_is_none = True
                     else:
                         pjoins.append(f'{o3_name}={default}')
             else:
                 if pms[pm].marker or pms[pm].depends_on:
                     pjoins.append(f'{o3_name}=None')
+                    pms[pm].o3_default_is_none = True
                 else:
                     pjoins.append(f'{o3_name}')
 
@@ -164,21 +167,25 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         for i, pm in enumerate(cl_pms):
             o3_name = pms[pm].o3_name
             dtype = pms[pm].dtype
+            w_extra = ''
+            extra = []
+            if pms[pm].o3_default_is_none:
+                extra.append(w8 + f'if {o3_name} is None:')
+                extra.append(w8 + w4 + f'self.{o3_name} = None')
+                extra.append(w8 + f'else:')
+                w_extra = w4
             if dtype == 'float':
-                if pms[pm].marker or pms[pm].default_is_expression:
-                    para.append(w8 + f'if {o3_name} is None:')
-                    para.append(w8 + w4 + f'self.{o3_name} = None')
-                    para.append(w8 + f'else:')
-                    para.append(w8 + w4 + f'self.{o3_name} = float({o3_name})')
-                else:
-                    para.append(w8 + f'self.{o3_name} = float({o3_name})')
+                para += extra
+                para.append(w8 + w_extra + f'self.{o3_name} = float({o3_name})')
             elif dtype == 'int':
-                para.append(w8 + f'self.{o3_name} = int({o3_name})')
+                para += extra
+                para.append(w8 + w_extra + f'self.{o3_name} = int({o3_name})')
             elif dtype == 'obj':
                 para.append(w8 + f'self.{o3_name} = {o3_name}')
             else:
                 if pms[pm].list_items_dtype == 'obj':
-                    para.append(w8 + f'self.{o3_name} = [x.tag for x in {o3_name}]')
+                    para += extra
+                    para.append(w8 + w_extra + f'self.{o3_name} = [x.tag for x in {o3_name}]')
                 else:
                     para.append(w8 + f'self.{o3_name} = {o3_name}')
         pjoins = []
@@ -391,6 +398,7 @@ class Param(object):
         self.is_flag = False
         self.forced_not_optional = False  # if default value precedes non default values
         self.depends_on = None
+        self.o3_default_is_none = False
 
 
 def check_if_default_is_expression(defo):
@@ -1053,12 +1061,12 @@ if __name__ == '__main__':
     # parse_all_ndmat()
     # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
     all = 0
-    all = 1  # TODO: KikuchiBearing
+    all = 0  # TODO: KikuchiBearing
     if not all:
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
-        ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'elasticBeamColumn.rst', 'ele')
+        ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'Quad.rst', 'ele')
         # print(ts)
         # parse_single_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
         # test_clean_fn_line()

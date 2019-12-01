@@ -555,7 +555,10 @@ class FlatSliderBearing3D(ElementBase):
         self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
         self.max_iter = max_iter
-        self.tol = float(tol)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
         self.orient = orient
         if mass is None:
             self.mass = None
@@ -656,8 +659,14 @@ class SingleFPBearing2D(ElementBase):
         self.p_mat = p_mat
         self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
-        self.max_iter = int(max_iter)
-        self.tol = float(tol)
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = int(max_iter)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
         self.orient = orient
         if mass is None:
             self.mass = None
@@ -760,8 +769,14 @@ class SingleFPBearing3D(ElementBase):
         self.my_mat = my_mat
         self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
-        self.max_iter = int(max_iter)
-        self.tol = float(tol)
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = int(max_iter)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
         self.orient = orient
         if mass is None:
             self.mass = None
@@ -1110,13 +1125,19 @@ class KikuchiBearingadjustPDOutput(ElementBase):
             self.total_height = None
         else:
             self.total_height = float(total_height)
-        self.n_mss = int(n_mss)
+        if n_mss is None:
+            self.n_mss = None
+        else:
+            self.n_mss = int(n_mss)
         self.mat_mss = mat_mss
         if lim_disp is None:
             self.lim_disp = None
         else:
             self.lim_disp = float(lim_disp)
-        self.n_mns = int(n_mns)
+        if n_mns is None:
+            self.n_mns = None
+        else:
+            self.n_mns = int(n_mns)
         self.mat_mns = mat_mns
         if lamb is None:
             self.lamb = None
@@ -1233,13 +1254,19 @@ class KikuchiBearingdoBalance(ElementBase):
             self.total_height = None
         else:
             self.total_height = float(total_height)
-        self.n_mss = int(n_mss)
+        if n_mss is None:
+            self.n_mss = None
+        else:
+            self.n_mss = int(n_mss)
         self.mat_mss = mat_mss
         if lim_disp is None:
             self.lim_disp = None
         else:
             self.lim_disp = float(lim_disp)
-        self.n_mns = int(n_mns)
+        if n_mns is None:
+            self.n_mns = None
+        else:
+            self.n_mns = int(n_mns)
         self.mat_mns = mat_mns
         if lamb is None:
             self.lamb = None
