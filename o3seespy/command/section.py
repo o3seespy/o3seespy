@@ -14,7 +14,7 @@ class Elastic2D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, big_g=0.0, alpha_y=0.0):
+    def __init__(self, osi, big_e, big_a, iz, big_g=None, alpha_y=None):
         """
         Initial method for Elastic2D
 
@@ -26,19 +26,33 @@ class Elastic2D(SectionBase):
             Cross-sectional area of section
         iz: float
             Second moment of area about the local z-axis
-        big_g: float
+        big_g: float (default=True)
             Shear modulus (optional for 2d analysis, required for 3d analysis)
-        alpha_y: float
+        alpha_y: float (default=True)
             Shear shape factor along the local y-axis (optional)
         """
         self.big_e = float(big_e)
         self.big_a = float(big_a)
         self.iz = float(iz)
-        self.big_g = float(big_g)
-        self.alpha_y = float(alpha_y)
+        if big_g is None:
+            self.big_g = None
+        else:
+            self.big_g = float(big_g)
+        if alpha_y is None:
+            self.alpha_y = None
+        else:
+            self.alpha_y = float(alpha_y)
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, self.big_e, self.big_a, self.iz, self.big_g, self.alpha_y]
+        self._parameters = [self.op_type, self._tag, self.big_e, self.big_a, self.iz]
+        special_pms = ['big_g', 'alpha_y']
+        packets = [False, False]
+        for i, pm in enumerate(special_pms):
+            if getattr(self, pm) is not None:
+                if packets[i]:
+                    self._parameters += [*getattr(self, pm)]
+                else:
+                    self._parameters += [getattr(self, pm)]
         self.to_process(osi)
 
 
@@ -51,7 +65,7 @@ class Elastic3D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y=0.0, alpha_z=0.0):
+    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y=None, alpha_z=None):
         """
         Initial method for Elastic3D
 
@@ -69,9 +83,9 @@ class Elastic3D(SectionBase):
             Shear modulus (optional for 2d analysis, required for 3d analysis)
         big_j: float
             Torsional moment of inertia of section (required for 3d analysis)
-        alpha_y: float
+        alpha_y: float (default=True)
             Shear shape factor along the local y-axis (optional)
-        alpha_z: float
+        alpha_z: float (default=True)
             Shear shape factor along the local z-axis (optional)
         """
         self.big_e = float(big_e)
@@ -80,11 +94,25 @@ class Elastic3D(SectionBase):
         self.iy = float(iy)
         self.big_g = float(big_g)
         self.big_j = float(big_j)
-        self.alpha_y = float(alpha_y)
-        self.alpha_z = float(alpha_z)
+        if alpha_y is None:
+            self.alpha_y = None
+        else:
+            self.alpha_y = float(alpha_y)
+        if alpha_z is None:
+            self.alpha_z = None
+        else:
+            self.alpha_z = float(alpha_z)
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, self.big_e, self.big_a, self.iz, self.iy, self.big_g, self.big_j, self.alpha_y, self.alpha_z]
+        self._parameters = [self.op_type, self._tag, self.big_e, self.big_a, self.iz, self.iy, self.big_g, self.big_j]
+        special_pms = ['alpha_y', 'alpha_z']
+        packets = [False, False]
+        for i, pm in enumerate(special_pms):
+            if getattr(self, pm) is not None:
+                if packets[i]:
+                    self._parameters += [*getattr(self, pm)]
+                else:
+                    self._parameters += [getattr(self, pm)]
         self.to_process(osi)
 
 

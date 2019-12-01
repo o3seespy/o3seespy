@@ -12,7 +12,7 @@ class Quad(ElementBase):
     """
     op_type = 'quad'
 
-    def __init__(self, osi, ele_nodes, thick, otype, mat, pressure, rho, b1, b2):
+    def __init__(self, osi, ele_nodes, thick, otype, mat, pressure=0.0, rho=0.0, b1=0.0, b2=0.0):
         """
         Initial method for Quad
 

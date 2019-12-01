@@ -13,7 +13,8 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     :param mass: SDOF mass
     :param k_spring: spring stiffness
     :param f_yield: yield strength
-    :param motion: list, acceleration values
+    :param motion: array_like,
+        acceleration values
     :param dt: float, time step of acceleration values
     :param xi: damping ratio
     :param r_post: post-yield stiffness
@@ -41,12 +42,8 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     o3.element.ZeroLength(osi, bot_node, top_node, mat_x=bilinear_mat, r_flag=1)
 
     # Define the dynamic analysis
-    load_tag_dynamic = 1
-    pattern_tag_dynamic = 1
-
-    values = list(-1 * motion)  # should be negative
-    opy.timeSeries('Path', load_tag_dynamic, '-dt', dt, '-values', *values)
-    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.cc.X, '-accel', load_tag_dynamic)
+    acc_series = o3.time_series.Path(osi, dt=dt, values=-motion)  # should be negative
+    o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=acc_series)
 
     # set damping based on first eigen mode
     angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
@@ -58,14 +55,14 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     opy.wipeAnalysis()
 
     o3.algorithm.Newton(osi)
-    opy.system('SparseGeneral')
-    opy.numberer('RCM')
-    opy.constraints('Transformation')
-    opy.integrator('Newmark', 0.5, 0.25)
-    opy.analysis('Transient')
+    o3.system.SparseGeneral(osi)
+    o3.numberer.RCM(osi)
+    o3.constraints.Transformation(osi)
+    o3.integrator.Newmark(osi, 0.5, 0.25)
+    o3.analysis.Transient(osi)
 
     o3.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
-    analysis_time = (len(values) - 1) * dt
+    analysis_time = (len(motion) - 1) * dt
     analysis_dt = 0.001
     outputs = {
         "time": [],
@@ -75,9 +72,9 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
         "force": []
     }
 
-    while opy.getTime() < analysis_time:
+    while o3.get_time(osi) < analysis_time:
 
-        opy.analyze(1, analysis_dt)
+        o3.analyze(osi, 1, analysis_dt)
         curr_time = opy.getTime()
         outputs["time"].append(curr_time)
         outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, o3.cc.X))

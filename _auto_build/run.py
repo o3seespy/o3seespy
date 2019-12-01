@@ -1061,7 +1061,7 @@ if __name__ == '__main__':
     # parse_all_ndmat()
     # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
     all = 0
-    all = 0  # TODO: KikuchiBearing
+    all = 1  # TODO: KikuchiBearing
     if not all:
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)
