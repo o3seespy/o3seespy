@@ -69,6 +69,20 @@ class Load(OpenseesObject):
         self._parameters = [self.node.tag, *self.load_values]
         self.to_process(osi)
 
+class EleLoad(OpenseesObject):
+    op_base_type = "eleLoad"
+    op_type = None
+
+    def __init__(self, osi, ele, ltype, load_values):
+        """
+        ltype: 'beamUniform'
+        """
+        self.ele_tag = ele.tag
+        self.load_values = load_values
+
+        self._parameters = ['-ele', self.ele_tag, '-type', f'-{ltype}', *self.load_values]
+        self.to_process(osi)
+
 
 class SP(OpenseesObject):
     op_base_type = "sp"
@@ -90,7 +104,7 @@ def analyze(osi, num_inc=1, dt=0.1, dt_min=None, dt_max=None, jd=None):
     else:
         parameters = [int(num_inc), float(dt), dt_min, dt_max, jd]
     # opy.analyze(*parameters)
-    osi.to_process(op_type, parameters)
+    return osi.to_process(op_type, parameters)
     # if osi.state in [1, 3]:
     #     para = []
     #     for i, e in enumerate(parameters):
@@ -101,13 +115,31 @@ def analyze(osi, num_inc=1, dt=0.1, dt_min=None, dt_max=None, jd=None):
     #             break
     #     p_str = ', '.join(para)
     #     osi.to_process('opy.analyze(%s)' % p_str)
-    return 0
+    # return 0
 
 
 def get_node_disp(osi, node, dof):
     op_type = 'nodeDisp'
     parameters = [node.tag, dof]
     # p_str = ', '.join([str(x) for x in parameters])
+    return osi.to_process(op_type, parameters)
+
+
+def get_node_vel(osi, node, dof):
+    op_type = 'nodeVel'
+    parameters = [node.tag, dof]
+    return osi.to_process(op_type, parameters)
+
+
+def get_node_accel(osi, node, dof):
+    op_type = 'nodeAccel'
+    parameters = [node.tag, dof]
+    return osi.to_process(op_type, parameters)
+
+
+def get_node_reaction(osi, node, dof):
+    op_type = 'nodeReaction'
+    parameters = [node.tag, dof]
     return osi.to_process(op_type, parameters)
 
 
@@ -166,6 +198,13 @@ def get_time(osi):
 
 def wipe_analysis(osi):
     osi.to_process('wipeAnalysis', [])
+
+
+def load_constant(osi, time=None):
+    params = []
+    if time is not None:
+        params += ['-time', time]
+    osi.to_process('loadConst', params)
 
 
 def update_material_stage(osi, material, stage):

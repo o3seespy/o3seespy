@@ -60,32 +60,32 @@ class DisplacementControl(IntegratorBase):
     """
     op_type = 'DisplacementControl'
 
-    def __init__(self, osi, nd, dof, incr, num_iter=1, d_umin=None, d_umax=None):
+    def __init__(self, osi, node, dof, incr, max_iter=1, d_umin=None, d_umax=None):
         """
         Initial method for DisplacementControl
 
         Parameters
         ----------
-        nd: int
-            Tag of node whose response controls solution
+        node: o3.node.Node
+            Node whose response controls solution
         dof: int
             Degree of freedom at the node, 1 through ndf.
         incr: float
             First displacement increment :math:`\delta u_{dof}`.
-        num_iter: int
+        max_iter: int
             Number of iterations the user would like to occur in the solution algorithm. (optional)
         d_umin: None (default=True)
             
         d_umax: None (default=True)
             
         """
-        self.nd = int(nd)
+        self.nd = int(node.tag)
         self.dof = int(dof)
         self.incr = float(incr)
-        self.num_iter = int(num_iter)
+        self.max_iter = int(max_iter)
         self.d_umin = d_umin
         self.d_umax = d_umax
-        self._parameters = [self.op_type, self.nd, self.dof, self.incr, self.num_iter]
+        self._parameters = [self.op_type, self.nd, self.dof, self.incr, self.max_iter]
         special_pms = ['d_umin', 'd_umax']
         packets = [False, False]
         for i, pm in enumerate(special_pms):
