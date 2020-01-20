@@ -513,7 +513,7 @@ class FlatSliderBearing3D(ElementBase):
     """
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, tol=None, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
         """
         Initial method for FlatSliderBearing3D
 
@@ -525,8 +525,6 @@ class FlatSliderBearing3D(ElementBase):
             Tag associated with previously-defined frictionmodel
         k_init: float
             Initial elastic stiffness in local shear direction
-        tol: float
-            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
         p_mat: obj
             Tag associated with previously-defined uniaxialmaterial in axial direction
         t_mat: obj
@@ -539,6 +537,8 @@ class FlatSliderBearing3D(ElementBase):
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: None
             
+        tol: float
+            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
         orient: None
             
         mass: float
@@ -570,7 +570,7 @@ class FlatSliderBearing3D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, self.tol]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
@@ -621,7 +621,7 @@ class SingleFPBearing2D(ElementBase):
     """
     op_type = 'singleFPBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, tol=None, p_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
         """
         Initial method for SingleFPBearing2D
 
@@ -635,8 +635,6 @@ class SingleFPBearing2D(ElementBase):
             Effective radius of concave sliding surface
         k_init: float
             Initial elastic stiffness in local shear direction
-        tol: float
-            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
         p_mat: obj
             Tag associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj
@@ -645,6 +643,8 @@ class SingleFPBearing2D(ElementBase):
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
+        tol: float
+            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
         orient: None
             
         mass: float
@@ -678,7 +678,7 @@ class SingleFPBearing2D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, self.tol]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
@@ -725,7 +725,7 @@ class SingleFPBearing3D(ElementBase):
     """
     op_type = 'singleFPBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, tol=None, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
         """
         Initial method for SingleFPBearing3D
 
@@ -739,8 +739,6 @@ class SingleFPBearing3D(ElementBase):
             Effective radius of concave sliding surface
         k_init: float
             Initial elastic stiffness in local shear direction
-        tol: float
-            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
         p_mat: obj
             Tag associated with previously-defined uniaxialmaterial in axial direction
         t_mat: obj
@@ -753,6 +751,8 @@ class SingleFPBearing3D(ElementBase):
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
+        tol: float
+            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
         orient: None
             
         mass: float
@@ -788,7 +788,7 @@ class SingleFPBearing3D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init, self.tol]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:

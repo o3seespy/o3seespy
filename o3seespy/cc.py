@@ -5,6 +5,7 @@ X = 1
 Y = 2
 ROTZ = 3
 
+P = 'P'
 M_Z = 'Mz'
 V_Y = 'Vy'
 M_Y = 'My'

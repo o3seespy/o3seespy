@@ -402,7 +402,7 @@ class ForceBeamColumn(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.transf.tag, self.integration.tag, self.tol]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.transf.tag, self.integration.tag]
         if getattr(self, 'max_iter') is not None:
             self._parameters += ['-iter', self.max_iter]
         if getattr(self, 'tol') is not None:
@@ -468,7 +468,7 @@ class NonlinearBeamColumn(ElementBase):
         self.int_type = int_type
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.num_intgr_pts, self.sec.tag, self.transf.tag, self.tol]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.num_intgr_pts, self.sec.tag, self.transf.tag]
         if getattr(self, 'max_iter') is not None:
             self._parameters += ['-iter', self.max_iter]
         if getattr(self, 'tol') is not None:

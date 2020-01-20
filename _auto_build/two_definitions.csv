@@ -8,3 +8,6 @@ element,elastomericBearingBoucWen,2Dand3D
 element,flatSliderBearing,2Dand3D
 element,singleFPBearing,2Dand3D
 section,Elastic,2Dand3D
+geomTransf,Linear,2Dand3D
+geomTransf,PDelta,2Dand3D
+geomTransf,Corotational,2Dand3D

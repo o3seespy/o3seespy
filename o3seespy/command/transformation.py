@@ -9,6 +9,7 @@ class Linear(TransformationBase):
     op_type = 'Linear'
 
     def __init__(self, osi, vecxz, d_i=None, d_j=None):
+        raise ValueError('Use geom_transf.Linear not transformation.Linear')
         self.vecxz = vecxz
         self.d_i = d_i
         self.d_j = d_j

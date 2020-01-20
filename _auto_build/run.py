@@ -125,7 +125,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     pms[pm].forced_not_optional = True  # TODO: should raise a flag
                 # raise ValueError
                 pass
-            if pms[pm].default_value is None and not pms[pm].marker and not pms[pm].is_flag:  # TODO: may need to switch to .has_default in case default=None
+            if pms[pm].default_value is None and not pms[pm].marker and not pms[pm].is_flag and not pms[pm].depends_on:  # TODO: may need to switch to .has_default in case default=None
                 contains_no_default = True
                 non_defaults_reversed.append(pm)
             else:
@@ -199,7 +199,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         applied_op_warg = False
         for pm in cl_pms:
             o3_name = pms[pm].o3_name
-            if pms[pm].marker:
+            if pms[pm].marker or pms[pm].depends_on:
                 continue
             if pms[pm].is_flag:
                 continue
@@ -302,8 +302,8 @@ def build_test_for_generic(names, pms, cl_pms):
         elif dtype == 'obj':
             if o3_name == 'transf':
                 prior_strs.append(w4 + f'{o3_name} = o3.transformation.Linear(osi, [])')
-            elif o3_name == 'i_node':
-                prior_strs.append(w4 + 'i_node = o3.node.Node(osi, 0.0, 0.0)')
+            elif o3_name in ['node', 'i_node']:
+                prior_strs.append(w4 + f'{o3_name} = o3.node.Node(osi, 0.0, 0.0)')
             elif o3_name == 'j_node':
                 prior_strs.append(w4 + 'j_node = o3.node.Node(osi, 0.0, 1.0)')
             elif o3_name == 'mat':  # TODO: detect ndmaterial
@@ -762,6 +762,12 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         defaults['maxIter'].marker = 'iter'
         if 'tol' in defaults:
             defaults['tol'].depends_on = 'maxIter'
+    if "-jntOffset" in op_kwargs and 'dI' in defaults:
+        del op_kwargs['-jntOffset']
+        # defaults['iter'] = copy.deepcopy(defaults['maxIter'])
+        defaults['dI'].marker = 'jntOffset'
+        if 'dJ' in defaults:
+            defaults['dJ'].depends_on = 'dI'
         # del defaults['maxIter']
     #assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
     # if len(op_kwargs) == 1:
@@ -1066,7 +1072,8 @@ if __name__ == '__main__':
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
-        ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'Quad.rst', 'ele')
+        # ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'Quad.rst', 'ele')
+        parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # print(ts)
         # parse_single_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
         # test_clean_fn_line()
@@ -1078,6 +1085,7 @@ if __name__ == '__main__':
         parse_generic_single_file(obj_type='integrator', osi_type=None)
         parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         parse_generic_single_file(obj_type='section', osi_type='sect')
+        parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         parse_all_uniaxial_mat()
         parse_all_ndmat()
         parse_all_elements()
