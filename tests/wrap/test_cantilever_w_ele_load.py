@@ -171,7 +171,7 @@ def run():
     # Fix bottom node
     o3.Fix(osi, left_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
     o3.Fix(osi, right_node, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
-    e_mod = 200.0
+    e_mod = 200.0e2
     i_sect = 0.1
     area = 0.5
     lp_i = 0.1
@@ -183,7 +183,7 @@ def run():
         if elastic:
             left_sect = o3.section.Elastic2D(osi, e_mod, area, i_sect)
         else:
-            m_cap = 0.30
+            m_cap = 18.80
             b = 0.05
             phi = m_cap / (e_mod * i_sect)
             # mat_flex = o3.uniaxial_material.Steel01(osi, m_cap, e0=e_mod * i_sect, b=b)
@@ -199,13 +199,13 @@ def run():
         beam_transf = o3.geom_transf.Linear2D(osi)
         ele = o3.element.ElasticBeamColumn2D(osi, [left_node, right_node], area, e_mod, i_sect, beam_transf)
 
-    w_gloads = 0
+    w_gloads = 1
     if w_gloads:
         # Apply gravity loads
         # If true then load applied along beam
         use_pload = 0
-        pload = 10.0 * ele_len
-        udl = 10.0
+        pload = 1.0 * ele_len
+        udl = 2.0
         ts_po = o3.time_series.Linear(osi, factor=1)
         o3.pattern.Plain(osi, ts_po)
         if use_pload:
@@ -243,14 +243,15 @@ def run():
         # o3.extensions.to_py_file(osi, 'temp4.py')
     disp_load = 1
     if disp_load:
+        end_disp_init = o3.get_node_disp(osi, right_node, dof=o3.cc.Y)
         # start displacement controlled
-        d_inc = 0.01
+        d_inc = -0.01
 
         # opy.wipeAnalysis()
         o3.constraints.Plain(osi)
         o3.numberer.RCM(osi)
         o3.system.BandGeneral(osi)
-        o3.test_check.NormUnbalance(osi, 2, max_iter=10, p_flag=2)
+        o3.test_check.NormUnbalance(osi, 2, max_iter=10, p_flag=0)
         # o3.test_check.FixedNumIter(osi, max_iter=10)
         # o3.test_check.NormDispIncr(osi, 0.002, 10, p_flag=0)
         o3.algorithm.Newton(osi)
@@ -264,13 +265,15 @@ def run():
         print(f'end_disp: {end_disp}')
         r = o3.get_ele_response(osi, ele, 'force')[:3]
         print('reactions: ', r)
-        k = r[1] / end_disp
-        print(k)
+        k = r[1] / -(end_disp - end_disp_init)
+        print('k: ', k)
+        k_elastic_expected = 1. / (ele_len ** 3 / (3 * e_mod * i_sect))
+        print('k_elastic_expected: ', k_elastic_expected)
 
 
 if __name__ == '__main__':
-    test_disp_control_cantilever_nonlinear()
-    # run()
+    # test_disp_control_cantilever_nonlinear()
+    run()
 
 
 
