@@ -317,16 +317,14 @@ class DispBeamColumn(ElementBase):
     """
     op_type = 'dispBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, transf, integration, c_mass=False, mass=None):
+    def __init__(self, osi, ele_nodes, transf, integration, c_mass=False, mass=None):
         """
         Initial method for DispBeamColumn
 
         Parameters
         ----------
-        i_node: obj
-            Tag of node i
-        j_node: obj
-            Tag of node j
+        ele_nodes: listi
+            List of two node tags
         transf: obj
             Tag of transformation
         integration: obj
@@ -336,8 +334,7 @@ class DispBeamColumn(ElementBase):
         mass: float
             Element mass density (per unit length), from which a lumped-mass matrix is formed (optional)
         """
-        self.i_node = i_node
-        self.j_node = j_node
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.transf = transf
         self.integration = integration
         self.c_mass = c_mass
@@ -347,7 +344,7 @@ class DispBeamColumn(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.transf.tag, self.integration.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.transf.tag, self.integration.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         if getattr(self, 'mass') is not None:
@@ -363,16 +360,14 @@ class ForceBeamColumn(ElementBase):
     """
     op_type = 'forceBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, transf, integration, max_iter=None, tol=None, mass=None):
+    def __init__(self, osi, ele_nodes, transf, integration, max_iter=None, tol=None, mass=None):
         """
         Initial method for ForceBeamColumn
 
         Parameters
         ----------
-        i_node: obj
-            Tag of node i
-        j_node: obj
-            Tag of node j
+        ele_nodes: listi
+            A list of two element nodes
         transf: obj
             Tag of transformation
         integration: obj
@@ -384,8 +379,7 @@ class ForceBeamColumn(ElementBase):
         mass: float
             Element mass density (per unit length), from which a lumped-mass matrix is formed (optional)
         """
-        self.i_node = i_node
-        self.j_node = j_node
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.transf = transf
         self.integration = integration
         if max_iter is None:
@@ -402,7 +396,7 @@ class ForceBeamColumn(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.transf.tag, self.integration.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.transf.tag, self.integration.tag]
         if getattr(self, 'max_iter') is not None:
             self._parameters += ['-iter', self.max_iter]
         if getattr(self, 'tol') is not None:
@@ -422,16 +416,14 @@ class NonlinearBeamColumn(ElementBase):
     """
     op_type = 'nonlinearBeamColumn'
 
-    def __init__(self, osi, i_node, j_node, num_intgr_pts, sec, transf, max_iter=None, tol=None, mass=None, int_type=None):
+    def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, max_iter=None, tol=None, mass=None, int_type=None):
         """
         Initial method for NonlinearBeamColumn
 
         Parameters
         ----------
-        i_node: obj
-            Tag of node i
-        j_node: obj
-            Tag of node j
+        ele_nodes: listi
+            A list of two element nodes
         num_intgr_pts: int
             Number of integration points.
         sec: obj
@@ -448,8 +440,7 @@ class NonlinearBeamColumn(ElementBase):
             Integration type (optional, default is ``'lobatto'``) * ``'lobatto'`` * ``'legendre'`` * ``'radau'`` *
             ``'newtoncotes'`` * ``'trapezoidal'``
         """
-        self.i_node = i_node
-        self.j_node = j_node
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
         self.transf = transf
@@ -468,7 +459,7 @@ class NonlinearBeamColumn(ElementBase):
         self.int_type = int_type
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.num_intgr_pts, self.sec.tag, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.num_intgr_pts, self.sec.tag, self.transf.tag]
         if getattr(self, 'max_iter') is not None:
             self._parameters += ['-iter', self.max_iter]
         if getattr(self, 'tol') is not None:

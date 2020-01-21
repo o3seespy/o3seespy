@@ -8,12 +8,14 @@ def test_load_control():
 
 def test_displacement_control():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.integrator.DisplacementControl(osi, nd=1, dof=1, incr=1.0, num_iter=1, d_umin=None, d_umax=None)
+    node = o3.node.Node(osi, 0.0, 0.0)
+    o3.integrator.DisplacementControl(osi, node, dof=1, incr=1.0, num_iter=1, d_umin=None, d_umax=None)
 
 
 def test_parallel_displacement_control():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.integrator.ParallelDisplacementControl(osi, nd=1, dof=1, incr=1.0, num_iter=1, d_umin=None, d_umax=None)
+    node = o3.node.Node(osi, 0.0, 0.0)
+    o3.integrator.ParallelDisplacementControl(osi, node, dof=1, incr=1.0, num_iter=1, d_umin=None, d_umax=None)
 
 
 def test_min_unbal_disp_norm():

@@ -9,7 +9,7 @@ def test_ele_load_uniform():
     ele_len = 2.0
     coords = [[0, 0], [ele_len, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
-    transf = o3.transformation.Linear(osi, [])
+    transf = o3.geom_transf.Linear2D(osi, [])
     ele = o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes,
                                    big_a=1.0, big_e=1.0, iz=1.0, transf=transf, mass=1.0, c_mass="string")
 

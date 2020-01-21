@@ -69,18 +69,42 @@ class Load(OpenseesObject):
         self._parameters = [self.node.tag, *self.load_values]
         self.to_process(osi)
 
-class EleLoad(OpenseesObject):
+class EleLoad2DPoint(OpenseesObject):
     op_base_type = "eleLoad"
     op_type = None
 
-    def __init__(self, osi, ele, ltype, load_values):
+    def __init__(self, osi, ele, p_y, x, p_x=None):
+        """
+        type of load is 'beamPoint'
+        x: float
+            Position of load as a fraction of element length from node i
+        """
+        self.ele_tag = ele.tag
+        self.x = float(x)
+        self.p_y = float(p_y)
+        self.p_x = p_x
+
+        self._parameters = ['-ele', self.ele_tag, '-type', '-beamPoint', self.p_y, self.x]
+        if self.p_x is not None:
+            self._parameters.append(float(self.p_x))
+        self.to_process(osi)
+
+
+class EleLoad2DUniform(OpenseesObject):
+    op_base_type = "eleLoad"
+    op_type = None
+
+    def __init__(self, osi, ele, w_y, w_x=None):
         """
         ltype: 'beamUniform'
         """
         self.ele_tag = ele.tag
-        self.load_values = load_values
+        self.w_y = float(w_y)
+        self.w_x = w_x
 
-        self._parameters = ['-ele', self.ele_tag, '-type', f'-{ltype}', *self.load_values]
+        self._parameters = ['-ele', self.ele_tag, '-type', '-beamUniform', self.w_y]
+        if self.w_x is not None:
+            self._parameters.append(float(self.w_x))
         self.to_process(osi)
 
 
@@ -134,6 +158,12 @@ def get_node_vel(osi, node, dof):
 def get_node_accel(osi, node, dof):
     op_type = 'nodeAccel'
     parameters = [node.tag, dof]
+    return osi.to_process(op_type, parameters)
+
+
+def get_reactions(osi):
+    op_type = 'reactions'
+    parameters = []
     return osi.to_process(op_type, parameters)
 
 
