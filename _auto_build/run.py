@@ -259,6 +259,8 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             para.append(w8 + w8 + w4 + 'self._parameters += [*getattr(self, pm)]')
             para.append(w8 + w8 + 'else:')
             para.append(w8 + w8 + w4 + 'self._parameters += [getattr(self, pm)]')
+            para.append(w8 + w4 + 'else:')
+            para.append(w8 + w8 + 'break')
         para.append(w8 + 'self.to_process(osi)')
         para.append('')
 

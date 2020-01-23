@@ -116,6 +116,8 @@ class Steel02(UniaxialMaterialBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -185,6 +187,8 @@ class Hysteretic(UniaxialMaterialBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 

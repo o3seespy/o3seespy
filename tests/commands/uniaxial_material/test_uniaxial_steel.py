@@ -2,11 +2,9 @@ import o3seespy as o3  # for testing only
 import pytest
 
 
-@pytest.mark.skip()
 def test_steel02():
     osi = o3.OpenseesInstance(dimensions=2)
-    params = [1.0, 1.0]
-    o3.uniaxial_material.Steel02(osi, fy=1.0, e0=1.0, b=1.0, params=params, a1=None, a2=1.0, a3=None, a4=1.0, sig_init=0.0)
+    o3.uniaxial_material.Steel02(osi, fy=1.0, e0=1.0, b=1.0, params=[15, 0.925, 0.15])
 
 
 @pytest.mark.skip()

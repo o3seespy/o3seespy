@@ -47,6 +47,8 @@ class LoadControl(IntegratorBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -94,6 +96,8 @@ class DisplacementControl(IntegratorBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -141,6 +145,8 @@ class ParallelDisplacementControl(IntegratorBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -190,6 +196,8 @@ class MinUnbalDispNorm(IntegratorBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -313,6 +321,8 @@ class HHT(IntegratorBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -360,6 +370,8 @@ class GeneralizedAlpha(IntegratorBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 

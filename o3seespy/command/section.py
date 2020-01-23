@@ -53,6 +53,8 @@ class Elastic2D(SectionBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -113,6 +115,8 @@ class Elastic3D(SectionBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 

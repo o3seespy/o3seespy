@@ -116,6 +116,8 @@ class Cast(UniaxialMaterialBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -1025,6 +1027,8 @@ class ElasticBilin(UniaxialMaterialBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
@@ -1289,6 +1293,8 @@ class SelfCentering(UniaxialMaterialBase):
                     self._parameters += [*getattr(self, pm)]
                 else:
                     self._parameters += [getattr(self, pm)]
+            else:
+                break
         self.to_process(osi)
 
 
