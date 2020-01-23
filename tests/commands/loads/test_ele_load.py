@@ -22,7 +22,7 @@ def test_ele_load_uniform():
     ts_po = o3.time_series.Linear(osi, factor=1)
     o3.pattern.Plain(osi, ts_po)
     udl = 10.
-    o3.EleLoad(osi, ele, 'beamUniform', [-udl])
+    o3.EleLoad2DUniform(osi, ele, w_y=-udl)
 
     tol = 1.0e-4
     o3.constraints.Plain(osi)

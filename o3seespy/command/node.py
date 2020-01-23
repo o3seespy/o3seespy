@@ -16,7 +16,8 @@ class Node(OpenseesObject):
     y_mass = 0.0
     z_rot_mass = 0.0
 
-    def __init__(self, osi, x: float, y=None, z=None, vel=None, acc=None, x_mass=0.0, y_mass=0.0, z_rot_mass=0.0):
+    def __init__(self, osi, x: float, y=None, z=None, vel=None, acc=None,
+                 x_mass=None, y_mass=None, z_mass=None, x_rot_mass=None, y_rot_mass=None, z_rot_mass=None):
         """
         An Opensees node
 
@@ -40,18 +41,41 @@ class Node(OpenseesObject):
             self.y = float(y)
         if z is not None:
             self.z = float(z)
-        self.vel = vel
-        self.acc = acc
         self.x_mass = x_mass
         self.y_mass = y_mass
+        self.z_mass = z_mass
+        self.x_rot_mass = x_rot_mass
+        self.y_rot_mass = y_rot_mass
         self.z_rot_mass = z_rot_mass
+        self.vel = vel
+        self.acc = acc
         osi.n_node += 1
         self._tag = osi.n_node
-        if osi.dimensions == 2:
+        if osi.dimensions == 1:
+            self._parameters = [self._tag, *[self.x]]
+            pms = ['x_mass']
+        elif osi.dimensions == 2:
             self._parameters = [self._tag, *[self.x, self.y]]
-            self._parameters += ["-mass", *[self.x_mass, self.y_mass, self.z_rot_mass]]
+            pms = ['x_mass', 'y_mass', 'z_rot_mass']
+        elif osi.dimensions == 3:
+            self._parameters = [self._tag, *[self.x, self.y, self.z]]
+            pms = ['x_mass', 'y_mass', 'z_mass', 'x_rot_mass', 'y_rot_mass', 'z_rot_mass']
         else:
-            raise NotImplementedError("Currently only supports 2D analyses")
+            raise NotImplementedError("Currently only supports 1-3D analyses")
+        masses = []
+        none_found = 0
+        for pm in pms:
+            val = getattr(self, pm)
+            if val is None:
+                none_found = pm
+            else:
+                setattr(self, pm, float(val))
+                if not none_found:
+                    masses.append(float(val))
+                else:
+                    raise ValueError(f'Cannot set {pm} since {none_found} is None')
+        if len(masses):
+            self._parameters += ["-mass", *[self.x_mass]]
         if self.vel is not None:
             self._parameters += ["-vel", self.vel]
         if self.acc is not None:

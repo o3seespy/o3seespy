@@ -5,13 +5,13 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 class Steel01(UniaxialMaterialBase):
     """
     The Steel01 UniaxialMaterial Class
-    
+
     This command is used to construct a uniaxial bilinear steel material object with kinematic hardening and optional
     isotropic hardening described by a non-linear evolution equation (REF: Fedeas).
     """
-    op_type = 'Steel01'
+    op_type = "Steel01"
 
-    def __init__(self, osi, fy, e0, b, a1, a2, a3, a4):
+    def __init__(self, osi, fy: float, e0: float, b: float, a1=None, a2=None, a3=None, a4=None):
         """
         Initial method for Steel01
 
@@ -37,13 +37,18 @@ class Steel01(UniaxialMaterialBase):
         self.fy = float(fy)
         self.e0 = float(e0)
         self.b = float(b)
-        self.a1 = float(a1)
-        self.a2 = float(a2)
-        self.a3 = float(a3)
-        self.a4 = float(a4)
+        self.a_values = [a1, a2, a3, a4]
+        self.a1 = a1
+        self.a2 = a2
+        self.a3 = a3
+        self.a4 = a4
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.fy, self.e0, self.b, self.a1, self.a2, self.a3, self.a4]
+        self._parameters = [self.op_type, self.tag, self.fy, self.e0, self.b]
+        for a in self.a_values:
+            if a is None:
+                break
+            self._parameters.append(a)
         self.to_process(osi)
 
 

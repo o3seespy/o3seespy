@@ -793,6 +793,9 @@ unimats = {
 
 def parse_all_uniaxial_mat():
     import user_paths as up
+    from _auto_build import _custom_mat as cust_file
+
+    cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
     uni_axial_mat_file = open(up.OPY_DOCS_PATH + 'uniaxialMaterial.rst')
     lines = uni_axial_mat_file.read().split('\n')
     collys = {}
@@ -830,6 +833,13 @@ def parse_all_uniaxial_mat():
             if mat == 'KikuchiAikenHDR' or mat == 'KikuchiAikenLRB':
                 continue
             if mat == 'PinchingLimitStateMaterial':
+                continue
+            mat_name = convert_name_to_class_name(mat)
+            if mat_name in cust_obj_list:
+                source = inspect.getsource(getattr(cust_file, mat_name))
+                print(source)
+                para.append('')
+                para.append(source)
                 continue
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat

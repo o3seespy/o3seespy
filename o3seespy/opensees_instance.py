@@ -15,13 +15,21 @@ class OpenseesInstance(object):
     n_integ = 0
     n_transformation = 0
 
-    def __init__(self, dimensions: int, node_dofs=3, state=0):
+    def __init__(self, dimensions: int, node_dofs=None, state=0):
         self.dimensions = dimensions
         self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
+        if node_dofs is None:
+            if dimensions == 1:
+                node_dofs = 1
+            elif dimensions == 2:
+                node_dofs = 3
+            else:
+                node_dofs = 6
         opy.wipe()
-        opy.model('basic', '-ndm', dimensions, '-ndf', node_dofs)  # 2 dimensions, 3 dof per node
+        opy.model('basic', '-ndm', dimensions, '-ndf', node_dofs)
         self.commands = []
         self.dict = OrderedDict()
+
         if state == 1:
             self.commands.append('opy.wipe()')
             self.commands.append("opy.model('basic', '-ndm', {0}, '-ndf', {1})".format(dimensions, node_dofs))

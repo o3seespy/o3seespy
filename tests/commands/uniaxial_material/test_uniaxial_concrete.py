@@ -1,7 +1,6 @@
 import o3seespy as o3  # for testing only
 
 
-
 def test_concrete01():
     osi = o3.OpenseesInstance(dimensions=2)
     o3.uniaxial_material.Concrete01(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0)
