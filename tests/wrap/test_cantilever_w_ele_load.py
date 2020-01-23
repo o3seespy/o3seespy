@@ -61,7 +61,7 @@ def test_cantilever_w_force_beam_column():
         o3.algorithm.Linear(osi)
         o3.analysis.Static(osi)
         o3.analyze(osi, n_steps_gravity)
-        o3.get_reactions(osi)
+        o3.gen_reactions(osi)
         end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.Y)
         return o3.get_ele_response(osi, ele, 'force')[:3], end_disp
 
@@ -223,7 +223,7 @@ def run():
         o3.algorithm.Linear(osi)
         o3.analysis.Static(osi)
         o3.analyze(osi, n_steps_gravity)
-        o3.get_reactions(osi)
+        o3.gen_reactions(osi)
         print('reactions: ', o3.get_ele_response(osi, ele, 'force')[:3])
         end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.Y)
         print(f'end_disp: {end_disp}')
@@ -243,12 +243,12 @@ def run():
         # o3.extensions.to_py_file(osi, 'temp4.py')
     disp_load = 1
     if disp_load:
+        o3.load_constant(osi, time=0.0)
         end_disp_init = o3.get_node_disp(osi, right_node, dof=o3.cc.Y)
         # start displacement controlled
         d_inc = -0.01
 
         # opy.wipeAnalysis()
-        o3.constraints.Plain(osi)
         o3.numberer.RCM(osi)
         o3.system.BandGeneral(osi)
         o3.test_check.NormUnbalance(osi, 2, max_iter=10, p_flag=0)

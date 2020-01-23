@@ -161,7 +161,7 @@ def get_node_accel(osi, node, dof):
     return osi.to_process(op_type, parameters)
 
 
-def get_reactions(osi):
+def gen_reactions(osi):
     op_type = 'reactions'
     parameters = []
     return osi.to_process(op_type, parameters)
@@ -170,6 +170,11 @@ def get_reactions(osi):
 def get_node_reaction(osi, node, dof):
     op_type = 'nodeReaction'
     parameters = [node.tag, dof]
+    return osi.to_process(op_type, parameters)
+
+def get_node_reactions(osi, node):
+    op_type = 'nodeReaction'
+    parameters = [node.tag]
     return osi.to_process(op_type, parameters)
 
 

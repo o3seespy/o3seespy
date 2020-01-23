@@ -183,6 +183,8 @@ Package conventions
     - If the name matches a python special name (e.g. lambda, in) then it should be adjusted according to the dictionary
     - Objects should be namespaced based on the object type (e.g. element, material)
     - For parameter that are used across many objects (e.g. atmospheric pressure) a standard name should be used
+    - opensees functions that collect a result are named 'get_<function-name>'
+    - opensees functions that generate results are named 'gen_<function-name>'
 
 * How should youngs modulus be named?
 * Should all two node elements use i_node, j_node. Or make them all enter nodes as a list?

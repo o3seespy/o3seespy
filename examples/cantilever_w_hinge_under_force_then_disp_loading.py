@@ -1,7 +1,9 @@
 import o3seespy as o3
 
 
-def run():
+def run(use_pload):
+    # If pload=true then apply point load at end, else apply distributed load along beam
+
     osi = o3.OpenseesInstance(dimensions=2, state=3)
 
     ele_len = 4.0
@@ -40,10 +42,8 @@ def run():
     w_gloads = 1
     if w_gloads:
         # Apply gravity loads
-        # If true then load applied along beam
-        use_pload = 1
         pload = 1.0 * ele_len
-        udl = 1.0
+        udl = 2.0
         ts_po = o3.time_series.Linear(osi, factor=1)
         o3.pattern.Plain(osi, ts_po)
         if use_pload:
@@ -61,7 +61,7 @@ def run():
         o3.algorithm.Linear(osi)
         o3.analysis.Static(osi)
         o3.analyze(osi, n_steps_gravity)
-        o3.get_reactions(osi)
+        o3.gen_reactions(osi)
         print('reactions: ', o3.get_ele_response(osi, ele, 'force')[:3])
         end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.Y)
         print(f'end_disp: {end_disp}')
@@ -82,10 +82,9 @@ def run():
     disp_load = 1
     if disp_load:
         # start displacement controlled
-        d_inc = -0.001
+        d_inc = -0.01
 
         # opy.wipeAnalysis()
-        o3.constraints.Plain(osi)
         o3.numberer.RCM(osi)
         o3.system.BandGeneral(osi)
         o3.test_check.NormUnbalance(osi, 2, max_iter=10, p_flag=0)
@@ -109,4 +108,4 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    run(use_pload=0)

@@ -63,7 +63,7 @@ from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBas
 
 
 class PySimple1(UniaxialMaterialBase):
-    type = "PySimple1"
+    op_type = "PySimple1"
 
     def __init__(self, osi, soil_type: int, p_ult, y50, cd, c):
         """
@@ -95,7 +95,7 @@ class PySimple1(UniaxialMaterialBase):
         self.c = c
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.type, self._tag, self.p_ult, self.y50, self.cd, self.c]
+        self._parameters = [self.op_type, self._tag, self.soil_type, self.p_ult, self.y50, self.cd, self.c]
         self.to_process(osi)
 
 
