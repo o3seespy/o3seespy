@@ -4,7 +4,25 @@ import o3seespy as o3
 
 def run_uniaxial_disp_driver(osi, mat_obj, disps, dmax_lim=0.01):
     """
-    A uniaxial displacement controlled driver
+    A Uniaxial material displacement controlled driver
+
+    Parameters
+    ----------
+    osi: o3.OpenseesInstance()
+        An Opensees instance
+    mat_obj: o3.uniaxial_material.UniaxialMaterialBase()
+        An instance of uniaxial material
+    disps: array_like
+        Target displacements
+    dmax_lim: float
+        Maximum displacement increment
+
+    Returns
+    -------
+    disp: array_like
+        Actual displacements
+    react: array_like
+        Reactions at each displacement
     """
     left_node = o3.node.Node(osi, 0, 0)
     right_node = o3.node.Node(osi, 0, 0)
@@ -48,11 +66,34 @@ def run_uniaxial_disp_driver(osi, mat_obj, disps, dmax_lim=0.01):
     return np.array(disp), np.array(react)
 
 
-def run_uniaxial_force_driver(osi, mat_obj, forces, d_step = 0.001, max_steps=10000):
+def run_uniaxial_force_driver(osi, mat_obj, forces, d_step=0.001, max_steps=10000, handle='silent'):
     """
-    A uniaxial force controlled driver
-    """
+    A Uniaxial material force-defined driver
 
+    Parameters
+    ----------
+    osi: o3.OpenseesInstance()
+        An Opensees instance
+    mat_obj: o3.uniaxial_material.UniaxialMaterialBase()
+        An instance of uniaxial material
+    forces: array_like
+        Target forces
+    d_step: float
+        Displacement increment
+    max_steps: int
+        Maximum number of steps to take to achieve target force
+    handle: str
+        Behaviour if target force not reached, If 'silent' then  change to next target force,
+        if 'warn' then print warning and go to next force,
+        else raise error.
+
+    Returns
+    -------
+    disp: array_like
+        Actual displacements
+    react: array_like
+        Reactions at each displacement
+    """
     left_node = o3.node.Node(osi, 0, 0)
     right_node = o3.node.Node(osi, 0, 0)
     o3.Fix(osi, left_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
@@ -77,21 +118,25 @@ def run_uniaxial_force_driver(osi, mat_obj, forces, d_step = 0.001, max_steps=10
     diffs = np.diff(forces, prepend=0)
     orys = np.where(diffs >= 0, 1, -1)
     for i in range(len(forces)):
-        print(i)
         ory = orys[i]
         o3.integrator.DisplacementControl(osi, right_node, o3.cc.X, -d_step * ory)
         for j in range(max_steps):
             if react * ory < forces[i] * ory:
                 o3.analyze(osi, 1)
             else:
-                print('break: ', forces[i], react)
                 break
-            print(j, react)
             o3.gen_reactions(osi)
             react = o3.get_ele_response(osi, ele, 'force')[0]
             reacts.append(react)
             end_disp = -o3.get_node_disp(osi, right_node, dof=o3.cc.X)
             disp.append(end_disp)
+        if j == max_steps - 1:
+            if handle == 'silent':
+                break
+            if handle == 'warn':
+                print(f'Target force not reached: force={react:.4g}, target: {forces[i]:.4g}')
+            else:
+                raise ValueError()
     return np.array(disp), np.array(reacts)
 
 

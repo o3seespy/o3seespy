@@ -14,7 +14,7 @@ class Elastic2D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, big_g=None, alpha_y=None):
+    def __init__(self, osi, big_e, big_a, iz, big_g=None, alpha_y=1.0):
         """
         Initial method for Elastic2D
 
@@ -67,7 +67,7 @@ class Elastic3D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y=None, alpha_z=None):
+    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y=1.0, alpha_z=1.0):
         """
         Initial method for Elastic3D
 

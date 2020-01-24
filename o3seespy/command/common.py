@@ -178,8 +178,11 @@ def get_node_reactions(osi, node):
     return osi.to_process(op_type, parameters)
 
 
-def get_ele_response(osi, ele, arg):
-    return osi.to_process('eleResponse', [ele.tag, arg])
+def get_ele_response(osi, ele, arg, extra_args=None):
+    params = [ele.tag, arg]
+    if extra_args is not None:
+        params += extra_args
+    return osi.to_process('eleResponse', params)
 
 
 def remove_sp(osi, node, dof, pattern=None):
@@ -235,6 +238,10 @@ def wipe_analysis(osi):
     osi.to_process('wipeAnalysis', [])
 
 
+def wipe(osi):
+    osi.to_process('wipe', [])
+
+
 def load_constant(osi, time=None):
     params = []
     if time is not None:
@@ -245,3 +252,8 @@ def load_constant(osi, time=None):
 def update_material_stage(osi, material, stage):
     parameters = ['-material', material.tag, '-stage', stage]
     osi.to_process("updateMaterialStage", parameters)
+
+
+def get_eigen(osi, solver='genBandArpack', n=1):
+    parameters = [f'-{solver}', n]
+    return osi.to_process("eigen", parameters)
