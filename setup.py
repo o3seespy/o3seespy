@@ -28,7 +28,7 @@ setup(name='o3seespy',
       install_requires=[
         "numpy",
         "openseespy"
-    ],
+      ],
       # List additional groups of dependencies here (e.g. development
       # dependencies). You can install these using the following syntax,
       # for example:
@@ -37,9 +37,7 @@ setup(name='o3seespy',
           'test': ['pytest'],
       },
       python_requires='>=3',
-      package_data={
-          'models': ['models_data.dat'],
-      },
+      package_data={},
       zip_safe=False)
 
 

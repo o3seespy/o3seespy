@@ -532,6 +532,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None):
     doc_str_pms = []
     dtypes = []
     defaults = None
+    defaults1 = None
     base_type = None
     optype = None
     op_kwargs = OrderedDict()
@@ -573,6 +574,8 @@ def parse_single_file(ffp, osi_type, expected_base_type=None):
                         cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[1]
                     else:
                         cur_obj_blurb = sub_obj_blurbs[1]
+                    if defaults1 is None:
+                        raise ValueError(defaults, op_kwargs)
                     pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults1, op_kwargs1, descriptions, optype1,
                                                     base_type1, osi_type, cl_name_suf, cur_obj_blurb)
                     pstr += '\n' + pstr1
