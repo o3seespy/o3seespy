@@ -37,6 +37,8 @@ def clean_param_names(params):
         if len(new_pm) > 4 and new_pm[-4:] == '_tag':
             new_pm = new_pm[:-4]
             dtype_is_obj = True
+        if len(new_pm) > 5 and new_pm[-5:] == '_tags':
+            new_pm = new_pm[:-5] + 's'
         # if pm == 'eleNodes':
 
         pms[pm] = params[pm]
@@ -94,7 +96,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             para.append(f'class {base_class_name}(OpenseesObject):')
             cur_obj_class_name = base_type
             para += build_obj_docstring(base_type, base_class_name, obj_blurb)
-            para.append(w4 + f"base_type = '{base_type}'")
+            para.append(w4 + f"op_base_type = '{base_type}'")
             para.append('')
         else:
             op_class_name = convert_name_to_class_name(op_type + name_from_kw) + cl_name_suf
@@ -474,6 +476,7 @@ def clean_fn_line(line, has_tag=True):
                 for suffix in suffixes:
                     if word + suffix == names_only[j + 1]:
                         markers[names_only[j + 1]] = word
+                        inp = word
                         suf_match = 1
                         break
                 if suf_match:
@@ -1082,7 +1085,7 @@ if __name__ == '__main__':
     # parse_single_file('BoucWen.rst')
     # parse_single_file('Bond_SP01.rst')
     import user_paths as up
-    parse_all_ndmat()
+    #parse_all_ndmat()
     # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
     all = 0
     all = 0  # TODO: KikuchiBearing
@@ -1092,9 +1095,10 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='integrator', osi_type=None)
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'Quad.rst', 'ele')
-        parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
+        # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
+        parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        # parse_single_file(up.OPY_DOCS_PATH + 'UniformExcitation.rst', 'pat')
+        # parse_single_file(up.OPY_DOCS_PATH + 'UserDefined.rst', 'integ')
         # test_clean_fn_line()
 
     if all:

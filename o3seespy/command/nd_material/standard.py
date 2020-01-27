@@ -298,19 +298,19 @@ class PlaneStress(NDMaterialBase):
     """
     op_type = 'PlaneStress'
 
-    def __init__(self, osi, three_dtag):
+    def __init__(self, osi, mat_3d):
         """
         Initial method for PlaneStress
 
         Parameters
         ----------
-        three_dtag: int
+        mat_3d: obj
             Tag of perviously defined 3d ndmaterial material
         """
-        self.three_dtag = int(three_dtag)
+        self.mat_3d = mat_3d
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.three_dtag]
+        self._parameters = [self.op_type, self._tag, self.mat_3d.tag]
         self.to_process(osi)
 
 
@@ -323,19 +323,19 @@ class PlaneStrain(NDMaterialBase):
     """
     op_type = 'PlaneStrain'
 
-    def __init__(self, osi, three_dtag):
+    def __init__(self, osi, mat_3d):
         """
         Initial method for PlaneStrain
 
         Parameters
         ----------
-        three_dtag: int
+        mat_3d: obj
             Integer tag of previously defined 3d ndmaterial material
         """
-        self.three_dtag = int(three_dtag)
+        self.mat_3d = mat_3d
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.three_dtag]
+        self._parameters = [self.op_type, self._tag, self.mat_3d.tag]
         self.to_process(osi)
 
 

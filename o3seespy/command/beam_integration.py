@@ -189,7 +189,7 @@ class UserDefined(BeamIntegrationBase):
     """
     op_type = 'UserDefined'
 
-    def __init__(self, osi, big_n, sec_tags, locs, wts):
+    def __init__(self, osi, big_n, secs, locs, wts):
         """
         Initial method for UserDefined
 
@@ -197,7 +197,7 @@ class UserDefined(BeamIntegrationBase):
         ----------
         big_n: int
             Number of integration points along the element.
-        sec_tags: None
+        secs: None
             A list previous-defined section objects.
         locs: listf
             Locations of integration points along the element.
@@ -205,12 +205,12 @@ class UserDefined(BeamIntegrationBase):
             Weights of integration points.
         """
         self.big_n = int(big_n)
-        self.sec_tags = [x.tag for x in sec_tags]
+        self.secs = [x.tag for x in secs]
         self.locs = locs
         self.wts = wts
         osi.n_integ += 1
         self._tag = osi.n_integ
-        self._parameters = [self.op_type, self._tag, self.big_n, *self.sec_tags, *self.locs, *self.wts]
+        self._parameters = [self.op_type, self._tag, self.big_n, *self.secs, *self.locs, *self.wts]
         self.to_process(osi)
 
 
@@ -225,7 +225,7 @@ class FixedLocation(BeamIntegrationBase):
     """
     op_type = 'FixedLocation'
 
-    def __init__(self, osi, big_n, sec_tags, locs):
+    def __init__(self, osi, big_n, secs, locs):
         """
         Initial method for FixedLocation
 
@@ -233,17 +233,17 @@ class FixedLocation(BeamIntegrationBase):
         ----------
         big_n: int
             Number of integration points along the element.
-        sec_tags: None
+        secs: None
             A list previous-defined section objects.
         locs: listf
             Locations of integration points along the element.
         """
         self.big_n = int(big_n)
-        self.sec_tags = [x.tag for x in sec_tags]
+        self.secs = [x.tag for x in secs]
         self.locs = locs
         osi.n_integ += 1
         self._tag = osi.n_integ
-        self._parameters = [self.op_type, self._tag, self.big_n, *self.sec_tags, *self.locs]
+        self._parameters = [self.op_type, self._tag, self.big_n, *self.secs, *self.locs]
         self.to_process(osi)
 
 
@@ -259,7 +259,7 @@ class LowOrder(BeamIntegrationBase):
     """
     op_type = 'LowOrder'
 
-    def __init__(self, osi, big_n, sec_tags, locs, wts):
+    def __init__(self, osi, big_n, secs, locs, wts):
         """
         Initial method for LowOrder
 
@@ -267,7 +267,7 @@ class LowOrder(BeamIntegrationBase):
         ----------
         big_n: int
             Number of integration points along the element.
-        sec_tags: None
+        secs: None
             A list previous-defined section objects.
         locs: listf
             Locations of integration points along the element.
@@ -275,12 +275,12 @@ class LowOrder(BeamIntegrationBase):
             Weights of integration points.
         """
         self.big_n = int(big_n)
-        self.sec_tags = [x.tag for x in sec_tags]
+        self.secs = [x.tag for x in secs]
         self.locs = locs
         self.wts = wts
         osi.n_integ += 1
         self._tag = osi.n_integ
-        self._parameters = [self.op_type, self._tag, self.big_n, *self.sec_tags, *self.locs, *self.wts]
+        self._parameters = [self.op_type, self._tag, self.big_n, *self.secs, *self.locs, *self.wts]
         self.to_process(osi)
 
 
@@ -295,7 +295,7 @@ class MidDistance(BeamIntegrationBase):
     """
     op_type = 'MidDistance'
 
-    def __init__(self, osi, big_n, sec_tags, locs):
+    def __init__(self, osi, big_n, secs, locs):
         """
         Initial method for MidDistance
 
@@ -303,17 +303,17 @@ class MidDistance(BeamIntegrationBase):
         ----------
         big_n: int
             Number of integration points along the element.
-        sec_tags: None
+        secs: None
             A list previous-defined section objects.
         locs: listf
             Locations of integration points along the element.
         """
         self.big_n = int(big_n)
-        self.sec_tags = [x.tag for x in sec_tags]
+        self.secs = [x.tag for x in secs]
         self.locs = locs
         osi.n_integ += 1
         self._tag = osi.n_integ
-        self._parameters = [self.op_type, self._tag, self.big_n, *self.sec_tags, *self.locs]
+        self._parameters = [self.op_type, self._tag, self.big_n, *self.secs, *self.locs]
         self.to_process(osi)
 
 
@@ -325,7 +325,7 @@ class UserHinge(BeamIntegrationBase):
     """
     op_type = 'UserHinge'
 
-    def __init__(self, osi, sec_e, np_l, secs_l, locs_l, wts_l, np_r, secs_r, locs_r, wts_r):
+    def __init__(self, osi, sec_e, np_l, secs_ls, locs_l, wts_l, np_r, secs_rs, locs_r, wts_r):
         """
         Initial method for UserHinge
 
@@ -335,7 +335,7 @@ class UserHinge(BeamIntegrationBase):
             A previous-defined section objects for non-hinge area.
         np_l: int
             Number of integration points along the left hinge.
-        secs_l: listi
+        secs_ls: None
             A list of previous-defined section objects for left hinge area.
         locs_l: listf
             A list of locations of integration points for left hinge area.
@@ -343,7 +343,7 @@ class UserHinge(BeamIntegrationBase):
             A list of weights of integration points for left hinge area.
         np_r: int
             Number of integration points along the right hinge.
-        secs_r: listi
+        secs_rs: None
             A list of previous-defined section objects for right hinge area.
         locs_r: listf
             A list of locations of integration points for right hinge area.
@@ -352,16 +352,16 @@ class UserHinge(BeamIntegrationBase):
         """
         self.sec_e = sec_e
         self.np_l = int(np_l)
-        self.secs_l = secs_l
+        self.secs_ls = [x.tag for x in secs_ls]
         self.locs_l = locs_l
         self.wts_l = wts_l
         self.np_r = int(np_r)
-        self.secs_r = secs_r
+        self.secs_rs = [x.tag for x in secs_rs]
         self.locs_r = locs_r
         self.wts_r = wts_r
         osi.n_integ += 1
         self._tag = osi.n_integ
-        self._parameters = [self.op_type, self._tag, self.sec_e.tag, self.np_l, *self.secs_l, *self.locs_l, *self.wts_l, self.np_r, *self.secs_r, *self.locs_r, *self.wts_r]
+        self._parameters = [self.op_type, self._tag, self.sec_e.tag, self.np_l, *self.secs_ls, *self.locs_l, *self.wts_l, self.np_r, *self.secs_rs, *self.locs_r, *self.wts_r]
         self.to_process(osi)
 
 
@@ -491,7 +491,7 @@ class BeamhingeEndpoint(OpenseesObject):
     points to the element ends;however, there is a large integration error for linear curvature distributions along
     the element.
     """
-    base_type = 'beamhingeEndpoint'
+    op_base_type = 'beamhingeEndpoint'
 
     def __init__(self, osi, lp_i, sec_j, lp_j, sec_e):
         """

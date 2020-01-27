@@ -38,36 +38,43 @@ def test_composite_simpson():
     o3.beam_integration.CompositeSimpson(osi, sec=sec, big_n=1)
 
 
-@pytest.mark.skip()
+
 def test_user_defined():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.beam_integration.UserDefined(osi, big_n=1, sec_tags=1, locs=1, wts=1)
+    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0),
+             o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0)]
+    o3.beam_integration.UserDefined(osi, big_n=2, secs=secs, locs=[0.2, 0.9], wts=[0.5, 0.5])
 
 
-@pytest.mark.skip()
 def test_fixed_location():
     osi = o3.OpenseesInstance(dimensions=2)
-    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0, big_g=0.0, alpha_y=0.0)]
-    o3.beam_integration.FixedLocation(osi, big_n=1, sec_tags=secs, locs=1)
+    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0),
+            o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0)]
+    o3.beam_integration.FixedLocation(osi, big_n=2, secs=secs, locs=[0.2, 0.9])
 
 
-@pytest.mark.skip()
+
 def test_low_order():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.beam_integration.LowOrder(osi, big_n=1, sec_tags=1, locs=1, wts=1)
+    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0),
+            o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0)]
+    o3.beam_integration.LowOrder(osi, big_n=2, secs=secs, locs=[0.2, 0.9], wts=[0.5, 0.5])
 
 
-@pytest.mark.skip()
 def test_mid_distance():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.beam_integration.MidDistance(osi, big_n=1, sec_tags=1, locs=1)
+    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0),
+            o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0)]
+    o3.beam_integration.MidDistance(osi, big_n=2, secs=secs, locs=[0.2, 0.9])
 
 
-@pytest.mark.skip()
 def test_user_hinge():
     osi = o3.OpenseesInstance(dimensions=2)
     sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
-    o3.beam_integration.UserHinge(osi, sec_e=sec_e, np_l=1, secs_l=1, locs_l=1, wts_l=1, np_r=1, secs_r=1, locs_r=1, wts_r=1)
+    secs_l = [o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)]
+    secs_r = [o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)]
+    o3.beam_integration.UserHinge(osi, sec_e=sec_e, np_l=1, secs_ls=secs_l, locs_l=[1], wts_l=[1], np_r=1,
+                                  secs_rs=secs_r, locs_r=[1], wts_r=[1])
 
 
 def test_hinge_midpoint():
@@ -83,7 +90,7 @@ def test_hinge_radau():
     sec_i = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
     sec_j = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
     sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
-    o3.beam_integration.HingeRadau(osi, sec_i=sec_i, lp_i=1, sec_j=sec_j, lp_j=1, sec_e=sec_e)
+    o3.beam_integration.HingeRadau(osi, sec_i=sec_i, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
 
 
 def test_hinge_radau_two():
@@ -91,7 +98,7 @@ def test_hinge_radau_two():
     sec_i = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
     sec_j = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
     sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
-    o3.beam_integration.HingeRadauTwo(osi, sec_i=sec_i, lp_i=1, sec_j=sec_j, lp_j=1, sec_e=sec_e)
+    o3.beam_integration.HingeRadauTwo(osi, sec_i=sec_i, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
 
 
 @pytest.mark.skip()

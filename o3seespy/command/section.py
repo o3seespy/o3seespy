@@ -14,7 +14,7 @@ class Elastic2D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, big_g=None, alpha_y=1.0):
+    def __init__(self, osi, big_e, big_a, iz, big_g=None, alpha_y=None):
         """
         Initial method for Elastic2D
 
@@ -67,7 +67,7 @@ class Elastic3D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y=1.0, alpha_z=1.0):
+    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y=None, alpha_z=None):
         """
         Initial method for Elastic3D
 
@@ -137,7 +137,7 @@ class Fiber(SectionBase):
         Parameters
         ----------
         gj: float
-            Linear-elastic torsional stiffness assigned to the section (optional)
+            Linear-elastic torsional stiffness assigned to the section
         """
         if gj is None:
             self.gj = None
@@ -148,6 +148,33 @@ class Fiber(SectionBase):
         self._parameters = [self.op_type, self._tag]
         if getattr(self, 'gj') is not None:
             self._parameters += ['-GJ', self.gj]
+        self.to_process(osi)
+
+class Fiber(SectionBase):
+    """
+    The Fiber Section Class
+    
+    This commnand allows the user to construct a FiberSection object. Each FiberSection object is composed of Fibers,
+    with each fiber containing a UniaxialMaterial, an area and a location (y,z). The dofs for 2D section are ``[P,
+    Mz]``,for 3D are ``[P,Mz,My,T]``.
+    """
+    op_type = 'Fiber'
+
+    def __init__(self, osi, mat=None):
+        """
+        Initial method for Fiber
+
+        Parameters
+        ----------
+        mat: obj
+            Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
+        """
+        self.mat = mat
+        osi.n_sect += 1
+        self._tag = osi.n_sect
+        self._parameters = [self.op_type, self._tag]
+        if getattr(self, 'mat') is not None:
+            self._parameters += ['-torsion', self.mat.tag]
         self.to_process(osi)
 
 class FiberThermal(SectionBase):
