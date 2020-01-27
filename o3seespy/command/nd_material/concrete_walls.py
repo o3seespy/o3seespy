@@ -53,25 +53,22 @@ class PlateFromPlaneStress(NDMaterialBase):
     """
     op_type = 'PlateFromPlaneStress'
 
-    def __init__(self, osi, newmat, mat, outof_plane_modulus):
+    def __init__(self, osi, pre_def_mat, outof_plane_modulus):
         """
         Initial method for PlateFromPlaneStress
 
         Parameters
         ----------
-        newmat: obj
-            New integer tag identifying material deriving from pre-defined planestressusermaterial
-        mat: obj
-            Integer tag identifying planestressusermaterial
+        pre_def_mat: obj
+            Integer tag identifying planestress material
         outof_plane_modulus: float
-            Shear modulus of out plane
+            Shear modulus for out of plane stresses
         """
-        self.newmat = newmat
-        self.mat = mat
+        self.pre_def_mat = pre_def_mat
         self.outof_plane_modulus = float(outof_plane_modulus)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.newmat.tag, self.mat.tag, self.outof_plane_modulus]
+        self._parameters = [self.op_type, self._tag, self.pre_def_mat.tag, self.outof_plane_modulus]
         self.to_process(osi)
 
 
@@ -83,23 +80,20 @@ class PlateRebar(NDMaterialBase):
     """
     op_type = 'PlateRebar'
 
-    def __init__(self, osi, newmat, mat, sita):
+    def __init__(self, osi, pre_def_mat, sita):
         """
         Initial method for PlateRebar
 
         Parameters
         ----------
-        newmat: obj
-            New integer tag identifying material deriving from pre-defined uniaxial steel material
-        mat: obj
-            Integer tag identifying uniaxial steel material
+        pre_def_mat: obj
+            Integer tag identifying uniaxial material
         sita: float
-            Define the angle of steel layer, 90 (longitudinal steel), 0 (tranverse steel)
+            Define the angle of reinforcement layer, 90 (longitudinal), 0 (tranverse)
         """
-        self.newmat = newmat
-        self.mat = mat
+        self.pre_def_mat = pre_def_mat
         self.sita = float(sita)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.newmat.tag, self.mat.tag, self.sita]
+        self._parameters = [self.op_type, self._tag, self.pre_def_mat.tag, self.sita]
         self.to_process(osi)

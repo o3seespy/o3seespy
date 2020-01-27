@@ -498,11 +498,11 @@ class FSAM(NDMaterialBase):
         ----------
         rho: float
             Material density
-        s_x: float
+        s_x: obj
             Tag of uniaxialmaterial simulating horizontal (x) reinforcement
-        s_y: float
+        s_y: obj
             Tag of uniaxialmaterial simulating vertical (y) reinforcement
-        conc: float
+        conc: obj
             Tag of uniaxialmaterial simulating concrete, shall be used with uniaxialmaterial concretecm
         rou_x: float
             Reinforcing ratio in horizontal (x) direction (:math:`roux = _{s,x}/a_{gross,x}`)
@@ -514,16 +514,16 @@ class FSAM(NDMaterialBase):
             Stiffness coefficient of reinforcement dowel action (:math:`0.0 < alfadow < 0.05`)
         """
         self.rho = float(rho)
-        self.s_x = float(s_x)
-        self.s_y = float(s_y)
-        self.conc = float(conc)
+        self.s_x = s_x
+        self.s_y = s_y
+        self.conc = conc
         self.rou_x = float(rou_x)
         self.rou_y = float(rou_y)
         self.nu = float(nu)
         self.alfadow = float(alfadow)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.rho, self.s_x, self.s_y, self.conc, self.rou_x, self.rou_y, self.nu, self.alfadow]
+        self._parameters = [self.op_type, self._tag, self.rho, self.s_x.tag, self.s_y.tag, self.conc.tag, self.rou_x, self.rou_y, self.nu, self.alfadow]
         self.to_process(osi)
 
 

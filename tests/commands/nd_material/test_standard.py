@@ -50,16 +50,19 @@ def test_bounding_cam_clay():
     o3.nd_material.BoundingCamClay(osi, mass_density=1.0, big_c=1.0, bulk_mod=1.0, ocr=1.0, mu_o=1.0, alpha=1.0, lamb=1.0, h=1.0, m=1.0)
 
 
-@pytest.mark.skip()
 def test_plate_fiber():
-    osi = o3.OpenseesInstance(dimensions=2)
-    o3.nd_material.PlateFiber(osi, three_d=three_d)
+    osi = o3.OpenseesInstance(dimensions=3)
+    mat = o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0)
+    o3.nd_material.PlateFiber(osi, three_d=mat)
 
 
-@pytest.mark.skip()
 def test_fsam():
-    osi = o3.OpenseesInstance(dimensions=2)
-    o3.nd_material.FSAM(osi, rho=1.0, s_x=1.0, s_y=1.0, conc=1.0, rou_x=1.0, rou_y=1.0, nu=1.0, alfadow=1.0)
+    osi = o3.OpenseesInstance(dimensions=3)
+    s_x = o3.uniaxial_material.Elastic(osi, big_e=1.0, eta=0.0, eneg=None)
+    s_y = o3.uniaxial_material.Elastic(osi, big_e=1.0, eta=0.0, eneg=None)
+    conc = o3.uniaxial_material.ConcreteCM(osi, fpcc=1.0, epcc=1.0, ec=1.0, rc=1.0, xcrn=1.0, ft=1.0, et=1.0, rt=1.0, xcrp=1.0,
+                                    gap_close=0)
+    o3.nd_material.FSAM(osi, rho=1.0, s_x=s_x, s_y=s_y, conc=conc, rou_x=1.0, rou_y=1.0, nu=1.0, alfadow=1.0)
 
 
 def test_manzari_dafalias():

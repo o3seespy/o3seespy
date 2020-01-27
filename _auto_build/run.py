@@ -855,7 +855,7 @@ def parse_all_uniaxial_mat():
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/test_uniaxial_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/atest_uniaxial_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 ndmats = {
@@ -929,7 +929,7 @@ def parse_all_ndmat():
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/test_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/atest_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 
@@ -1003,7 +1003,7 @@ def parse_all_elements():
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/test_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/atest_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 
@@ -1059,7 +1059,7 @@ def parse_generic_single_file(obj_type, osi_type):
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/test_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/atest_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 
@@ -1076,10 +1076,11 @@ if __name__ == '__main__':
     # parse_single_file('BoucWen.rst')
     # parse_single_file('Bond_SP01.rst')
     import user_paths as up
-    # parse_all_ndmat()
+    parse_all_ndmat()
     # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
     all = 0
-    all = 1  # TODO: KikuchiBearing
+    all = 0  # TODO: KikuchiBearing
+    # TODO: dettach docstrings - if exists then don't use rst version
     if not all:
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)

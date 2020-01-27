@@ -43,10 +43,11 @@ def test_rc_circular_section():
     o3.section.RCCircularSection(osi, core=1, cover=1, steel=1, d=1.0, cover_depth=1.0, a_s=1.0, nrings_core=1, nrings_cover=1, newedges=1, nsteel=1)
 
 
-@pytest.mark.skip()
 def test_parallel():
     osi = o3.OpenseesInstance(dimensions=2)
-    o3.section.Parallel(osi, tags=1)
+    sects = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0, big_g=0.0, alpha_y=0.0),
+             o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0, big_g=0.0, alpha_y=0.0)]
+    o3.section.Parallel(osi, sects)
 
 
 @pytest.mark.skip()

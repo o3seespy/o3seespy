@@ -369,7 +369,7 @@ class Parallel(SectionBase):
     """
     op_type = 'Parallel'
 
-    def __init__(self, osi, tags):
+    def __init__(self, osi, sects):
         """
         Initial method for Parallel
 
@@ -378,10 +378,10 @@ class Parallel(SectionBase):
         tags: listi
             Tags of of predefined sections.
         """
-        self.tags = tags
+        self.sects = [x.tag for x in sects]
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, *self.tags]
+        self._parameters = [self.op_type, self._tag, *self.sects]
         self.to_process(osi)
 
 
