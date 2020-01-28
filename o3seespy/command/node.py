@@ -51,13 +51,13 @@ class Node(OpenseesObject):
         self.acc = acc
         osi.n_node += 1
         self._tag = osi.n_node
-        if osi.dimensions == 1:
+        if osi.ndm == 1:
             self._parameters = [self._tag, *[self.x]]
             pms = ['x_mass']
-        elif osi.dimensions == 2:
+        elif osi.ndm == 2:
             self._parameters = [self._tag, *[self.x, self.y]]
             pms = ['x_mass', 'y_mass', 'z_rot_mass']
-        elif osi.dimensions == 3:
+        elif osi.ndm == 3:
             self._parameters = [self._tag, *[self.x, self.y, self.z]]
             pms = ['x_mass', 'y_mass', 'z_mass', 'x_rot_mass', 'y_rot_mass', 'z_rot_mass']
         else:

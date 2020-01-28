@@ -20,7 +20,7 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     :param r_post: post-yield stiffness
     :return:
     """
-    osi = o3.OpenseesInstance(dimensions=2, state=0)
+    osi = o3.OpenseesInstance(ndm=2, state=0)
 
     # Establish nodes
     bot_node = o3.node.Node(osi, 0, 0)

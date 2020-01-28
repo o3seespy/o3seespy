@@ -187,7 +187,7 @@ class StressDensityModel(NDMaterialBase):
                             self.b2, self.a3, self.b3, self.fd, self.mu_0, self.mu_cyc, self.sc, self.big_m,
                             self.p_atm]
         if ssls is not None:
-            assert len(ssls) == 10, len(ssls)
+            assert len(ssls) == 7, len(ssls)
             self.ssls = np.array(ssls, dtype=np.float)
             if hsl is None:
                 self.hsl = 0.895

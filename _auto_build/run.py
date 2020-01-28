@@ -290,7 +290,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
 
 
 def build_test_for_generic(names, pms, cl_pms):
-    tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenseesInstance(dimensions=2)']
+    tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenseesInstance(ndm=2)']
     prior_strs = []
     pjoins = ['osi']
     for i, pm in enumerate(cl_pms):
@@ -1090,6 +1090,7 @@ if __name__ == '__main__':
     all = 0
     all = 0  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
+    # TODO: add type hinting for default None (w: str = None)
     if not all:
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)

@@ -4,7 +4,7 @@ import o3seespy as o3
 def run(use_pload):
     # If pload=true then apply point load at end, else apply distributed load along beam
 
-    osi = o3.OpenseesInstance(dimensions=2, state=3)
+    osi = o3.OpenseesInstance(ndm=2, state=3)
 
     ele_len = 4.0
 

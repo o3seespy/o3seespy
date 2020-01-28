@@ -25,7 +25,7 @@ def site_response(sp, asig, linear=0):
     :return:
     """
 
-    osi = o3.OpenseesInstance(dimensions=2, node_dofs=2, state=3)
+    osi = o3.OpenseesInstance(ndm=2, node_dofs=2, state=3)
     assert isinstance(sp, sm.SoilProfile)
     sp.gen_split(props=['shear_vel', 'unit_mass', 'cohesion', 'phi', 'bulk_mod', 'poissons_ratio', 'strain_peak'])
     thicknesses = sp.split["thickness"]

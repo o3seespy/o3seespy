@@ -3,7 +3,7 @@ from collections import OrderedDict
 from o3seespy import exceptions, extensions
 
 
-class OpenseesInstance(object):
+class OpenseesInstance(object):  # TODO: allow custom (self compiled opensees)
     n_node = 0
     n_con = 0
     n_ele = 0
@@ -15,31 +15,31 @@ class OpenseesInstance(object):
     n_integ = 0
     n_transformation = 0
 
-    def __init__(self, dimensions: int, node_dofs=None, state=0):
-        self.dimensions = dimensions
+    def __init__(self, ndm: int, ndf=None, state=0):
+        self.ndm = ndm
         self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
-        if node_dofs is None:
-            if dimensions == 1:
-                node_dofs = 1
-            elif dimensions == 2:
-                node_dofs = 3
+        if ndf is None:
+            if ndm == 1:
+                ndf = 1
+            elif ndm == 2:
+                ndf = 3
             else:
-                node_dofs = 6
+                ndf = 6
         opy.wipe()
-        opy.model('basic', '-ndm', dimensions, '-ndf', node_dofs)
+        opy.model('basic', '-ndm', ndm, '-ndf', ndf)
         self.commands = []
         self.dict = OrderedDict()
 
         if state == 1:
             self.commands.append('opy.wipe()')
-            self.commands.append("opy.model('basic', '-ndm', {0}, '-ndf', {1})".format(dimensions, node_dofs))
+            self.commands.append("opy.model('basic', '-ndm', {0}, '-ndf', {1})".format(ndm, ndf))
         if state == 2:
-            self.dict['ndm'] = dimensions
-            self.dict['ndf'] = node_dofs
+            self.dict['ndm'] = ndm
+            self.dict['ndf'] = ndf
             # base_types = ['node', 'element', 'section', 'uniaxial_material']
         elif state == 3:
             self.commands.append('opy.wipe()')
-            self.commands.append("opy.model('basic', '-ndm', {0}, '-ndf', {1})".format(dimensions, node_dofs))
+            self.commands.append("opy.model('basic', '-ndm', {0}, '-ndf', {1})".format(ndm, ndf))
 
     def to_commands(self, os_command):
         self.commands.append(os_command)

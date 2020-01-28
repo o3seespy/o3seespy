@@ -5,7 +5,7 @@ import numpy as np
 
 
 def test_ele_load_uniform():
-    osi = o3.OpenseesInstance(dimensions=2, state=3)
+    osi = o3.OpenseesInstance(ndm=2, state=3)
     ele_len = 2.0
     coords = [[0, 0], [ele_len, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]

@@ -4,7 +4,7 @@ import numpy as np
 
 def test_cantilever_w_force_beam_column():
     def run_w_settings(ele_len, e_mod, i_sect, pload, udl, beam_in_parts, use_pload):
-        osi = o3.OpenseesInstance(dimensions=2, state=3)
+        osi = o3.OpenseesInstance(ndm=2, state=3)
 
         # Establish nodes
         left_node = o3.node.Node(osi, 0, 0)
@@ -99,7 +99,7 @@ def test_cantilever_w_force_beam_column():
 
 
 def test_disp_control_cantilever_nonlinear():
-    osi = o3.OpenseesInstance(dimensions=2, state=3)
+    osi = o3.OpenseesInstance(ndm=2, state=3)
 
     ele_len = 4.0
 
@@ -160,7 +160,7 @@ def test_disp_control_cantilever_nonlinear():
 
 
 def run():
-    osi = o3.OpenseesInstance(dimensions=2, state=3)
+    osi = o3.OpenseesInstance(ndm=2, state=3)
 
     ele_len = 4.0
 
