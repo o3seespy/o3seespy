@@ -26,7 +26,7 @@ setup(name='o3seespy',
       ],
       packages=find_packages(exclude=['contrib', 'docs', 'tests']),
       install_requires=[
-        "numpy",
+        "numpy",  # now it is optional
         "openseespy"
       ],
       # List additional groups of dependencies here (e.g. development

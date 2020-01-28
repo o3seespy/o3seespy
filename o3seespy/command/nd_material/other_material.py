@@ -1,6 +1,5 @@
 from o3seespy.command.nd_material.base_material import NDMaterialBase
 from o3seespy.command.common import update_material_stage
-import numpy as np
 
 
 class PressureIndependMultiYield(NDMaterialBase):
@@ -178,8 +177,6 @@ class StressDensityModel(NDMaterialBase):
         self.big_m = float(big_m)
         self.p_atm = float(p_atm)
 
-
-
         osi.n_mat += 1
         self._tag = osi.n_mat
 
@@ -188,14 +185,14 @@ class StressDensityModel(NDMaterialBase):
                             self.p_atm]
         if ssls is not None:
             assert len(ssls) == 7, len(ssls)
-            self.ssls = np.array(ssls, dtype=np.float)
+            self.ssls = [float(x) for x in ssls]
             if hsl is None:
                 self.hsl = 0.895
             else:
                 self.hsl = float(hsl)
             self._parameters += [*self.ssls, self.hsl]
         if ps is not None:
-            self.ps = np.array(ps, dtype=np.float)
+            self.ps = [float(x) for x in ps]
             self._parameters += [*self.ps]
 
         self.to_process(osi)

@@ -1,7 +1,6 @@
 from o3seespy.base_model import OpenseesObject
 import tempfile
 import os
-import numpy as np
 
 
 class RecorderBase(OpenseesObject):
@@ -40,8 +39,9 @@ class NodeToArrayCache(RecorderBase):  # TODO: implement NodeToArray where data 
         self.to_process(osi)
 
     def collect(self):
+        from numpy import loadtxt
         try:
-            a = np.loadtxt(self.tmpfname, dtype=float)
+            a = loadtxt(self.tmpfname, dtype=float)
         except ValueError as e:
             print('Warning: Need to run opy.wipe() before collecting arrays')
             raise ValueError(e)
@@ -50,6 +50,7 @@ class NodeToArrayCache(RecorderBase):  # TODO: implement NodeToArray where data 
         except PermissionError:
             print('Warning: Need to run opy.wipe() before collecting arrays')
         return a
+
 
 class NodesToArrayCache(RecorderBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
@@ -61,8 +62,9 @@ class NodesToArrayCache(RecorderBase):  # TODO: implement NodeToArray where data
         self.to_process(osi)
 
     def collect(self):
+        from numpy import loadtxt
         try:
-            a = np.loadtxt(self.tmpfname, dtype=float)
+            a = loadtxt(self.tmpfname, dtype=float)
         except ValueError as e:
             print('Warning: Need to run opy.wipe() before collecting arrays')
             raise ValueError(e)
@@ -104,8 +106,9 @@ class ElementToArrayCache(RecorderBase):  # TODO: implement ElementToArray where
         self.to_process(osi)
 
     def collect(self):
+        from numpy import loadtxt
         try:
-            a = np.loadtxt(self.tmpfname, dtype=float)
+            a = loadtxt(self.tmpfname, dtype=float)
         except ValueError as e:
             print('Warning: Need to run opy.wipe() before collecting arrays')
             raise ValueError(e)
