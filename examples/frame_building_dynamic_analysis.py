@@ -75,7 +75,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
         opy.fix(nd["C%i-S%i" % (cc, 0)].tag, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
 
     # Coordinate transformation
-    transf = o3.transformation.Linear(osi, [])
+    transf = o3.geom_transf.Linear2D(osi, [])
 
     l_hinge = fb.bay_lengths[0] * 0.1
 
@@ -116,9 +116,9 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
 
             integ = o3.beam_integration.HingeMidpoint(osi, bot_sect, lp_i, top_sect, lp_j, centre_sect)
 
-            left_node = nd["C%i-S%i" % (cc, ss)]
-            right_node = nd["C%i-S%i" % (cc, ss + 1)]
-            ed[ele_str] = o3.element.ForceBeamColumn(osi, left_node, right_node, transf, integ)
+            bot_node = nd["C%i-S%i" % (cc, ss)]
+            top_node = nd["C%i-S%i" % (cc, ss + 1)]
+            ed[ele_str] = o3.element.ForceBeamColumn(osi, [bot_node, top_node], transf, integ)
 
         # Set beams
         for bb in range(1, fb.n_bays + 1):
@@ -135,18 +135,14 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
 
             left_node = nd["C%i-S%i" % (bb, ss + 1)]
             right_node = nd["C%i-S%i" % (bb + 1, ss + 1)]
-            ed[ele_str] = o3.element.ForceBeamColumn(osi, left_node, right_node, transf, integ)
+            ed[ele_str] = o3.element.ForceBeamColumn(osi, [left_node, right_node], transf, integ)
 
     # Define the dynamic analysis
-    load_tag_dynamic = 1
-    pattern_tag_dynamic = 1
-
-    values = list(-1 * asig.values)  # should be negative
-    opy.timeSeries('Path', load_tag_dynamic, '-dt', asig.dt, '-values', *values)
-    opy.pattern('UniformExcitation', pattern_tag_dynamic, o3.cc.X, '-accel', load_tag_dynamic)
+    a_series = o3.time_series.Path(osi, dt=asig.dt, values=-1 * asig.values)  # should be negative
+    o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=a_series)
 
     # set damping based on first eigen mode
-    angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
+    angular_freq = o3.get_eigen(osi, solver='fullGenLapack', n=1) ** 0.5
     if isinstance(angular_freq, complex):
         raise ValueError("Angular frequency is complex, issue with stiffness or mass")
     beta_k = 2 * xi / angular_freq
@@ -154,7 +150,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
 
     # Run the dynamic analysis
 
-    opy.wipeAnalysis()
+    o3.wipe_analysis(osi)
 
     o3.algorithm.Newton(osi)
     o3.system.SparseGeneral(osi)
@@ -166,7 +162,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     tol = 1.0e-4
     iter = 4
     o3.test_check.EnergyIncr(osi, tol, iter, 0, 2)
-    analysis_time = (len(values) - 1) * asig.dt + extra_time
+    analysis_time = (len(asig.values) - 1) * asig.dt + extra_time
     outputs = {
         "time": [],
         "rel_disp": [],
@@ -177,21 +173,20 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
         "ele_curve": [],
     }
     print("Analysis starting")
-    opy.recorder('Element', '-file', 'ele_out.txt', '-time', '-ele', 1, 'force')
-    while opy.getTime() < analysis_time:
+    while o3.get_time(osi) < analysis_time:
         curr_time = opy.getTime()
-        opy.analyze(1, analysis_dt)
+        o3.analyze(osi, 1, analysis_dt)
         outputs["time"].append(curr_time)
-        outputs["rel_disp"].append(opy.nodeDisp(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.cc.X))
-        outputs["rel_vel"].append(opy.nodeVel(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.cc.X))
-        outputs["rel_accel"].append(opy.nodeAccel(nd["C%i-S%i" % (1, fb.n_storeys)].tag, o3.cc.X))
+        outputs["rel_disp"].append(o3.get_node_disp(osi, nd["C%i-S%i" % (1, fb.n_storeys)], o3.cc.X))
+        outputs["rel_vel"].append(o3.get_node_vel(osi, nd["C%i-S%i" % (1, fb.n_storeys)], o3.cc.X))
+        outputs["rel_accel"].append(o3.get_node_accel(osi, nd["C%i-S%i" % (1, fb.n_storeys)], o3.cc.X))
         # outputs['ele_mom'].append(opy.eleResponse('-ele', [ed['B%i-S%i' % (1, 0)], 'basicForce']))
-        opy.reactions()
+        o3.gen_reactions(osi)
         react = 0
         for cc in range(1, fb.n_cols):
-            react += -opy.nodeReaction(nd["C%i-S%i" % (cc, 0)].tag, o3.cc.X)
+            react += -o3.get_node_reaction(osi, nd["C%i-S%i" % (cc, 0)], o3.cc.X)
         outputs["force"].append(react)  # Should be negative since diff node
-    opy.wipe()
+    o3.wipe(osi)
     for item in outputs:
         outputs[item] = np.array(outputs[item])
 

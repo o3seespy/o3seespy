@@ -2,7 +2,6 @@ import eqsig
 from eqsig import sdof
 import numpy as np
 
-import openseespy.opensees as opy
 import o3seespy as o3
 
 
@@ -46,14 +45,14 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=acc_series)
 
     # set damping based on first eigen mode
-    angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
+    angular_freq = o3.get_eigen(osi, solver='fullGenLapack', n=1) ** 0.5
     response_period = 2 * np.pi / angular_freq
     beta_k = 2 * xi / angular_freq
     o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
 
     # Run the dynamic analysis
 
-    opy.wipeAnalysis()
+    o3.wipe_analysis(osi)
 
     o3.algorithm.Newton(osi)
     o3.system.SparseGeneral(osi)
@@ -76,14 +75,14 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     while o3.get_time(osi) < analysis_time:
 
         o3.analyze(osi, 1, analysis_dt)
-        curr_time = opy.getTime()
+        curr_time = o3.get_time(osi)
         outputs["time"].append(curr_time)
-        outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, o3.cc.X))
-        outputs["rel_vel"].append(opy.nodeVel(top_node.tag, o3.cc.X))
-        outputs["rel_accel"].append(opy.nodeAccel(top_node.tag, o3.cc.X))
-        opy.reactions()
-        outputs["force"].append(-opy.nodeReaction(bot_node.tag, o3.cc.X))  # Negative since diff node
-    opy.wipe()
+        outputs["rel_disp"].append(o3.get_node_disp(osi, top_node, o3.cc.X))
+        outputs["rel_vel"].append(o3.get_node_vel(osi, top_node, o3.cc.X))
+        outputs["rel_accel"].append(o3.get_node_accel(osi, top_node, o3.cc.X))
+        o3.gen_reactions(osi)
+        outputs["force"].append(-o3.get_node_reaction(osi, bot_node, o3.cc.X))  # Negative since diff node
+    o3.wipe(osi)
     for item in outputs:
         outputs[item] = np.array(outputs[item])
 

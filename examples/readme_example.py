@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import openseespy.opensees as opy
-import o3seespy as opw
+import o3seespy as o3
 
 from tests.conftest import TEST_DATA_DIR
 
@@ -18,54 +17,54 @@ f_yield = 1.5  # Reduce this to make it nonlinear
 r_post = 0.0
 
 # Initialise OpenSees instance
-osi = opw.OpenseesInstance(ndm=2, state=0)
+osi = o3.OpenseesInstance(ndm=2, state=0)
 
 # Establish nodes
-bot_node = opw.node.Node(osi, 0, 0)
-top_node = opw.node.Node(osi, 0, 0)
+bot_node = o3.node.Node(osi, 0, 0)
+top_node = o3.node.Node(osi, 0, 0)
 
 # Fix bottom node
-opw.Fix(osi, top_node, opw.cc.FREE, opw.cc.FIXED, opw.cc.FIXED)
-opw.Fix(osi, bot_node, opw.cc.FIXED, opw.cc.FIXED, opw.cc.FIXED)
+o3.Fix(osi, top_node, o3.cc.FREE, o3.cc.FIXED, o3.cc.FIXED)
+o3.Fix(osi, bot_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
 # Set out-of-plane DOFs to be slaved
-opw.EqualDOF(osi, top_node, bot_node, [opw.cc.Y, opw.cc.ROTZ])
+o3.EqualDOF(osi, top_node, bot_node, [o3.cc.Y, o3.cc.ROTZ])
 
 # nodal mass (weight / g):
-opw.Mass(osi, top_node, mass, 0., 0.)
+o3.Mass(osi, top_node, mass, 0., 0.)
 
 # Define material
 k_spring = 4 * np.pi ** 2 * mass / period ** 2
-bilinear_mat = opw.uniaxial_material.Steel01(osi, fy=f_yield, e0=k_spring, b=r_post)
+bilinear_mat = o3.uniaxial_material.Steel01(osi, fy=f_yield, e0=k_spring, b=r_post)
 
 # Assign zero length element, # Note: pass actual node and material objects into element
-opw.element.ZeroLength(osi, bot_node, top_node, mat_x=bilinear_mat, r_flag=1)
+o3.element.ZeroLength(osi, bot_node, top_node, mat_x=bilinear_mat, r_flag=1)
 
 # Define the dynamic analysis
 load_tag_dynamic = 1
 pattern_tag_dynamic = 1
 
-values = list(-1 * rec)  # should be negative
-opy.timeSeries('Path', load_tag_dynamic, '-dt', dt, '-values', *values)
-opy.pattern('UniformExcitation', pattern_tag_dynamic, opw.cc.X, '-accel', load_tag_dynamic)
+# Define the dynamic analysis
+acc_series = o3.time_series.Path(osi, dt=dt, values=-1 * rec)  # should be negative
+o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=acc_series)
 
 # set damping based on first eigen mode
-angular_freq = opy.eigen('-fullGenLapack', 1) ** 0.5
+angular_freq = o3.get_eigen(osi, solver='fullGenLapack', n=1) ** 0.5
 beta_k = 2 * xi / angular_freq
-opw.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
+o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
 
 # Run the dynamic analysis
-opw.wipe_analysis(osi)
+o3.wipe_analysis(osi)
 
 # Run the dynamic analysis
-opw.algorithm.Newton(osi)
-opw.system.SparseGeneral(osi)
-opw.numberer.RCM(osi)
-opw.constraints.Transformation(osi)
-opw.integrator.Newmark(osi, gamma=0.5, beta=0.25)
-opw.analysis.Transient(osi)
+o3.algorithm.Newton(osi)
+o3.system.SparseGeneral(osi)
+o3.numberer.RCM(osi)
+o3.constraints.Transformation(osi)
+o3.integrator.Newmark(osi, gamma=0.5, beta=0.25)
+o3.analysis.Transient(osi)
 
-opw.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
-analysis_time = (len(values) - 1) * dt
+o3.test_check.EnergyIncr(osi, tol=1.0e-10, max_iter=10)
+analysis_time = (len(rec) - 1) * dt
 analysis_dt = 0.001
 outputs = {
     "time": [],
@@ -75,18 +74,16 @@ outputs = {
     "force": []
 }
 
-# access underlying openseespy commands to control analysis
-while opy.getTime() < analysis_time:
-
-    opy.analyze(1, analysis_dt)
-    curr_time = opy.getTime()
+while o3.get_time(osi) < analysis_time:
+    o3.analyze(osi, 1, analysis_dt)
+    curr_time = o3.get_time(osi)
     outputs["time"].append(curr_time)
-    outputs["rel_disp"].append(opy.nodeDisp(top_node.tag, opw.cc.X))
-    outputs["rel_vel"].append(opy.nodeVel(top_node.tag, opw.cc.X))
-    outputs["rel_accel"].append(opy.nodeAccel(top_node.tag, opw.cc.X))
-    opy.reactions()
-    outputs["force"].append(-opy.nodeReaction(bot_node.tag, opw.cc.X))  # Negative since diff node
-opy.wipe()
+    outputs["rel_disp"].append(o3.get_node_disp(osi, top_node, o3.cc.X))
+    outputs["rel_vel"].append(o3.get_node_vel(osi, top_node, o3.cc.X))
+    outputs["rel_accel"].append(o3.get_node_accel(osi, top_node, o3.cc.X))
+    o3.gen_reactions(osi)
+    outputs["force"].append(-o3.get_node_reaction(osi, bot_node, o3.cc.X))  # Negative since diff node
+o3.wipe(osi)
 for item in outputs:
     outputs[item] = np.array(outputs[item])
 
