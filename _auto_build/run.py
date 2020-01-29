@@ -22,13 +22,18 @@ special_words = {
     'as': 'a_s'
 }
 
-def clean_param_names(params):
+def clean_param_names(params, base_type):
     pms = OrderedDict()
     for pm in params:
         new_pm = pm
         dtype_is_obj = False
         if len(pm) == 1 and pm.istitle():
-            new_pm = 'big_' + pm.lower()
+            if base_type in ['uniaxialMaterial', 'nDMaterial'] and pm in ['E', 'G', 'K']:
+                new_pm = f'{pm.lower()}_mod'
+            elif base_type in ['section'] and pm == 'A':
+                new_pm = 'area'
+            else:
+                new_pm = 'big_' + pm.lower()
         else:
             new_pm = convert_camel_to_snake(pm)
         if new_pm in special_words:
@@ -108,7 +113,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             para.append(w4 + f"op_type = '{op_type}'")
             para.append('')
 
-        pms = clean_param_names(defaults)
+        pms = clean_param_names(defaults, base_type)
         # Determine what is in this class
         cl_pms = []  # TODO: need to add op_kwarg str
         for pm in pms:
@@ -768,6 +773,11 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         defaults['mass'] = copy.deepcopy(defaults['m'])
         defaults['mass'].marker = 'mass'
         del defaults['m']
+    if "-mass" in op_kwargs and 'massDens' in defaults:  # Element
+        del op_kwargs['-mass']
+        defaults['mass'] = copy.deepcopy(defaults['massDens'])
+        defaults['mass'].marker = 'mass'
+        del defaults['massDens']
     if "-shearDist" in op_kwargs and 'sDratio' in defaults:  # Element
         del op_kwargs['-shearDist']
         defaults['shear_dist'] = copy.deepcopy(defaults['sDratio'])
@@ -796,10 +806,11 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     from _auto_build import _custom_gen as cust_file
 
     cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
-    op_class_name = convert_name_to_class_name(optype)
-    if op_class_name in cust_obj_list:
-        source = inspect.getsource(getattr(cust_file, op_class_name))
-        return source + '\n', ""
+    if optype is not None:
+        op_class_name = convert_name_to_class_name(optype)
+        if op_class_name in cust_obj_list:
+            source = inspect.getsource(getattr(cust_file, op_class_name))
+            return source + '\n', ""
 
     pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf, obj_blurb=obj_blurb)
     print(pstr, tstr)
@@ -1103,7 +1114,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
     # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
-    all = 0
+    all = 1
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)

@@ -33,6 +33,6 @@ def skip_test_can_set_stress_density_model():
     osi = o3.OpenseesInstance(ndm=2)
 
     # Define material
-    o3.nd_material.StressDensityModel(osi, den=1.8, e_init=0.73, big_a=250., n=0.6, nu=0.3, a1=0.58, b1=0.023,
+    o3.nd_material.StressDensityModel(osi, den=1.8, e_init=0.73, area=250., n=0.6, nu=0.3, a1=0.58, b1=0.023,
                                        a2=230.0, b2=65., a3=79., b3=16., fd=4.0, mu_not=0.22, mu_cyc=0.0, sc=0.0055,
                                        big_m=0.607, p_atm=98.1)

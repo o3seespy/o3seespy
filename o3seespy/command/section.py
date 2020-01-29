@@ -13,38 +13,38 @@ class Elastic2D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, big_g: float=None, alpha_y: float=None):
+    def __init__(self, osi, e_mod, area, iz, g_mod: float=None, alpha_y: float=None):
         """
         Initial method for Elastic2D
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Young's modulus
-        big_a: float
+        area: float
             Cross-sectional area of section
         iz: float
             Second moment of area about the local z-axis
-        big_g: float (default=True)
+        g_mod: float (default=True)
             Shear modulus (optional for 2d analysis, required for 3d analysis)
         alpha_y: float (default=True)
             Shear shape factor along the local y-axis (optional)
         """
-        self.big_e = float(big_e)
-        self.big_a = float(big_a)
+        self.e_mod = float(e_mod)
+        self.area = float(area)
         self.iz = float(iz)
-        if big_g is None:
-            self.big_g = None
+        if g_mod is None:
+            self.g_mod = None
         else:
-            self.big_g = float(big_g)
+            self.g_mod = float(g_mod)
         if alpha_y is None:
             self.alpha_y = None
         else:
             self.alpha_y = float(alpha_y)
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, self.big_e, self.big_a, self.iz]
-        special_pms = ['big_g', 'alpha_y']
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.area, self.iz]
+        special_pms = ['g_mod', 'alpha_y']
         packets = [False, False]
         for i, pm in enumerate(special_pms):
             if getattr(self, pm) is not None:
@@ -66,35 +66,35 @@ class Elastic3D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y: float=None, alpha_z: float=None):
+    def __init__(self, osi, e_mod, area, iz, iy, g_mod, jxx, alpha_y: float=None, alpha_z: float=None):
         """
         Initial method for Elastic3D
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Young's modulus
-        big_a: float
+        area: float
             Cross-sectional area of section
         iz: float
             Second moment of area about the local z-axis
         iy: float
             Second moment of area about the local y-axis (required for 3d analysis)
-        big_g: float
+        g_mod: float
             Shear modulus (optional for 2d analysis, required for 3d analysis)
-        big_j: float
+        jxx: float
             Torsional moment of inertia of section (required for 3d analysis)
         alpha_y: float (default=True)
             Shear shape factor along the local y-axis (optional)
         alpha_z: float (default=True)
             Shear shape factor along the local z-axis (optional)
         """
-        self.big_e = float(big_e)
-        self.big_a = float(big_a)
+        self.e_mod = float(e_mod)
+        self.area = float(area)
         self.iz = float(iz)
         self.iy = float(iy)
-        self.big_g = float(big_g)
-        self.big_j = float(big_j)
+        self.g_mod = float(g_mod)
+        self.jxx = float(jxx)
         if alpha_y is None:
             self.alpha_y = None
         else:
@@ -105,7 +105,7 @@ class Elastic3D(SectionBase):
             self.alpha_z = float(alpha_z)
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, self.big_e, self.big_a, self.iz, self.iy, self.big_g, self.big_j]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.area, self.iz, self.iy, self.g_mod, self.jxx]
         special_pms = ['alpha_y', 'alpha_z']
         packets = [False, False]
         for i, pm in enumerate(special_pms):
@@ -502,13 +502,13 @@ class ElasticMembranePlateSection(SectionBase):
     """
     op_type = 'ElasticMembranePlateSection'
 
-    def __init__(self, osi, big_e, nu, h, rho):
+    def __init__(self, osi, e_mod, nu, h, rho):
         """
         Initial method for ElasticMembranePlateSection
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Young's modulus
         nu: float
             Poisson's ratio
@@ -517,13 +517,13 @@ class ElasticMembranePlateSection(SectionBase):
         rho: float
             Mass density
         """
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         self.nu = float(nu)
         self.h = float(h)
         self.rho = float(rho)
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, self.big_e, self.nu, self.h, self.rho]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.nu, self.h, self.rho]
         self.to_process(osi)
 
 
@@ -564,13 +564,13 @@ class Bidirectional(SectionBase):
     """
     op_type = 'Bidirectional'
 
-    def __init__(self, osi, big_e, fy, hiso, hkin, code1='Vy', code2='P'):
+    def __init__(self, osi, e_mod, fy, hiso, hkin, code1='Vy', code2='P'):
         """
         Initial method for Bidirectional
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Elastic modulus
         fy: float
             Yield force
@@ -586,7 +586,7 @@ class Bidirectional(SectionBase):
             section local y-axis * ``'my'`` moment-curvature about section local y-axis * ``'vz'`` shear force-deformation
             along section local z-axis * ``'t'`` torsion force-deformation
         """
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         self.fy = float(fy)
         self.hiso = float(hiso)
         self.hkin = float(hkin)
@@ -594,7 +594,7 @@ class Bidirectional(SectionBase):
         self.code2 = code2
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, self.big_e, self.fy, self.hiso, self.hkin, self.code1, self.code2]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.fy, self.hiso, self.hkin, self.code1, self.code2]
         self.to_process(osi)
 
 

@@ -7,4 +7,7 @@ Models with implementation issues
 =================================
 
  - beam_integration.beamhinge_endpoint
- - section.rc_section_2d
+ - section.plate_fiber
+ - section.layered_shell
+ - element.beam_column
+ - element.quadrilateral

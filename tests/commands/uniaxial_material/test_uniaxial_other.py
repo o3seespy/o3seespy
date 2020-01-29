@@ -4,23 +4,23 @@ import pytest
 
 def test_hardening():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.uniaxial_material.Hardening(osi, big_e=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
+    o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
 
 
 @pytest.mark.skip()
 def test_cast():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.uniaxial_material.Cast(osi, n=1, bo=1.0, h=1.0, fy=1.0, big_e=1.0, big_l=1.0, b=1.0, ro=1.0, c_r1=1.0, c_r2=1.0, a1=None, a2=1.0, a3=None, a4=1.0)
+    o3.uniaxial_material.Cast(osi, n=1, bo=1.0, h=1.0, fy=1.0, e_mod=1.0, big_l=1.0, b=1.0, ro=1.0, c_r1=1.0, c_r2=1.0, a1=None, a2=1.0, a3=None, a4=1.0)
 
 
 def test_viscous_damper():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.uniaxial_material.ViscousDamper(osi, big_k=1.0, cd=1.0, alpha=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15)
+    o3.uniaxial_material.ViscousDamper(osi, k_el=1.0, cd=1.0, alpha=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15)
 
 
 def test_bilinear_oil_damper():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.uniaxial_material.BilinearOilDamper(osi, big_k=1.0, cd=1.0, fr=1.0, p=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15)
+    o3.uniaxial_material.BilinearOilDamper(osi, k_el=1.0, cd=1.0, fr=1.0, p=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15)
 
 
 def test_bilin():
@@ -56,7 +56,7 @@ def test_bond_sp01():
 
 def test_fatigue():
     osi = o3.OpenseesInstance(ndm=2)
-    other = o3.uniaxial_material.Hardening(osi, big_e=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
+    other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
     o3.uniaxial_material.Fatigue(osi, other=other, e0=0.191, m=-0.458, min=-1e16, max=1e16)
 
 
@@ -81,7 +81,7 @@ def test_limit_state():
 
 def test_min_max():
     osi = o3.OpenseesInstance(ndm=2)
-    other = o3.uniaxial_material.Hardening(osi, big_e=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
+    other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
     o3.uniaxial_material.MinMax(osi, other=other, min_strain=1e-16, max_strain=1e16)
 
 
@@ -122,7 +122,7 @@ def test_init_stress_material():
 
 def test_path_independent():
     osi = o3.OpenseesInstance(ndm=2)
-    other = o3.uniaxial_material.Hardening(osi, big_e=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
+    other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
     o3.uniaxial_material.PathIndependent(osi, other=other)
 
 

@@ -4,17 +4,17 @@ import pytest
 
 def test_elastic2d():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0, big_g=0.0, alpha_y=0.0)
+    o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0, g_mod=0.0, alpha_y=0.0)
 
 
 def test_elastic3d():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.section.Elastic3D(osi, big_e=1.0, big_a=1.0, iz=1.0, iy=1.0, big_g=1.0, big_j=1.0, alpha_y=0.0, alpha_z=0.0)
+    o3.section.Elastic3D(osi, e_mod=1.0, area=1.0, iz=1.0, iy=1.0, g_mod=1.0, jxx=1.0, alpha_y=0.0, alpha_z=0.0)
 
 
 def test_fiber():
     osi = o3.OpenseesInstance(ndm=2)
-    mat = o3.uniaxial_material.ElasticPP(osi, big_e=1.0, epsy_p=1.0, epsy_n=None, eps0=0.0)
+    mat = o3.uniaxial_material.ElasticPP(osi, e_mod=1.0, epsy_p=1.0, epsy_n=None, eps0=0.0)
     o3.section.Fiber(osi, mat=mat)
 
 
@@ -53,8 +53,8 @@ def test_rc_circular_section():
 
 def test_parallel():
     osi = o3.OpenseesInstance(ndm=2)
-    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0, big_g=0.0, alpha_y=0.0),
-             o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0, big_g=0.0, alpha_y=0.0)]
+    secs = [o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0, g_mod=0.0, alpha_y=0.0),
+             o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0, g_mod=0.0, alpha_y=0.0)]
     o3.section.Parallel(osi, secs)
 
 
@@ -73,7 +73,7 @@ def test_uniaxial():
 
 def test_elastic_membrane_plate_section():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.section.ElasticMembranePlateSection(osi, big_e=1.0, nu=1.0, h=1.0, rho=1.0)
+    o3.section.ElasticMembranePlateSection(osi, e_mod=1.0, nu=1.0, h=1.0, rho=1.0)
 
 
 @pytest.mark.skip()  # needs update to opensees
@@ -85,7 +85,7 @@ def test_plate_fiber():
 
 def test_bidirectional():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.section.Bidirectional(osi, big_e=1.0, fy=1.0, hiso=1.0, hkin=1.0, code1='Vy', code2='P')
+    o3.section.Bidirectional(osi, e_mod=1.0, fy=1.0, hiso=1.0, hkin=1.0, code1='Vy', code2='P')
 
 
 def test_iso2spring():
@@ -96,8 +96,8 @@ def test_iso2spring():
 @pytest.mark.skip()  # unexpected issue with opensees implementation
 def test_layered_shell():
     osi = o3.OpenseesInstance(ndm=2)
-    mats = [[o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0), 1.0],
-            [o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0), 1.0],
-            [o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0), 1.0]]
+    mats = [[o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0), 1.0],
+            [o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0), 1.0],
+            [o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0), 1.0]]
     o3.section.LayeredShell(osi, mats=mats)
 

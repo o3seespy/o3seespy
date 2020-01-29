@@ -41,30 +41,30 @@ def test_composite_simpson():
 
 def test_user_defined():
     osi = o3.OpenseesInstance(ndm=2)
-    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0),
-             o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0)]
+    secs = [o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0),
+             o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0)]
     o3.beam_integration.UserDefined(osi, big_n=2, secs=secs, locs=[0.2, 0.9], wts=[0.5, 0.5])
 
 
 def test_fixed_location():
     osi = o3.OpenseesInstance(ndm=2)
-    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0),
-            o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0)]
+    secs = [o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0),
+            o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0)]
     o3.beam_integration.FixedLocation(osi, big_n=2, secs=secs, locs=[0.2, 0.9])
 
 
 
 def test_low_order():
     osi = o3.OpenseesInstance(ndm=2)
-    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0),
-            o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0)]
+    secs = [o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0),
+            o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0)]
     o3.beam_integration.LowOrder(osi, big_n=2, secs=secs, locs=[0.2, 0.9], wts=[0.5, 0.5])
 
 
 def test_mid_distance():
     osi = o3.OpenseesInstance(ndm=2)
-    secs = [o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0),
-            o3.section.Elastic2D(osi, big_e=1.0, big_a=1.0, iz=1.0)]
+    secs = [o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0),
+            o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0)]
     o3.beam_integration.MidDistance(osi, big_n=2, secs=secs, locs=[0.2, 0.9])
 
 

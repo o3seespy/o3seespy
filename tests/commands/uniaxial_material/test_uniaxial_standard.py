@@ -4,22 +4,22 @@ import pytest
 
 def test_elastic():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.uniaxial_material.Elastic(osi, big_e=1.0, eta=0.0, eneg=None)
+    o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
 
 
 def test_elastic_pp():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.uniaxial_material.ElasticPP(osi, big_e=1.0, epsy_p=1.0, epsy_n=None, eps0=0.0)
+    o3.uniaxial_material.ElasticPP(osi, e_mod=1.0, epsy_p=1.0, epsy_n=None, eps0=0.0)
 
 
 def test_elastic_pp_gap():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.uniaxial_material.ElasticPPGap(osi, big_e=1.0, fy=1.0, gap=1.0, eta=0.0, damage='noDamage')
+    o3.uniaxial_material.ElasticPPGap(osi, e_mod=1.0, fy=1.0, gap=1.0, eta=0.0, damage='noDamage')
 
 
 def test_ent():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.uniaxial_material.ENT(osi, big_e=1.0)
+    o3.uniaxial_material.ENT(osi, e_mod=1.0)
 
 
 @pytest.mark.skip()

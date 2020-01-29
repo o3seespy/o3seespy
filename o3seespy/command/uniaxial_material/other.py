@@ -11,13 +11,13 @@ class Hardening(UniaxialMaterialBase):
     """
     op_type = 'Hardening'
 
-    def __init__(self, osi, big_e, sigma_y, h_iso, h_kin, eta=0.0):
+    def __init__(self, osi, e_mod, sigma_y, h_iso, h_kin, eta=0.0):
         """
         Initial method for Hardening
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Tangent stiffness
         sigma_y: float
             Yield stress or force
@@ -28,14 +28,14 @@ class Hardening(UniaxialMaterialBase):
         eta: float
             Visco-plastic coefficient (optional, default=0.0)
         """
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         self.sigma_y = float(sigma_y)
         self.h_iso = float(h_iso)
         self.h_kin = float(h_kin)
         self.eta = float(eta)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_e, self.sigma_y, self.h_iso, self.h_kin, self.eta]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.sigma_y, self.h_iso, self.h_kin, self.eta]
         self.to_process(osi)
 
 
@@ -48,7 +48,7 @@ class Cast(UniaxialMaterialBase):
     """
     op_type = 'Cast'
 
-    def __init__(self, osi, n, bo, h, fy, big_e, big_l, b, ro, c_r1, c_r2, a1: float=None, a2=1.0, a3: float=None, a4=1.0):
+    def __init__(self, osi, n, bo, h, fy, e_mod, big_l, b, ro, c_r1, c_r2, a1: float=None, a2=1.0, a3: float=None, a4=1.0):
         """
         Initial method for Cast
 
@@ -62,7 +62,7 @@ class Cast(UniaxialMaterialBase):
             Thickness of an individual yielding finger
         fy: float
             Yield strength of the steel material of the yielding finger
-        big_e: float
+        e_mod: float
             Modulus of elasticity of the steel material of the yielding finger
         big_l: float
             Height of an individual yielding finger
@@ -89,7 +89,7 @@ class Cast(UniaxialMaterialBase):
         self.bo = float(bo)
         self.h = float(h)
         self.fy = float(fy)
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         self.big_l = float(big_l)
         self.b = float(b)
         self.ro = float(ro)
@@ -107,7 +107,7 @@ class Cast(UniaxialMaterialBase):
         self.a4 = float(a4)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.n, self.bo, self.h, self.fy, self.big_e, self.big_l, self.b, self.ro, self.c_r1, self.c_r2]
+        self._parameters = [self.op_type, self._tag, self.n, self.bo, self.h, self.fy, self.e_mod, self.big_l, self.b, self.ro, self.c_r1, self.c_r2]
         special_pms = ['a1', 'a2', 'a3', 'a4']
         packets = [False, False, False, False]
         for i, pm in enumerate(special_pms):
@@ -132,13 +132,13 @@ class ViscousDamper(UniaxialMaterialBase):
     """
     op_type = 'ViscousDamper'
 
-    def __init__(self, osi, big_k, cd, alpha, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15):
+    def __init__(self, osi, k_el, cd, alpha, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15):
         """
         Initial method for ViscousDamper
 
         Parameters
         ----------
-        big_k: float
+        k_el: float
             Elastic stiffness of linear spring to model the axial flexibility of a viscous damper (e.g. combined
             stiffness of the supporting brace and internal damper portion)
         cd: float
@@ -157,7 +157,7 @@ class ViscousDamper(UniaxialMaterialBase):
         max_half: int
             Maximum number of sub-step iterations within an integration step (default value 15)
         """
-        self.big_k = float(big_k)
+        self.k_el = float(k_el)
         self.cd = float(cd)
         self.alpha = float(alpha)
         self.l_gap = float(l_gap)
@@ -167,7 +167,7 @@ class ViscousDamper(UniaxialMaterialBase):
         self.max_half = int(max_half)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_k, self.cd, self.alpha, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
+        self._parameters = [self.op_type, self._tag, self.k_el, self.cd, self.alpha, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
         self.to_process(osi)
 
 
@@ -181,13 +181,13 @@ class BilinearOilDamper(UniaxialMaterialBase):
     """
     op_type = 'BilinearOilDamper'
 
-    def __init__(self, osi, big_k, cd, fr=1.0, p=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15):
+    def __init__(self, osi, k_el, cd, fr=1.0, p=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15):
         """
         Initial method for BilinearOilDamper
 
         Parameters
         ----------
-        big_k: float
+        k_el: float
             Elastic stiffness of linear spring to model the axial flexibility of a viscous damper (e.g. combined
             stiffness of the supporting brace and internal damper portion)
         cd: float
@@ -208,7 +208,7 @@ class BilinearOilDamper(UniaxialMaterialBase):
         max_half: int
             Maximum number of sub-step iterations within an integration step (default value 15)
         """
-        self.big_k = float(big_k)
+        self.k_el = float(k_el)
         self.cd = float(cd)
         self.fr = float(fr)
         self.p = float(p)
@@ -219,7 +219,7 @@ class BilinearOilDamper(UniaxialMaterialBase):
         self.max_half = int(max_half)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_k, self.cd, self.fr, self.p, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
+        self._parameters = [self.op_type, self._tag, self.k_el, self.cd, self.fr, self.p, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
         self.to_process(osi)
 
 

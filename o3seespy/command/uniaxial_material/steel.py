@@ -1,7 +1,6 @@
 from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBase
 
 
-
 class Steel01(UniaxialMaterialBase):
     """
     The Steel01 UniaxialMaterial Class
@@ -50,6 +49,7 @@ class Steel01(UniaxialMaterialBase):
                 break
             self._parameters.append(a)
         self.to_process(osi)
+
 
 
 class Steel02(UniaxialMaterialBase):

@@ -3,7 +3,7 @@ import pytest
 
 def test_elastic_isotropic():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0)
+    o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
 
 
 def test_elastic_orthotropic():
@@ -13,36 +13,36 @@ def test_elastic_orthotropic():
 
 def test_j2plasticity():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.nd_material.J2Plasticity(osi, big_k=1.0, big_g=1.0, sig0=1.0, sig_inf=1.0, delta=1.0, big_h=1.0)
+    o3.nd_material.J2Plasticity(osi, k_mod=1.0, g_mod=1.0, sig0=1.0, sig_inf=1.0, delta=1.0, big_h=1.0)
 
 
 @pytest.mark.skip()
 def test_druker_prager():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.nd_material.DrukerPrager(osi, big_k=1.0, big_g=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, atm_pressure=101e3)
+    o3.nd_material.DrukerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, atm_pressure=101e3)
 
 
 @pytest.mark.skip()
 def test_damage2p():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.nd_material.Damage2p(osi, fcc=1.0, fct=1.0, big_e=1.0, ni=1.0, gt=1.0, gc=1.0, rho_bar=1.0, big_h=1.0, theta=1.0, tangent=1.0)
+    o3.nd_material.Damage2p(osi, fcc=1.0, fct=1.0, e_mod=1.0, ni=1.0, gt=1.0, gc=1.0, rho_bar=1.0, big_h=1.0, theta=1.0, tangent=1.0)
 
 
 def test_plane_stress():
     osi = o3.OpenseesInstance(ndm=3)
-    mat_3d = o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0)
+    mat_3d = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
     o3.nd_material.PlaneStress(osi, mat3d=mat_3d)
 
 
 def test_plane_strain():
     osi = o3.OpenseesInstance(ndm=2)
-    mat_3d = o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0)
+    mat_3d = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
     o3.nd_material.PlaneStrain(osi, mat3d=mat_3d)
 
 
 def test_multiaxial_cyclic_plasticity():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.nd_material.MultiaxialCyclicPlasticity(osi, rho=1.0, big_k=1.0, big_g=1.0, su=1.0, ho=1.0, h=1.0, m=1.0, beta=1.0, k_coeff=1.0)
+    o3.nd_material.MultiaxialCyclicPlasticity(osi, rho=1.0, k_mod=1.0, g_mod=1.0, su=1.0, ho=1.0, h=1.0, m=1.0, beta=1.0, k_coeff=1.0)
 
 
 def test_bounding_cam_clay():
@@ -52,14 +52,14 @@ def test_bounding_cam_clay():
 
 def test_plate_fiber():
     osi = o3.OpenseesInstance(ndm=3)
-    mat = o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0)
+    mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
     o3.nd_material.PlateFiber(osi, three_d=mat)
 
 
 def test_fsam():
     osi = o3.OpenseesInstance(ndm=3)
-    s_x = o3.uniaxial_material.Elastic(osi, big_e=1.0, eta=0.0, eneg=None)
-    s_y = o3.uniaxial_material.Elastic(osi, big_e=1.0, eta=0.0, eneg=None)
+    s_x = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+    s_y = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     conc = o3.uniaxial_material.ConcreteCM(osi, fpcc=1.0, epcc=1.0, ec=1.0, rc=1.0, xcrn=1.0, ft=1.0, et=1.0, rt=1.0, xcrp=1.0,
                                     gap_close=0)
     o3.nd_material.FSAM(osi, rho=1.0, s_x=s_x, s_y=s_y, conc=conc, rou_x=1.0, rou_y=1.0, nu=1.0, alfadow=1.0)
@@ -83,5 +83,5 @@ def test_stress_density_model():
 
 def test_acoustic_medium():
     osi = o3.OpenseesInstance(ndm=2)
-    o3.nd_material.AcousticMedium(osi, big_k=1.0, rho=1.0)
+    o3.nd_material.AcousticMedium(osi, k_mod=1.0, rho=1.0)
 

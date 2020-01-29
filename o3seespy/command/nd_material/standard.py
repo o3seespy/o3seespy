@@ -9,25 +9,25 @@ class ElasticIsotropic(NDMaterialBase):
     """
     op_type = 'ElasticIsotropic'
 
-    def __init__(self, osi, big_e, v, rho=0.0):
+    def __init__(self, osi, e_mod, v, rho=0.0):
         """
         Initial method for ElasticIsotropic
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Elastic modulus
         v: float
             Poisson's ratio
         rho: float
             Mass density (optional)
         """
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         self.v = float(v)
         self.rho = float(rho)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_e, self.v, self.rho]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.v, self.rho]
         self.to_process(osi)
 
 
@@ -91,15 +91,15 @@ class J2Plasticity(NDMaterialBase):
     """
     op_type = 'J2Plasticity'
 
-    def __init__(self, osi, big_k, big_g, sig0, sig_inf, delta, big_h):
+    def __init__(self, osi, k_mod, g_mod, sig0, sig_inf, delta, big_h):
         """
         Initial method for J2Plasticity
 
         Parameters
         ----------
-        big_k: float
+        k_mod: float
             Bulk modulus
-        big_g: float
+        g_mod: float
             Shear modulus
         sig0: float
             Initial yield stress
@@ -110,15 +110,15 @@ class J2Plasticity(NDMaterialBase):
         big_h: float
             Linear hardening parameter
         """
-        self.big_k = float(big_k)
-        self.big_g = float(big_g)
+        self.k_mod = float(k_mod)
+        self.g_mod = float(g_mod)
         self.sig0 = float(sig0)
         self.sig_inf = float(sig_inf)
         self.delta = float(delta)
         self.big_h = float(big_h)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_k, self.big_g, self.sig0, self.sig_inf, self.delta, self.big_h]
+        self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sig0, self.sig_inf, self.delta, self.big_h]
         self.to_process(osi)
 
 
@@ -130,15 +130,15 @@ class DrukerPrager(NDMaterialBase):
     """
     op_type = 'DrukerPrager'
 
-    def __init__(self, osi, big_k, big_g, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, atm_pressure=101e3):
+    def __init__(self, osi, k_mod, g_mod, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, atm_pressure=101e3):
         """
         Initial method for DrukerPrager
 
         Parameters
         ----------
-        big_k: float
+        k_mod: float
             Bulk modulus
-        big_g: float
+        g_mod: float
             Shear modulus
         sigma_y: float
             Yield stress
@@ -163,8 +163,8 @@ class DrukerPrager(NDMaterialBase):
         atm_pressure: float
             Optional atmospheric pressure for update of elastic bulk and shear moduli
         """
-        self.big_k = float(big_k)
-        self.big_g = float(big_g)
+        self.k_mod = float(k_mod)
+        self.g_mod = float(g_mod)
         self.sigma_y = float(sigma_y)
         self.rho = float(rho)
         self.rho_bar = float(rho_bar)
@@ -178,7 +178,7 @@ class DrukerPrager(NDMaterialBase):
         self.atm_pressure = float(atm_pressure)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_k, self.big_g, self.sigma_y, self.rho, self.rho_bar, self.kinf, self.ko, self.delta1, self.delta2, self.big_h, self.theta, self.density, self.atm_pressure]
+        self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sigma_y, self.rho, self.rho_bar, self.kinf, self.ko, self.delta1, self.delta2, self.big_h, self.theta, self.density, self.atm_pressure]
         self.to_process(osi)
 
 
@@ -191,7 +191,7 @@ class Damage2p(NDMaterialBase):
     """
     op_type = 'Damage2p'
 
-    def __init__(self, osi, fcc, fct: float=None, big_e: float=None, ni: float=None, gt: float=None, gc: float=None, rho_bar: float=None, big_h: float=None, theta: float=None, tangent: float=None):
+    def __init__(self, osi, fcc, fct: float=None, e_mod: float=None, ni: float=None, gt: float=None, gc: float=None, rho_bar: float=None, big_h: float=None, theta: float=None, tangent: float=None):
         """
         Initial method for Damage2p
 
@@ -203,7 +203,7 @@ class Damage2p(NDMaterialBase):
             Optional concrete tensile strength, positive real value (for concrete like materials is less than fcc),
             :math:`0.1*abs(fcc)` = :math:`4750*sqrt(abs(fcc))\text{ }if\text{ }abs(fcc)<2000` because fcc is assumed in mpa
             (see aci 318)
-        big_e: float
+        e_mod: float
             Optional young modulus, :math:`57000*sqrt(abs(fcc))` if :math:`abs(fcc)>2000` because fcc is assumed in psi
             (see aci 318)
         ni: float
@@ -233,10 +233,10 @@ class Damage2p(NDMaterialBase):
             self.fct = None
         else:
             self.fct = float(fct)
-        if big_e is None:
-            self.big_e = None
+        if e_mod is None:
+            self.e_mod = None
         else:
-            self.big_e = float(big_e)
+            self.e_mod = float(e_mod)
         if ni is None:
             self.ni = None
         else:
@@ -270,8 +270,8 @@ class Damage2p(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.fcc]
         if getattr(self, 'fct') is not None:
             self._parameters += ['-fct', self.fct]
-        if getattr(self, 'big_e') is not None:
-            self._parameters += ['-E', self.big_e]
+        if getattr(self, 'e_mod') is not None:
+            self._parameters += ['-E', self.e_mod]
         if getattr(self, 'ni') is not None:
             self._parameters += ['-ni', self.ni]
         if getattr(self, 'gt') is not None:
@@ -347,7 +347,7 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
     """
     op_type = 'MultiaxialCyclicPlasticity'
 
-    def __init__(self, osi, rho, big_k, big_g, su, ho, h, m, beta, k_coeff):
+    def __init__(self, osi, rho, k_mod, g_mod, su, ho, h, m, beta, k_coeff):
         """
         Initial method for MultiaxialCyclicPlasticity
 
@@ -355,9 +355,9 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
         ----------
         rho: float
             Density
-        big_k: float
+        k_mod: float
             Buck modulus
-        big_g: float
+        g_mod: float
             Maximum (small strain) shear modulus
         su: float
             Undrained shear strength, size of bounding surface :math:`r=\sqrt{8/3}*su`
@@ -373,8 +373,8 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
             Coefficient of earth pressure, k0
         """
         self.rho = float(rho)
-        self.big_k = float(big_k)
-        self.big_g = float(big_g)
+        self.k_mod = float(k_mod)
+        self.g_mod = float(g_mod)
         self.su = float(su)
         self.ho = float(ho)
         self.h = float(h)
@@ -383,7 +383,7 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
         self.k_coeff = float(k_coeff)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.rho, self.big_k, self.big_g, self.su, self.ho, self.h, self.m, self.beta, self.k_coeff]
+        self._parameters = [self.op_type, self._tag, self.rho, self.k_mod, self.g_mod, self.su, self.ho, self.h, self.m, self.beta, self.k_coeff]
         self.to_process(osi)
 
 
@@ -610,20 +610,20 @@ class AcousticMedium(NDMaterialBase):
     """
     op_type = 'AcousticMedium'
 
-    def __init__(self, osi, big_k, rho):
+    def __init__(self, osi, k_mod, rho):
         """
         Initial method for AcousticMedium
 
         Parameters
         ----------
-        big_k: float
+        k_mod: float
             Bulk module of the acoustic medium
         rho: float
             Mass density of the acoustic medium
         """
-        self.big_k = float(big_k)
+        self.k_mod = float(k_mod)
         self.rho = float(rho)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_k, self.rho]
+        self._parameters = [self.op_type, self._tag, self.k_mod, self.rho]
         self.to_process(osi)

@@ -10,20 +10,20 @@ class Elastic(UniaxialMaterialBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, eta=0.0, eneg: float=None):
+    def __init__(self, osi, e_mod, eta=0.0, eneg: float=None):
         """
         Initial method for Elastic
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Tangent
         eta: float
             Damping tangent (optional, default=0.0)
         eneg: float (default=True)
             Tangent in compression (optional, default=e)
         """
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         self.eta = float(eta)
         if eneg is None:
             self.eneg = None
@@ -31,7 +31,7 @@ class Elastic(UniaxialMaterialBase):
             self.eneg = float(eneg)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_e, self.eta]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.eta]
         special_pms = ['eneg']
         packets = [False]
         for i, pm in enumerate(special_pms):
@@ -53,13 +53,13 @@ class ElasticPP(UniaxialMaterialBase):
     """
     op_type = 'ElasticPP'
 
-    def __init__(self, osi, big_e, epsy_p, epsy_n: float=None, eps0=0.0):
+    def __init__(self, osi, e_mod, epsy_p, epsy_n: float=None, eps0=0.0):
         """
         Initial method for ElasticPP
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Tangent
         epsy_p: float
             Strain or deformation at which material reaches plastic state in tension
@@ -69,7 +69,7 @@ class ElasticPP(UniaxialMaterialBase):
         eps0: float
             Initial strain (optional, default: zero)
         """
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         self.epsy_p = float(epsy_p)
         if epsy_n is None:
             self.epsy_n = None
@@ -78,7 +78,7 @@ class ElasticPP(UniaxialMaterialBase):
         self.eps0 = float(eps0)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_e, self.epsy_p]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.epsy_p]
         special_pms = ['epsy_n', 'eps0']
         packets = [False, False]
         for i, pm in enumerate(special_pms):
@@ -100,13 +100,13 @@ class ElasticPPGap(UniaxialMaterialBase):
     """
     op_type = 'ElasticPPGap'
 
-    def __init__(self, osi, big_e, fy, gap, eta=0.0, damage='noDamage'):
+    def __init__(self, osi, e_mod, fy, gap, eta=0.0, damage='noDamage'):
         """
         Initial method for ElasticPPGap
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Tangent
         fy: float
             Stress or force at which material reaches plastic state
@@ -118,14 +118,14 @@ class ElasticPPGap(UniaxialMaterialBase):
             An optional string to specify whether to accumulate damage or not in the material. with the default
             re-center on load reversal. is provided this recentering will not occur and gap will grow.
         """
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         self.fy = float(fy)
         self.gap = float(gap)
         self.eta = float(eta)
         self.damage = damage
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_e, self.fy, self.gap, self.eta, self.damage]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.fy, self.gap, self.eta, self.damage]
         self.to_process(osi)
 
 
@@ -137,19 +137,19 @@ class ENT(UniaxialMaterialBase):
     """
     op_type = 'ENT'
 
-    def __init__(self, osi, big_e):
+    def __init__(self, osi, e_mod):
         """
         Initial method for ENT
 
         Parameters
         ----------
-        big_e: float
+        e_mod: float
             Tangent
         """
-        self.big_e = float(big_e)
+        self.e_mod = float(e_mod)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.big_e]
+        self._parameters = [self.op_type, self._tag, self.e_mod]
         self.to_process(osi)
 
 

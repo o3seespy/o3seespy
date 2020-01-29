@@ -12,7 +12,7 @@ class ElasticBeamColumn2D(ElementBase):
     """
     op_type = 'elasticBeamColumn'
 
-    def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass: float=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, area, e_mod, iz, transf, mass=None, c_mass=False):
         """
         Initial method for ElasticBeamColumn2D
 
@@ -20,33 +20,30 @@ class ElasticBeamColumn2D(ElementBase):
         ----------
         ele_nodes: listi
             A list of two element nodes
-        big_a: float
+        area: float
             Cross-sectional area of element
-        big_e: float
+        e_mod: float
             Young's modulus
         iz: float
             Second moment of area about the local z-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object adfg afe asfasffg asffgrgrg
             szfrgr3gr asgrr
-        mass: float
-            Element mass per unit length (optional, default = 0.0)
+        mass: None
+            
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.big_a = float(big_a)
-        self.big_e = float(big_e)
+        self.area = float(area)
+        self.e_mod = float(e_mod)
         self.iz = float(iz)
         self.transf = transf
-        if mass is None:
-            self.mass = None
-        else:
-            self.mass = float(mass)
+        self.mass = mass
         self.c_mass = c_mass
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.big_e, self.iz, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.area, self.e_mod, self.iz, self.transf.tag]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'c_mass'):
@@ -65,7 +62,7 @@ class ElasticBeamColumn3D(ElementBase):
     """
     op_type = 'elasticBeamColumn'
 
-    def __init__(self, osi, ele_nodes, big_a, big_e, big_g, big_j, iy, iz, transf, mass: float=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, area, e_mod, g_mod, jxx, iy, iz, transf, mass=None, c_mass=False):
         """
         Initial method for ElasticBeamColumn3D
 
@@ -73,13 +70,13 @@ class ElasticBeamColumn3D(ElementBase):
         ----------
         ele_nodes: listi
             A list of two element nodes
-        big_a: float
+        area: float
             Cross-sectional area of element
-        big_e: float
+        e_mod: float
             Young's modulus
-        big_g: float
+        g_mod: float
             Shear modulus
-        big_j: float
+        jxx: float
             Torsional moment of inertia of cross section
         iy: float
             Second moment of area about the local y-axis
@@ -88,27 +85,24 @@ class ElasticBeamColumn3D(ElementBase):
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object adfg afe asfasffg asffgrgrg
             szfrgr3gr asgrr
-        mass: float
-            Element mass per unit length (optional, default = 0.0)
+        mass: None
+            
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.big_a = float(big_a)
-        self.big_e = float(big_e)
-        self.big_g = float(big_g)
-        self.big_j = float(big_j)
+        self.area = float(area)
+        self.e_mod = float(e_mod)
+        self.g_mod = float(g_mod)
+        self.jxx = float(jxx)
         self.iy = float(iy)
         self.iz = float(iz)
         self.transf = transf
-        if mass is None:
-            self.mass = None
-        else:
-            self.mass = float(mass)
+        self.mass = mass
         self.c_mass = c_mass
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.big_e, self.big_g, self.big_j, self.iy, self.iz, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.area, self.e_mod, self.g_mod, self.jxx, self.iy, self.iz, self.transf.tag]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'c_mass'):
@@ -116,9 +110,9 @@ class ElasticBeamColumn3D(ElementBase):
         self.to_process(osi)
 
 
-class ModElasticBeam2Dmass(ElementBase):
+class ModElasticBeam2D(ElementBase):
     """
-    The ModElasticBeam2Dmass Element Class
+    The ModElasticBeam2D Element Class
     
     This command is used to construct a ModElasticBeam2d element object. The arguments for the construction of an
     elastic beam-column element with stiffness modifiers is applicable for 2-D problems. This element should be used
@@ -133,17 +127,17 @@ class ModElasticBeam2Dmass(ElementBase):
     """
     op_type = 'ModElasticBeam2d'
 
-    def __init__(self, osi, ele_nodes, big_a, big_e, iz, k11, k33, k44, transf, mass_dens, c_mass=False):
+    def __init__(self, osi, ele_nodes, area, e_mod, iz, k11, k33, k44, transf, c_mass=False, mass: float=None):
         """
-        Initial method for ModElasticBeam2Dmass
+        Initial method for ModElasticBeam2D
 
         Parameters
         ----------
         ele_nodes: listi
             A list of two element nodes
-        big_a: float
+        area: float
             Cross-sectional area of element
-        big_e: float
+        e_mod: float
             Young's modulus
         iz: float
             Second moment of area about the local z-axis
@@ -155,26 +149,31 @@ class ModElasticBeam2Dmass(ElementBase):
             Stiffness modifier for rotation
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        mass_dens: float
-            Element mass per unit length (optional, default = 0.0)
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
+        mass: float
+            Element mass per unit length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.big_a = float(big_a)
-        self.big_e = float(big_e)
+        self.area = float(area)
+        self.e_mod = float(e_mod)
         self.iz = float(iz)
         self.k11 = float(k11)
         self.k33 = float(k33)
         self.k44 = float(k44)
         self.transf = transf
-        self.mass_dens = float(mass_dens)
         self.c_mass = c_mass
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.big_e, self.iz, self.k11, self.k33, self.k44, self.transf.tag, '-mass', self.mass_dens]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.area, self.e_mod, self.iz, self.k11, self.k33, self.k44, self.transf.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
         self.to_process(osi)
 
 
@@ -190,7 +189,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
     """
     op_type = 'ElasticTimoshenkoBeam'
 
-    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass: float=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, e_mod, g_mod, area, iz, avy, transf, c_mass=False, mass: float=None):
         """
         Initial method for ElasticTimoshenkoBeam2D
 
@@ -198,11 +197,11 @@ class ElasticTimoshenkoBeam2D(ElementBase):
         ----------
         ele_nodes: listi
             A list of two element nodes
-        big_e: float
+        e_mod: float
             Young's modulus
-        big_g: float
+        g_mod: float
             Shear modulus
-        big_a: float
+        area: float
             Cross-sectional area of element
         iz: float
             Second moment of area about the local z-axis
@@ -210,30 +209,30 @@ class ElasticTimoshenkoBeam2D(ElementBase):
             Shear area for the local y-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        mass: float
-            Element mass per unit length (optional, default = 0.0)
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
+        mass: float
+            Element mass per unit length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.big_e = float(big_e)
-        self.big_g = float(big_g)
-        self.big_a = float(big_a)
+        self.e_mod = float(e_mod)
+        self.g_mod = float(g_mod)
+        self.area = float(area)
         self.iz = float(iz)
         self.avy = float(avy)
         self.transf = transf
+        self.c_mass = c_mass
         if mass is None:
             self.mass = None
         else:
             self.mass = float(mass)
-        self.c_mass = c_mass
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_e, self.big_g, self.big_a, self.iz, self.avy, self.transf.tag]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.e_mod, self.g_mod, self.area, self.iz, self.avy, self.transf.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
         self.to_process(osi)
 
 
@@ -249,7 +248,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
     """
     op_type = 'ElasticTimoshenkoBeam'
 
-    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, jx, iy, iz_2, avy, avz, transf, mass: float=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, e_mod, g_mod, area, iz, jxx, iy, iz_2, avy, avz, transf, c_mass=False, mass: float=None):
         """
         Initial method for ElasticTimoshenkoBeam3D
 
@@ -257,15 +256,15 @@ class ElasticTimoshenkoBeam3D(ElementBase):
         ----------
         ele_nodes: listi
             A list of two element nodes
-        big_e: float
+        e_mod: float
             Young's modulus
-        big_g: float
+        g_mod: float
             Shear modulus
-        big_a: float
+        area: float
             Cross-sectional area of element
         iz: float
             Second moment of area about the local z-axis
-        jx: float
+        jxx: float
             Torsional moment of inertia of cross section
         iy: float
             Second moment of area about the local y-axis
@@ -277,34 +276,34 @@ class ElasticTimoshenkoBeam3D(ElementBase):
             Shear area for the local z-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        mass: float
-            Element mass per unit length (optional, default = 0.0)
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
+        mass: float
+            Element mass per unit length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.big_e = float(big_e)
-        self.big_g = float(big_g)
-        self.big_a = float(big_a)
+        self.e_mod = float(e_mod)
+        self.g_mod = float(g_mod)
+        self.area = float(area)
         self.iz = float(iz)
-        self.jx = float(jx)
+        self.jxx = float(jxx)
         self.iy = float(iy)
         self.iz_2 = iz_2
         self.avy = float(avy)
         self.avz = float(avz)
         self.transf = transf
+        self.c_mass = c_mass
         if mass is None:
             self.mass = None
         else:
             self.mass = float(mass)
-        self.c_mass = c_mass
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_e, self.big_g, self.big_a, self.iz, self.jx, self.iy, self.iz_2, self.avy, self.avz, self.transf.tag]
-        if getattr(self, 'mass') is not None:
-            self._parameters += ['-mass', self.mass]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.e_mod, self.g_mod, self.area, self.iz, self.jxx, self.iy, self.iz_2, self.avy, self.avz, self.transf.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
         self.to_process(osi)
 
 
@@ -484,7 +483,7 @@ class DispBeamColumnInt(ElementBase):
     """
     op_type = 'dispBeamColumnInt'
 
-    def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, c_rot, mass_dens: float=None):
+    def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, c_rot, mass: float=None):
         """
         Initial method for DispBeamColumnInt
 
@@ -501,7 +500,7 @@ class DispBeamColumnInt(ElementBase):
         c_rot: float
             Identifier for element center of rotation (or center of curvature distribution). fraction of the height
             distance from bottom to the center of rotation (0 to 1)
-        mass_dens: float
+        mass: float
             Element mass density (per unit length), from which a lumped-mass matrix is formed (optional, default=0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -509,15 +508,15 @@ class DispBeamColumnInt(ElementBase):
         self.sec = sec
         self.transf = transf
         self.c_rot = float(c_rot)
-        if mass_dens is None:
-            self.mass_dens = None
+        if mass is None:
+            self.mass = None
         else:
-            self.mass_dens = float(mass_dens)
+            self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.num_intgr_pts, self.sec.tag, self.transf.tag, self.c_rot]
-        if getattr(self, 'mass_dens') is not None:
-            self._parameters += ['-mass', self.mass_dens]
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
         self.to_process(osi)
 
 

@@ -1,6 +1,5 @@
 from o3seespy.command.nd_material.base_material import NDMaterialBase
 
-
 class PressureIndependMultiYield(NDMaterialBase):
     op_type = "PressureIndependMultiYield"
 
@@ -44,3 +43,4 @@ class PressureIndependMultiYield(NDMaterialBase):
             # self._keyword_args['noYieldSurf'] = self.no_yield_surf
             self._parameters.append(self.no_yield_surf)
         self.to_process(osi)
+
