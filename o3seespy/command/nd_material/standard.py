@@ -191,7 +191,7 @@ class Damage2p(NDMaterialBase):
     """
     op_type = 'Damage2p'
 
-    def __init__(self, osi, fcc, fct=None, big_e=None, ni=None, gt=None, gc=None, rho_bar=None, big_h=None, theta=None, tangent=None):
+    def __init__(self, osi, fcc, fct: float=None, big_e: float=None, ni: float=None, gt: float=None, gc: float=None, rho_bar: float=None, big_h: float=None, theta: float=None, tangent: float=None):
         """
         Initial method for Damage2p
 
@@ -298,19 +298,19 @@ class PlaneStress(NDMaterialBase):
     """
     op_type = 'PlaneStress'
 
-    def __init__(self, osi, mat_3d):
+    def __init__(self, osi, mat3d):
         """
         Initial method for PlaneStress
 
         Parameters
         ----------
-        mat_3d: obj
+        mat3d: obj
             Tag of perviously defined 3d ndmaterial material
         """
-        self.mat_3d = mat_3d
+        self.mat3d = mat3d
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.mat_3d.tag]
+        self._parameters = [self.op_type, self._tag, self.mat3d.tag]
         self.to_process(osi)
 
 
@@ -323,19 +323,19 @@ class PlaneStrain(NDMaterialBase):
     """
     op_type = 'PlaneStrain'
 
-    def __init__(self, osi, mat_3d):
+    def __init__(self, osi, mat3d):
         """
         Initial method for PlaneStrain
 
         Parameters
         ----------
-        mat_3d: obj
+        mat3d: obj
             Integer tag of previously defined 3d ndmaterial material
         """
-        self.mat_3d = mat_3d
+        self.mat3d = mat3d
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.mat_3d.tag]
+        self._parameters = [self.op_type, self._tag, self.mat3d.tag]
         self.to_process(osi)
 
 

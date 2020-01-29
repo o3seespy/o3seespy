@@ -14,7 +14,7 @@ class Constant(TimeSeriesBase):
     """
     op_type = 'Constant'
 
-    def __init__(self, osi, factor=None):
+    def __init__(self, osi, factor: float=None):
         """
         Initial method for Constant
 
@@ -44,7 +44,7 @@ class Linear(TimeSeriesBase):
     """
     op_type = 'Linear'
 
-    def __init__(self, osi, factor=None):
+    def __init__(self, osi, factor: float=None):
         """
         Initial method for Linear
 
@@ -75,7 +75,7 @@ class Trig(TimeSeriesBase):
     """
     op_type = 'Trig'
 
-    def __init__(self, osi, t_start, t_end, period, factor=None, shift=None, zero_shift=None):
+    def __init__(self, osi, t_start, t_end, period, factor: float=None, shift: float=None, zero_shift: float=None):
         """
         Initial method for Trig
 
@@ -135,7 +135,7 @@ class Triangle(TimeSeriesBase):
     """
     op_type = 'Triangle'
 
-    def __init__(self, osi, t_start, t_end, period, factor=None, shift=None, zero_shift=None):
+    def __init__(self, osi, t_start, t_end, period, factor: float=None, shift: float=None, zero_shift: float=None):
         """
         Initial method for Triangle
 
@@ -190,7 +190,7 @@ class Rectangular(TimeSeriesBase):
     """
     op_type = 'Rectangular'
 
-    def __init__(self, osi, t_start, t_end, factor=None):
+    def __init__(self, osi, t_start, t_end, factor: float=None):
         """
         Initial method for Rectangular
 
@@ -227,7 +227,7 @@ class Pulse(TimeSeriesBase):
     """
     op_type = 'Pulse'
 
-    def __init__(self, osi, t_start, t_end, period, width=None, shift=None, factor=None, zero_shift=None):
+    def __init__(self, osi, t_start, t_end, period, width: float=None, shift: float=None, factor: float=None, zero_shift: float=None):
         """
         Initial method for Pulse
 
@@ -292,7 +292,7 @@ class Path(TimeSeriesBase):
     """
     op_type = 'Path'
 
-    def __init__(self, osi, dt=None, values=None, time=None, filepath=None, file_time=None, factor=None, start_time=None, use_last=False, prepend_zero=False):
+    def __init__(self, osi, dt: float=None, values=None, time=None, filepath: str=None, file_time: str=None, factor: float=None, start_time: float=None, use_last=False, prepend_zero=False):
         """
         Initial method for Path
 

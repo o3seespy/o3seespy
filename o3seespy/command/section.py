@@ -1,4 +1,3 @@
-from o3seespy.command.nd_material import NDMaterialBase
 from o3seespy.base_model import OpenseesObject
 
 
@@ -14,7 +13,7 @@ class Elastic2D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, big_g=None, alpha_y=None):
+    def __init__(self, osi, big_e, big_a, iz, big_g: float=None, alpha_y: float=None):
         """
         Initial method for Elastic2D
 
@@ -67,7 +66,7 @@ class Elastic3D(SectionBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y=None, alpha_z=None):
+    def __init__(self, osi, big_e, big_a, iz, iy, big_g, big_j, alpha_y: float=None, alpha_z: float=None):
         """
         Initial method for Elastic3D
 
@@ -130,7 +129,7 @@ class Fiber(SectionBase):
     """
     op_type = 'Fiber'
 
-    def __init__(self, osi, gj=None):
+    def __init__(self, osi, gj: float=None):
         """
         Initial method for Fiber
 
@@ -287,17 +286,17 @@ class RCSection2D(SectionBase):
     """
     op_type = 'RCSection2d'
 
-    def __init__(self, osi, core, cover, steel, d, b, cover_depth, atop, abot, aside, nfcore, nfcover, nfs):
+    def __init__(self, osi, core_mat, cover_mat, steel_mat, d, b, cover_depth, atop, abot, aside, nfcore, nfcover, nfs):
         """
         Initial method for RCSection2D
 
         Parameters
         ----------
-        core: obj
+        core_mat: obj
             Tag of uniaxialmaterial assigned to each fiber in the core region
-        cover: obj
+        cover_mat: obj
             Tag of uniaxialmaterial assigned to each fiber in the cover region
-        steel: obj
+        steel_mat: obj
             Tag of uniaxialmaterial assigned to each reinforcing bar
         d: float
             Section depth
@@ -318,9 +317,9 @@ class RCSection2D(SectionBase):
         nfs: float
             Number of bars on the top and bottom rows of reinforcement (nfs-2 bars will be placed on the side rows)
         """
-        self.core = core
-        self.cover = cover
-        self.steel = steel
+        self.core_mat = core_mat
+        self.cover_mat = cover_mat
+        self.steel_mat = steel_mat
         self.d = float(d)
         self.b = float(b)
         self.cover_depth = float(cover_depth)
@@ -332,7 +331,7 @@ class RCSection2D(SectionBase):
         self.nfs = float(nfs)
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, self.core.tag, self.cover.tag, self.steel.tag, self.d, self.b, self.cover_depth, self.atop, self.abot, self.aside, self.nfcore, self.nfcover, self.nfs]
+        self._parameters = [self.op_type, self._tag, self.core_mat.tag, self.cover_mat.tag, self.steel_mat.tag, self.d, self.b, self.cover_depth, self.atop, self.abot, self.aside, self.nfcore, self.nfcover, self.nfs]
         self.to_process(osi)
 
 
@@ -345,17 +344,17 @@ class RCCircularSection(SectionBase):
     """
     op_type = 'RCCircularSection'
 
-    def __init__(self, osi, core, cover, steel, d, cover_depth, a_s, nrings_core, nrings_cover, newedges, nsteel):
+    def __init__(self, osi, core_mat, cover_mat, steel_mat, d, cover_depth, a_s, nrings_core, nrings_cover, newedges, nsteel, gj: float=None):
         """
         Initial method for RCCircularSection
 
         Parameters
         ----------
-        core: obj
+        core_mat: obj
             Tag of uniaxialmaterial assigned to each fiber in the core region
-        cover: obj
+        cover_mat: obj
             Tag of uniaxialmaterial assigned to each fiber in the cover region
-        steel: obj
+        steel_mat: obj
             Tag of uniaxialmaterial assigned to each reinforcing bar
         d: float
             Section radius
@@ -371,10 +370,12 @@ class RCCircularSection(SectionBase):
             Number of fibers through the edges
         nsteel: int
             Number of fibers through the steels
+        gj: float
+            Gj stiffness
         """
-        self.core = core
-        self.cover = cover
-        self.steel = steel
+        self.core_mat = core_mat
+        self.cover_mat = cover_mat
+        self.steel_mat = steel_mat
         self.d = float(d)
         self.cover_depth = float(cover_depth)
         self.a_s = float(a_s)
@@ -382,9 +383,15 @@ class RCCircularSection(SectionBase):
         self.nrings_cover = int(nrings_cover)
         self.newedges = int(newedges)
         self.nsteel = int(nsteel)
+        if gj is None:
+            self.gj = None
+        else:
+            self.gj = float(gj)
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, self.core.tag, self.cover.tag, self.steel.tag, self.d, self.cover_depth, self.a_s, self.nrings_core, self.nrings_cover, self.newedges, self.nsteel]
+        self._parameters = [self.op_type, self._tag, self.core_mat.tag, self.cover_mat.tag, self.steel_mat.tag, self.d, self.cover_depth, self.a_s, self.nrings_core, self.nrings_cover, self.newedges, self.nsteel]
+        if getattr(self, 'gj') is not None:
+            self._parameters += ['-GJ', self.gj]
         self.to_process(osi)
 
 
@@ -396,26 +403,25 @@ class Parallel(SectionBase):
     """
     op_type = 'Parallel'
 
-    def __init__(self, osi, sects):
+    def __init__(self, osi, secs):
         """
         Initial method for Parallel
 
         Parameters
         ----------
-        tags: listi
+        secs: None
             Tags of of predefined sections.
         """
-        self.sects = [x.tag for x in sects]
+        self.secs = [x.tag for x in secs]
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, *self.sects]
+        self._parameters = [self.op_type, self._tag, *self.secs]
         self.to_process(osi)
-
 
 class Aggregator(SectionBase):
     """
     The Aggregator Section Class
-    
+
     This command is used to construct a SectionAggregator object which aggregates groups previously-defined
     UniaxialMaterial objects into a single section force-deformation model. Each UniaxialMaterial object
     represents the section force-deformation response for a particular section degree-of-freedom (dof).
@@ -431,8 +437,8 @@ class Aggregator(SectionBase):
         Parameters
         ----------
         mats: list
-            List of tags and dofs of previously-defined uniaxialmaterial objects, ``mats =
-            [mattag1,dof1,mattag2,dof2,...]`` the force-deformation quantity to be modeled by this
+            List of mat objs and dofs of previously-defined uniaxialmaterial objects, ``mats =
+            [[mattag1,dof1],[mattag2,dof2],...]`` the force-deformation quantity to be modeled by this
             section object. one of the following section dof may be used: * ``'p'`` axial
             force-deformation * ``'mz'`` moment-curvature about section local z-axis *
             ``'vy'`` shear force-deformation along section local y-axis * ``'my'``
@@ -442,7 +448,10 @@ class Aggregator(SectionBase):
             Tag of previously-defined section object to which the uniaxialmaterial objects are aggregated as additional
             force-deformation relationships (optional)
         """
-        self.mats = mats
+        self.mats = []
+        for i, mat in enumerate(mats):
+            self.mats.append(mats[i][0].tag)
+            self.mats.append(mats[i][1])
         self.section = section
         osi.n_sect += 1
         self._tag = osi.n_sect
@@ -450,6 +459,7 @@ class Aggregator(SectionBase):
         if getattr(self, 'section') is not None:
             self._parameters += ['-section', self.section.tag]
         self.to_process(osi)
+
 
 
 class Uniaxial(SectionBase):
@@ -588,20 +598,20 @@ class Bidirectional(SectionBase):
         self.to_process(osi)
 
 
-class Iso2spring(SectionBase):
+class Isolator2spring(SectionBase):
     """
-    The Iso2spring Section Class
+    The Isolator2spring Section Class
     
     This command is used to construct an Isolator2spring section object, which represents the buckling behavior of an
     elastomeric bearing for two-dimensional analysis in the lateral and vertical plane. An Isolator2spring section
     represents the resultant force-deformation behavior of the bearing, and should be used with a
     zeroLengthSection element. The bearing should be constrained against rotation.
     """
-    op_type = 'Iso2spring'
+    op_type = 'Isolator2spring'
 
     def __init__(self, osi, tol, k1, fyo, k2o, kvo, hb, pe, po=0.0):
         """
-        Initial method for Iso2spring
+        Initial method for Isolator2spring
 
         Parameters
         ----------
@@ -637,28 +647,31 @@ class Iso2spring(SectionBase):
         self.to_process(osi)
 
 
-class LayeredShell(NDMaterialBase):
+class LayeredShell(SectionBase):
     """
-    The LayeredShell NDMaterial Class
-    
+    The LayeredShell Section Class
+
     This command will create the section of the multi-layer shell element, including the multi-dimensional concrete,
     reinforcement material and the corresponding thickness.
     """
     op_type = 'LayeredShell'
 
-    def __init__(self, osi, n_layers, mats):
+    def __init__(self, osi, mats):
         """
         Initial method for LayeredShell
 
         Parameters
         ----------
-        n_layers: int
-            Total numbers of layers
         mats: list
-            A list of material tags and thickenss, ``[[mat1,thk1], ..., [mat2,thk2]]``
+            A list of material objs and thickness, ``[[mat1,thk1], ..., [mat2,thk2]]``
         """
-        self.n_layers = int(n_layers)
-        self.mats = mats
+        self.mats = []
+        for i, mat in enumerate(mats):
+            # self.mats.append([mats[i][0].tag, mats[i][1]])
+            self.mats.append(mats[i][0].tag)
+            self.mats.append(mats[i][1])
+
+        self.n_layers = int(len(self.mats))
         osi.n_sect += 1
         self._tag = osi.n_sect
         self._parameters = [self.op_type, self._tag, self.n_layers, *self.mats]

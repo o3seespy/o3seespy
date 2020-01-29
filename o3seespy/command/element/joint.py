@@ -134,7 +134,7 @@ class Joint2D(ElementBase):
     """
     op_type = 'Joint2D'
 
-    def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat_c, lrg_dsp):
+    def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat_c, lrg_dsp, dmg, dmg1dmg2dmg3dmg4dmg_c=None):
         """
         Initial method for Joint2D
 
@@ -162,6 +162,10 @@ class Joint2D(ElementBase):
             An integer indicating the flag for considering large deformations: * ``0`` - for small deformations and
             constant geometry * ``1`` - for large deformations and time varying geometry * ``2`` - for large deformations
             ,time varying geometry and length correction
+        dmg: obj
+            Damage model tag
+        dmg1dmg2dmg3dmg4dmg_c: None
+            
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat1 = int(mat1)
@@ -170,7 +174,11 @@ class Joint2D(ElementBase):
         self.mat4 = int(mat4)
         self.mat_c = int(mat_c)
         self.lrg_dsp = lrg_dsp
+        self.dmg = dmg
+        self.dmg1dmg2dmg3dmg4dmg_c = dmg1dmg2dmg3dmg4dmg_c
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat1, self.mat2, self.mat3, self.mat4, self.mat_c, self.lrg_dsp.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat1, self.mat2, self.mat3, self.mat4, self.mat_c, self.lrg_dsp.tag, self.dmg.tag]
+        if getattr(self, 'dmg1dmg2dmg3dmg4dmg_c') is not None:
+            self._parameters += ['-damage', self.dmg1dmg2dmg3dmg4dmg_c]
         self.to_process(osi)

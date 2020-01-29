@@ -22,7 +22,7 @@ class TwoNodeLink(ElementBase):
     """
     op_type = 'twoNodeLink'
 
-    def __init__(self, osi, ele_nodes, mat_tags=None, dir=None, p_delta_vals=None, shear_dist=None, do_rayleigh=False, orient=None, mass=None):
+    def __init__(self, osi, ele_nodes, mats=None, dir=None, p_delta_vals=None, shear_dist=None, do_rayleigh=False, orient=None, mass: float=None):
         """
         Initial method for TwoNodeLink
 
@@ -30,7 +30,7 @@ class TwoNodeLink(ElementBase):
         ----------
         ele_nodes: listi
             A list of two element nodes
-        mat_tags: None
+        mats: None
             A list of tags associated with previously-defined uniaxialmaterial objects
         dir: None
             
@@ -48,10 +48,10 @@ class TwoNodeLink(ElementBase):
             Element mass (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        if mat_tags is None:
-            self.mat_tags = None
+        if mats is None:
+            self.mats = None
         else:
-            self.mat_tags = [x.tag for x in mat_tags]
+            self.mats = [x.tag for x in mats]
         self.dir = dir
         self.p_delta_vals = p_delta_vals
         self.shear_dist = shear_dist
@@ -64,8 +64,8 @@ class TwoNodeLink(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes]
-        if getattr(self, 'mat_tags') is not None:
-            self._parameters += ['-mat', *self.mat_tags]
+        if getattr(self, 'mats') is not None:
+            self._parameters += ['-mat', *self.mats]
         if getattr(self, 'dir') is not None:
             self._parameters += ['-dir', *self.dir]
         if getattr(self, 'p_delta_vals') is not None:

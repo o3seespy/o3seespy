@@ -61,7 +61,7 @@ class Steel02(UniaxialMaterialBase):
     """
     op_type = 'Steel02'
 
-    def __init__(self, osi, fy, e0, b, params, a1=None, a2=1.0, a3=None, a4=1.0, sig_init=0.0):
+    def __init__(self, osi, fy, e0, b, params, a1: float=None, a2=1.0, a3: float=None, a4=1.0, sig_init=0.0):
         """
         Initial method for Steel02
 

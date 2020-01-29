@@ -12,7 +12,7 @@ class ElasticBeamColumn2D(ElementBase):
     """
     op_type = 'elasticBeamColumn'
 
-    def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, big_a, big_e, iz, transf, mass: float=None, c_mass=False):
         """
         Initial method for ElasticBeamColumn2D
 
@@ -65,7 +65,7 @@ class ElasticBeamColumn3D(ElementBase):
     """
     op_type = 'elasticBeamColumn'
 
-    def __init__(self, osi, ele_nodes, big_a, big_e, big_g, big_j, iy, iz, transf, mass=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, big_a, big_e, big_g, big_j, iy, iz, transf, mass: float=None, c_mass=False):
         """
         Initial method for ElasticBeamColumn3D
 
@@ -190,7 +190,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
     """
     op_type = 'ElasticTimoshenkoBeam'
 
-    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, avy, transf, mass: float=None, c_mass=False):
         """
         Initial method for ElasticTimoshenkoBeam2D
 
@@ -249,7 +249,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
     """
     op_type = 'ElasticTimoshenkoBeam'
 
-    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, jx, iy, iz_2, avy, avz, transf, mass=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, big_e, big_g, big_a, iz, jx, iy, iz_2, avy, avz, transf, mass: float=None, c_mass=False):
         """
         Initial method for ElasticTimoshenkoBeam3D
 
@@ -317,7 +317,7 @@ class DispBeamColumn(ElementBase):
     """
     op_type = 'dispBeamColumn'
 
-    def __init__(self, osi, ele_nodes, transf, integration, c_mass=False, mass=None):
+    def __init__(self, osi, ele_nodes, transf, integration, c_mass=False, mass: float=None):
         """
         Initial method for DispBeamColumn
 
@@ -360,7 +360,7 @@ class ForceBeamColumn(ElementBase):
     """
     op_type = 'forceBeamColumn'
 
-    def __init__(self, osi, ele_nodes, transf, integration, max_iter=None, tol=None, mass=None):
+    def __init__(self, osi, ele_nodes, transf, integration, max_iter: int=None, tol: float=None, mass: float=None):
         """
         Initial method for ForceBeamColumn
 
@@ -416,7 +416,7 @@ class NonlinearBeamColumn(ElementBase):
     """
     op_type = 'nonlinearBeamColumn'
 
-    def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, max_iter=None, tol=None, mass=None, int_type=None):
+    def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, max_iter: int=None, tol: float=None, mass: float=None, int_type: str=None):
         """
         Initial method for NonlinearBeamColumn
 
@@ -484,7 +484,7 @@ class DispBeamColumnInt(ElementBase):
     """
     op_type = 'dispBeamColumnInt'
 
-    def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, c_rot, mass_dens=None):
+    def __init__(self, osi, ele_nodes, num_intgr_pts, sec, transf, c_rot, mass_dens: float=None):
         """
         Initial method for DispBeamColumnInt
 
@@ -543,7 +543,7 @@ class MVLEM(ElementBase):
     """
     op_type = 'MVLEM'
 
-    def __init__(self, osi, dens, ele_nodes, m, c, thick=None, widths=None, rho=None, mat_concrete_tags=None, mat_steel_tags=None, mat_shear=None):
+    def __init__(self, osi, dens, ele_nodes, m, c, thick=None, widths=None, rho=None, mat_concretes=None, mat_steels=None, mat_shear=None):
         """
         Initial method for MVLEM
 
@@ -564,9 +564,9 @@ class MVLEM(ElementBase):
         rho: listf
             A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
             a_{s,i}/a_{gross,i} (1 < i < m)`
-        mat_concrete_tags: None
+        mat_concretes: None
             A list of ``m`` uniaxialmaterial tags for concrete
-        mat_steel_tags: None
+        mat_steels: None
             A list of ``m`` uniaxialmaterial tags for steel
         mat_shear: obj
             Tag of uniaxialmaterial for shear material
@@ -578,14 +578,14 @@ class MVLEM(ElementBase):
         self.thick = thick
         self.widths = widths
         self.rho = rho
-        if mat_concrete_tags is None:
-            self.mat_concrete_tags = None
+        if mat_concretes is None:
+            self.mat_concretes = None
         else:
-            self.mat_concrete_tags = [x.tag for x in mat_concrete_tags]
-        if mat_steel_tags is None:
-            self.mat_steel_tags = None
+            self.mat_concretes = [x.tag for x in mat_concretes]
+        if mat_steels is None:
+            self.mat_steels = None
         else:
-            self.mat_steel_tags = [x.tag for x in mat_steel_tags]
+            self.mat_steels = [x.tag for x in mat_steels]
         self.mat_shear = mat_shear
         osi.n_ele += 1
         self._tag = osi.n_ele
@@ -596,10 +596,10 @@ class MVLEM(ElementBase):
             self._parameters += ['-width', *self.widths]
         if getattr(self, 'rho') is not None:
             self._parameters += ['-rho', *self.rho]
-        if getattr(self, 'mat_concrete_tags') is not None:
-            self._parameters += ['-matConcrete', *self.mat_concrete_tags]
-        if getattr(self, 'mat_steel_tags') is not None:
-            self._parameters += ['-matSteel', *self.mat_steel_tags]
+        if getattr(self, 'mat_concretes') is not None:
+            self._parameters += ['-matConcrete', *self.mat_concretes]
+        if getattr(self, 'mat_steels') is not None:
+            self._parameters += ['-matSteel', *self.mat_steels]
         if getattr(self, 'mat_shear') is not None:
             self._parameters += ['-matShear', self.mat_shear.tag]
         self.to_process(osi)
@@ -622,7 +622,7 @@ class SFIMVLEM(ElementBase):
     """
     op_type = 'SFI_MVLEM'
 
-    def __init__(self, osi, ele_nodes, m, c, thick=None, widths=None, mat_tags=None):
+    def __init__(self, osi, ele_nodes, m, c, thick=None, widths=None, mats=None):
         """
         Initial method for SFIMVLEM
 
@@ -638,7 +638,7 @@ class SFIMVLEM(ElementBase):
             
         widths: None
             
-        mat_tags: None
+        mats: None
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -646,7 +646,7 @@ class SFIMVLEM(ElementBase):
         self.c = float(c)
         self.thick = thick
         self.widths = widths
-        self.mat_tags = mat_tags
+        self.mats = mats
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.m, self.c]
@@ -654,6 +654,6 @@ class SFIMVLEM(ElementBase):
             self._parameters += ['-thick', *self.thick]
         if getattr(self, 'widths') is not None:
             self._parameters += ['-width', *self.widths]
-        if getattr(self, 'mat_tags') is not None:
-            self._parameters += ['-mat', *self.mat_tags]
+        if getattr(self, 'mats') is not None:
+            self._parameters += ['-mat', *self.mats]
         self.to_process(osi)

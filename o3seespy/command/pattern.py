@@ -16,7 +16,7 @@ class Plain(PatternBase):
     """
     op_type = 'Plain'
 
-    def __init__(self, osi, ts, fact=None):
+    def __init__(self, osi, ts, fact: float=None):
         """
         Initial method for Plain
 
@@ -49,7 +49,7 @@ class UniformExcitation(PatternBase):
     """
     op_type = 'UniformExcitation'
 
-    def __init__(self, osi, dir, disp_series=None, vel_series=None, accel_series=None, vel0=None, fact=None):
+    def __init__(self, osi, dir, disp_series=None, vel_series=None, accel_series=None, vel0: float=None, fact: float=None):
         """
         Initial method for UniformExcitation
 

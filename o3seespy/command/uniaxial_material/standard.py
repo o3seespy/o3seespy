@@ -10,7 +10,7 @@ class Elastic(UniaxialMaterialBase):
     """
     op_type = 'Elastic'
 
-    def __init__(self, osi, big_e, eta=0.0, eneg=None):
+    def __init__(self, osi, big_e, eta=0.0, eneg: float=None):
         """
         Initial method for Elastic
 
@@ -53,7 +53,7 @@ class ElasticPP(UniaxialMaterialBase):
     """
     op_type = 'ElasticPP'
 
-    def __init__(self, osi, big_e, epsy_p, epsy_n=None, eps0=0.0):
+    def __init__(self, osi, big_e, epsy_p, epsy_n: float=None, eps0=0.0):
         """
         Initial method for ElasticPP
 

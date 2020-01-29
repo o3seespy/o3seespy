@@ -22,7 +22,7 @@ class ElastomericBearingPlasticity2D(ElementBase):
     """
     op_type = 'elastomericBearingPlasticity'
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, p_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, p_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass: float=None, shear_dist: float=None):
         """
         Initial method for ElastomericBearingPlasticity2D
 
@@ -110,7 +110,7 @@ class ElastomericBearingPlasticity3D(ElementBase):
     """
     op_type = 'elastomericBearingPlasticity'
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass: float=None, shear_dist: float=None):
         """
         Initial method for ElastomericBearingPlasticity3D
 
@@ -208,7 +208,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
     """
     op_type = 'elastomericBearingBoucWen'
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals=None, shear_dist=None, do_rayleigh=False, mass=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
         """
         Initial method for ElastomericBearingBoucWen2D
 
@@ -306,7 +306,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
     """
     op_type = 'elastomericBearingBoucWen'
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, orient_vals=None, shear_dist=None, do_rayleigh=False, mass=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, orient_vals=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
         """
         Initial method for ElastomericBearingBoucWen3D
 
@@ -421,7 +421,7 @@ class FlatSliderBearingmaxIter2D(ElementBase):
     """
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, iter, tol, p_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, iter, tol, p_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass: float=None, shear_dist: float=None):
         """
         Initial method for FlatSliderBearingmaxIter2D
 
@@ -513,7 +513,7 @@ class FlatSliderBearing3D(ElementBase):
     """
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol: float=None, orient=None, mass: float=None, shear_dist: float=None):
         """
         Initial method for FlatSliderBearing3D
 
@@ -621,7 +621,7 @@ class SingleFPBearing2D(ElementBase):
     """
     op_type = 'singleFPBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, max_iter: int=None, tol: float=None, orient=None, mass: float=None, shear_dist: float=None):
         """
         Initial method for SingleFPBearing2D
 
@@ -725,7 +725,7 @@ class SingleFPBearing3D(ElementBase):
     """
     op_type = 'singleFPBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter=None, tol=None, orient=None, mass=None, shear_dist=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, reff, k_init, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter: int=None, tol: float=None, orient=None, mass: float=None, shear_dist: float=None):
         """
         Initial method for SingleFPBearing3D
 
@@ -1014,7 +1014,7 @@ class MultipleShearSpring(ElementBase):
     """
     op_type = 'multipleShearSpring'
 
-    def __init__(self, osi, ele_nodes, n_spring, mat=None, lim=None, mass=None, orient=None):
+    def __init__(self, osi, ele_nodes, n_spring, mat=None, lim: float=None, mass: float=None, orient=None):
         """
         Initial method for MultipleShearSpring
 
@@ -1070,7 +1070,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
     """
     op_type = 'KikuchiBearing'
 
-    def __init__(self, osi, ele_nodes, total_rubber, ci, cj, shape=None, size=None, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, orient=None, mass=None):
+    def __init__(self, osi, ele_nodes, total_rubber, ci, cj, shape: float=None, size: float=None, total_height: float=None, n_mss: int=None, mat_mss=None, lim_disp: float=None, n_mns: int=None, mat_mns=None, lamb: float=None, no_pd_input=False, no_tilt=False, orient=None, mass: float=None):
         """
         Initial method for KikuchiBearingadjustPDOutput
 
@@ -1194,7 +1194,7 @@ class KikuchiBearingdoBalance(ElementBase):
     """
     op_type = 'KikuchiBearing'
 
-    def __init__(self, osi, ele_nodes, total_rubber, lim_fo, lim_fi, n_iter, shape=None, size=None, total_height=None, n_mss=None, mat_mss=None, lim_disp=None, n_mns=None, mat_mns=None, lamb=None, no_pd_input=False, no_tilt=False, orient=None, mass=None):
+    def __init__(self, osi, ele_nodes, total_rubber, lim_fo, lim_fi, n_iter, shape: float=None, size: float=None, total_height: float=None, n_mss: int=None, mat_mss=None, lim_disp: float=None, n_mns: int=None, mat_mns=None, lamb: float=None, no_pd_input=False, no_tilt=False, orient=None, mass: float=None):
         """
         Initial method for KikuchiBearingdoBalance
 
@@ -1325,7 +1325,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
     """
     op_type = 'YamamotoBiaxialHDR'
 
-    def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, cr, cs, orient=None, mass=None):
+    def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, cr, cs, orient=None, mass: float=None):
         """
         Initial method for YamamotoBiaxialHDRcoRS
 

@@ -146,17 +146,23 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                 if pms[pm].forced_not_optional:
                     pjoins.append(f'{o3_name}')
                 elif pms[pm].default_is_expression:
-                    pjoins.append(f'{o3_name}=None')
+                    pjoins.append(f'{o3_name}: float=None')
                     pms[pm].o3_default_is_none = True
                 else:
                     if pms[pm].marker or pms[pm].depends_on:
-                        pjoins.append(f'{o3_name}=None')  # cannot have value for marker
+                        if pms[pm].dtype in ['str', 'float', 'int']:
+                            pjoins.append(f'{o3_name}: {pms[pm].dtype}=None')
+                        else:
+                            pjoins.append(f'{o3_name}=None')  # cannot have value for marker
                         pms[pm].o3_default_is_none = True
                     else:
                         pjoins.append(f'{o3_name}={default}')
             else:
                 if pms[pm].marker or pms[pm].depends_on:
-                    pjoins.append(f'{o3_name}=None')
+                    if pms[pm].dtype in ['str', 'float', 'int']:
+                        pjoins.append(f'{o3_name}: {pms[pm].dtype}=None')
+                    else:
+                        pjoins.append(f'{o3_name}=None')
                     pms[pm].o3_default_is_none = True
                 else:
                     pjoins.append(f'{o3_name}')
@@ -787,6 +793,14 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     #         defaults[item] = Param(org_name=item, default_value=False, packed=False)
     #         defaults[item].marker = f'-{item}'
     #         del op_kwargs[item]
+    from _auto_build import _custom_gen as cust_file
+
+    cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
+    op_class_name = convert_name_to_class_name(optype)
+    if op_class_name in cust_obj_list:
+        source = inspect.getsource(getattr(cust_file, op_class_name))
+        return source + '\n', ""
+
     pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf, obj_blurb=obj_blurb)
     print(pstr, tstr)
     return pstr, tstr
@@ -883,8 +897,8 @@ def parse_all_ndmat():
     from _auto_build import _custom_mat as cust_file
 
     cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
-    uni_axial_mat_file = open(up.OPY_DOCS_PATH + 'ndMaterial.rst')
-    lines = uni_axial_mat_file.read().split('\n')
+    mat_file = open(up.OPY_DOCS_PATH + 'ndMaterial.rst')
+    lines = mat_file.read().split('\n')
     collys = {}
     mtype = None
     for line in lines:
@@ -919,7 +933,8 @@ def parse_all_ndmat():
                 continue
             if mat == 'PM4Sand':
                 continue
-            if mat in cust_obj_list:
+            mat_name = convert_name_to_class_name(mat)
+            if mat_name in cust_obj_list:
                 source = inspect.getsource(getattr(cust_file, mat))
                 print(source)
                 para.append('')
@@ -1049,7 +1064,8 @@ def parse_generic_single_file(obj_type, osi_type):
         print(item, collys[item])
         for mat in collys[item]:
 
-            if mat in cust_obj_list:
+            mat_name = convert_name_to_class_name(mat)
+            if mat_name in cust_obj_list:
                 source = inspect.getsource(getattr(cust_file, mat))
                 print(source)
                 para.append('')
@@ -1088,16 +1104,17 @@ if __name__ == '__main__':
     #parse_all_ndmat()
     # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
     all = 0
-    all = 0  # TODO: KikuchiBearing
+    # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
     if not all:
+        parse_generic_single_file(obj_type='section', osi_type='sect')
         # print(ts)
         # parse_generic_single_file(obj_type='integrator', osi_type=None)
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'Quad.rst', 'ele')
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
-        parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
+        # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
         # parse_single_file(up.OPY_DOCS_PATH + 'UserDefined.rst', 'integ')
         # test_clean_fn_line()

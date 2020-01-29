@@ -11,7 +11,7 @@ class ZeroLength(ElementBase):
     """
     op_type = 'zeroLength'
 
-    def __init__(self, osi, ele_nodes, mat_tags=None, dir_args=None, r_flag=None, orient=None):
+    def __init__(self, osi, ele_nodes, mats=None, dir_args=None, r_flag: float=None, orient=None):
         """
         Initial method for ZeroLength
 
@@ -19,7 +19,7 @@ class ZeroLength(ElementBase):
         ----------
         ele_nodes: listi
             A list of two element nodes
-        mat_tags: None
+        mats: None
             A list of tags associated with previously-defined uniaxialmaterials
         dir_args: listi
             A list of material directions: * 1,2,3 - translation along local x,y,z axes, respectively; * 4,5,6 -
@@ -30,10 +30,10 @@ class ZeroLength(ElementBase):
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        if mat_tags is None:
-            self.mat_tags = None
+        if mats is None:
+            self.mats = None
         else:
-            self.mat_tags = [x.tag for x in mat_tags]
+            self.mats = [x.tag for x in mats]
         self.dir_args = dir_args
         if r_flag is None:
             self.r_flag = None
@@ -43,8 +43,8 @@ class ZeroLength(ElementBase):
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes]
-        if getattr(self, 'mat_tags') is not None:
-            self._parameters += ['-mat', *self.mat_tags]
+        if getattr(self, 'mats') is not None:
+            self._parameters += ['-mat', *self.mats]
         if getattr(self, 'dir_args') is not None:
             self._parameters += ['-dir', *self.dir_args]
         if getattr(self, 'r_flag') is not None:
@@ -100,7 +100,7 @@ class ZeroLengthSection(ElementBase):
     """
     op_type = 'zeroLengthSection'
 
-    def __init__(self, osi, ele_nodes, sec, r_flag=None, orient=None):
+    def __init__(self, osi, ele_nodes, sec, r_flag: float=None, orient=None):
         """
         Initial method for ZeroLengthSection
 
@@ -257,7 +257,7 @@ class ZeroLengthContactNTS2D(ElementBase):
     """
     op_type = 'zeroLengthContactNTS2D'
 
-    def __init__(self, osi, kn, kt, phi, s_nd_num=None, m_nd_num=None, nodes=None):
+    def __init__(self, osi, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes=None):
         """
         Initial method for ZeroLengthContactNTS2D
 
@@ -308,7 +308,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
     """
     op_type = 'zeroLengthInterface2D'
 
-    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num=None, m_nd_num=None, nodes=None):
+    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes=None):
         """
         Initial method for ZeroLengthInterface2Ddof
 

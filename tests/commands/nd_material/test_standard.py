@@ -31,13 +31,13 @@ def test_damage2p():
 def test_plane_stress():
     osi = o3.OpenseesInstance(ndm=3)
     mat_3d = o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0)
-    o3.nd_material.PlaneStress(osi, mat_3d=mat_3d)
+    o3.nd_material.PlaneStress(osi, mat3d=mat_3d)
 
 
 def test_plane_strain():
     osi = o3.OpenseesInstance(ndm=2)
     mat_3d = o3.nd_material.ElasticIsotropic(osi, big_e=1.0, v=1.0, rho=0.0)
-    o3.nd_material.PlaneStrain(osi, mat_3d=mat_3d)
+    o3.nd_material.PlaneStrain(osi, mat3d=mat_3d)
 
 
 def test_multiaxial_cyclic_plasticity():

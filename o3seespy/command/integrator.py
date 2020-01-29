@@ -13,7 +13,7 @@ class LoadControl(IntegratorBase):
     """
     op_type = 'LoadControl'
 
-    def __init__(self, osi, incr, num_iter=1, min_incr=None, max_incr=None):
+    def __init__(self, osi, incr, num_iter=1, min_incr: float=None, max_incr: float=None):
         """
         Initial method for LoadControl
 
@@ -62,7 +62,7 @@ class DisplacementControl(IntegratorBase):
     """
     op_type = 'DisplacementControl'
 
-    def __init__(self, osi, node, dof, incr, num_iter=1, d_umin=None, d_umax=None):
+    def __init__(self, osi, node, dof, incr, num_iter=1, d_umin: float=None, d_umax: float=None):
         """
         Initial method for DisplacementControl
 
@@ -111,7 +111,7 @@ class ParallelDisplacementControl(IntegratorBase):
     """
     op_type = 'ParallelDisplacementControl'
 
-    def __init__(self, osi, node, dof, incr, num_iter=1, d_umin=None, d_umax=None):
+    def __init__(self, osi, node, dof, incr, num_iter=1, d_umin: float=None, d_umax: float=None):
         """
         Initial method for ParallelDisplacementControl
 
@@ -158,7 +158,7 @@ class MinUnbalDispNorm(IntegratorBase):
     """
     op_type = 'MinUnbalDispNorm'
 
-    def __init__(self, osi, dlambda1, jd=1, min_lambda=None, max_lambda=None, det=None):
+    def __init__(self, osi, dlambda1, jd=1, min_lambda: float=None, max_lambda: float=None, det: float=None):
         """
         Initial method for MinUnbalDispNorm
 
@@ -257,7 +257,7 @@ class Newmark(IntegratorBase):
     """
     op_type = 'Newmark'
 
-    def __init__(self, osi, gamma, beta, form=None):
+    def __init__(self, osi, gamma, beta, form: str=None):
         """
         Initial method for Newmark
 
@@ -290,7 +290,7 @@ class HHT(IntegratorBase):
     """
     op_type = 'HHT'
 
-    def __init__(self, osi, alpha, gamma=None, beta=None):
+    def __init__(self, osi, alpha, gamma: float=None, beta: float=None):
         """
         Initial method for HHT
 
@@ -336,7 +336,7 @@ class GeneralizedAlpha(IntegratorBase):
     """
     op_type = 'GeneralizedAlpha'
 
-    def __init__(self, osi, alpha_m, alpha_f, gamma=None, beta=None):
+    def __init__(self, osi, alpha_m, alpha_f, gamma: float=None, beta: float=None):
         """
         Initial method for GeneralizedAlpha
 

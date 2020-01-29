@@ -48,7 +48,7 @@ class Cast(UniaxialMaterialBase):
     """
     op_type = 'Cast'
 
-    def __init__(self, osi, n, bo, h, fy, big_e, big_l, b, ro, c_r1, c_r2, a1=None, a2=1.0, a3=None, a4=1.0):
+    def __init__(self, osi, n, bo, h, fy, big_e, big_l, b, ro, c_r1, c_r2, a1: float=None, a2=1.0, a3: float=None, a4=1.0):
         """
         Initial method for Cast
 
@@ -733,7 +733,7 @@ class Fatigue(UniaxialMaterialBase):
     """
     op_type = 'Fatigue'
 
-    def __init__(self, osi, other, e0=None, m=None, min=None, max=None):
+    def __init__(self, osi, other, e0: float=None, m: float=None, min: float=None, max: float=None):
         """
         Initial method for Fatigue
 
@@ -941,7 +941,7 @@ class MinMax(UniaxialMaterialBase):
     """
     op_type = 'MinMax'
 
-    def __init__(self, osi, other, min_strain=None, max_strain=None):
+    def __init__(self, osi, other, min_strain: float=None, max_strain: float=None):
         """
         Initial method for MinMax
 
@@ -982,7 +982,7 @@ class ElasticBilin(UniaxialMaterialBase):
     """
     op_type = 'ElasticBilin'
 
-    def __init__(self, osi, ep1, ep2, eps_p2, en1=None, en2=None, eps_n2=None):
+    def __init__(self, osi, ep1, ep2, eps_p2, en1: float=None, en2: float=None, eps_n2: float=None):
         """
         Initial method for ElasticBilin
 
@@ -1251,7 +1251,7 @@ class SelfCentering(UniaxialMaterialBase):
     """
     op_type = 'SelfCentering'
 
-    def __init__(self, osi, k1, k2, sig_act, beta, eps_slip=0, eps_bear=0, r_bear=None):
+    def __init__(self, osi, k1, k2, sig_act, beta, eps_slip=0, eps_bear=0, r_bear: float=None):
         """
         Initial method for SelfCentering
 
