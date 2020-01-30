@@ -265,3 +265,95 @@ class Steel01(UniaxialMaterialBase):
 #             if self.ele2 is None:
 #                 self._parameters.append(self.ele2)
 #         self.to_process(osi)
+
+
+class StressDensity(NDMaterialBase):
+    op_type = "stressDensity"
+
+    def __init__(self, osi, den, e_init, big_a, n, nu, a1, b1, a2, b2, a3, b3, fd, mu_0, mu_cyc, sc, big_m, p_atm,
+                 ssls=None, hsl=None, ps=None):
+        """
+        Initial method for StressDensity
+
+        Parameters
+        ----------
+        m_den: float
+            Mass density
+        e_not: float
+            Initial void ratio
+        big_a: float
+            Constant for elastic shear modulus
+        n: float
+            Pressure dependency exponent for elastic shear modulus
+        nu: float
+            Poisson's ratio
+        a1: float
+            Peak stress ratio coefficient (:math:`etamax = a1 + b1*is`)
+        b1: float
+            Peak stress ratio coefficient (:math:`etamax = a1 + b1*is`)
+        a2: float
+            Max shear modulus coefficient (:math:`gn_max = a2 + b2*is`)
+        b2: float
+            Max shear modulus coefficient (:math:`gn_max = a2 + b2*is`)
+        a3: float
+            Min shear modulus coefficient (:math:`gn_min = a3 + b3*is`)
+        b3: float
+            Min shear modulus coefficient (:math:`gn_min = a3 + b3*is`)
+        fd: float
+            Degradation constant
+        mu_not: float
+            Dilatancy coefficient (monotonic loading)
+        mu_cyc: float
+            Dilatancy coefficient (cyclic loading)
+        sc: float
+            Dilatancy strain
+        big_m: float
+            Critical state stress ratio
+        patm: float
+            Atmospheric pressure (in appropriate units)
+        ssls: listf
+            Void ratio of quasi steady state (qss-line) at pressures [pmin, 10kpa, 30kpa, 50kpa, 100kpa, 200kpa, 400kpa]
+            (default = [0.877, 0.877, 0.873, 0.870, 0.860, 0.850, 0.833])
+        hsl: float
+            Void ratio of upper reference state (ur-line) for all pressures (default = 0.895)
+        p1: float
+            Pressure corresponding to ssl1 (default = 1.0 kpa)
+        """
+        self.osi = osi
+        self.den = float(den)
+        self.e_init = float(e_init)
+        self.big_a = float(big_a)
+        self.n = float(n)
+        self.nu = float(nu)
+        self.a1 = float(a1)
+        self.b1 = float(b1)
+        self.a2 = float(a2)
+        self.b2 = float(b2)
+        self.a3 = float(a3)
+        self.b3 = float(b3)
+        self.fd = float(fd)
+        self.mu_0 = float(mu_0)
+        self.mu_cyc = float(mu_cyc)
+        self.sc = float(sc)
+        self.big_m = float(big_m)
+        self.p_atm = float(p_atm)
+
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+
+        self._parameters = [self.op_type, self._tag, self.den, self.e_init, self.big_a, self.n, self.nu, self.a1, self.b1, self.a2,
+                            self.b2, self.a3, self.b3, self.fd, self.mu_0, self.mu_cyc, self.sc, self.big_m,
+                            self.p_atm]
+        if ssls is not None:
+            assert len(ssls) == 7, len(ssls)
+            self.ssls = [float(x) for x in ssls]
+            if hsl is None:
+                self.hsl = 0.895
+            else:
+                self.hsl = float(hsl)
+            self._parameters += [*self.ssls, self.hsl]
+        if ps is not None:
+            self.ps = [float(x) for x in ps]
+            self._parameters += [*self.ps]
+
+        self.to_process(osi)

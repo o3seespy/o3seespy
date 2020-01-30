@@ -1,4 +1,3 @@
-import openseespy.opensees as opy
 import o3seespy as o3
 
 

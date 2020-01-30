@@ -1,4 +1,7 @@
-import openseespy.opensees as opy
+try:
+    import custom_openseespy.opensees as opy
+except ModuleNotFoundError:
+    import openseespy.opensees as opy
 from collections import OrderedDict
 from o3seespy import exceptions, extensions
 

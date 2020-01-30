@@ -940,8 +940,8 @@ def parse_all_ndmat():
                 continue
             if mat == 'PressureDependMultiYield02':
                 continue
-            if mat == 'StressDensityModel':
-                continue
+            # if mat == 'StressDensityModel':
+            #     continue
             if mat == 'PM4Sand':
                 continue
             mat_name = convert_name_to_class_name(mat)
@@ -1114,7 +1114,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 0
+    all = 1
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)

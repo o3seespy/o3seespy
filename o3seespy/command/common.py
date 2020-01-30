@@ -1,10 +1,10 @@
-import openseespy.opensees as opy
 from o3seespy.base_model import OpenseesObject
-from o3seespy import extensions
 
 
-def set_node_mass(node, x_mass, y_mass, rot_mass):
-    opy.mass(node.tag, x_mass, y_mass, rot_mass)
+def set_node_mass(osi, node, x_mass, y_mass, rot_mass):
+    op_type = 'mass'
+    parameters = [node.tag, x_mass, y_mass, rot_mass]
+    osi.to_process(op_type, parameters)
 
 
 class Mass(OpenseesObject):
@@ -20,24 +20,44 @@ class Mass(OpenseesObject):
         self.to_process(osi)
 
 
-def set_equal_dof(node_1, node_2, dof):
-    opy.equalDOF(node_1.tag, node_2.tag,  dof)
+def set_equal_dof(osi, node_1, node_2, dof):
+    op_type = 'equalDOF'
+    parameters = [node_1.tag, node_2.tag,  dof]
+    osi.to_process(op_type, parameters)
 
 
-def set_equal_dofs(node_1, node_2, dofs):
-    opy.equalDOF(node_1.tag, node_2.tag,  *dofs)
+def set_equal_dofs(osi, node_1, node_2, dofs):
+    op_type = 'equalDOF'
+    parameters = [node_1.tag, node_2.tag,  *dofs]
+    osi.to_process(op_type, parameters)
 
 
-def set_equal_dofs_mixed(node_1, node_2, num_dof, rcdofs):  # TODO: validate
-    opy.equalDOF_Mixed(node_1.tag, node_2.tag,  num_dof, *rcdofs)
+def set_equal_dofs_mixed(osi, node_1, node_2, num_dof, rcdofs):  # TODO: validate
+    op_type = 'equalDOF_Mixed'
+    parameters = [node_1.tag, node_2.tag,  num_dof, *rcdofs]
+    osi.to_process(op_type, parameters)
 
 
-def set_rigid_diaphragm(r_node, cnodes, perp_dir):
+class EqualDOF(OpenseesObject):
+    op_base_type = "equalDOF"
+    op_type = None
+
+    def __init__(self, osi, node_1, node_2, dofs):
+        self.node_1 = node_1
+        self.node_2 = node_2
+        self.dofs = dofs
+        self._parameters = [self.node_1.tag, self.node_2.tag, *self.dofs]
+        self.to_process(osi)
+
+
+def set_rigid_diaphragm(osi, r_node, cnodes, perp_dir):
     cnode_tags = [x.tag for x in cnodes]
-    opy.rigidDiaphragm(perp_dir, r_node.tag,  *cnode_tags)
+    op_type = 'rigidDiaphragm'
+    parameters = [perp_dir, r_node.tag,  *cnode_tags]
+    osi.to_process(op_type, parameters)
 
 
-def set_rigid_link(r_node, c_node, rtype):
+def set_rigid_link(osi, r_node, c_node, rtype):
     """
     Create a multi-point constraint between nodes.
 
@@ -54,24 +74,9 @@ def set_rigid_link(r_node, c_node, rtype):
     -------
 
     """
-    opy.rigidLink(r_node.tag, c_node.tag,  rtype)
-
-
-class EqualDOF(OpenseesObject):
-    op_base_type = "equalDOF"
-    op_type = None
-
-    def __init__(self, osi, node_1, node_2, dofs):
-        self.node_1 = node_1
-        self.node_2 = node_2
-        self.dofs = dofs
-        self._parameters = [self.node_1.tag, self.node_2.tag, *self.dofs]
-        self.to_process(osi)
-
-
-def set_node_fixities(node, x, y, z_rot, z=None, x_rot=None, y_rot=None):
-
-    opy.fix(node.tag, x, y, z_rot)  # TODO: is order correct? deal with 3D
+    op_type = 'rigidLink'
+    parameters = [r_node.tag, c_node.tag,  rtype]
+    osi.to_process(op_type, parameters)
 
 
 class Fix(OpenseesObject):
