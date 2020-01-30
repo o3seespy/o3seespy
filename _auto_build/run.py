@@ -1113,8 +1113,8 @@ if __name__ == '__main__':
     # parse_single_file('Bond_SP01.rst')
     import user_paths as up
     #parse_all_ndmat()
-    # ps, ts = parse_single_file(up.OPY_DOCS_PATH + 'nonlinearBeamColumn.rst', 'ele')
-    all = 1
+
+    all = 0
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
@@ -1143,6 +1143,10 @@ if __name__ == '__main__':
         parse_all_elements()
     ofile = open('temp.out', 'w')
     ofile.write('\n'.join(glob_list))
+    # ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'block2D.rst', 'block')
+    ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'region.rst', 'block')
+    print(ps)
+    print(ts)
     # defo = 'a2*k'
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):
     #     print('found')

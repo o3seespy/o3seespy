@@ -28,6 +28,35 @@ def set_equal_dofs(node_1, node_2, dofs):
     opy.equalDOF(node_1.tag, node_2.tag,  *dofs)
 
 
+def set_equal_dofs_mixed(node_1, node_2, num_dof, rcdofs):  # TODO: validate
+    opy.equalDOF_Mixed(node_1.tag, node_2.tag,  num_dof, *rcdofs)
+
+
+def set_rigid_diaphragm(r_node, cnodes, perp_dir):
+    cnode_tags = [x.tag for x in cnodes]
+    opy.rigidDiaphragm(perp_dir, r_node.tag,  *cnode_tags)
+
+
+def set_rigid_link(r_node, c_node, rtype):
+    """
+    Create a multi-point constraint between nodes.
+
+    Parameters
+    ----------
+    r_node: Node
+        Master node
+    c_node: Node
+        Slave node
+    rtype: str
+        Either 'bar' or 'beam'
+
+    Returns
+    -------
+
+    """
+    opy.rigidLink(r_node.tag, c_node.tag,  rtype)
+
+
 class EqualDOF(OpenseesObject):
     op_base_type = "equalDOF"
     op_type = None
