@@ -18,10 +18,11 @@ def to_commands(op_base_type, parameters):
     return 'opy.%s(%s)' % (op_base_type, p_str)
 
 
-def to_py_file(osi, ofile='ofile.py'):
+def to_py_file(osi, ofile='ofile.py', w_analyze=False):
     ofile = open(ofile, 'w')
     pstr = 'import openseespy.opensees as opy\n' + '\n'.join(osi.commands)
-    pstr += '\nopy.analyze(1, 0.1)\n'
+    if w_analyze:
+        pstr += '\nopy.analyze(1, 0.1)\n'
     ofile.write(pstr)
     ofile.close()
 

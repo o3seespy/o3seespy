@@ -29,3 +29,67 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.n_d_mat.tag, self.n_dim]
         self.to_process(osi)
+
+
+class InitStressNDMaterial(NDMaterialBase):
+    """
+    The InitStressNDMaterial NDMaterial Class
+    
+    This command is used to construct an Initial Stress material object.The stress-strain behaviour for this material is
+    defined by another material.Initial Stress Material enables definition of initial stress for the material under
+    consideration.The strain that corresponds to the initial stress will be calculated from the other material.
+    """
+    op_type = 'InitStressNDMaterial'
+
+    def __init__(self, osi, other, init_stress, n_dim):
+        """
+        Initial method for InitStressNDMaterial
+
+        Parameters
+        ----------
+        other: obj
+            Tag of the other material
+        init_stress: float
+            Initial stress
+        n_dim: int
+            Number of dimensions (e.g. if plane strain ndim=2)
+        """
+        self.other = other
+        self.init_stress = float(init_stress)
+        self.n_dim = int(n_dim)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.other.tag, self.init_stress, self.n_dim]
+        self.to_process(osi)
+
+
+class InitStrainNDMaterial(NDMaterialBase):
+    """
+    The InitStrainNDMaterial NDMaterial Class
+    
+    This command is used to construct an Initial Strain material object. The stress-strain behaviour for this material
+    is defined by another material. Initial Strain Material enables definition of initial strains for the material under
+    consideration. The stress that corresponds to the initial strain will be calculated from the other material.
+    """
+    op_type = 'InitStrainNDMaterial'
+
+    def __init__(self, osi, other, init_strain, n_dim):
+        """
+        Initial method for InitStrainNDMaterial
+
+        Parameters
+        ----------
+        other: obj
+            Tag of the other material
+        init_strain: float
+            Initial strain
+        n_dim: float
+            Number of dimensions
+        """
+        self.other = other
+        self.init_strain = float(init_strain)
+        self.n_dim = float(n_dim)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.other.tag, self.init_strain, self.n_dim]
+        self.to_process(osi)

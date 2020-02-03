@@ -4,6 +4,9 @@ FIXED = 1
 X = 1
 Y = 2
 ROTZ = 3
+DOF2D_X = 1
+DOF2D_Y = 2
+DOF2D_ROTZ = 3
 
 P = 'P'
 M_Z = 'Mz'

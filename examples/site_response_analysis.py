@@ -13,6 +13,7 @@ from bwplot import cbox
 import json
 
 
+
 def site_response(sp, asig, linear=0):
     """
     Run seismic analysis of a soil profile - example based on:
@@ -25,7 +26,7 @@ def site_response(sp, asig, linear=0):
     :return:
     """
 
-    osi = o3.OpenseesInstance(ndm=2, node_dofs=2, state=3)
+    osi = o3.OpenseesInstance(ndm=2, ndf=2, state=3)
     assert isinstance(sp, sm.SoilProfile)
     sp.gen_split(props=['shear_vel', 'unit_mass', 'cohesion', 'phi', 'bulk_mod', 'poissons_ratio', 'strain_peak'])
     thicknesses = sp.split["thickness"]
@@ -241,23 +242,30 @@ def run():
     outputs = site_response(soil_profile, acc_signal, linear=1)
     resp_dt = outputs['time'][2] - outputs['time'][1]
     surf_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)
+    outputs = site_response(soil_profile, acc_signal, linear=0)
+    resp_dt = outputs['time'][2] - outputs['time'][1]
+    nl_surf_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)
+    lw = 0.7
 
-    sps[0].plot(acc_signal.time, acc_signal.values, c='k')
-    sps[0].plot(surf_sig.time, surf_sig.values, c=cbox(0))
-    sps[0].plot(acc_signal.time, pysra_sig.values, c=cbox(1))
+    sps[0].plot(acc_signal.time, acc_signal.values, c='k', lw=lw)
+    sps[0].plot(surf_sig.time, surf_sig.values, c=cbox(0), lw=lw)
+    sps[0].plot(acc_signal.time, pysra_sig.values, c=cbox(1), lw=lw)
 
-    sps[1].plot(acc_signal.fa_frequencies, abs(acc_signal.fa_spectrum), c='k')
-    sps[1].plot(surf_sig.fa_frequencies, abs(surf_sig.fa_spectrum), c=cbox(0))
-    sps[1].plot(pysra_sig.fa_frequencies, abs(pysra_sig.fa_spectrum), c=cbox(1))
+    sps[1].plot(acc_signal.fa_frequencies, abs(acc_signal.fa_spectrum), c='k', label='Input', lw=lw)
+    sps[1].plot(surf_sig.fa_frequencies, abs(surf_sig.fa_spectrum), c=cbox(0), label='O3', lw=lw)
+    sps[1].plot(pysra_sig.fa_frequencies, abs(pysra_sig.fa_spectrum), c=cbox(1), label='pysra', lw=lw)
     sps[1].set_xlim([0, 20])
     h = surf_sig.smooth_fa_spectrum / acc_signal.smooth_fa_spectrum
     sps[2].plot(surf_sig.smooth_fa_frequencies, h, c=cbox(0))
     pysra_h = pysra_sig.smooth_fa_spectrum / acc_signal.smooth_fa_spectrum
     sps[2].plot(pysra_sig.smooth_fa_frequencies, pysra_h, c=cbox(1))
+    o3_nl_h = nl_surf_sig.smooth_fa_spectrum / acc_signal.smooth_fa_spectrum
+    sps[2].plot(nl_surf_sig.smooth_fa_frequencies, o3_nl_h, c=cbox(2))
     sps[2].axhline(1, c='k', ls='--')
-
+    sps[1].legend()
     plt.show()
     print(outputs)
+
 
 if __name__ == '__main__':
     run()

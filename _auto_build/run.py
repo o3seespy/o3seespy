@@ -1118,6 +1118,7 @@ if __name__ == '__main__':
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
+    # TODO: Add SteelZ01 and others that are not in the openseespy docs
     if not all:
         parse_generic_single_file(obj_type='section', osi_type='sect')
         # print(ts)
