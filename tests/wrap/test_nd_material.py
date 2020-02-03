@@ -3,7 +3,7 @@ import pytest
 
 
 def test_can_set_PressureIndependMultiYield():
-    osi = o3.OpenseesInstance(ndm=2)
+    osi = o3.OpenSeesInstance(ndm=2)
 
     # Define material
     nd = 2
@@ -17,7 +17,7 @@ def test_can_set_PressureIndependMultiYield():
 
 
 def test_can_set_PM4Sand():
-    osi = o3.OpenseesInstance(ndm=2)
+    osi = o3.OpenSeesInstance(ndm=2)
 
     # Define material
     d_r = 0.5
@@ -29,7 +29,7 @@ def test_can_set_PM4Sand():
 
 
 def skip_test_can_set_stress_density_model():
-    osi = o3.OpenseesInstance(ndm=2)
+    osi = o3.OpenSeesInstance(ndm=2)
 
     # Define material
     o3.nd_material.StressDensityModel(osi, den=1.8, e_init=0.73, area=250., n=0.6, nu=0.3, a1=0.58, b1=0.023,

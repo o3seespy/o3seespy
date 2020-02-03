@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class TestBase(OpenseesObject):
+class TestBase(OpenSeesObject):
     op_base_type = "test"
 
 

@@ -38,7 +38,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     -------
 
     """
-    osi = o3.OpenseesInstance(ndm=2)
+    osi = o3.OpenSeesInstance(ndm=2)
 
     q_floor = 10000.  # kPa
     trib_width = fb.floor_length

@@ -13,25 +13,25 @@
 o3seespy
 ********
 
-Object-orientated native python version of Opensees
+Object-oriented native python version of OpenSees
 
 Features
 ========
 
 This package provides:
 
- 1. A 'pythonic' version of opensees
-    - all input parameters to create opensees objects are all lowercase key-value arguments
+ 1. A 'pythonic' version of OpenSees
+    - all input parameters to create OpenSees objects are all lowercase key-value arguments
     - all class objects are CamelCase
     - static string variables defined in ALL_CAPS
     - Where possible the exact name used in the original TCL version has been kept
  2. Fully namespaced package allowing full auto-complete e.g. 'o3.uniaxial_material.Steel01(...)'
- 3. Object-orientated implementation of Opensees. Python is object-orientated and the underlying opensees C++ source code is object orientated. This package replicates the underlying C++ objects.
- 4. Type checking of inputs before calling C++ opensees code, so that python debugging and errors can be viewed
+ 3. Object-oriented implementation of OpenSees. Python is object-oriented and the underlying OpenSees C++ source code is object orientated. This package replicates the underlying C++ objects.
+ 4. Type checking of inputs before calling C++ OpenSees code, so that python debugging and errors can be viewed
  5. In code documentation using python docstrings - can view the documentation within your IDE
- 6. Additional features for using opensees in python:
-    - saving and loading data directly from opensees into numpy arrays
-    - saving and loading data directly from opensees into json files
+ 6. Additional features for using OpenSees in python:
+    - saving and loading data directly from OpenSees into numpy arrays
+    - saving and loading data directly from OpenSees into json files
     - Save an entire model as a json file - allows efficient passing of models between servers
  7. All object numbering handled by objects - no need for number tags!
  8. Additional logic checking of optional inputs
@@ -73,7 +73,7 @@ Example: Inelastic SDOF
     r_post = 0.0
 
     # Initialise OpenSees instance
-    osi = o3.OpenseesInstance(ndm=2, state=0)
+    osi = o3.OpenSeesInstance(ndm=2, state=0)
 
     # Establish nodes
     bot_node = o3.node.Node(osi, 0, 0)
@@ -177,15 +177,15 @@ How do I get set up?
 Package conventions
 -------------------
 
-* All names should be the same as the opensees tcl version, except:
+* All names should be the same as the OpenSees tcl version, except:
     - The name should be converted to snake_case for a parameter or function
     - The name should be converted to CamelCase for an Object
     - The name should be converted to ALL_CAPS for static variables
     - If the name matches a python special name (e.g. lambda, in) then it should be adjusted according to the dictionary
     - Objects should be namespaced based on the object type (e.g. element, material)
     - For parameter that are used across many objects (e.g. atmospheric pressure) a standard name should be used
-    - opensees functions that collect a result are named 'get_<function-name>'
-    - opensees functions that generate results are named 'gen_<function-name>'
+    - OpenSees functions that collect a result are named 'get_<function-name>'
+    - OpenSees functions that generate results are named 'gen_<function-name>'
 
 * How should youngs modulus be named?
 * Should all two node elements use i_node, j_node. Or make them all enter nodes as a list?

@@ -1,6 +1,6 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class ElementBase(OpenseesObject):
+class ElementBase(OpenSeesObject):
     op_base_type = "element"
 

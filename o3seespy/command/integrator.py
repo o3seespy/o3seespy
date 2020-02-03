@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class IntegratorBase(OpenseesObject):
+class IntegratorBase(OpenSeesObject):
     op_base_type = "integrator"
 
 

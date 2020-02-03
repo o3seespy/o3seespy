@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class TimeSeriesBase(OpenseesObject):
+class TimeSeriesBase(OpenSeesObject):
     op_base_type = "timeSeries"
 
 

@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class AlgorithmBase(OpenseesObject):
+class AlgorithmBase(OpenSeesObject):
     op_base_type = "algorithm"
 
 

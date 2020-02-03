@@ -12,7 +12,7 @@ with open('README.rst') as readme_file:
 
 setup(name='o3seespy',
       version=about['__version__'],
-      description='Object-orientated native python version of Opensees',
+      description='Object-oriented native python version of Opensees',
       long_description=readme,  # + '\n\n' + history,
       url='',
       author=about['__author__'],

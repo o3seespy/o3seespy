@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class Rayleigh(OpenseesObject):
+class Rayleigh(OpenSeesObject):
     op_base_type = "rayleigh"
     op_type = "rayleigh"
 

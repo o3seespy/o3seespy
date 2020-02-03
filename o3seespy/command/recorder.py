@@ -1,9 +1,9 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 import tempfile
 import os
 
 
-class RecorderBase(OpenseesObject):
+class RecorderBase(OpenSeesObject):
     op_base_type = "recorder"
 
 

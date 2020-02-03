@@ -1,4 +1,4 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
 def set_node_mass(osi, node, x_mass, y_mass, rot_mass):
@@ -7,7 +7,7 @@ def set_node_mass(osi, node, x_mass, y_mass, rot_mass):
     osi.to_process(op_type, parameters)
 
 
-class Mass(OpenseesObject):
+class Mass(OpenSeesObject):
     op_base_type = "mass"
     op_type = None
 
@@ -38,7 +38,7 @@ def set_equal_dofs_mixed(osi, node_1, node_2, num_dof, rcdofs):  # TODO: validat
     osi.to_process(op_type, parameters)
 
 
-class EqualDOF(OpenseesObject):
+class EqualDOF(OpenSeesObject):
     op_base_type = "equalDOF"
     op_type = None
 
@@ -79,7 +79,7 @@ def set_rigid_link(osi, r_node, c_node, rtype):
     osi.to_process(op_type, parameters)
 
 
-class Fix(OpenseesObject):
+class Fix(OpenSeesObject):
     op_base_type = "fix"
     op_type = None
 
@@ -92,7 +92,7 @@ class Fix(OpenseesObject):
         self.to_process(osi)
 
 
-class Load(OpenseesObject):
+class Load(OpenSeesObject):
     op_base_type = "load"
     op_type = None
 
@@ -103,7 +103,7 @@ class Load(OpenseesObject):
         self._parameters = [self.node.tag, *self.load_values]
         self.to_process(osi)
 
-class EleLoad2DPoint(OpenseesObject):
+class EleLoad2DPoint(OpenSeesObject):
     op_base_type = "eleLoad"
     op_type = None
 
@@ -124,7 +124,7 @@ class EleLoad2DPoint(OpenseesObject):
         self.to_process(osi)
 
 
-class EleLoad2DUniform(OpenseesObject):
+class EleLoad2DUniform(OpenSeesObject):
     op_base_type = "eleLoad"
     op_type = None
 
@@ -142,7 +142,7 @@ class EleLoad2DUniform(OpenseesObject):
         self.to_process(osi)
 
 
-class SP(OpenseesObject):
+class SP(OpenSeesObject):
     op_base_type = "sp"
     op_type = None
 

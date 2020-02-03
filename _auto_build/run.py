@@ -98,7 +98,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         if op_type is None:
             base_class_name = convert_name_to_class_name(base_type)
             # base_class_name = base_type[0].capitalize() + base_type[1:]
-            para.append(f'class {base_class_name}(OpenseesObject):')
+            para.append(f'class {base_class_name}(OpenSeesObject):')
             cur_obj_class_name = base_type
             para += build_obj_docstring(base_type, base_class_name, obj_blurb)
             para.append(w4 + f"op_base_type = '{base_type}'")
@@ -301,7 +301,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
 
 
 def build_test_for_generic(names, pms, cl_pms):
-    tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenseesInstance(ndm=2)']
+    tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenSeesInstance(ndm=2)']
     prior_strs = []
     pjoins = ['osi']
     for i, pm in enumerate(cl_pms):
@@ -1067,8 +1067,8 @@ def parse_generic_single_file(obj_type, osi_type):
 
     floc = ROOT_DIR + 'o3seespy/command/'
     for item in collys:
-        para = ['from o3seespy.base_model import OpenseesObject', '', '']
-        para += [f'class {o3_class_type}Base(OpenseesObject):']
+        para = ['from o3seespy.base_model import OpenSeesObject', '', '']
+        para += [f'class {o3_class_type}Base(OpenSeesObject):']
         para += [w4 + f'op_base_type = "{obj_type}"', '']
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         ipara = []

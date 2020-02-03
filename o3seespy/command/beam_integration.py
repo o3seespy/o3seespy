@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class BeamIntegrationBase(OpenseesObject):
+class BeamIntegrationBase(OpenSeesObject):
     op_base_type = "beamIntegration"
 
 
@@ -483,7 +483,7 @@ class HingeRadauTwo(BeamIntegrationBase):
         self.to_process(osi)
 
 
-class BeamhingeEndpoint(OpenseesObject):
+class BeamhingeEndpoint(OpenSeesObject):
     """
     The beamhingeEndpoint BeamhingeEndpoint Class
     

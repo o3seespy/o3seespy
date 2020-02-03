@@ -1,4 +1,4 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 from o3seespy.command.section import SectionBase
 
 
@@ -185,7 +185,7 @@ class Steel01(UniaxialMaterialBase):
 #
 #         Parameters
 #         ----------
-#         osi : opensees_pack.opensees_instance.OpenseesInstance object
+#         osi : opensees_pack.opensees_instance.OpenSeesInstance object
 #             An instance of opensees
 #         soil_type : int {1, 2}
 #             Backbone type for soil
@@ -221,7 +221,7 @@ class Steel01(UniaxialMaterialBase):
 #
 #         Parameters
 #         ----------
-#         osi : opensees_pack.opensees_instance.OpenseesInstance object
+#         osi : opensees_pack.opensees_instance.OpenSeesInstance object
 #             An instance of opensees
 #         soil_type
 #        p_ult : float

@@ -6,7 +6,7 @@ from collections import OrderedDict
 from o3seespy import exceptions, extensions
 
 
-class OpenseesInstance(object):  # TODO: allow custom (self compiled opensees)
+class OpenSeesInstance(object):  # TODO: allow custom (self compiled opensees)
     n_node = 0
     n_con = 0
     n_ele = 0
@@ -92,3 +92,9 @@ class OpenseesInstance(object):  # TODO: allow custom (self compiled opensees)
     @state.setter
     def state(self, value):
         self._state = value
+
+
+class OpenseesInstance(OpenSeesInstance):
+    def __init__(self, ndm: int, ndf=None, state=0):
+        print('Please use OpenSeesInstance instead of OpenseesInstance')
+        super(OpenseesInstance, self).__init__(ndm, ndf, state)

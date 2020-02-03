@@ -1,4 +1,4 @@
-from o3seespy.opensees_instance import OpenseesInstance
+from o3seespy.opensees_instance import OpenSeesInstance
 from o3seespy import exceptions
 from o3seespy import cc
 from o3seespy import cc as static  # deprecated

@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class ConstraintsBase(OpenseesObject):
+class ConstraintsBase(OpenSeesObject):
     op_base_type = "constraints"
 
 

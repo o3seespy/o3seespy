@@ -17,7 +17,7 @@ f_yield = 1.5  # Reduce this to make it nonlinear
 r_post = 0.0
 
 # Initialise OpenSees instance
-osi = o3.OpenseesInstance(ndm=2, state=0)
+osi = o3.OpenSeesInstance(ndm=2, state=0)
 
 # Establish nodes
 bot_node = o3.node.Node(osi, 0, 0)

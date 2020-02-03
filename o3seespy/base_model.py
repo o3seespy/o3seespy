@@ -7,7 +7,7 @@ from o3seespy import exceptions
 from o3seespy import extensions
 
 
-class OpenseesObject(object):
+class OpenSeesObject(object):
     op_base_type = "<not-set>"  # used to call opensees module
     op_type = "<not-set>"  # string name given to object in opensees module
     _tag = None

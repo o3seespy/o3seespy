@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class Node(OpenseesObject):
+class Node(OpenSeesObject):
     op_base_type = "node"
     op_type = "node"
     x_con = None
@@ -21,7 +21,7 @@ class Node(OpenseesObject):
 
         Parameters
         ----------
-        osi : opensees_pack.opensees_instance.OpenseesInstance object
+        osi : opensees_pack.opensees_instance.OpenSeesInstance object
             An instance of opensees
         x : float
             x-coordinate

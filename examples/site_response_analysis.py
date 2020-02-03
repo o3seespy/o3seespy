@@ -26,7 +26,7 @@ def site_response(sp, asig, linear=0):
     :return:
     """
 
-    osi = o3.OpenseesInstance(ndm=2, ndf=2, state=3)
+    osi = o3.OpenSeesInstance(ndm=2, ndf=2, state=3)
     assert isinstance(sp, sm.SoilProfile)
     sp.gen_split(props=['shear_vel', 'unit_mass', 'cohesion', 'phi', 'bulk_mod', 'poissons_ratio', 'strain_peak'])
     thicknesses = sp.split["thickness"]
@@ -202,7 +202,7 @@ def run():
     sl.poissons_ratio = 0.0
     sl.phi = 0.0
     sl.unit_dry_weight = unit_mass * 9.8
-    sl.strain_peak = 0.1  # set additional parameter required for PIMY model
+    sl.strain_peak = 0.05  # set additional parameter required for PIMY model
     sl.xi = 0.03  # for linear analysis
     assert np.isclose(vs, sl.get_shear_vel(saturated=False))
     soil_profile = sm.SoilProfile()
@@ -213,10 +213,10 @@ def run():
     unit_mass = 1700.0
     sl.g_mod = vs ** 2 * unit_mass
     sl.poissons_ratio = 0.0
-    sl.cohesion = 395.0e3
+    sl.cohesion = 305.0e3
     sl.phi = 0.0
     sl.unit_dry_weight = unit_mass * 9.8
-    sl.strain_peak = 0.1  # set additional parameter required for PIMY model
+    sl.strain_peak = 0.05  # set additional parameter required for PIMY model
     sl.xi = 0.03  # for linear analysis
     soil_profile.add_layer(9.5, sl)
     soil_profile.height = 20.0

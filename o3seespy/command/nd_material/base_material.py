@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class NDMaterialBase(OpenseesObject):
+class NDMaterialBase(OpenSeesObject):
     op_base_type = "nDMaterial"
     op_type = None
 

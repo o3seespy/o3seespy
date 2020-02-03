@@ -8,7 +8,7 @@ def run_uniaxial_disp_driver(osi, mat_obj, disps, dmax_lim=0.01):
 
     Parameters
     ----------
-    osi: o3.OpenseesInstance()
+    osi: o3.OpenSeesInstance()
         An Opensees instance
     mat_obj: o3.uniaxial_material.UniaxialMaterialBase()
         An instance of uniaxial material
@@ -72,7 +72,7 @@ def run_uniaxial_force_driver(osi, mat_obj, forces, d_step=0.001, max_steps=1000
 
     Parameters
     ----------
-    osi: o3.OpenseesInstance()
+    osi: o3.OpenSeesInstance()
         An Opensees instance
     mat_obj: o3.uniaxial_material.UniaxialMaterialBase()
         An instance of uniaxial material
@@ -141,7 +141,7 @@ def run_uniaxial_force_driver(osi, mat_obj, forces, d_step=0.001, max_steps=1000
 
 
 def example_run_disp_gen():
-    osi = o3.OpenseesInstance(dimensions=1, state=0)
+    osi = o3.OpenSeesInstance(dimensions=1, state=0)
     mat_obj1 = o3.uniaxial_material.PySimple1(osi, 1, 1e3, 0.05, 1.0, 0.0)
     t = np.arange(0, 20, 0.01)
     umax = 0.004
@@ -154,7 +154,7 @@ def example_run_disp_gen():
 
 
 def example_run_force_gen():
-    osi = o3.OpenseesInstance(dimensions=1, state=0)
+    osi = o3.OpenSeesInstance(dimensions=1, state=0)
     mat_obj1 = o3.uniaxial_material.PySimple1(osi, 1, 1e3, 0.05, 1.0, 0.0)
     forces = [400, 50, 550, -10, 800, -800, 800]
     disp, react = o3.tools.run_uniaxial_force_driver(osi, mat_obj1, forces)

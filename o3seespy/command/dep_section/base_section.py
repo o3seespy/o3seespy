@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenseesObject
+from o3seespy.base_model import OpenSeesObject
 
 
-class SectionBase(OpenseesObject):
+class SectionBase(OpenSeesObject):
     op_base_type = "section"
 
 
