@@ -26,7 +26,7 @@ This package provides:
     - static string variables defined in ALL_CAPS
     - Where possible the exact name used in the original TCL version has been kept
  2. Fully namespaced package allowing full auto-complete e.g. 'o3.uniaxial_material.Steel01(...)'
- 3. Object-oriented implementation of OpenSees. Python is object-oriented and the underlying OpenSees C++ source code is object orientated. This package replicates the underlying C++ objects.
+ 3. Replication of underlying object-oriented C++ source code using Python objects.
  4. Type checking of inputs before calling C++ OpenSees code, so that python debugging and errors can be viewed
  5. In code documentation using python docstrings - can view the documentation within your IDE
  6. Additional features for using OpenSees in python:
