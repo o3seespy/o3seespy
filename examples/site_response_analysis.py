@@ -91,7 +91,7 @@ def site_response(sp, asig, linear=0):
     strains = np.logspace(-6, -0.5, 16)
     ref_strain = 0.005
     rats = 1. / (1 + (strains / ref_strain) ** 0.91)
-
+    eles = []
     for i in range(len(thicknesses)):
         if not linear:
             mat = o3.nd_material.PressureIndependMultiYield(osi, 2, unit_masses[i], g_mods[i],
@@ -110,6 +110,7 @@ def site_response(sp, asig, linear=0):
             nd["R{0}L".format(i)]
         ]
         ele = o3.element.Quad(osi, nodes, ele_thick, o3.cc.PLANE_STRAIN, mat, b2=grav * unit_masses[i])
+        eles.append(ele)
 
     # define material and element for viscous dampers
     c_base = ele_width * unit_masses[-1] * shear_vels[-1]
@@ -136,6 +137,7 @@ def site_response(sp, asig, linear=0):
 
     # o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
     na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
+    es = o3.recorder.ElementsToArrayCache(osi, elements=eles, arg_vals=['stress'])
 
     # Define the dynamic analysis
     ts_obj = o3.time_series.Path(osi, dt=asig.dt, values=asig.velocity * -1, factor=c_base)
@@ -164,6 +166,7 @@ def site_response(sp, asig, linear=0):
         "time": np.arange(0, analysis_time, analysis_dt),
         "rel_disp": [],
         "rel_accel": na.collect(),
+        'ele_stresses': es.collect()
     }
 
     return outputs
@@ -202,7 +205,7 @@ def run():
     sl.poissons_ratio = 0.0
     sl.phi = 0.0
     sl.unit_dry_weight = unit_mass * 9.8
-    sl.strain_peak = 0.05  # set additional parameter required for PIMY model
+    sl.strain_peak = 0.1  # set additional parameter required for PIMY model
     sl.xi = 0.03  # for linear analysis
     assert np.isclose(vs, sl.get_shear_vel(saturated=False))
     soil_profile = sm.SoilProfile()
@@ -213,10 +216,10 @@ def run():
     unit_mass = 1700.0
     sl.g_mod = vs ** 2 * unit_mass
     sl.poissons_ratio = 0.0
-    sl.cohesion = 305.0e3
+    sl.cohesion = 395.0e3
     sl.phi = 0.0
     sl.unit_dry_weight = unit_mass * 9.8
-    sl.strain_peak = 0.05  # set additional parameter required for PIMY model
+    sl.strain_peak = 0.1  # set additional parameter required for PIMY model
     sl.xi = 0.03  # for linear analysis
     soil_profile.add_layer(9.5, sl)
     soil_profile.height = 20.0
@@ -242,9 +245,9 @@ def run():
     outputs = site_response(soil_profile, acc_signal, linear=1)
     resp_dt = outputs['time'][2] - outputs['time'][1]
     surf_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)
-    outputs = site_response(soil_profile, acc_signal, linear=0)
-    resp_dt = outputs['time'][2] - outputs['time'][1]
-    nl_surf_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)
+    # outputs = site_response(soil_profile, acc_signal, linear=1)
+    # resp_dt = outputs['time'][2] - outputs['time'][1]
+    # nl_surf_sig = eqsig.AccSignal(outputs['rel_accel'], resp_dt)
     lw = 0.7
 
     sps[0].plot(acc_signal.time, acc_signal.values, c='k', lw=lw)
@@ -259,8 +262,8 @@ def run():
     sps[2].plot(surf_sig.smooth_fa_frequencies, h, c=cbox(0))
     pysra_h = pysra_sig.smooth_fa_spectrum / acc_signal.smooth_fa_spectrum
     sps[2].plot(pysra_sig.smooth_fa_frequencies, pysra_h, c=cbox(1))
-    o3_nl_h = nl_surf_sig.smooth_fa_spectrum / acc_signal.smooth_fa_spectrum
-    sps[2].plot(nl_surf_sig.smooth_fa_frequencies, o3_nl_h, c=cbox(2))
+    # o3_nl_h = nl_surf_sig.smooth_fa_spectrum / acc_signal.smooth_fa_spectrum
+    # sps[2].plot(nl_surf_sig.smooth_fa_frequencies, o3_nl_h, c=cbox(2))
     sps[2].axhline(1, c='k', ls='--')
     sps[1].legend()
     plt.show()
