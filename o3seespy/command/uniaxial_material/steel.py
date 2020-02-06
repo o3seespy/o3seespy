@@ -483,7 +483,7 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
     """
     The RambergOsgoodSteel UniaxialMaterial Class
     
-    This command is used to construct a Ramberg‚ÄìOsgood steel material object.
+    This command is used to construct a Ramberg-Osgood steel material object.
     """
     op_type = 'RambergOsgoodSteel'
 
@@ -498,7 +498,7 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
         e0: float
             Initial elastic tangent
         a: float
-            ‚Äúyield offset‚Äù and the commonly used value for a is 0.002
+            ìyield offsetî and the commonly used value for a is 0.002
         n: float
             Parameters to control the transition from elastic to plastic branches. and controls the hardening of the
             material by increasing the "n" hardening ratio will be decreased. commonly used values for n are ~5 or greater.

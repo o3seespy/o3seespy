@@ -884,6 +884,7 @@ def parse_all_uniaxial_mat():
                 ipara.append(istr)
             para.append(pstr)
             tpara.append(tstr)
+        print(item, collys[item])
         with open(floc + f'{item}.py', 'w') as ofile:
             ofile.write('\n'.join(ipara))
             if len(ipara):
@@ -1033,6 +1034,7 @@ def parse_all_elements():
                 ipara.append(istr)
             para.append(pstr)
             tpara.append(tstr)
+        print(item, collys[item])
         with open(floc + f'{item}.py', 'w') as ofile:
             ofile.write('\n'.join(ipara))
             if len(ipara):

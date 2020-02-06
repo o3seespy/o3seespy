@@ -294,9 +294,9 @@ class ConfinedConcrete01(UniaxialMaterialBase):
         epscu_val: float
             Value for the definition of the concrete ultimate strain
         nu: str or list
-            Definition for poisson's ratio. * ``*['-nu', <value of poisson's ratio>]`` * ``'-varub'`` poisson’s ratio is
+            Definition for poisson's ratio. * ``*['-nu', <value of poisson's ratio>]`` * ``'-varub'`` poisson's ratio is
             defined as a function of axial strain by means of the expression proposed by braga et al. (2006) with the upper bound
-            equal to 0.5 *``'-varnoub'`` poisson’s ratio is defined as a function of axial strain by means of the expression
+            equal to 0.5 *``'-varnoub'`` poisson's ratio is defined as a function of axial strain by means of the expression
             proposed by braga et al. (2006) without any upper bound.
         l1: float
             Length/diameter of square/circular core section measured respect to the hoop center line.
@@ -488,7 +488,7 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         es: float
             Elastic modulus of steel.
         vo: float
-            Initial poisson’s coefficient for concrete.
+            Initial poisson's coefficient for concrete.
         k: float
             Reduction factor for the rupture strain of the frp jacket, recommended values 0.5-0.8.
         use_buck: float
@@ -541,7 +541,7 @@ class ConcreteCM(UniaxialMaterialBase):
         ec: float
             Initial tangent modulus (:math:`e_c`)
         rc: float
-            Shape parameter in tsai’s equation defined for compression (:math:`r_c`)
+            Shape parameter in tsai's equation defined for compression (:math:`r_c`)
         xcrn: float
             Non-dimensional critical strain on compression envelope (:math:`\epsilon^{-}_{cr}`, where the envelope curve
             starts following a straight line)
@@ -550,10 +550,10 @@ class ConcreteCM(UniaxialMaterialBase):
         et: float
             Strain at tensile strength (:math:`\epsilon_t`)
         rt: float
-            Shape parameter in tsai’s equation defined for tension (:math:`r_t`)
+            Shape parameter in tsai's equation defined for tension (:math:`r_t`)
         xcrp: float
             Non-dimensional critical strain on tension envelope (:math:`\epsilon^{+}_{cr}`, where the envelope curve
-            starts following a straight line – large value [e.g., 10000] recommended when tension stiffening is considered)
+            starts following a straight line - large value [e.g., 10000] recommended when tension stiffening is considered)
         gap_close: float
             Gapclose = 0, less gradual gap closure (default); gapclose = 1, more gradual gap closure
         """

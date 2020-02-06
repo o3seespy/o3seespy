@@ -473,9 +473,9 @@ class FSAM(NDMaterialBase):
     RC panel are assumed to be equal to each other, implying perfect bond assumption between
     concrete and reinforcing steel bars. While the reinforcing steel bars develop uniaxial
     stresses under strains in their longitudinal direction, the behavior of concrete is
-    defined using stress–strain relationships in biaxial directions, the orientation
+    defined using stress-strain relationships in biaxial directions, the orientation
     of which is governed by the state of cracking in concrete. Although the
-    concrete stress–strain relationship used in the FSAM is fundamentally
+    concrete stress-strain relationship used in the FSAM is fundamentally
     uniaxial in nature, it also incorporates biaxial softening effects
     including compression softening and biaxial damage. For transfer
     of shear stresses across the cracks, a friction-based

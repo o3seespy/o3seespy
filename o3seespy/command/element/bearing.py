@@ -1342,9 +1342,9 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
         hr: float
             Total thickness of rubber layer [m] optional data
         cr: float
-            Coefficients for shear stress components of τr and τs
+            Coefficients for shear stress components of tau_r and tau_s
         cs: float
-            Coefficients for shear stress components of τr and τs
+            Coefficients for shear stress components of tau_r and tau_s
         orient: None
             
         mass: float

@@ -729,7 +729,7 @@ class Fatigue(UniaxialMaterialBase):
     The Fatigue UniaxialMaterial Class
     
     The fatigue material uses a modified rainflow cycle counting algorithm to accumulate damage in a material using
-    Miner’s Rule. Element stress/strain relationships become zero when fatigue life is exhausted.
+    Miner's Rule. Element stress/strain relationships become zero when fatigue life is exhausted.
     """
     op_type = 'Fatigue'
 
@@ -1131,7 +1131,7 @@ class InitStressMaterial(UniaxialMaterialBase):
     
     This command is used to construct an Initial Stress material object. The stress-strain behaviour for this material
     is defined by another material. Initial Stress Material enables definition of initial stress for the material under
-    consideration. The strain that corresponds to the initial stress will be calculated from the other material.
+    consideration. The strian that corresponds to the initial stress will be calculated from the other material.
     """
     op_type = 'InitStressMaterial'
 
@@ -1341,18 +1341,18 @@ class BoucWen(UniaxialMaterialBase):
         Parameters
         ----------
         alpha: float
-            Ratio of post-yield stiffness to the initial elastic stiffenss (0< α <1)
+            Ratio of post-yield stiffness to the initial elastic stiffenss (0< alpha <1)
         ko: float
             Initial elastic stiffness
         n: float
             Parameter that controls transition from linear to nonlinear range (as n increases the transition becomes
             sharper; n is usually grater or equal to 1)
         gamma: float
-            Parameters that control shape of hysteresis loop; depending on the values of γ and β softening, hardening or
-            quasi-linearity can be simulated (look at the notes)
+            Parameters that control shape of hysteresis loop; depending on the values of gamma and beta softening,
+            hardening or quasi-linearity can be simulated (look at the notes)
         beta: float
-            Parameters that control shape of hysteresis loop; depending on the values of γ and β softening, hardening or
-            quasi-linearity can be simulated (look at the notes)
+            Parameters that control shape of hysteresis loop; depending on the values of gamma and beta softening,
+            hardening or quasi-linearity can be simulated (look at the notes)
         ao: float
             Parameters that control tangent stiffness
         delta_a: float
@@ -1393,18 +1393,18 @@ class BWBN(UniaxialMaterialBase):
         Parameters
         ----------
         alpha: float
-            Ratio of post-yield stiffness to the initial elastic stiffenss (0< α <1)
+            Ratio of post-yield stiffness to the initial elastic stiffenss (0< alpha <1)
         ko: float
             Initial elastic stiffness
         n: float
             Parameter that controls transition from linear to nonlinear range (as n increases the transition becomes
             sharper; n is usually grater or equal to 1)
         gamma: float
-            Parameters that control shape of hysteresis loop; depending on the values of γ and β softening, hardening or
-            quasi-linearity can be simulated (look at the boucwen material)
+            Parameters that control shape of hysteresis loop; depending on the values of gamma and beta softening,
+            hardening or quasi-linearity can be simulated (look at the boucwen material)
         beta: float
-            Parameters that control shape of hysteresis loop; depending on the values of γ and β softening, hardening or
-            quasi-linearity can be simulated (look at the boucwen material)
+            Parameters that control shape of hysteresis loop; depending on the values of gamma and beta softening,
+            hardening or quasi-linearity can be simulated (look at the boucwen material)
         ao: float
             Parameter that controls tangent stiffness
         q: float
@@ -1562,9 +1562,9 @@ class CFSWSWP(UniaxialMaterialBase):
         Parameters
         ----------
         height: float
-            Swp’s height (mm)
+            Swp's height (mm)
         width: float
-            Swp’s width (mm)
+            Swp's width (mm)
         fut: float
             Tensile strength of framing members (mpa)
         tf: float
@@ -1588,7 +1588,7 @@ class CFSWSWP(UniaxialMaterialBase):
         otype: int
             Integer identifier used to define wood sheathing type (dfp=1, osb=2, csp=3)
         opening_area: float
-            Total area of openings (mm²)
+            Total area of openings (mm2)
         opening_length: float
             Cumulative length of openings (mm)
         """
@@ -1632,9 +1632,9 @@ class CFSSSWP(UniaxialMaterialBase):
         Parameters
         ----------
         height: float
-            Swp’s height (mm)
+            Swp's height (mm)
         width: float
-            Swp’s width (mm)
+            Swp's width (mm)
         fuf: float
             Tensile strength of framing members (mpa)
         fyf: float
@@ -1642,7 +1642,7 @@ class CFSSSWP(UniaxialMaterialBase):
         tf: float
             Framing thickness (mm)
         af: float
-            Framing cross section area (mm²)
+            Framing cross section area (mm2)
         fus: float
             Tensile strength of steel sheet sheathing (mpa)
         fys: float
@@ -1658,9 +1658,9 @@ class CFSSSWP(UniaxialMaterialBase):
         sc: float
             Screw spacing on the swp perimeter (mm)
         dt: float
-            Anchor bolt’s diameter (mm)
+            Anchor bolt's diameter (mm)
         opening_area: float
-            Total area of openings (mm²)
+            Total area of openings (mm2)
         opening_length: float
             Cumulative length of openings (mm)
         """

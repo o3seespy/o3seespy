@@ -1,5 +1,13 @@
-from o3seespy.base_model import OpenSeesObject
-from o3seespy.command.section import SectionBase
+class NDMaterialBase(object):
+    pass
+
+
+class UniaxialMaterialBase(object):
+    pass
+
+
+class SectionBase(object):
+    pass
 
 
 class LayeredShell(SectionBase):
@@ -74,10 +82,6 @@ class Aggregator(SectionBase):
         if getattr(self, 'section') is not None:
             self._parameters += ['-section', self.section.tag]
         self.to_process(osi)
-
-
-from o3seespy.command.nd_material.base_material import NDMaterialBase
-from o3seespy.command.uniaxial_material.base_material import UniaxialMaterialBase
 
 
 class PressureIndependMultiYield(NDMaterialBase):
