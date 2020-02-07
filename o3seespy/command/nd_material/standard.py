@@ -145,7 +145,7 @@ class DrukerPrager(NDMaterialBase):
         rho: float
             Frictional strength parameter
         rho_bar: float
-            Controls evolution of plastic volume change, :math:`0\le rhobar \\le rho`.
+            Controls evolution of plastic volume change, :math:`0\\le rhobar \\le rho`.
         kinf: float
             Nonlinear isotropic strain hardening parameter, :math:`kinf \ge 0`.
         ko: float
@@ -157,7 +157,7 @@ class DrukerPrager(NDMaterialBase):
         big_h: float
             Linear hardening parameter, :math:`h \ge 0`.
         theta: float
-            Controls relative proportions of isotropic and kinematic hardening, :math:`0 \le theta \le 1`.
+            Controls relative proportions of isotropic and kinematic hardening, :math:`0 \\le theta \\le 1`.
         density: float
             Mass density of the material
         atm_pressure: float
@@ -360,7 +360,7 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
         g_mod: float
             Maximum (small strain) shear modulus
         su: float
-            Undrained shear strength, size of bounding surface :math:`r=\sqrt{8/3}*su`
+            Undrained shear strength, size of bounding surface :math:`r=\\sqrt{8/3}*su`
         ho: float
             Linear kinematic hardening modulus of bounding surface
         h: float

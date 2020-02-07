@@ -179,6 +179,42 @@ class Steel01(UniaxialMaterialBase):
         self.to_process(osi)
 
 
+class Fiber(SectionBase):
+    """
+    The Fiber Section Class
+
+    This command allows the user to construct a FiberSection object. Each FiberSection object is composed of Fibers,
+    with each fiber containing a UniaxialMaterial, an area and a location (y,z). The dofs for 2D section are ``[P,
+    Mz]``,for 3D are ``[P,Mz,My,T]``.
+    """
+    op_type = 'Fiber'
+
+    def __init__(self, osi, gj: float = None, torsion_mat=None):
+        """
+        Initial method for Fiber
+
+        Parameters
+        ----------
+        gj: float
+            Linear-elastic torsional stiffness assigned to the section
+        torsion_mat: obj
+            Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
+        """
+        if gj is None:
+            self.gj = None
+        else:
+            self.gj = float(gj)
+        self.torsion_mat = torsion_mat
+        osi.n_sect += 1
+        self._tag = osi.n_sect
+        self._parameters = [self.op_type, self._tag]
+        if getattr(self, 'gj') is not None:
+            self._parameters += ['-GJ', self.gj]
+        if getattr(self, 'torsion_mat') is not None:
+            self._parameters += ['-torsion', self.torsion_mat.tag]
+        self.to_process(osi)
+
+
 #
 # class PySimple1(UniaxialMaterialBase):
 #     op_type = "PySimple1"

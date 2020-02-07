@@ -20,13 +20,13 @@ class LoadControl(IntegratorBase):
         Parameters
         ----------
         incr: float
-            Load factor increment :math:`\lambda`.
+            Load factor increment :math:`\\lambda`.
         num_iter: int
             Number of iterations the user would like to occur in the solution algorithm. (optional)
         min_incr: float (default=True)
-            Min stepsize the user will allow :math:`\lambda_{min}`. (optional)
+            Min stepsize the user will allow :math:`\\lambda_{min}`. (optional)
         max_incr: float (default=True)
-            Max stepsize the user will allow :math:`\lambda_{max}`. (optional)
+            Max stepsize the user will allow :math:`\\lambda_{max}`. (optional)
         """
         self.incr = float(incr)
         self.num_iter = int(num_iter)
@@ -73,7 +73,7 @@ class DisplacementControl(IntegratorBase):
         dof: int
             Degree of freedom at the node, 1 through ndf.
         incr: float
-            First displacement increment :math:`\delta u_{dof}`.
+            First displacement increment :math:`\\delta u_{dof}`.
         num_iter: int
             Number of iterations the user would like to occur in the solution algorithm. (optional)
         d_umin: None (default=True)
@@ -122,7 +122,7 @@ class ParallelDisplacementControl(IntegratorBase):
         dof: int
             Degree of freedom at the node, 1 through ndf.
         incr: float
-            First displacement increment :math:`\delta u_{dof}`.
+            First displacement increment :math:`\\delta u_{dof}`.
         num_iter: int
             Number of iterations the user would like to occur in the solution algorithm. (optional)
         d_umin: None (default=True)

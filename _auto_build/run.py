@@ -384,15 +384,25 @@ def force_line_char_limit(line, indent):
     return oline
 
 
+def clean_docstring_content(doc_str):
+    doc_str = doc_str.replace('\\l', '\\\\l')
+    doc_str = doc_str.replace('\\s', '\\\\s')
+    doc_str = doc_str.replace('\\e', '\\\\e')
+    doc_str = doc_str.replace('\\d', '\\\\d')
+    doc_str = doc_str.replace('\\D', '\\\\D')
+    return doc_str
+
+
 def build_init_method_docstring(classname, pms, pms_ordered):
     init_blurb = f'Initial method for {classname}'
     dstr = [w8 + '"""', w8 + init_blurb, '', w8 + 'Parameters', w8 + '----------']
     for pm in pms_ordered:
         op_str = ''
+        pdes = clean_docstring_content(pms[pm].p_description.capitalize())
         if pms[pm].default_is_expression:
             op_str = f' (default={pms[pm].default_is_expression})'
         dstr.append(w8 + f'{pms[pm].o3_name}: {pms[pm].dtype}{op_str}')
-        descr = force_line_char_limit(w12 + f'{pms[pm].p_description.capitalize()}', w12)
+        descr = force_line_char_limit(w12 + f'{pdes}', w12)
         dstr.append(descr)
     dstr.append(w8 + '"""')
     return dstr
@@ -434,7 +444,6 @@ suffixes = ['', 'Args', 'Tag', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'Ser
 def clean_fn_line(line, has_tag=True):
     df = pd.read_csv('overrides.csv')
     defaults = OrderedDict()
-    print(line)
     base_type = line.split('.. function:: ')[-1]
     base_type = base_type.split('(')[0]
     optype_res = re.search(optype_pat, line)
@@ -444,7 +453,6 @@ def clean_fn_line(line, has_tag=True):
         optype = optype_res.group()[1:-1]
     df_op = df[(df['base_type'] == base_type) & (df['op_type'] == optype)]
 
-    print(optype_res)
     inputs_str = line.split(')')[0]
     inputs = inputs_str.split(',')
     if has_tag:
@@ -539,7 +547,6 @@ def trim_leading_whitespace(line):
 
 
 def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
-    print('process: ', ffp)
     a = open(ffp)
     f = a.read()
     lines = f.splitlines()
@@ -564,7 +571,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
     obj_blurb = ''
     sub_obj_blurbs = ['']
     ipara = []
-    for line in lines:
+    for ss, line in enumerate(lines):
         if len(line) > 3 and line[:3] == '===':
             title_marker += 1
             continue
@@ -575,16 +582,23 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                 if not fn_line_counter:
                     raise ValueError
                 cl_name_suf = ''
+                df_td = pd.read_csv('two_definitions.csv')
+                df_td = df_td[(df_td['base_type'] == base_type) & (df_td['op_type'] == optype)]
+                if len(df_td):
+                    two_defs = df_td['option'].iloc[0]
                 if two_defs == '2Dand3D':
                     cl_name_suf = '2D'
                 if len(obj_blurb):
                     cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[0]
                 else:
                     cur_obj_blurb = sub_obj_blurbs[0]
-                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype,
-                                                base_type, osi_type, cl_name_suf, cur_obj_blurb)
-                pstr += pstr1
-                tstr += tstr1
+                if two_defs != 'doubleUp' or optype1 is not None:
+                    print('ss: ', ss)
+                    pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype,
+                                            base_type, osi_type, cl_name_suf, cur_obj_blurb)
+                    pstr += pstr1
+                    tstr += tstr1
+
                 if multi_def:
                     base_type = None
                     doc_string_open = 0
@@ -601,16 +615,17 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                     pstr += '\n' + pstr1
                     tstr += tstr1
                 # Reset in case two objects in same file
-                doc_str_pms = []
-                dtypes = []
-                doc_string_open = 0
-                fn_line_counter = 0
-                sub_obj_blurbs = []
-                defaults = None
-                base_type = None
-                optype = None
-                op_kwargs = OrderedDict()
-                descriptions = {}
+                if two_defs != 'doubleUp':
+                    doc_str_pms = []
+                    dtypes = []
+                    doc_string_open = 0
+                    fn_line_counter = 0
+                    sub_obj_blurbs = []
+                    defaults = None
+                    base_type = None
+                    optype = None
+                    op_kwargs = OrderedDict()
+                    descriptions = {}
             continue
         char_only = line.replace(' ', '')
         char_only = char_only.replace('\t', '')
@@ -621,7 +636,6 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
         res = re.search(pname_pat, line)
         if first_char != '*' and res:
             pname = res.group()[2:-2]
-            print(pname)
             # if len(res.group()) > 4 and "'-" == res.group()[2:4]:
             #     continue  # op_kwarg
             ei = line.find('|')
@@ -802,7 +816,6 @@ def parse_multi_def_file(ffp, osi_type, expected_base_type=None):
         res = re.search(pname_pat, line)
         if first_char != '*' and res:
             pname = res.group()[2:-2]
-            print(pname)
             # if len(res.group()) > 4 and "'-" == res.group()[2:4]:
             #     continue  # op_kwarg
             ei = line.find('|')
@@ -901,13 +914,24 @@ def parse_multi_def_file(ffp, osi_type, expected_base_type=None):
 
 
 
+
 def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=''):
+    from _auto_build import _custom_gen as cust_file
+
+    cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
+    if optype is not None:
+        op_class_name = convert_name_to_class_name(optype)
+        if op_class_name in cust_obj_list:
+            source = inspect.getsource(getattr(cust_file, op_class_name))
+            return source + '\n', ""
     if osi_type is not None:
         doc_str_pms = doc_str_pms[1:]  # remove mat tag
         dtypes = dtypes[1:]
-    print('doc_str: ', doc_str_pms)
-    print('fn_inps: ', list(defaults))
-    print('op_kwargs: ', list(op_kwargs))
+    verbose = 0
+    if verbose:
+        print('doc_str: ', doc_str_pms)
+        print('fn_inps: ', list(defaults))
+        print('op_kwargs: ', list(op_kwargs))
 
     for i, pm in enumerate(doc_str_pms):
         if '-' + pm in op_kwargs:
@@ -988,17 +1012,8 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     #         defaults[item] = Param(org_name=item, default_value=False, packed=False)
     #         defaults[item].marker = f'-{item}'
     #         del op_kwargs[item]
-    from _auto_build import _custom_gen as cust_file
-
-    cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
-    if optype is not None:
-        op_class_name = convert_name_to_class_name(optype)
-        if op_class_name in cust_obj_list:
-            source = inspect.getsource(getattr(cust_file, op_class_name))
-            return source + '\n', ""
 
     pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf, obj_blurb=obj_blurb)
-    print(pstr, tstr)
     return pstr, tstr
     # if line[3:5] == '``':
     #     para = line[5:]
@@ -1091,9 +1106,7 @@ ndmats = {
 
 def parse_all_ndmat():
     import user_paths as up
-    from _auto_build import _custom_mat as cust_file
 
-    cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
     mat_file = open(up.OPY_DOCS_PATH + 'ndMaterial.rst')
     lines = mat_file.read().split('\n')
     collys = {}
@@ -1131,12 +1144,6 @@ def parse_all_ndmat():
             if mat == 'PM4Sand':
                 continue
             mat_name = convert_name_to_class_name(mat)
-            if mat_name in cust_obj_list:
-                source = inspect.getsource(getattr(cust_file, mat))
-                print(source)
-                para.append('')
-                para.append(source)
-                continue
 
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
@@ -1261,13 +1268,11 @@ def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False):
         para += [w4 + f'op_base_type = "{obj_type}"', '']
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         ipara = []
-        print(item, collys[item])
         for mat in collys[item]:
 
             mat_name = convert_name_to_class_name(mat)
             if mat_name in cust_obj_list:
                 source = inspect.getsource(getattr(cust_file, mat))
-                print(source)
                 para.append('')
                 para.append(source)
                 continue
@@ -1303,7 +1308,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 0
+    all = 1
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
@@ -1319,7 +1324,7 @@ if __name__ == '__main__':
         # print(ts)
         # parse_single_file(up.OPY_DOCS_PATH + 'UserDefined.rst', 'integ')
         # test_clean_fn_line()
-        parse_generic_single_file(obj_type='patch', osi_type='mat', extras=['patch'], multi_def=True)
+        parse_generic_single_file(obj_type='section', osi_type='sect')
         # ffp = up.OPY_DOCS_PATH + '%s.rst' % 'patch'
         # pstr, tstr, istr = parse_single_file(ffp, osi_type='mat', expected_base_type='patch', multi_def=True)
         # print(pstr, tstr, istr)

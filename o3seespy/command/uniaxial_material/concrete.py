@@ -543,8 +543,8 @@ class ConcreteCM(UniaxialMaterialBase):
         rc: float
             Shape parameter in tsai's equation defined for compression (:math:`r_c`)
         xcrn: float
-            Non-dimensional critical strain on compression envelope (:math:`\\epsilon^{-}_{cr}`, where the envelope curve
-            starts following a straight line)
+            Non-dimensional critical strain on compression envelope (:math:`\\epsilon^{-}_{cr}`, where the envelope
+            curve starts following a straight line)
         ft: float
             Tensile strength (:math:`f_t`)
         et: float
