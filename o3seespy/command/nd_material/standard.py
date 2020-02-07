@@ -601,6 +601,7 @@ class ManzariDafalias(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.mc, self.c, self.lambda_c, self.e0, self.ksi, self.p_atm, self.m, self.h0, self.ch, self.nb, self.a0, self.nd, self.z_max, self.cz, self.den]
         self.to_process(osi)
 
+
 class StressDensity(NDMaterialBase):
     op_type = "stressDensity"
 

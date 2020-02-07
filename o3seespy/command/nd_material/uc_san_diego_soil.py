@@ -1,5 +1,6 @@
 from o3seespy.command.nd_material.base_material import NDMaterialBase
 
+
 class PressureIndependMultiYield(NDMaterialBase):
     op_type = "PressureIndependMultiYield"
 

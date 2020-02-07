@@ -291,3 +291,18 @@ def update_material_stage(osi, material, stage):
 def get_eigen(osi, solver='genBandArpack', n=1):
     parameters = [f'-{solver}', n]
     return osi.to_process("eigen", parameters)
+
+
+def get_pid(osi):
+    """Get the processor ID of the calling processor."""
+    return osi.to_process('getPID', [])
+
+
+def get_np(osi):
+    """Get total number of processors."""
+    return osi.to_process('getNP', [])
+
+
+def get_num_threads(osi):
+    """return the total number of threads available"""
+    return osi.to_process('getNumThread', [])

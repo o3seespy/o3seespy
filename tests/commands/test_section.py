@@ -15,7 +15,7 @@ def test_elastic3d():
 def test_fiber():
     osi = o3.OpenSeesInstance(ndm=2)
     mat = o3.uniaxial_material.ElasticPP(osi, e_mod=1.0, epsy_p=1.0, epsy_n=None, eps0=0.0)
-    o3.section.Fiber(osi, mat=mat)
+    o3.section.Fiber(osi, torsion_mat=mat)
 
 
 def test_fiber_thermal():

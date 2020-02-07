@@ -919,11 +919,16 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     from _auto_build import _custom_gen as cust_file
 
     cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
+    cust_parent_obj_list = [str(o[1].__bases__[0].__name__) for o in getmembers(cust_file) if isclass(o[1])]
     if optype is not None:
         op_class_name = convert_name_to_class_name(optype)
         if op_class_name in cust_obj_list:
-            source = inspect.getsource(getattr(cust_file, op_class_name))
-            return source + '\n', ""
+            indy = cust_obj_list.index(op_class_name)
+            base_class_name = convert_name_to_class_name(base_type)
+            parent_class = f'{base_class_name}Base'
+            if parent_class == cust_parent_obj_list[indy]:
+                source = inspect.getsource(getattr(cust_file, op_class_name))
+                return '\n' + source + '\n', ""
     if osi_type is not None:
         doc_str_pms = doc_str_pms[1:]  # remove mat tag
         dtypes = dtypes[1:]
@@ -1337,6 +1342,7 @@ if __name__ == '__main__':
         parse_generic_single_file(obj_type='section', osi_type='sect')
         parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         parse_generic_single_file(obj_type='patch', osi_type='mat', extras=['patch'], multi_def=True)
+        parse_generic_single_file(obj_type='layer', osi_type='mat', extras=['layer'], multi_def=True)
 
         parse_all_uniaxial_mat()
         parse_all_ndmat()
