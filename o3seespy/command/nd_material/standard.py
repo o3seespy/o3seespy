@@ -145,7 +145,7 @@ class DrukerPrager(NDMaterialBase):
         rho: float
             Frictional strength parameter
         rho_bar: float
-            Controls evolution of plastic volume change, :math:`0\le rhobar \le rho`.
+            Controls evolution of plastic volume change, :math:`0\le rhobar \\le rho`.
         kinf: float
             Nonlinear isotropic strain hardening parameter, :math:`kinf \ge 0`.
         ko: float
