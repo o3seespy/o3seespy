@@ -498,7 +498,7 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
         e0: float
             Initial elastic tangent
         a: float
-            “yield offset” and the commonly used value for a is 0.002
+            "yield offset" and the commonly used value for a is 0.002
         n: float
             Parameters to control the transition from elastic to plastic branches. and controls the hardening of the
             material by increasing the "n" hardening ratio will be decreased. commonly used values for n are ~5 or greater.

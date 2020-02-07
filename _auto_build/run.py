@@ -540,7 +540,7 @@ def trim_leading_whitespace(line):
 
 def parse_single_file(ffp, osi_type, expected_base_type=None):
     print('process: ', ffp)
-    a = open(ffp, encoding="utf8")
+    a = open(ffp)
     f = a.read()
     lines = f.splitlines()
     doc_str_pms = []

@@ -835,7 +835,7 @@ class TFP(ElementBase):
     """
     op_type = 'TFP'
 
-    def __init__(self, osi, ele_nodes, r1, r2, r3, r4, d1, d2, d3, d4, d1, d2, d3, d4, mu1, mu2, mu3, mu4, h1, h2, h3, h4, h0, col_load, big_k):
+    def __init__(self, osi, ele_nodes, r1, r2, r3, r4, db1, db2, db3, db4, d1, d2, d3, d4, mu1, mu2, mu3, mu4, h1, h2, h3, h4, h0, col_load, big_k):
         """
         Initial method for TFP
 
@@ -851,13 +851,13 @@ class TFP(ElementBase):
             Radius of outer bottom sliding surface
         r4: float
             Radius of outer top sliding surface
-        d1: float
+        db1: float
             Diameter of inner bottom sliding surface
-        d2: float
+        db2: float
             Diameter of inner top sliding surface
-        d3: float
+        db3: float
             Diameter of outer bottom sliding surface
-        d4: float
+        db4: float
             Diameter of outer top sliding surface
         d1: float
             Diameter of inner slider
@@ -895,10 +895,10 @@ class TFP(ElementBase):
         self.r2 = float(r2)
         self.r3 = float(r3)
         self.r4 = float(r4)
-        self.d1 = float(d1)
-        self.d2 = float(d2)
-        self.d3 = float(d3)
-        self.d4 = float(d4)
+        self.db1 = float(db1)
+        self.db2 = float(db2)
+        self.db3 = float(db3)
+        self.db4 = float(db4)
         self.d1 = float(d1)
         self.d2 = float(d2)
         self.d3 = float(d3)
@@ -916,7 +916,7 @@ class TFP(ElementBase):
         self.big_k = float(big_k)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.r1, self.r2, self.r3, self.r4, self.d1, self.d2, self.d3, self.d4, self.d1, self.d2, self.d3, self.d4, self.mu1, self.mu2, self.mu3, self.mu4, self.h1, self.h2, self.h3, self.h4, self.h0, self.col_load, self.big_k]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.r1, self.r2, self.r3, self.r4, self.db1, self.db2, self.db3, self.db4, self.d1, self.d2, self.d3, self.d4, self.mu1, self.mu2, self.mu3, self.mu4, self.h1, self.h2, self.h3, self.h4, self.h0, self.col_load, self.big_k]
         self.to_process(osi)
 
 
