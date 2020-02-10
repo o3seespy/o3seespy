@@ -571,6 +571,10 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
     obj_blurb = ''
     sub_obj_blurbs = ['']
     ipara = []
+    if osi_type is None:
+        has_tag = False
+    else:
+        has_tag = True
     for ss, line in enumerate(lines):
         if len(line) > 3 and line[:3] == '===':
             title_marker += 1
@@ -667,7 +671,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
             fn_line_counter += 1
             sub_obj_blurbs.append('')
             if base_type is None:
-                base_type, optype, defaults, op_kwargs = clean_fn_line(line, osi_type)
+                base_type, optype, defaults, op_kwargs = clean_fn_line(line, has_tag)
                 base_class_name = convert_name_to_class_name(base_type)
                 if expected_base_type is not None and expected_base_type != base_class_name:
                     if optype is None:
@@ -683,7 +687,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
             else:  # multiple function definitions
                 glob_list.append(f'{base_type}-{optype}')
 
-                base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line, osi_type)
+                base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line, has_tag)
                 df_td = pd.read_csv('two_definitions.csv')
                 df_td = df_td[(df_td['base_type'] == base_type) & (df_td['op_type'] == optype)]
                 two_defs = df_td['option'].iloc[0]
@@ -734,185 +738,6 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
         tstr += tstr1
     istr = '\n'.join(ipara)
     return pstr, tstr, istr
-
-
-def parse_multi_def_file(ffp, osi_type, expected_base_type=None):
-    print('process: ', ffp)
-    a = open(ffp)
-    f = a.read()
-    lines = f.splitlines()
-    doc_str_pms = []
-    dtypes = []
-    defaults = None
-    base_type = None
-    optype = None
-    defaults1 = None
-    base_type1 = None
-    op_kwargs1 = {}
-    optype1 = None
-    op_kwargs = OrderedDict()
-    descriptions = {}
-    fn_line_counter = 0
-    doc_string_open = 0
-    title_marker = 0
-    two_defs = ''
-    pstr = ''
-    tstr = ''
-    cur_res = []
-    obj_blurb = ''
-    sub_obj_blurbs = ['']
-    ipara = []
-    for line in lines:
-        if len(line) > 3 and line[:3] == '===':
-            title_marker += 1
-            continue
-        if ' ===' in line or '\t===' in line:
-            if not doc_string_open:
-                doc_string_open = 1
-            else:
-                if not fn_line_counter:
-                    raise ValueError
-                cl_name_suf = ''
-                if two_defs == '2Dand3D':
-                    cl_name_suf = '2D'
-                if len(obj_blurb):
-                    cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[0]
-                else:
-                    cur_obj_blurb = sub_obj_blurbs[0]
-                pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype,
-                                                base_type, osi_type, cl_name_suf, cur_obj_blurb)
-                pstr += pstr1
-                tstr += tstr1
-                if two_defs == '2Dand3D':
-                    cl_name_suf = '3D'
-                    if len(obj_blurb):
-                        cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[1]
-                    else:
-                        cur_obj_blurb = sub_obj_blurbs[1]
-                    if defaults1 is None:
-                        raise ValueError(defaults, op_kwargs)
-                    pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults1, op_kwargs1, descriptions, optype1,
-                                                    base_type1, osi_type, cl_name_suf, cur_obj_blurb)
-                    pstr += '\n' + pstr1
-                    tstr += tstr1
-                # Reset in case two objects in same file
-                doc_str_pms = []
-                dtypes = []
-                doc_string_open = 0
-                fn_line_counter = 0
-                sub_obj_blurbs = []
-                defaults = None
-                base_type = None
-                optype = None
-                op_kwargs = OrderedDict()
-                descriptions = {}
-            continue
-        char_only = line.replace(' ', '')
-        char_only = char_only.replace('\t', '')
-        if not len(char_only):
-            continue
-
-        first_char = char_only[0]
-        res = re.search(pname_pat, line)
-        if first_char != '*' and res:
-            pname = res.group()[2:-2]
-            # if len(res.group()) > 4 and "'-" == res.group()[2:4]:
-            #     continue  # op_kwarg
-            ei = line.find('|')
-            dtype_res = re.search(dtype_pat, line)
-            if dtype_res is None:
-                continue
-            dtype = dtype_res.group()[1:-1]
-            if dtype == 'str':
-                pass  # TODO: look for options: e.g. (options: ``'beamtop'``, ``'beambot'`` or ``'column'``)
-            des = line[dtype_res.end():]
-            des = des.replace('\t', ' ')
-            if not len(des):
-                continue
-            # while des[0] == ' ':
-            #     des = des[1:]
-            #     if not len(des):
-            #         break
-            des = trim_leading_whitespace(des)
-
-            res = re.findall(pname_pat, line[:ei])
-            for pm in res:
-                if len(pm) > 4 and "'-" == pm[0:2]:
-                    pm = pm[2:-1]
-                doc_str_pms.append(pm)
-                dtypes.append(dtype)
-                descriptions[pm] = des
-            cur_res = list(res)
-        elif '.. function:: ' in line:
-            fn_line_counter += 1
-            sub_obj_blurbs.append('')
-            if base_type is None:
-                base_type, optype, defaults, op_kwargs = clean_fn_line(line, osi_type)
-                base_class_name = convert_name_to_class_name(base_type)
-                if expected_base_type is not None and expected_base_type != base_class_name:
-                    if optype is None:
-                        pass
-                    else:
-                        cam_case = convert_camel_to_snake(base_class_name)
-                        new_istr = f'from o3seespy.command.{cam_case} import {base_class_name}Base'
-                        if new_istr not in ipara:
-                            ipara.append(new_istr)
-            else:  # multiple function definitions
-                glob_list.append(f'{base_type}-{optype}')
-
-                base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line, osi_type)
-                df_td = pd.read_csv('two_definitions.csv')
-                df_td = df_td[(df_td['base_type'] == base_type) & (df_td['op_type'] == optype)]
-                two_defs = df_td['option'].iloc[0]
-                if not len(df_td):
-                    raise ValueError(f'{base_type}-{optype}')
-                assert base_type == base_type1
-                assert optype == optype1, (optype, optype1)
-                if two_defs == 'combine':
-                    for inp in defaults1:
-                        if inp not in defaults:
-                            defaults[inp] = defaults1[inp]
-                    for inp in op_kwargs1:
-                        if inp not in op_kwargs:
-                            op_kwargs[inp] = op_kwargs1[inp]
-        elif doc_string_open and len(cur_res):
-            line = trim_leading_whitespace(line)
-            # while line[0] == ' ':
-            #     line = line[1:]
-            #     if not len(line):
-            #         break
-            if len(line):
-                line = ' ' + line
-            for pm in cur_res:
-                descriptions[pm] += line
-        elif len(line) > 7 and '   :noi' in line[:7]:
-            # if len(line) > 7 and '   :ref' in line[:7]:
-            #     pass
-            # else:
-            continue
-        elif not doc_string_open:
-            line = line.replace(':ref:', '')
-            if fn_line_counter:
-                line = trim_leading_whitespace(line)
-                sub_obj_blurbs[fn_line_counter - 1] += line
-            elif title_marker == 2:
-                line = trim_leading_whitespace(line)
-                obj_blurb += line
-
-    if base_type is not None:  # when there are no inputs
-        cl_name_suf = ""
-        if len(obj_blurb):
-            cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[fn_line_counter - 1]
-        else:
-            cur_obj_blurb = sub_obj_blurbs[fn_line_counter - 1]
-        pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type,
-                                        osi_type, cl_name_suf, cur_obj_blurb)
-        pstr += pstr1
-        tstr += tstr1
-    istr = '\n'.join(ipara)
-    return pstr, tstr, istr
-
-
 
 
 def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=''):
@@ -1167,7 +992,7 @@ def parse_all_ndmat():
 
 
 eles = {
-    'Zero-Length Element': 'zero_length_a',
+    'Zero-Length Element': 'zero_length',
     'Truss Elements': 'truss',
     'Beam-Column Elements': 'beam_column',
     'Joint Elements': 'joint',
@@ -1329,7 +1154,8 @@ if __name__ == '__main__':
         # print(ts)
         # parse_single_file(up.OPY_DOCS_PATH + 'UserDefined.rst', 'integ')
         # test_clean_fn_line()
-        parse_generic_single_file(obj_type='section', osi_type='sect')
+        # parse_generic_single_file(obj_type='section', osi_type='sect')
+        parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)
         # ffp = up.OPY_DOCS_PATH + '%s.rst' % 'patch'
         # pstr, tstr, istr = parse_single_file(ffp, osi_type='mat', expected_base_type='patch', multi_def=True)
         # print(pstr, tstr, istr)
@@ -1341,8 +1167,8 @@ if __name__ == '__main__':
         parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         parse_generic_single_file(obj_type='section', osi_type='sect')
         parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
-        parse_generic_single_file(obj_type='patch', osi_type='mat', extras=['patch'], multi_def=True)
-        parse_generic_single_file(obj_type='layer', osi_type='mat', extras=['layer'], multi_def=True)
+        parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)
+        parse_generic_single_file(obj_type='layer', osi_type=None, extras=['layer'], multi_def=True)
 
         parse_all_uniaxial_mat()
         parse_all_ndmat()

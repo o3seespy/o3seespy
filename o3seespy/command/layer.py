@@ -13,12 +13,15 @@ class Straight(LayerBase):
     """
     op_type = 'straight'
 
-    def __init__(self, osi, num_fiber, area_fiber, start, end):
+    def __init__(self, osi, mat, num_fiber, area_fiber, start, end):
         """
         Initial method for Straight
 
         Parameters
         ----------
+        mat: obj
+            Material tag associated with this fiber (uniaxialmaterial tag for a fibersection and ndmaterial tag for use
+            in an ndfibersection).
         num_fiber: int
             Number of fibers along line
         area_fiber: float
@@ -28,13 +31,12 @@ class Straight(LayerBase):
         end: listf
             Y & z-coordinates of last fiber in line (local coordinate system)
         """
+        self.mat = mat
         self.num_fiber = int(num_fiber)
         self.area_fiber = float(area_fiber)
         self.start = start
         self.end = end
-        osi.n_mat += 1
-        self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.num_fiber, self.area_fiber, *self.start, *self.end]
+        self._parameters = [self.op_type, self.mat.tag, self.num_fiber, self.area_fiber, *self.start, *self.end]
         self.to_process(osi)
 
 class Circ(LayerBase):
@@ -45,12 +47,15 @@ class Circ(LayerBase):
     """
     op_type = 'circ'
 
-    def __init__(self, osi, num_fiber, area_fiber, center, radius, ang=None):
+    def __init__(self, osi, mat, num_fiber, area_fiber, center, radius, ang=None):
         """
         Initial method for Circ
 
         Parameters
         ----------
+        mat: obj
+            Material tag associated with this fiber (uniaxialmaterial tag for a fibersection and ndmaterial tag for use
+            in an ndfibersection).
         num_fiber: int
             Number of fibers along line
         area_fiber: float
@@ -63,14 +68,13 @@ class Circ(LayerBase):
             Starting and ending angle (optional) [0.0, 360.0-360/num_fibres]
 
         """
+        self.mat = mat
         self.num_fiber = int(num_fiber)
         self.area_fiber = float(area_fiber)
         self.center = center
         self.radius = float(radius)
         self.ang = ang
-        osi.n_mat += 1
-        self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.num_fiber, self.area_fiber, *self.center, self.radius]
+        self._parameters = [self.op_type, self.mat.tag, self.num_fiber, self.area_fiber, *self.center, self.radius]
         if self.ang is not None:
             self._parameters += self.ang
         self.to_process(osi)

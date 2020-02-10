@@ -14,12 +14,15 @@ class Quad(PatchBase):
     """
     op_type = 'quad'
 
-    def __init__(self, osi, num_subdiv_ij, num_subdiv_jk, crds_i, crds_j, crds_k, crds_l):
+    def __init__(self, osi, mat, num_subdiv_ij, num_subdiv_jk, crds_i, crds_j, crds_k, crds_l):
         """
         Initial method for Quad
 
         Parameters
         ----------
+        mat: obj
+            Material tag associated with this fiber (uniaxialmaterial tag for a fibersection and ndmaterial tag for use
+            in an ndfibersection).
         num_subdiv_ij: int
             Number of subdivisions (fibers) in the ij direction.
         num_subdiv_jk: int
@@ -33,15 +36,14 @@ class Quad(PatchBase):
         crds_l: listf
             Y & z-coordinates of vertex l (local coordinate system)
         """
+        self.mat = mat
         self.num_subdiv_ij = int(num_subdiv_ij)
         self.num_subdiv_jk = int(num_subdiv_jk)
         self.crds_i = crds_i
         self.crds_j = crds_j
         self.crds_k = crds_k
         self.crds_l = crds_l
-        osi.n_mat += 1
-        self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.num_subdiv_ij, self.num_subdiv_jk, *self.crds_i, *self.crds_j, *self.crds_k, *self.crds_l]
+        self._parameters = [self.op_type, self.mat.tag, self.num_subdiv_ij, self.num_subdiv_jk, *self.crds_i, *self.crds_j, *self.crds_k, *self.crds_l]
         self.to_process(osi)
 
 class Rect(PatchBase):
@@ -54,12 +56,15 @@ class Rect(PatchBase):
     """
     op_type = 'rect'
 
-    def __init__(self, osi, num_subdiv_y, num_subdiv_z, crds_i, crds_j):
+    def __init__(self, osi, mat, num_subdiv_y, num_subdiv_z, crds_i, crds_j):
         """
         Initial method for Rect
 
         Parameters
         ----------
+        mat: obj
+            Material tag associated with this fiber (uniaxialmaterial tag for a fibersection and ndmaterial tag for use
+            in an ndfibersection).
         num_subdiv_y: int
             Number of subdivisions (fibers) in local y direction.
         num_subdiv_z: int
@@ -69,13 +74,12 @@ class Rect(PatchBase):
         crds_j: listf
             Y & z-coordinates of vertex j (local coordinate system)
         """
+        self.mat = mat
         self.num_subdiv_y = int(num_subdiv_y)
         self.num_subdiv_z = int(num_subdiv_z)
         self.crds_i = crds_i
         self.crds_j = crds_j
-        osi.n_mat += 1
-        self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.num_subdiv_y, self.num_subdiv_z, *self.crds_i, *self.crds_j]
+        self._parameters = [self.op_type, self.mat.tag, self.num_subdiv_y, self.num_subdiv_z, *self.crds_i, *self.crds_j]
         self.to_process(osi)
 
 class Circ(PatchBase):
@@ -86,12 +90,15 @@ class Circ(PatchBase):
     """
     op_type = 'circ'
 
-    def __init__(self, osi, num_subdiv_circ, num_subdiv_rad, center, rad, ang):
+    def __init__(self, osi, mat, num_subdiv_circ, num_subdiv_rad, center, rad, ang):
         """
         Initial method for Circ
 
         Parameters
         ----------
+        mat: obj
+            Material tag associated with this fiber (uniaxialmaterial tag for a fibersection and ndmaterial tag for use
+            in an ndfibersection).
         num_subdiv_circ: int
             Number of subdivisions (fibers) in the circumferential direction (number of wedges)
         num_subdiv_rad: int
@@ -103,12 +110,11 @@ class Circ(PatchBase):
         ang: listf
             Starting & ending-coordinates angles (degrees)
         """
+        self.mat = mat
         self.num_subdiv_circ = int(num_subdiv_circ)
         self.num_subdiv_rad = int(num_subdiv_rad)
         self.center = center
         self.rad = rad
         self.ang = ang
-        osi.n_mat += 1
-        self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.num_subdiv_circ, self.num_subdiv_rad, *self.center, *self.rad, *self.ang]
+        self._parameters = [self.op_type, self.mat.tag, self.num_subdiv_circ, self.num_subdiv_rad, *self.center, *self.rad, *self.ang]
         self.to_process(osi)
