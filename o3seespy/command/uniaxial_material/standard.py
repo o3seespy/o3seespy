@@ -162,7 +162,7 @@ class Parallel(UniaxialMaterialBase):
     """
     op_type = 'Parallel'
 
-    def __init__(self, osi, tags, factor_args=None):
+    def __init__(self, osi, tags, factor_args: list=None):
         """
         Initial method for Parallel
 

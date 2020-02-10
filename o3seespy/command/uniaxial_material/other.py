@@ -1046,7 +1046,7 @@ class ElasticMultiLinear(UniaxialMaterialBase):
     """
     op_type = 'ElasticMultiLinear'
 
-    def __init__(self, osi, eta=0.0, strain=None, stress=None):
+    def __init__(self, osi, eta=0.0, strain: list=None, stress: list=None):
         """
         Initial method for ElasticMultiLinear
 

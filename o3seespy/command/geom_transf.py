@@ -13,7 +13,7 @@ class Linear2D(GeomTransfBase):
     """
     op_type = 'Linear'
 
-    def __init__(self, osi, d_i=None, d_j=None):
+    def __init__(self, osi, d_i: list=None, d_j: list=None):
         """
         Initial method for Linear2D
 
@@ -50,7 +50,7 @@ class Linear3D(GeomTransfBase):
     """
     op_type = 'Linear'
 
-    def __init__(self, osi, vecxz, d_i=None, d_j=None):
+    def __init__(self, osi, vecxz, d_i: list=None, d_j: list=None):
         """
         Initial method for Linear3D
 
@@ -92,7 +92,7 @@ class PDelta2D(GeomTransfBase):
     """
     op_type = 'PDelta'
 
-    def __init__(self, osi, d_i=None, d_j=None):
+    def __init__(self, osi, d_i: list=None, d_j: list=None):
         """
         Initial method for PDelta2D
 
@@ -129,7 +129,7 @@ class PDelta3D(GeomTransfBase):
     """
     op_type = 'PDelta'
 
-    def __init__(self, osi, vecxz, d_i=None, d_j=None):
+    def __init__(self, osi, vecxz, d_i: list=None, d_j: list=None):
         """
         Initial method for PDelta3D
 
@@ -171,7 +171,7 @@ class Corotational2D(GeomTransfBase):
     """
     op_type = 'Corotational'
 
-    def __init__(self, osi, d_i=None, d_j=None):
+    def __init__(self, osi, d_i: list=None, d_j: list=None):
         """
         Initial method for Corotational2D
 

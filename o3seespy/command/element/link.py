@@ -22,7 +22,7 @@ class TwoNodeLink(ElementBase):
     """
     op_type = 'twoNodeLink'
 
-    def __init__(self, osi, ele_nodes, mats=None, dir=None, p_delta_vals=None, shear_dist=None, do_rayleigh=False, orient=None, mass: float=None):
+    def __init__(self, osi, ele_nodes, mats=None, dir=None, p_delta_vals: list=None, shear_dist=None, do_rayleigh=False, orient=None, mass: float=None):
         """
         Initial method for TwoNodeLink
 

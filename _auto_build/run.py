@@ -43,7 +43,9 @@ def clean_param_names(params, base_type):
             new_pm = new_pm[:-4]
             dtype_is_obj = True
         if len(new_pm) > 5 and new_pm[-5:] == '_tags':
-            new_pm = new_pm[:-5] + 's'
+            new_pm = new_pm[:-5]
+            if new_pm[-1] != 's':
+                new_pm += 's'
         # if pm == 'eleNodes':
 
         pms[pm] = params[pm]
@@ -157,6 +159,8 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     if pms[pm].marker or pms[pm].depends_on:
                         if pms[pm].dtype in ['str', 'float', 'int']:
                             pjoins.append(f'{o3_name}: {pms[pm].dtype}=None')
+                        elif pms[pm].dtype is not None and 'list' in pms[pm].dtype:
+                            pjoins.append(f'{o3_name}: list=None')
                         else:
                             pjoins.append(f'{o3_name}=None')  # cannot have value for marker
                         pms[pm].o3_default_is_none = True
@@ -166,6 +170,8 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                 if pms[pm].marker or pms[pm].depends_on:
                     if pms[pm].dtype in ['str', 'float', 'int']:
                         pjoins.append(f'{o3_name}: {pms[pm].dtype}=None')
+                    elif pms[pm].dtype is not None and 'list' in pms[pm].dtype:
+                        pjoins.append(f'{o3_name}: list=None')
                     else:
                         pjoins.append(f'{o3_name}=None')
                     pms[pm].o3_default_is_none = True
@@ -438,7 +444,7 @@ def check_if_default_is_expression(defo):
         return True
 
 
-suffixes = ['', 'Args', 'Tag', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag', 's']
+suffixes = ['', 'Args', 'Tag', 'Tags', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag', 's']
 
 
 def clean_fn_line(line, has_tag=True):

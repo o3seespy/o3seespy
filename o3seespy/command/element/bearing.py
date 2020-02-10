@@ -208,7 +208,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
     """
     op_type = 'elastomericBearingBoucWen'
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals: list=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
         """
         Initial method for ElastomericBearingBoucWen2D
 
@@ -306,7 +306,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
     """
     op_type = 'elastomericBearingBoucWen'
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, orient_vals=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, orient_vals: list=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
         """
         Initial method for ElastomericBearingBoucWen3D
 

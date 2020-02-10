@@ -292,7 +292,7 @@ class Path(TimeSeriesBase):
     """
     op_type = 'Path'
 
-    def __init__(self, osi, dt: float=None, values=None, time=None, filepath: str=None, file_time: str=None, factor: float=None, start_time: float=None, use_last=False, prepend_zero=False):
+    def __init__(self, osi, dt: float=None, values: list=None, time: list=None, filepath: str=None, file_time: str=None, factor: float=None, start_time: float=None, use_last=False, prepend_zero=False):
         """
         Initial method for Path
 

@@ -542,7 +542,7 @@ class MVLEM(ElementBase):
     """
     op_type = 'MVLEM'
 
-    def __init__(self, osi, dens, ele_nodes, m, c, thick=None, widths=None, rho=None, mat_concretes=None, mat_steels=None, mat_shear=None):
+    def __init__(self, osi, dens, ele_nodes, m, c, thick: list=None, widths: list=None, rho: list=None, mat_concretes=None, mat_steels=None, mat_shear=None):
         """
         Initial method for MVLEM
 

@@ -266,7 +266,7 @@ class ConfinedConcrete01(UniaxialMaterialBase):
     """
     op_type = 'ConfinedConcrete01'
 
-    def __init__(self, osi, sec_type, fpc, ec, epscu_type, epscu_val, nu, l1, l2, l3, phis, big_s, fyh, es0, ha_ratio, mu, phi_lon, internal_args=None, wrap_args=None, gravel=False, silica=False, tol: float=None, max_num_iter: int=None, epscu_limit: float=None, st_ratio=None):
+    def __init__(self, osi, sec_type, fpc, ec, epscu_type, epscu_val, nu, l1, l2, l3, phis, big_s, fyh, es0, ha_ratio, mu, phi_lon, internal_args: list=None, wrap_args: list=None, gravel=False, silica=False, tol: float=None, max_num_iter: int=None, epscu_limit: float=None, st_ratio=None):
         """
         Initial method for ConfinedConcrete01
 

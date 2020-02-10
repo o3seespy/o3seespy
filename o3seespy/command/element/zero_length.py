@@ -11,7 +11,7 @@ class ZeroLength(ElementBase):
     """
     op_type = 'zeroLength'
 
-    def __init__(self, osi, ele_nodes, mats: list=None, dir_args=None, r_flag: float=None, orient=None):
+    def __init__(self, osi, ele_nodes, mats=None, dir_args: list=None, r_flag: float=None, orient=None):
         """
         Initial method for ZeroLength
 
@@ -273,7 +273,7 @@ class ZeroLengthContactNTS2D(ElementBase):
             Number of slave nodes
         m_nd_num: int
             Number of master nodes
-        nodes: listi
+        nodes: None
             Slave and master node tags respectively
         """
         if s_nd_num is None:
@@ -284,7 +284,10 @@ class ZeroLengthContactNTS2D(ElementBase):
             self.m_nd_num = None
         else:
             self.m_nd_num = int(m_nd_num)
-        self.nodes = nodes
+        if nodes is None:
+            self.nodes = None
+        else:
+            self.nodes = [x.tag for x in nodes]
         self.kn = float(kn)
         self.kt = float(kt)
         self.phi = float(phi)
@@ -308,7 +311,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
     """
     op_type = 'zeroLengthInterface2D'
 
-    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes=None):
+    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes: list=None):
         """
         Initial method for ZeroLengthInterface2Ddof
 

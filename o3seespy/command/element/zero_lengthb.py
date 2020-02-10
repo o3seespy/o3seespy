@@ -11,7 +11,7 @@ class ZeroLength(ElementBase):
         """
     op_type = 'zeroLength'
 
-    def __init__(self, osi, ele_nodes, mat=None, mat_x=None, mat_y=None, mat_z=None,
+    def __init__(self, osi, node_i, node_j, mat=None, mat_x=None, mat_y=None, mat_z=None,
                  mat_rot_x=None, mat_rot_y=None, mat_rot_z=None, r_flag=0):
         self.node_i = node_i
         self.node_j = node_j
