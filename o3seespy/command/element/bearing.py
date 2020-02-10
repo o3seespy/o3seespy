@@ -421,7 +421,7 @@ class FlatSliderBearingmaxIter2D(ElementBase):
     """
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, iter, tol, p_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass: float=None, shear_dist: float=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, max_iter, tol, p_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass: float=None, shear_dist: float=None):
         """
         Initial method for FlatSliderBearingmaxIter2D
 
@@ -433,7 +433,7 @@ class FlatSliderBearingmaxIter2D(ElementBase):
             Tag associated with previously-defined frictionmodel
         k_init: float
             Initial elastic stiffness in local shear direction
-        iter: int
+        max_iter: int
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
         tol: float
             Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
@@ -456,7 +456,7 @@ class FlatSliderBearingmaxIter2D(ElementBase):
         self.p_mat = p_mat
         self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
-        self.iter = int(iter)
+        self.max_iter = int(max_iter)
         self.tol = float(tol)
         self.orient = orient
         if mass is None:
@@ -469,7 +469,7 @@ class FlatSliderBearingmaxIter2D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-maxIter', self.iter, self.tol]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-maxIter', self.max_iter, self.tol]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
@@ -1733,7 +1733,7 @@ class FPBearingPTV(ElementBase):
     """
     op_type = 'FPBearingPTV'
 
-    def __init__(self, osi, ele_nodes, mu_ref, is_pressure_dependent, p_ref, is_temperature_dependent, diffusivity, conductivity, is_velocity_dependent, rate_parameter, reffective_fp, radius__contact, k_initial, the_material_a, the_material_b, the_material_c, the_material_d, x1, x2, x3, y1, y2, y3, shear_dist, do_rayleigh, mass, iter, tol, unit):
+    def __init__(self, osi, ele_nodes, mu_ref, is_pressure_dependent, p_ref, is_temperature_dependent, diffusivity, conductivity, is_velocity_dependent, rate_parameter, reffective_fp, radius__contact, k_initial, the_material_a, the_material_b, the_material_c, the_material_d, x1, x2, x3, y1, y2, y3, shear_dist, do_rayleigh, mass, max_iter, tol, unit):
         """
         Initial method for FPBearingPTV
 
@@ -1789,7 +1789,7 @@ class FPBearingPTV(ElementBase):
             To include rayleigh damping from the bearing
         mass: float
             Element mass
-        iter: int
+        max_iter: int
             Maximum number of iterations to satisfy the equilibrium of element
         tol: float
             Convergence tolerance to satisfy the equilibrium of the element
@@ -1822,10 +1822,10 @@ class FPBearingPTV(ElementBase):
         self.shear_dist = float(shear_dist)
         self.do_rayleigh = int(do_rayleigh)
         self.mass = float(mass)
-        self.iter = int(iter)
+        self.max_iter = int(max_iter)
         self.tol = float(tol)
         self.unit = int(unit)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mu_ref, self.is_pressure_dependent, self.p_ref, self.is_temperature_dependent, self.diffusivity, self.conductivity, self.is_velocity_dependent, self.rate_parameter, self.reffective_fp, self.radius__contact, self.k_initial, self.the_material_a, self.the_material_b, self.the_material_c, self.the_material_d, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.shear_dist, self.do_rayleigh, self.mass, self.iter, self.tol, self.unit]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mu_ref, self.is_pressure_dependent, self.p_ref, self.is_temperature_dependent, self.diffusivity, self.conductivity, self.is_velocity_dependent, self.rate_parameter, self.reffective_fp, self.radius__contact, self.k_initial, self.the_material_a, self.the_material_b, self.the_material_c, self.the_material_d, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.shear_dist, self.do_rayleigh, self.mass, self.max_iter, self.tol, self.unit]
         self.to_process(osi)

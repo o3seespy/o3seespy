@@ -311,7 +311,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
     """
     op_type = 'zeroLengthInterface2D'
 
-    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes: list=None):
+    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes=None):
         """
         Initial method for ZeroLengthInterface2Ddof
 
@@ -331,7 +331,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
             Number of slave nodes
         m_nd_num: int
             Number of master nodes
-        nodes: listi
+        nodes: None
             Slave and master node tags respectively
         """
         if s_nd_num is None:
@@ -344,7 +344,10 @@ class ZeroLengthInterface2Ddof(ElementBase):
             self.m_nd_num = int(m_nd_num)
         self.sdof = int(sdof)
         self.mdof = int(mdof)
-        self.nodes = nodes
+        if nodes is None:
+            self.nodes = None
+        else:
+            self.nodes = [x.tag for x in nodes]
         self.kn = float(kn)
         self.kt = float(kt)
         self.phi = float(phi)

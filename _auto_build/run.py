@@ -19,7 +19,8 @@ optype_pat = "\'([A-Za-z0-9_\./\\-]*)\'"
 special_words = {
     'lambda': 'lamb',
     'type': 'otype',
-    'as': 'a_s'
+    'as': 'a_s',
+    'iter': 'max_iter'
 }
 
 def clean_param_names(params, base_type):
@@ -1120,12 +1121,15 @@ def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False):
                 ipara.append(istr)
             para.append(pstr)
             tpara.append(tstr)
-        with open(floc + f'{item}.py', 'w') as ofile:
+        name = item
+        # if name == 'test':
+        #     name = 'check_test'
+        with open(floc + f'{name}.py', 'w') as ofile:
             ofile.write('\n'.join(ipara))
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/atest_{item}.py', 'w') as ofile:
+        with open(f'temp_tests/atest_{name}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 
@@ -1170,6 +1174,7 @@ if __name__ == '__main__':
         parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
         parse_generic_single_file(obj_type='constraints', osi_type=None)
         parse_generic_single_file(obj_type='integrator', osi_type=None)
+        parse_generic_single_file(obj_type='test', osi_type=None)
         parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         parse_generic_single_file(obj_type='section', osi_type='sect')
         parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
