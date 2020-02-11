@@ -11,8 +11,8 @@ def test_cantilever_w_force_beam_column():
         right_node = o3.node.Node(osi, ele_len, 0)
 
         # Fix bottom node
-        o3.Fix(osi, left_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
-        o3.Fix(osi, right_node, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
+        o3.Fix3DOF(osi, left_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
+        o3.Fix3DOF(osi, right_node, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
 
         area = 0.5
         lp_i = 0.2
@@ -108,8 +108,8 @@ def test_disp_control_cantilever_nonlinear():
     right_node = o3.node.Node(osi, ele_len, 0)
 
     # Fix bottom node
-    o3.Fix(osi, left_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
-    o3.Fix(osi, right_node, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
+    o3.Fix3DOF(osi, left_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
+    o3.Fix3DOF(osi, right_node, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
     e_mod = 200.0
     i_sect = 0.1
     area = 0.5

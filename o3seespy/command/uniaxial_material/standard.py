@@ -162,23 +162,23 @@ class Parallel(UniaxialMaterialBase):
     """
     op_type = 'Parallel'
 
-    def __init__(self, osi, tags, factor_args: list=None):
+    def __init__(self, osi, mats, factor_args: list=None):
         """
         Initial method for Parallel
 
         Parameters
         ----------
-        tags: list
+        mats: list
             Identification tags of materials making up the material model
         factor_args: list
             Factors to create a linear combination of the specified materials. factors can be negative to subtract one
             material from an other. (optional, default = 1.0)
         """
-        self.tags = [x.tag for x in tags]
+        self.mats = [x.tag for x in mats]
         self.factor_args = factor_args
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, *self.tags]
+        self._parameters = [self.op_type, self._tag, *self.mats]
         if getattr(self, 'factor_args') is not None:
             self._parameters += ['-factor', *self.factor_args]
         self.to_process(osi)
@@ -193,17 +193,17 @@ class Series(UniaxialMaterialBase):
     """
     op_type = 'Series'
 
-    def __init__(self, osi, tags):
+    def __init__(self, osi, mats):
         """
         Initial method for Series
 
         Parameters
         ----------
-        tags: list
+        mats: list
             Identification tags of materials making up the material model
         """
-        self.tags = [x.tag for x in tags]
+        self.mats = [x.tag for x in mats]
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, *self.tags]
+        self._parameters = [self.op_type, self._tag, *self.mats]
         self.to_process(osi)

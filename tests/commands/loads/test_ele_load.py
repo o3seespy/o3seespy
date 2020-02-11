@@ -15,9 +15,9 @@ def test_ele_load_uniform():
 
     for i, node in enumerate(ele_nodes):
         if i == 0:
-            o3.Fix(osi, node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
+            o3.Fix3DOF(osi, node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
         else:
-            o3.Fix(osi, node, o3.cc.FREE, o3.cc.FIXED, o3.cc.FIXED)
+            o3.Fix3DOF(osi, node, o3.cc.FREE, o3.cc.FIXED, o3.cc.FIXED)
 
     ts_po = o3.time_series.Linear(osi, factor=1)
     o3.pattern.Plain(osi, ts_po)

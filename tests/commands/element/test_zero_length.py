@@ -7,7 +7,7 @@ def test_zero_length():
     coords = [[0, 0], [0, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
     bilinear_mat = o3.uniaxial_material.Steel01(osi, fy=300., e0=200.0e3, b=0.01)
-    o3.element.ZeroLength(osi, ele_nodes, mats=[bilinear_mat], dir_args=[o3.cc.DOF2D_X], r_flag=1)
+    o3.element.ZeroLength(osi, ele_nodes, mats=[bilinear_mat], dirs=[o3.cc.DOF2D_X], r_flag=1)
 
 
 @pytest.mark.skip()

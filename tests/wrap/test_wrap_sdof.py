@@ -38,7 +38,7 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     bilinear_mat = o3.uniaxial_material.Steel01(osi, fy=f_yield, e0=k_spring, b=r_post)
 
     # Assign zero length element, # Note: pass actual node and material objects into element
-    o3.element.ZeroLength(osi, [bot_node, top_node], mats=[bilinear_mat], dir_args=[o3.cc.DOF2D_X], r_flag=1)
+    o3.element.ZeroLength(osi, [bot_node, top_node], mats=[bilinear_mat], dirs=[o3.cc.DOF2D_X], r_flag=1)
 
     # Define the dynamic analysis
     load_tag_dynamic = 1

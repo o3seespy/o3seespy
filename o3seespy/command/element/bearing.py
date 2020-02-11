@@ -257,10 +257,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
         self.gamma = float(gamma)
         self.p_mat = p_mat
         self.mz_mat = mz_mat
-        if orient_vals is None:
-            self.orient_vals = None
-        else:
-            self.orient_vals = [x.tag for x in orient_vals]
+        self.orient_vals = orient_vals
         if shear_dist is None:
             self.shear_dist = None
         else:
@@ -364,10 +361,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
         self.t_mat = t_mat
         self.my_mat = my_mat
         self.mz_mat = mz_mat
-        if orient_vals is None:
-            self.orient_vals = None
-        else:
-            self.orient_vals = [x.tag for x in orient_vals]
+        self.orient_vals = orient_vals
         if shear_dist is None:
             self.shear_dist = None
         else:
@@ -399,9 +393,9 @@ class ElastomericBearingBoucWen3D(ElementBase):
         self.to_process(osi)
 
 
-class FlatSliderBearingmaxIter2D(ElementBase):
+class FlatSliderBearing2D(ElementBase):
     """
-    The FlatSliderBearingmaxIter2D Element Class
+    The FlatSliderBearing2D Element Class
     
     This command is used to construct a flatSliderBearing element object, which is defined by two nodes. The iNode
     represents the flat sliding surface and the jNode represents the slider. The element can have zero length or the
@@ -427,9 +421,9 @@ class FlatSliderBearingmaxIter2D(ElementBase):
     """
     op_type = 'flatSliderBearing'
 
-    def __init__(self, osi, ele_nodes, frn_mdl, k_init, max_iter, tol, p_mat=None, mz_mat=None, do_rayleigh=False, orient=None, mass: float=None, shear_dist: float=None):
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, mz_mat=None, do_rayleigh=False, max_iter: int=None, tol: float=None, orient=None, mass: float=None, shear_dist: float=None):
         """
-        Initial method for FlatSliderBearingmaxIter2D
+        Initial method for FlatSliderBearing2D
 
         Parameters
         ----------
@@ -439,16 +433,16 @@ class FlatSliderBearingmaxIter2D(ElementBase):
             Tag associated with previously-defined frictionmodel
         k_init: float
             Initial elastic stiffness in local shear direction
-        max_iter: int
-            Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
-        tol: float
-            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
         p_mat: obj
             Tag associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj
             Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
+        max_iter: int
+            Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
+        tol: float
+            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
         orient: None
             
         mass: float
@@ -462,8 +456,14 @@ class FlatSliderBearingmaxIter2D(ElementBase):
         self.p_mat = p_mat
         self.mz_mat = mz_mat
         self.do_rayleigh = do_rayleigh
-        self.max_iter = int(max_iter)
-        self.tol = float(tol)
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = int(max_iter)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
         self.orient = orient
         if mass is None:
             self.mass = None
@@ -475,13 +475,19 @@ class FlatSliderBearingmaxIter2D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init, '-maxIter', self.max_iter, self.tol]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
             self._parameters += ['-Mz', self.mz_mat.tag]
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
+        if getattr(self, 'max_iter') is not None:
+            self._parameters += ['-iter', self.max_iter]
+        if getattr(self, 'tol') is not None:
+            if getattr(self, 'max_iter') is None:
+                raise ValueError('Cannot set: tol and not: max_iter')
+            self._parameters += [self.tol]
         if getattr(self, 'orient') is not None:
             self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
@@ -1331,7 +1337,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
     """
     op_type = 'YamamotoBiaxialHDR'
 
-    def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, cr, cs, orient=None, mass: float=None):
+    def __init__(self, osi, ele_nodes, tp, d_do, d_di, hr, cr, cs, orient: list=None, mass: float=None):
         """
         Initial method for YamamotoBiaxialHDRcoRS
 
@@ -1351,7 +1357,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
             Coefficients for shear stress components of tau_r and tau_s
         cs: float
             Coefficients for shear stress components of tau_r and tau_s
-        orient: None
+        orient: list
             
         mass: float
             Element mass [kg]

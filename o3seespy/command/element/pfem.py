@@ -9,20 +9,14 @@ class PFEMElementBubble(ElementBase):
     """
     op_type = 'PFEMElementBubble'
 
-    def __init__(self, osi, nd1, nd2, nd3, nd4, rho, mu, b1, b2, b3, thickness, kappa):
+    def __init__(self, osi, ele_nodes, rho, mu, b1, b2, b3, thickness, kappa):
         """
         Initial method for PFEMElementBubble
 
         Parameters
         ----------
-        nd1: int
-            Tag of node 1
-        nd2: int
-            Tag of node 2
-        nd3: int
-            Tag of node 3
-        nd4: int
-            Tag of node 4 (required for 3d)
+        ele_nodes: list
+            A list of three or four element nodes, four are required for 3d
         rho: float
             Fluid density
         mu: float
@@ -38,10 +32,7 @@ class PFEMElementBubble(ElementBase):
         kappa: float
             Fluid bulk modulus (optional)
         """
-        self.nd1 = int(nd1)
-        self.nd2 = int(nd2)
-        self.nd3 = int(nd3)
-        self.nd4 = int(nd4)
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.rho = float(rho)
         self.mu = float(mu)
         self.b1 = float(b1)
@@ -51,7 +42,7 @@ class PFEMElementBubble(ElementBase):
         self.kappa = float(kappa)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.nd1, self.nd2, self.nd3, self.nd4, self.rho, self.mu, self.b1, self.b2, self.b3, self.thickness, self.kappa]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.rho, self.mu, self.b1, self.b2, self.b3, self.thickness, self.kappa]
         self.to_process(osi)
 
 
@@ -63,20 +54,14 @@ class PFEMElementCompressible(ElementBase):
     """
     op_type = 'PFEMElementCompressible'
 
-    def __init__(self, osi, nd1, nd2, nd3, nd4, rho, mu, b1, b2, thickness, kappa):
+    def __init__(self, osi, ele_nodes, rho, mu, b1, b2, thickness, kappa):
         """
         Initial method for PFEMElementCompressible
 
         Parameters
         ----------
-        nd1: int
-            Tag of node 1
-        nd2: int
-            Tag of node 2
-        nd3: int
-            Tag of node 3
-        nd4: int
-            Tag of node 4 (middle node)
+        ele_nodes: list
+            A list of four element nodes, last one is middle node
         rho: float
             Fluid density
         mu: float
@@ -90,10 +75,7 @@ class PFEMElementCompressible(ElementBase):
         kappa: float
             Fluid bulk modulus (optional)
         """
-        self.nd1 = int(nd1)
-        self.nd2 = int(nd2)
-        self.nd3 = int(nd3)
-        self.nd4 = int(nd4)
+        self.ele_nodes = [x.tag for x in ele_nodes]
         self.rho = float(rho)
         self.mu = float(mu)
         self.b1 = float(b1)
@@ -102,5 +84,5 @@ class PFEMElementCompressible(ElementBase):
         self.kappa = float(kappa)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.nd1, self.nd2, self.nd3, self.nd4, self.rho, self.mu, self.b1, self.b2, self.thickness, self.kappa]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.rho, self.mu, self.b1, self.b2, self.thickness, self.kappa]
         self.to_process(osi)

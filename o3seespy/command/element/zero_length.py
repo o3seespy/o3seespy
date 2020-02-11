@@ -11,7 +11,7 @@ class ZeroLength(ElementBase):
     """
     op_type = 'zeroLength'
 
-    def __init__(self, osi, ele_nodes, mats: list=None, dirs: list=None, r_flag: float=None, orient=None):
+    def __init__(self, osi, ele_nodes, mats: list=None, dirs: list=None, r_flag: float=None, orient: list=None):
         """
         Initial method for ZeroLength
 
@@ -26,7 +26,7 @@ class ZeroLength(ElementBase):
             rotation about local x,y,z axes, respectively
         r_flag: float
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default)
-        orient: None
+        orient: list
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -34,10 +34,7 @@ class ZeroLength(ElementBase):
             self.mats = None
         else:
             self.mats = [x.tag for x in mats]
-        if dirs is None:
-            self.dirs = None
-        else:
-            self.dirs = [x.tag for x in dirs]
+        self.dirs = dirs
         if r_flag is None:
             self.r_flag = None
         else:
@@ -66,7 +63,7 @@ class ZeroLengthND(ElementBase):
     """
     op_type = 'zeroLengthND'
 
-    def __init__(self, osi, ele_nodes, mat, uni, orient=None):
+    def __init__(self, osi, ele_nodes, mat, uni, orient: list=None):
         """
         Initial method for ZeroLengthND
 
@@ -79,7 +76,7 @@ class ZeroLengthND(ElementBase):
         uni: obj
             Tag associated with previously-defined uniaxialmaterial object which may be used to represent uncoupled
             behavior orthogonal to the plane of the ndmaterial response. see notes 2 and 3.
-        orient: None
+        orient: list
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -103,7 +100,7 @@ class ZeroLengthSection(ElementBase):
     """
     op_type = 'zeroLengthSection'
 
-    def __init__(self, osi, ele_nodes, sec, r_flag: float=None, orient=None):
+    def __init__(self, osi, ele_nodes, sec, r_flag: float=None, orient: list=None):
         """
         Initial method for ZeroLengthSection
 
@@ -115,7 +112,7 @@ class ZeroLengthSection(ElementBase):
             Tag associated with previously-defined section object
         r_flag: float
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default) * ``rflag`` = 1 include rayleigh damping
-        orient: None
+        orient: list
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]

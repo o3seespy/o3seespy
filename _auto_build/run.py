@@ -43,6 +43,9 @@ def clean_param_names(params, base_type):
         if len(new_pm) > 4 and new_pm[-4:] == '_tag':
             new_pm = new_pm[:-4]
             dtype_is_obj = True
+        if len(new_pm) > 4 and new_pm[-3:] == 'tag':
+            new_pm = new_pm[:-3]
+            dtype_is_obj = True
         if len(new_pm) > 5 and new_pm[-5:] == '_tags':
             new_pm = new_pm[:-5]
             if new_pm[-1] != 's':
@@ -344,13 +347,19 @@ def build_test_for_generic(names, pms, cl_pms):
                 prior_strs.append(w4 + f'{o3_name} = [1, 1]')
             pjoins.append(f'{o3_name}={o3_name}')
         elif dtype == 'list' and pms[pm].list_items_dtype == 'int':
-            prior_strs.append(w4 + f'{o3_name} = [1, 1]')
+            if o3_name == 'ele_nodes':
+                prior_strs.append(w4 + 'coords = [[0, 0], [1, 0], [1, 1], [0, 1]]')
+                prior_strs.append(w4 + 'ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]')
+            else:
+                prior_strs.append(w4 + f'{o3_name} = [1, 1]')
             pjoins.append(f'{o3_name}={o3_name}')
         elif dtype == 'list' and pms[pm].list_items_dtype == 'float':
             prior_strs.append(w4 + f'{o3_name} = [1.0, 1.0]')
             pjoins.append(f'{o3_name}={o3_name}')
         elif dtype == 'str':
             pjoins.append(f'{o3_name}="string"')
+        elif dtype == 'bool':
+            pjoins.append(f'{o3_name}=False')
         else:
             pjoins.append(f'{o3_name}=1')
     pjoint = ', '.join(pjoins)
@@ -544,6 +553,9 @@ def clean_fn_line(line, has_tag=True):
             defaults[flag].is_flag = True
     if "'-doRayleigh'" in defaults and 'rFlag' in defaults:  # e.g. ZeroLength
         del defaults["'-doRayleigh'"]
+    elif "'-doRayleigh'" in defaults:  # TODO: not working
+        defaults["'-doRayleigh'"].is_flag = True
+
 
     return base_type, optype, defaults, op_kwargs
 
@@ -778,6 +790,8 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
             continue
         if pm not in defaults:
             continue
+        if defaults[pm].is_flag:
+            defaults[pm].dtype = 'bool'
         if defaults[pm].org_name.endswith('Tag'):
             defaults[pm].dtype = 'obj'
         elif defaults[pm].org_name.endswith('Tags'):
@@ -785,7 +799,7 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
             defaults[pm].dtype = 'list'
         elif 'listi' in dtypes[i]:
             defaults[pm].dtype = 'list'
-            defaults[pm].list_items_dtype = 'obj'
+            defaults[pm].list_items_dtype = 'int'
         elif 'listf' in dtypes[i]:
             defaults[pm].dtype = 'list'
             defaults[pm].list_items_dtype = 'float'
@@ -809,6 +823,7 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         del defaults['vecyp']
         defaults['orient'] = Param(org_name='orient', default_value=None, packed=True)
         defaults['orient'].marker = '-orient'
+        defaults['orient'].dtype = 'list'
     if "-orient" in op_kwargs and 'x1' in defaults:  # Element
         del op_kwargs["-orient"]
         del defaults['x1']
@@ -845,6 +860,12 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         defaults['maxIter'].marker = 'iter'
         if 'tol' in defaults:
             defaults['tol'].depends_on = 'maxIter'
+    if "-maxIter" in op_kwargs and 'iter' in defaults:
+        del op_kwargs['-maxIter']
+        # defaults['iter'] = copy.deepcopy(defaults['maxIter'])
+        defaults['iter'].marker = 'iter'
+        if 'tol' in defaults:
+            defaults['tol'].depends_on = 'iter'
     if "-jntOffset" in op_kwargs and 'dI' in defaults:
         del op_kwargs['-jntOffset']
         # defaults['iter'] = copy.deepcopy(defaults['maxIter'])
@@ -937,7 +958,10 @@ def parse_all_uniaxial_mat():
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/atest_uniaxial_{item}.py', 'w') as ofile:
+        diry = 'temp_tests/uniaxial/'
+        if not os.path.exists(diry):
+            os.makedirs(diry)
+        with open(f'temp_tests/uniaxial/atest_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 ndmats = {
@@ -1004,7 +1028,10 @@ def parse_all_ndmat():
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/atest_{item}.py', 'w') as ofile:
+        diry = 'temp_tests/nd_material/'
+        if not os.path.exists(diry):
+            os.makedirs(diry)
+        with open(f'temp_tests/nd_material/atest_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 
@@ -1079,7 +1106,10 @@ def parse_all_elements():
             if len(ipara):
                 ofile.write('\n')
             ofile.write('\n'.join(para))
-        with open(f'temp_tests/atest_{item}.py', 'w') as ofile:
+        diry = 'temp_tests/elements/'
+        if not os.path.exists(diry):
+            os.makedirs(diry)
+        with open(f'temp_tests/elements/atest_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
 
@@ -1172,7 +1202,7 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'ZeroLength.rst', 'ele')
+        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'flatSliderBearing.rst', 'ele')
         print(pstr)
         # test_clean_fn_line()
         # parse_generic_single_file(obj_type='section', osi_type='sect')

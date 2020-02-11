@@ -21,31 +21,31 @@ class BeamColumnJoint(ElementBase):
         ----------
         ele_nodes: list
             A list of four element nodes
-        mat1: int
+        mat1: obj
             Uniaxial material tag for left bar-slip spring at node 1
-        mat2: int
+        mat2: obj
             Uniaxial material tag for right bar-slip spring at node 1
-        mat3: int
+        mat3: obj
             Uniaxial material tag for interface-shear spring at node 1
-        mat4: int
+        mat4: obj
             Uniaxial material tag for lower bar-slip spring at node 2
-        mat5: int
+        mat5: obj
             Uniaxial material tag for upper bar-slip spring at node 2
-        mat6: int
+        mat6: obj
             Uniaxial material tag for interface-shear spring at node 2
-        mat7: int
+        mat7: obj
             Uniaxial material tag for left bar-slip spring at node 3
-        mat8: int
+        mat8: obj
             Uniaxial material tag for right bar-slip spring at node 3
-        mat9: int
+        mat9: obj
             Uniaxial material tag for interface-shear spring at node 3
-        mat10: int
+        mat10: obj
             Uniaxial material tag for lower bar-slip spring at node 4
-        mat11: int
+        mat11: obj
             Uniaxial material tag for upper bar-slip spring at node 4
-        mat12: int
+        mat12: obj
             Uniaxial material tag for interface-shear spring at node 4
-        mat13: int
+        mat13: obj
             Uniaxial material tag for shear-panel
         ele_height_fac: float
             Floating point value (as a ratio to the total height of the element) to be considered for determination of
@@ -55,24 +55,24 @@ class BeamColumnJoint(ElementBase):
             the distance in between the tension-compression couples (optional, default: 1.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.mat1 = int(mat1)
-        self.mat2 = int(mat2)
-        self.mat3 = int(mat3)
-        self.mat4 = int(mat4)
-        self.mat5 = int(mat5)
-        self.mat6 = int(mat6)
-        self.mat7 = int(mat7)
-        self.mat8 = int(mat8)
-        self.mat9 = int(mat9)
-        self.mat10 = int(mat10)
-        self.mat11 = int(mat11)
-        self.mat12 = int(mat12)
-        self.mat13 = int(mat13)
+        self.mat1 = mat1
+        self.mat2 = mat2
+        self.mat3 = mat3
+        self.mat4 = mat4
+        self.mat5 = mat5
+        self.mat6 = mat6
+        self.mat7 = mat7
+        self.mat8 = mat8
+        self.mat9 = mat9
+        self.mat10 = mat10
+        self.mat11 = mat11
+        self.mat12 = mat12
+        self.mat13 = mat13
         self.ele_height_fac = float(ele_height_fac)
         self.ele_width_fac = float(ele_width_fac)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat1, self.mat2, self.mat3, self.mat4, self.mat5, self.mat6, self.mat7, self.mat8, self.mat9, self.mat10, self.mat11, self.mat12, self.mat13, self.ele_height_fac, self.ele_width_fac]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat1.tag, self.mat2.tag, self.mat3.tag, self.mat4.tag, self.mat5.tag, self.mat6.tag, self.mat7.tag, self.mat8.tag, self.mat9.tag, self.mat10.tag, self.mat11.tag, self.mat12.tag, self.mat13.tag, self.ele_height_fac, self.ele_width_fac]
         self.to_process(osi)
 
 
