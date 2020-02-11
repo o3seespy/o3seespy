@@ -779,6 +779,7 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
             defaults[pm].dtype = 'obj'
         elif defaults[pm].org_name.endswith('Tags'):
             defaults[pm].list_items_dtype = 'obj'
+            defaults[pm].dtype = 'list'
         else:
             defaults[pm].dtype = dtypes[i]
         defaults[pm].p_description = descriptions[pm]
@@ -1162,10 +1163,11 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        # parse_single_file(up.OPY_DOCS_PATH + 'UserDefined.rst', 'integ')
+        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'ZeroLength.rst', 'ele')
+        print(pstr)
         # test_clean_fn_line()
         # parse_generic_single_file(obj_type='section', osi_type='sect')
-        parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)
+        # parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)
         # ffp = up.OPY_DOCS_PATH + '%s.rst' % 'patch'
         # pstr, tstr, istr = parse_single_file(ffp, osi_type='mat', expected_base_type='patch', multi_def=True)
         # print(pstr, tstr, istr)

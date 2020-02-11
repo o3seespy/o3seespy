@@ -1,4 +1,5 @@
 from o3seespy.base_model import OpenSeesObject
+from o3seespy.opensees_instance import OpenSeesInstance
 
 
 def set_node_mass(osi, node, x_mass, y_mass, rot_mass):
@@ -75,20 +76,130 @@ def set_rigid_link(osi, r_node, c_node, rtype):
 
     """
     op_type = 'rigidLink'
-    parameters = [r_node.tag, c_node.tag,  rtype]
+    parameters = [rtype, r_node.tag, c_node.tag]
     osi.to_process(op_type, parameters)
+
+
+class Fix1DOF(OpenSeesObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, node, x):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        node: OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        """
+        self.node = node
+        self.x = x
+        self._parameters = [self.node.tag, self.x]
+        self.to_process(osi)
+
+
+class Fix2DOF(OpenSeesObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, node, x, y):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        node: OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        y: int
+            Fixity in y-direction
+        """
+        self.node = node
+        self.x = x
+        self.y = y
+        self._parameters = [self.node.tag, self.x, self.y]
+        self.to_process(osi)
+
+
+class Fix3DOF(OpenSeesObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, node, x, y, z_rot):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        node: OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        y: int
+            Fixity in y-direction
+        z_rot: int
+            Fixity in rotation about z-axis
+        """
+        self.node = node
+        self.x = x
+        self.y = y
+        self.z_rot = z_rot
+        self._parameters = [self.node.tag, self.x, self.y, self.z_rot]
+        self.to_process(osi)
+
+
+class Fix6DOF(OpenSeesObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, node, x, y, z, x_rot, y_rot, z_rot):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        node: OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        y: int
+            Fixity in y-direction
+        z: int
+            Fixity in z-direction
+        x_rot: int
+            Fixity in rotation about x-axis
+        y_rot: int
+            Fixity in rotation about y-axis
+        z_rot: int
+            Fixity in rotation about z-axis
+        """
+        self.node = node
+        self.x = x
+        self.y = y
+        self.z = z
+        self.x_rot = x_rot
+        self.y_rot = y_rot
+        self.z_rot = z_rot
+        self._parameters = [self.node.tag, self.x, self.y, self.z, self.x_rot, self. y_rot, self.z_rot]
+        self.to_process(osi)
 
 
 class Fix(OpenSeesObject):
     op_base_type = "fix"
     op_type = None
 
-    def __init__(self, osi, node, x, y, z_rot, z=None, x_rot=None, y_rot=None):
+    def __init__(self, osi, node, fixities):
+        """
+        Create a homogeneous SP constraint.
+
+        """
         self.node = node
-        self.x = x
-        self.y = y
-        self.z_rot = z_rot
-        self._parameters = [self.node.tag, self.x, self.y, self.z_rot]
+        self.fixities = fixities
+        self._parameters = [self.node.tag, *self.fixities]
         self.to_process(osi)
 
 
@@ -102,6 +213,7 @@ class Load(OpenSeesObject):
 
         self._parameters = [self.node.tag, *self.load_values]
         self.to_process(osi)
+
 
 class EleLoad2DPoint(OpenSeesObject):
     op_base_type = "eleLoad"

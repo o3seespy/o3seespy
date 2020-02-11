@@ -14,7 +14,7 @@ class NormUnbalance(TestBase):
     """
     op_type = 'NormUnbalance'
 
-    def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2, max_incr: int=None):
+    def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2, max_incr: float=None):
         """
         Initial method for NormUnbalance
 

@@ -542,7 +542,7 @@ class MVLEM(ElementBase):
     """
     op_type = 'MVLEM'
 
-    def __init__(self, osi, dens, ele_nodes, m, c, thick: list=None, widths: list=None, rho: list=None, mat_concretes=None, mat_steels=None, mat_shear=None):
+    def __init__(self, osi, dens, ele_nodes, m, c, thick: list=None, widths: list=None, rho: list=None, mat_concretes: list=None, mat_steels: list=None, mat_shear=None):
         """
         Initial method for MVLEM
 
@@ -563,9 +563,9 @@ class MVLEM(ElementBase):
         rho: listf
             A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
             a_{s,i}/a_{gross,i} (1 < i < m)`
-        mat_concretes: None
+        mat_concretes: list
             A list of ``m`` uniaxialmaterial tags for concrete
-        mat_steels: None
+        mat_steels: list
             A list of ``m`` uniaxialmaterial tags for steel
         mat_shear: obj
             Tag of uniaxialmaterial for shear material

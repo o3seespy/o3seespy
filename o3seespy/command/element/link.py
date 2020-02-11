@@ -22,7 +22,7 @@ class TwoNodeLink(ElementBase):
     """
     op_type = 'twoNodeLink'
 
-    def __init__(self, osi, ele_nodes, mats=None, dir=None, p_delta_vals: list=None, shear_dist=None, do_rayleigh=False, orient=None, mass: float=None):
+    def __init__(self, osi, ele_nodes, mats: list=None, dir=None, p_delta_vals: list=None, shear_dist=None, do_rayleigh=False, orient=None, mass: float=None):
         """
         Initial method for TwoNodeLink
 
@@ -30,7 +30,7 @@ class TwoNodeLink(ElementBase):
         ----------
         ele_nodes: listi
             A list of two element nodes
-        mats: None
+        mats: list
             A list of tags associated with previously-defined uniaxialmaterial objects
         dir: None
             

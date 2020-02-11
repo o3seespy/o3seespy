@@ -32,7 +32,7 @@ def run(use_pload):
         # mat_flex = o3.uniaxial_material.Steel01(osi, m_cap, e0=e_mod * i_sect, b=b)
         mat_flex = o3.uniaxial_material.ElasticBilin(osi, e_mod * i_sect, e_mod * i_sect * b, phi)
         mat_axial = o3.uniaxial_material.Elastic(osi, e_mod * area)
-        left_sect = o3.section.Aggregator(osi, mats=[mat_axial.tag, o3.cc.P, mat_flex.tag, o3.cc.M_Z, mat_flex.tag, o3.cc.M_Y])
+        left_sect = o3.section.Aggregator(osi, mats=[[mat_axial, o3.cc.P], [mat_flex, o3.cc.M_Z], [mat_flex, o3.cc.M_Y]])
     right_sect = o3.section.Elastic2D(osi, e_mod, area, i_sect)
     centre_sect = o3.section.Elastic2D(osi, e_mod, area, i_sect)
     integ = o3.beam_integration.HingeMidpoint(osi, left_sect, lp_i, right_sect, lp_j, centre_sect)

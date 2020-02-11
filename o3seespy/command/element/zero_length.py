@@ -11,7 +11,7 @@ class ZeroLength(ElementBase):
     """
     op_type = 'zeroLength'
 
-    def __init__(self, osi, ele_nodes, mats=None, dir_args: list=None, r_flag: float=None, orient=None):
+    def __init__(self, osi, ele_nodes, mats: list=None, dirs: list=None, r_flag: float=None, orient=None):
         """
         Initial method for ZeroLength
 
@@ -19,9 +19,9 @@ class ZeroLength(ElementBase):
         ----------
         ele_nodes: listi
             A list of two element nodes
-        mats: None
+        mats: list
             A list of tags associated with previously-defined uniaxialmaterials
-        dir_args: listi
+        dirs: listi
             A list of material directions: * 1,2,3 - translation along local x,y,z axes, respectively; * 4,5,6 -
             rotation about local x,y,z axes, respectively
         r_flag: float
@@ -34,7 +34,7 @@ class ZeroLength(ElementBase):
             self.mats = None
         else:
             self.mats = [x.tag for x in mats]
-        self.dir_args = dir_args
+        self.dirs = dirs
         if r_flag is None:
             self.r_flag = None
         else:
@@ -45,8 +45,8 @@ class ZeroLength(ElementBase):
         self._parameters = [self.op_type, self._tag, *self.ele_nodes]
         if getattr(self, 'mats') is not None:
             self._parameters += ['-mat', *self.mats]
-        if getattr(self, 'dir_args') is not None:
-            self._parameters += ['-dir', *self.dir_args]
+        if getattr(self, 'dirs') is not None:
+            self._parameters += ['-dir', *self.dirs]
         if getattr(self, 'r_flag') is not None:
             self._parameters += ['-doRayleigh', self.r_flag]
         if getattr(self, 'orient') is not None:
@@ -257,7 +257,7 @@ class ZeroLengthContactNTS2D(ElementBase):
     """
     op_type = 'zeroLengthContactNTS2D'
 
-    def __init__(self, osi, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes=None):
+    def __init__(self, osi, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes: list=None):
         """
         Initial method for ZeroLengthContactNTS2D
 
@@ -273,7 +273,7 @@ class ZeroLengthContactNTS2D(ElementBase):
             Number of slave nodes
         m_nd_num: int
             Number of master nodes
-        nodes: None
+        nodes: list
             Slave and master node tags respectively
         """
         if s_nd_num is None:
@@ -311,7 +311,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
     """
     op_type = 'zeroLengthInterface2D'
 
-    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes=None):
+    def __init__(self, osi, sdof, mdof, kn, kt, phi, s_nd_num: int=None, m_nd_num: int=None, nodes: list=None):
         """
         Initial method for ZeroLengthInterface2Ddof
 
@@ -331,7 +331,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
             Number of slave nodes
         m_nd_num: int
             Number of master nodes
-        nodes: None
+        nodes: list
             Slave and master node tags respectively
         """
         if s_nd_num is None:

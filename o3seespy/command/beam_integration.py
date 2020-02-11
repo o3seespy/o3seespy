@@ -197,7 +197,7 @@ class UserDefined(BeamIntegrationBase):
         ----------
         big_n: int
             Number of integration points along the element.
-        secs: None
+        secs: list
             A list previous-defined section objects.
         locs: listf
             Locations of integration points along the element.
@@ -233,7 +233,7 @@ class FixedLocation(BeamIntegrationBase):
         ----------
         big_n: int
             Number of integration points along the element.
-        secs: None
+        secs: list
             A list previous-defined section objects.
         locs: listf
             Locations of integration points along the element.
@@ -267,7 +267,7 @@ class LowOrder(BeamIntegrationBase):
         ----------
         big_n: int
             Number of integration points along the element.
-        secs: None
+        secs: list
             A list previous-defined section objects.
         locs: listf
             Locations of integration points along the element.
@@ -303,7 +303,7 @@ class MidDistance(BeamIntegrationBase):
         ----------
         big_n: int
             Number of integration points along the element.
-        secs: None
+        secs: list
             A list previous-defined section objects.
         locs: listf
             Locations of integration points along the element.
@@ -335,7 +335,7 @@ class UserHinge(BeamIntegrationBase):
             A previous-defined section objects for non-hinge area.
         np_l: int
             Number of integration points along the left hinge.
-        secs_ls: None
+        secs_ls: list
             A list of previous-defined section objects for left hinge area.
         locs_l: listf
             A list of locations of integration points for left hinge area.
@@ -343,7 +343,7 @@ class UserHinge(BeamIntegrationBase):
             A list of weights of integration points for left hinge area.
         np_r: int
             Number of integration points along the right hinge.
-        secs_rs: None
+        secs_rs: list
             A list of previous-defined section objects for right hinge area.
         locs_r: listf
             A list of locations of integration points for right hinge area.

@@ -66,24 +66,24 @@ def site_response(sp, asig, linear=0):
     nd["R0R"] = o3.node.Node(osi, ele_width, 0)
     for i in range(1, n_node_rows):
         # Establish left and right nodes
-        nd["R{0}L".format(i)] = o3.node.Node(osi, 0, -node_depths[i])
-        nd["R{0}R".format(i)] = o3.node.Node(osi, ele_width, -node_depths[i])
+        nd[f"R{i}L"] = o3.node.Node(osi, 0, -node_depths[i])
+        nd[f"R{i}R"] = o3.node.Node(osi, ele_width, -node_depths[i])
         # set x and y dofs equal for left and right nodes
-        o3.EqualDOF(osi, nd["R{0}L".format(i)], nd["R{0}R".format(i)], [o3.cc.X, o3.cc.Y])
+        o3.EqualDOF(osi, nd[f"R{i}L"], nd[f"R{i}R"], [o3.cc.X, o3.cc.Y])
 
     # Fix base nodes
-    o3.Fix(osi, nd["R{0}L".format(n_node_rows - 1)], o3.cc.FREE, o3.cc.FIXED, o3.cc.FREE)
-    o3.Fix(osi, nd["R{0}R".format(n_node_rows - 1)], o3.cc.FREE, o3.cc.FIXED, o3.cc.FREE)
+    o3.Fix2DOF(osi, nd[f"R{n_node_rows - 1}L"], o3.cc.FREE, o3.cc.FIXED)
+    o3.Fix2DOF(osi, nd[f"R{n_node_rows - 1}R"], o3.cc.FREE, o3.cc.FIXED)
 
     # Define dashpot nodes
     dashpot_node_l = o3.node.Node(osi, 0, -node_depths[-1])
     dashpot_node_2 = o3.node.Node(osi, 0, -node_depths[-1])
-    o3.Fix(osi, dashpot_node_l,  o3.cc.FIXED, o3.cc.FIXED, o3.cc.FREE)
-    o3.Fix(osi, dashpot_node_2, o3.cc.FREE, o3.cc.FIXED, o3.cc.FREE)
+    o3.Fix2DOF(osi, dashpot_node_l,  o3.cc.FIXED, o3.cc.FIXED)
+    o3.Fix2DOF(osi, dashpot_node_2, o3.cc.FREE, o3.cc.FIXED)
 
     # define equal DOF for dashpot and soil base nodes
-    o3.EqualDOF(osi, nd["R{0}L".format(n_node_rows - 1)], nd["R{0}R".format(n_node_rows - 1)], [o3.cc.X])
-    o3.EqualDOF(osi, nd["R{0}L".format(n_node_rows - 1)], dashpot_node_2, [o3.cc.X])
+    o3.EqualDOF(osi, nd[f"R{n_node_rows - 1}L"], nd[f"R{n_node_rows - 1}R"], [o3.cc.X])
+    o3.EqualDOF(osi, nd[f"R{n_node_rows - 1}L"], dashpot_node_2, [o3.cc.X])
 
     # define materials
     ele_thick = 1.0  # m
@@ -103,19 +103,14 @@ def site_response(sp, asig, linear=0):
         soil_mats.append(mat)
 
         # def element
-        nodes = [
-            nd["R{0}L".format(i + 1)],
-            nd["R{0}R".format(i + 1)],
-            nd["R{0}R".format(i)],
-            nd["R{0}L".format(i)]
-        ]
+        nodes = [nd[f"R{i + 1}L"], nd[f"R{i + 1}R"], nd[f"R{i}R"], nd[f"R{i}L"]]
         ele = o3.element.Quad(osi, nodes, ele_thick, o3.cc.PLANE_STRAIN, mat, b2=grav * unit_masses[i])
         eles.append(ele)
 
     # define material and element for viscous dampers
     c_base = ele_width * unit_masses[-1] * shear_vels[-1]
     dashpot_mat = o3.uniaxial_material.Viscous(osi, c_base, alpha=1.)
-    o3.element.ZeroLength(osi, dashpot_node_l, dashpot_node_2, mat_x=dashpot_mat)
+    o3.element.ZeroLength(osi, [dashpot_node_l, dashpot_node_2], mats=[dashpot_mat], dirs=[o3.cc.DOF2D_X])
 
     # Static analysis
     o3.constraints.Transformation(osi)

@@ -461,7 +461,7 @@ class Parallel(SectionBase):
 
         Parameters
         ----------
-        secs: None
+        secs: list
             Tags of of predefined sections.
         """
         self.secs = [x.tag for x in secs]

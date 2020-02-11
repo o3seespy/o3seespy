@@ -21,28 +21,47 @@ class OpenSeesInstance(object):  # TODO: allow custom (self compiled opensees)
     def __init__(self, ndm: int, ndf=None, state=0):
         self.ndm = ndm
         self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
-        if ndf is None:
+        parameters = ['BasicBuilder', '-ndm', ndm]
+        if ndf is not None:
+            if ndf not in [1, 2, 3, 6]:
+                raise ValueError('ndm must be: 1, 2, 3, 6')
+            self.ndf = int(ndf)
+            parameters += ['-ndf', self.ndf]
+        else:
             if ndm == 1:
-                ndf = 1
+                self.ndf = 1
             elif ndm == 2:
-                ndf = 3
+                self.ndf = 3
             else:
-                ndf = 6
+                self.ndf = 6
         opy.wipe()
-        opy.model('basic', '-ndm', ndm, '-ndf', ndf)
+        opy.model(*parameters)
         self.commands = []
         self.dict = OrderedDict()
 
         if state == 1:
             self.commands.append('opy.wipe()')
-            self.commands.append("opy.model('basic', '-ndm', {0}, '-ndf', {1})".format(ndm, ndf))
+            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
         if state == 2:
             self.dict['ndm'] = ndm
             self.dict['ndf'] = ndf
             # base_types = ['node', 'element', 'section', 'uniaxial_material']
         elif state == 3:
             self.commands.append('opy.wipe()')
-            self.commands.append("opy.model('basic', '-ndm', {0}, '-ndf', {1})".format(ndm, ndf))
+            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
+
+    def reset_model_params(self, ndm, ndf):
+        opy.model('BasicBuilder', '-ndm', ndm, '-ndf', ndf)
+        self.ndm = ndm
+        self.ndf = ndf
+        if self._state == 1:
+            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {ndf})")
+        if self._state == 2:
+            self.dict['ndm'] = ndm
+            self.dict['ndf'] = ndf
+            # base_types = ['node', 'element', 'section', 'uniaxial_material']
+        elif self._state == 3:
+            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {ndf})")
 
     def to_commands(self, os_command):
         self.commands.append(os_command)
