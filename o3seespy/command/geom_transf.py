@@ -19,10 +19,10 @@ class Linear2D(GeomTransfBase):
 
         Parameters
         ----------
-        d_i: listf
+        d_i: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: listf
+        d_j: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -56,16 +56,16 @@ class Linear3D(GeomTransfBase):
 
         Parameters
         ----------
-        vecxz: listf
+        vecxz: list
             X, y, and z components of vecxz, the vector used to define the local x-z plane of the local-coordinate
             system. the local y-axis is defined by taking the cross product of the vecxz vector and the x-axis. these
             components are specified in the global-coordinate system x,y,z and define a vector that is in a plane
             parallel to the x-z plane of the local-coordinate system. these items need to be specified for the
             three-dimensional problem.
-        d_i: listf
+        d_i: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: listf
+        d_j: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -98,10 +98,10 @@ class PDelta2D(GeomTransfBase):
 
         Parameters
         ----------
-        d_i: listf
+        d_i: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: listf
+        d_j: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -135,16 +135,16 @@ class PDelta3D(GeomTransfBase):
 
         Parameters
         ----------
-        vecxz: listf
+        vecxz: list
             X, y, and z components of vecxz, the vector used to define the local x-z plane of the local-coordinate
             system. the local y-axis is defined by taking the cross product of the vecxz vector and the x-axis. these
             components are specified in the global-coordinate system x,y,z and define a vector that is in a plane
             parallel to the x-z plane of the local-coordinate system. these items need to be specified for the
             three-dimensional problem.
-        d_i: listf
+        d_i: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: listf
+        d_j: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -177,10 +177,10 @@ class Corotational2D(GeomTransfBase):
 
         Parameters
         ----------
-        d_i: listf
+        d_i: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: listf
+        d_j: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -213,7 +213,7 @@ class Corotational3D(GeomTransfBase):
 
         Parameters
         ----------
-        vecxz: listf
+        vecxz: list
             X, y, and z components of vecxz, the vector used to define the local x-z plane of the local-coordinate
             system. the local y-axis is defined by taking the cross product of the vecxz vector and the x-axis. these
             components are specified in the global-coordinate system x,y,z and define a vector that is in a plane

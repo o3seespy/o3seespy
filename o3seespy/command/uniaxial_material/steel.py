@@ -74,7 +74,7 @@ class Steel02(UniaxialMaterialBase):
             Initial elastic tangent
         b: float
             Strain-hardening ratio (ratio between post-yield tangent and initial elastic tangent)
-        params: listf
+        params: list
             Parameters to control the transition from elastic to plastic branches. ``params=[r0,cr1,cr2]``. recommended
             values: r0=between 10 and 20, cr1=0.925, cr2=0.15
         a1: float (default=True)
@@ -137,22 +137,22 @@ class Hysteretic(UniaxialMaterialBase):
 
         Parameters
         ----------
-        p1: listf
+        p1: list
             ``p1=[s1p, e1p]``, stress and strain (or force & deformation) at first point of the envelope in the positive
             direction
-        p2: listf
+        p2: list
             ``p2=[s2p, e2p]``, stress and strain (or force & deformation) at second point of the envelope in the
             positive direction
-        p3: listf (default=True)
+        p3: list (default=True)
             ``p3=[s3p, e3p]``, stress and strain (or force & deformation) at third point of the envelope in the positive
             direction
-        n1: listf
+        n1: list
             ``n1=[s1n, e1n]``, stress and strain (or force & deformation) at first point of the envelope in the negative
             direction
-        n2: listf
+        n2: list
             ``n2=[s2n, e2n]``, stress and strain (or force & deformation) at second point of the envelope in the
             negative direction
-        n3: listf (default=True)
+        n3: list (default=True)
             ``n3=[s3n, e3n]``, stress and strain (or force & deformation) at third point of the envelope in the negative
             direction
         pinch_x: float

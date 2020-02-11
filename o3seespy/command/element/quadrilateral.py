@@ -18,7 +18,7 @@ class Quad(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
             Element thickness
@@ -68,7 +68,7 @@ class ShellMITC4(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         sec: obj
             Tag associated with previously-defined sectionforcedeformation object. currently must be either a
@@ -99,7 +99,7 @@ class ShellDKGQ(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         sec: obj
             Tag associated with previously-defined sectionforcedeformation object. currently can be a
@@ -130,7 +130,7 @@ class ShellDKGT(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of three element nodes in clockwise or counter-clockwise order
         sec: obj
             Tag associated with previously-defined sectionforcedeformation object. currently can be a
@@ -161,7 +161,7 @@ class ShellNLDKGQ(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         sec: obj
             Tag associated with previously-defined sectionforcedeformation object. currently can be a
@@ -192,7 +192,7 @@ class ShellNLDKGT(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of three element nodes in clockwise or counter-clockwise order around the element
         sec: obj
             Tag associated with previously-defined sectionforcedeformation object. currently can be a
@@ -220,7 +220,7 @@ class ShellNL(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of nine element nodes, input is the typical, firstly four corner nodes counter-clockwise, then
             mid-side nodes counter-clockwise and finally the central node
         sec: obj
@@ -252,7 +252,7 @@ class BbarQuad(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
             Element thickness
@@ -285,7 +285,7 @@ class EnhancedQuad(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
             Element thickness
@@ -321,7 +321,7 @@ class SSPquad(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         mat: obj
             Unique integer tag associated with previously-defined ndmaterial object

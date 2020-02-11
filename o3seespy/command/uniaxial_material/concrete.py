@@ -318,10 +318,10 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             Ductility factor of the hoop steel.
         phi_lon: float
             Diameter of longitudinal bars.
-        internal_args: listf
+        internal_args: list
             ``internalargs= [phisi, si, fyhi, es0i, haratioi, mui]`` optional parameters for defining the internal
             transverse reinforcement. if they are not specified they will be assumed equal to the external ones
-        wrap_args: listf
+        wrap_args: list
             ``wrapargs=[cover, am, sw, ful, es0w]`` optional parameters required when section is strengthened with frp
             wraps. * ``cover`` cover thickness measured from the outer line of hoop. * ``am`` total area of frp wraps (number of
             layers x wrap thickness x wrap width). * ``sw`` spacing of frp wraps (if continuous wraps are used the spacing is

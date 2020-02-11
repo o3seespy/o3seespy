@@ -28,13 +28,13 @@ class TwoNodeLink(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         mats: list
             A list of tags associated with previously-defined uniaxialmaterial objects
         dir: None
             
-        p_delta_vals: listf
+        p_delta_vals: list
             P-delta moment contribution ratios, size of ratio vector is 2 for 2d-case and 4 for 3d-case (entries:
             ``[my_inode, my_jnode, mz_inode, mz_jnode]``) ``my_inode`` + ``my_jnode`` <= 1.0, ``mz_inode`` + ``mz_jnode`` <=
             1.0. remaining p-delta moments are resisted by shear couples. (optional)

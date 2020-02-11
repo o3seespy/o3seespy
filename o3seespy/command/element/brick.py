@@ -18,7 +18,7 @@ class StdBrick(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of eight element nodes in bottom and top faces and in counter-clockwise order
         mat: obj
             Tag of ndmaterial
@@ -57,7 +57,7 @@ class BbarBrick(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of eight element nodes in bottom and top faces and in counter-clockwise order
         mat: obj
             Tag of ndmaterial
@@ -95,7 +95,7 @@ class Brick20N(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of twenty element nodes, input order is shown in notes below
         mat: obj
             Material tag associated with previsouly-defined ndmaterial object
@@ -136,7 +136,7 @@ class SSPbrick(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of eight element nodes in bottom and top faces and in counter-clockwise order
         mat: obj
             Unique integer tag associated with previously-defined ndmaterial object

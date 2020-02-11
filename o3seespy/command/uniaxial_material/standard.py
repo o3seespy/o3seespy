@@ -168,13 +168,13 @@ class Parallel(UniaxialMaterialBase):
 
         Parameters
         ----------
-        tags: listi
+        tags: list
             Identification tags of materials making up the material model
-        factor_args: listf
+        factor_args: list
             Factors to create a linear combination of the specified materials. factors can be negative to subtract one
             material from an other. (optional, default = 1.0)
         """
-        self.tags = tags
+        self.tags = [x.tag for x in tags]
         self.factor_args = factor_args
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -199,10 +199,10 @@ class Series(UniaxialMaterialBase):
 
         Parameters
         ----------
-        tags: listi
+        tags: list
             Identification tags of materials making up the material model
         """
-        self.tags = tags
+        self.tags = [x.tag for x in tags]
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.tags]

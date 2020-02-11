@@ -28,7 +28,7 @@ class ElastomericBearingPlasticity2D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         k_init: float
             Initial elastic stiffness in local shear direction
@@ -116,7 +116,7 @@ class ElastomericBearingPlasticity3D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         k_init: float
             Initial elastic stiffness in local shear direction
@@ -214,7 +214,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         k_init: float
             Initial elastic stiffness in local shear direction
@@ -236,7 +236,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
             Tag associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj
             Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        orient_vals: listi
+        orient_vals: list
             Vector components in global coordinates defining local x-axis (optional), vector components in global
             coordinates defining local y-axis (optional)
         shear_dist: float
@@ -257,7 +257,10 @@ class ElastomericBearingBoucWen2D(ElementBase):
         self.gamma = float(gamma)
         self.p_mat = p_mat
         self.mz_mat = mz_mat
-        self.orient_vals = orient_vals
+        if orient_vals is None:
+            self.orient_vals = None
+        else:
+            self.orient_vals = [x.tag for x in orient_vals]
         if shear_dist is None:
             self.shear_dist = None
         else:
@@ -312,7 +315,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         k_init: float
             Initial elastic stiffness in local shear direction
@@ -338,7 +341,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
             Tag associated with previously-defined uniaxialmaterial in moment direction around local y-axis
         mz_mat: obj
             Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        orient_vals: listi
+        orient_vals: list
             Vector components in global coordinates defining local x-axis (optional), vector components in global
             coordinates defining local y-axis (optional)
         shear_dist: float
@@ -361,7 +364,10 @@ class ElastomericBearingBoucWen3D(ElementBase):
         self.t_mat = t_mat
         self.my_mat = my_mat
         self.mz_mat = mz_mat
-        self.orient_vals = orient_vals
+        if orient_vals is None:
+            self.orient_vals = None
+        else:
+            self.orient_vals = [x.tag for x in orient_vals]
         if shear_dist is None:
             self.shear_dist = None
         else:
@@ -427,7 +433,7 @@ class FlatSliderBearingmaxIter2D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         frn_mdl: obj
             Tag associated with previously-defined frictionmodel
@@ -519,7 +525,7 @@ class FlatSliderBearing3D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         frn_mdl: obj
             Tag associated with previously-defined frictionmodel
@@ -627,7 +633,7 @@ class SingleFPBearing2D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         frn_mdl: obj
             Tag associated with previously-defined frictionmodel
@@ -731,7 +737,7 @@ class SingleFPBearing3D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         frn_mdl: obj
             Tag associated with previously-defined frictionmodel
@@ -841,7 +847,7 @@ class TFP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         r1: float
             Radius of inner bottom sliding surface
@@ -934,7 +940,7 @@ class TripleFrictionPendulum(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         frn_tag1: int
             = tags associated with previously-defined frictionmodels at the three sliding interfaces
@@ -1020,7 +1026,7 @@ class MultipleShearSpring(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         n_spring: int
             Number of springs
@@ -1076,7 +1082,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         total_rubber: float
             Total rubber thickness
@@ -1200,7 +1206,7 @@ class KikuchiBearingdoBalance(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         total_rubber: float
             Total rubber thickness
@@ -1331,7 +1337,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         tp: int
             Compound type = 1 : x0.6r manufactured by bridgestone corporation.
@@ -1395,7 +1401,7 @@ class ElastomericX(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         fy: float
             Yield strength
@@ -1505,7 +1511,7 @@ class LeadRubberX(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         fy: float
             Yield strength
@@ -1622,7 +1628,7 @@ class HDR(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         gr: float
             Shear modulus of elastomeric bearing
@@ -1739,7 +1745,7 @@ class FPBearingPTV(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         mu_ref: float
             Reference coefficient of friction

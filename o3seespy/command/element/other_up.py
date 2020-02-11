@@ -17,7 +17,7 @@ class SSPquadUP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         mat: obj
             Unique integer tag associated with previously-defined ndmaterial object
@@ -73,7 +73,7 @@ class SSPbrickUP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of eight element nodes in counter-clockwise order
         mat: obj
             Unique integer tag associated with previously-defined ndmaterial object

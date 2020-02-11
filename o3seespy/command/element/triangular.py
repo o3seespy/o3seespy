@@ -18,7 +18,7 @@ class Tri31(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of three element nodes in counter-clockwise order
         thick: float
             Element thickness

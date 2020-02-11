@@ -17,11 +17,11 @@ class ZeroLength(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         mats: list
             A list of tags associated with previously-defined uniaxialmaterials
-        dirs: listi
+        dirs: list
             A list of material directions: * 1,2,3 - translation along local x,y,z axes, respectively; * 4,5,6 -
             rotation about local x,y,z axes, respectively
         r_flag: float
@@ -34,7 +34,10 @@ class ZeroLength(ElementBase):
             self.mats = None
         else:
             self.mats = [x.tag for x in mats]
-        self.dirs = dirs
+        if dirs is None:
+            self.dirs = None
+        else:
+            self.dirs = [x.tag for x in dirs]
         if r_flag is None:
             self.r_flag = None
         else:
@@ -69,7 +72,7 @@ class ZeroLengthND(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         mat: obj
             Tag associated with previously-defined ndmaterial object
@@ -106,7 +109,7 @@ class ZeroLengthSection(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         sec: obj
             Tag associated with previously-defined section object
@@ -146,7 +149,7 @@ class CoupledZeroLength(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         dirn1: int
             The two directions, 1 through ndof.
@@ -183,7 +186,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of a slave and a master nodes
         kn: float
             Penalty in normal direction
@@ -222,7 +225,7 @@ class ZeroLengthContact3D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of a slave and a master nodes
         kn: float
             Penalty in normal direction
@@ -378,7 +381,7 @@ class ZeroLengthImpact3D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of a slave and a master nodes * ``1`` if out-normal vector of master plane points to +x direction *
             ``2`` if out-normal vector of master plane points to +y direction * ``3`` if out-normal vector of master plane points
             to +z direction

@@ -17,7 +17,7 @@ class SurfaceLoad(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             The four nodes defining the element, input in counterclockwise order (-ndm 3 -ndf 3)
         p: float
             Applied pressure loading normal to the surface, outward is positive, inward is negative
@@ -47,7 +47,7 @@ class VS3D4(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             4 end nodes
         big_e: float
             Young's modulus of element material
@@ -92,7 +92,7 @@ class AC3D8(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             8 end nodes
         mat: obj
             Material tag of previously defined nd material
@@ -153,7 +153,7 @@ class AV3D4(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             4 end nodes
         mat: obj
             Material tag of previously defined nd material

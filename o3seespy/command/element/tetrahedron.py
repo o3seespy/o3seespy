@@ -18,7 +18,7 @@ class FourNodeTetrahedron(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes
         mat: obj
             Tag of ndmaterial

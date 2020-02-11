@@ -336,14 +336,17 @@ def build_test_for_generic(names, pms, cl_pms):
                 prior_strs.append(w4 + 'sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)')
                 prior_strs.append(w4 + 'integration = o3.beam_integration.Lobatto(osi, sec, 5)')
             pjoins.append(f'{o3_name}={o3_name}')
-        elif dtype == 'listi':
+        elif dtype == 'list' and pms[pm].list_items_dtype == 'obj':
             if o3_name == 'ele_nodes':
                 prior_strs.append(w4 + 'coords = [[0, 0], [1, 0], [1, 1], [0, 1]]')
                 prior_strs.append(w4 + 'ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]')
             else:
                 prior_strs.append(w4 + f'{o3_name} = [1, 1]')
             pjoins.append(f'{o3_name}={o3_name}')
-        elif dtype == 'listf':
+        elif dtype == 'list' and pms[pm].list_items_dtype == 'int':
+            prior_strs.append(w4 + f'{o3_name} = [1, 1]')
+            pjoins.append(f'{o3_name}={o3_name}')
+        elif dtype == 'list' and pms[pm].list_items_dtype == 'float':
             prior_strs.append(w4 + f'{o3_name} = [1.0, 1.0]')
             pjoins.append(f'{o3_name}={o3_name}')
         elif dtype == 'str':
@@ -780,6 +783,12 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         elif defaults[pm].org_name.endswith('Tags'):
             defaults[pm].list_items_dtype = 'obj'
             defaults[pm].dtype = 'list'
+        elif 'listi' in dtypes[i]:
+            defaults[pm].dtype = 'list'
+            defaults[pm].list_items_dtype = 'obj'
+        elif 'listf' in dtypes[i]:
+            defaults[pm].dtype = 'list'
+            defaults[pm].list_items_dtype = 'float'
         else:
             defaults[pm].dtype = dtypes[i]
         defaults[pm].p_description = descriptions[pm]

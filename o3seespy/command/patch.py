@@ -27,13 +27,13 @@ class Quad(PatchBase):
             Number of subdivisions (fibers) in the ij direction.
         num_subdiv_jk: int
             Number of subdivisions (fibers) in the jk direction.
-        crds_i: listf
+        crds_i: list
             Y & z-coordinates of vertex i (local coordinate system)
-        crds_j: listf
+        crds_j: list
             Y & z-coordinates of vertex j (local coordinate system)
-        crds_k: listf
+        crds_k: list
             Y & z-coordinates of vertex k (local coordinate system)
-        crds_l: listf
+        crds_l: list
             Y & z-coordinates of vertex l (local coordinate system)
         """
         self.mat = mat
@@ -69,9 +69,9 @@ class Rect(PatchBase):
             Number of subdivisions (fibers) in local y direction.
         num_subdiv_z: int
             Number of subdivisions (fibers) in local z direction.
-        crds_i: listf
+        crds_i: list
             Y & z-coordinates of vertex i (local coordinate system)
-        crds_j: listf
+        crds_j: list
             Y & z-coordinates of vertex j (local coordinate system)
         """
         self.mat = mat
@@ -103,11 +103,11 @@ class Circ(PatchBase):
             Number of subdivisions (fibers) in the circumferential direction (number of wedges)
         num_subdiv_rad: int
             Number of subdivisions (fibers) in the radial direction (number of rings)
-        center: listf
+        center: list
             Y & z-coordinates of the center of the circle
-        rad: listf
+        rad: list
             Internal & external radius
-        ang: listf
+        ang: list
             Starting & ending-coordinates angles (degrees)
         """
         self.mat = mat

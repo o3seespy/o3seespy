@@ -1054,9 +1054,9 @@ class ElasticMultiLinear(UniaxialMaterialBase):
         ----------
         eta: float
             Damping tangent (optional, default=0.0)
-        strain: listf
+        strain: list
             List of strain points along stress-strain curve
-        stress: listf
+        stress: list
             List of stress points along stress-strain curve
         """
         self.eta = float(eta)
@@ -1086,7 +1086,7 @@ class MultiLinear(UniaxialMaterialBase):
 
         Parameters
         ----------
-        pts: listf
+        pts: list
             A list of strain and stress points ``pts = [strain1, stress1, strain2, stress2, ..., ]``
         """
         self.pts = pts

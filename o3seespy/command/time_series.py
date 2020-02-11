@@ -300,9 +300,9 @@ class Path(TimeSeriesBase):
         ----------
         dt: float
             Time interval between specified points. (optional)
-        values: listf
+        values: list
             Load factor values in a |list|. (optional)
-        time: listf
+        time: list
             Time values in a |list|. (optional)
         filepath: str
             File containing the load factors values. (optional)

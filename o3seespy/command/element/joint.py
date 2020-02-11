@@ -19,7 +19,7 @@ class BeamColumnJoint(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes
         mat1: int
             Uniaxial material tag for left bar-slip spring at node 1
@@ -93,7 +93,7 @@ class ElasticTubularJoint(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         brace__diameter: float
             Outer diameter of brace
@@ -140,7 +140,7 @@ class Joint2D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of five element nodes = ``[nd1,nd2,nd3,nd4,ndc]``. ``ndc`` is the central node of beam-column joint.
             (the tag ``ndc`` is used to generate the internal node, thus, the node should not exist in the domain or be used by
             any other node)

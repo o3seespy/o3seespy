@@ -199,9 +199,9 @@ class UserDefined(BeamIntegrationBase):
             Number of integration points along the element.
         secs: list
             A list previous-defined section objects.
-        locs: listf
+        locs: list
             Locations of integration points along the element.
-        wts: listf
+        wts: list
             Weights of integration points.
         """
         self.big_n = int(big_n)
@@ -235,7 +235,7 @@ class FixedLocation(BeamIntegrationBase):
             Number of integration points along the element.
         secs: list
             A list previous-defined section objects.
-        locs: listf
+        locs: list
             Locations of integration points along the element.
         """
         self.big_n = int(big_n)
@@ -269,9 +269,9 @@ class LowOrder(BeamIntegrationBase):
             Number of integration points along the element.
         secs: list
             A list previous-defined section objects.
-        locs: listf
+        locs: list
             Locations of integration points along the element.
-        wts: listf
+        wts: list
             Weights of integration points.
         """
         self.big_n = int(big_n)
@@ -305,7 +305,7 @@ class MidDistance(BeamIntegrationBase):
             Number of integration points along the element.
         secs: list
             A list previous-defined section objects.
-        locs: listf
+        locs: list
             Locations of integration points along the element.
         """
         self.big_n = int(big_n)
@@ -337,17 +337,17 @@ class UserHinge(BeamIntegrationBase):
             Number of integration points along the left hinge.
         secs_ls: list
             A list of previous-defined section objects for left hinge area.
-        locs_l: listf
+        locs_l: list
             A list of locations of integration points for left hinge area.
-        wts_l: listf
+        wts_l: list
             A list of weights of integration points for left hinge area.
         np_r: int
             Number of integration points along the right hinge.
         secs_rs: list
             A list of previous-defined section objects for right hinge area.
-        locs_r: listf
+        locs_r: list
             A list of locations of integration points for right hinge area.
-        wts_r: listf
+        wts_r: list
             A list of weights of integration points for right hinge area.
         """
         self.sec_e = sec_e

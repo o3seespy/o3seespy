@@ -18,7 +18,7 @@ class ElasticBeamColumn2D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         area: float
             Cross-sectional area of element
@@ -68,7 +68,7 @@ class ElasticBeamColumn3D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         area: float
             Cross-sectional area of element
@@ -133,7 +133,7 @@ class ModElasticBeam2D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         area: float
             Cross-sectional area of element
@@ -195,7 +195,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         e_mod: float
             Young's modulus
@@ -254,7 +254,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         e_mod: float
             Young's modulus
@@ -322,7 +322,7 @@ class DispBeamColumn(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             List of two node tags
         transf: obj
             Tag of transformation
@@ -365,7 +365,7 @@ class ForceBeamColumn(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         transf: obj
             Tag of transformation
@@ -421,7 +421,7 @@ class NonlinearBeamColumn(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         num_intgr_pts: int
             Number of integration points.
@@ -489,7 +489,7 @@ class DispBeamColumnInt(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         num_intgr_pts: int
             Number of integration points along the element.
@@ -550,17 +550,17 @@ class MVLEM(ElementBase):
         ----------
         dens: float
             Wall density
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         m: int
             Number of element macro-fibers
         c: float
             Location of center of rotation from the inode, ``c`` = 0.4 (recommended)
-        thick: listf
+        thick: list
             A list of ``m`` macro-fiber thicknesses
-        widths: listf
+        widths: list
             A list of ``m`` macro-fiber widths
-        rho: listf
+        rho: list
             A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
             a_{s,i}/a_{gross,i} (1 < i < m)`
         mat_concretes: list
@@ -627,7 +627,7 @@ class SFIMVLEM(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of two element nodes
         m: int
             Number of element macro-fibers

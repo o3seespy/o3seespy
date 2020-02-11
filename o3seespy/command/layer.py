@@ -26,9 +26,9 @@ class Straight(LayerBase):
             Number of fibers along line
         area_fiber: float
             Area of each fiber
-        start: listf
+        start: list
             Y & z-coordinates of first fiber in line (local coordinate system)
-        end: listf
+        end: list
             Y & z-coordinates of last fiber in line (local coordinate system)
         """
         self.mat = mat

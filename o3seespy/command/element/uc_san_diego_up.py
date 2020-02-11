@@ -20,7 +20,7 @@ class QuadUP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
             Element thickness
@@ -79,7 +79,7 @@ class BrickUP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of eight element nodes
         mat: obj
             Tag of an ndmaterial object (previously defined) of which the element is composed
@@ -140,7 +140,7 @@ class BbarQuadUP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
             Element thickness
@@ -200,7 +200,7 @@ class BbarBrickUP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of eight element nodes
         mat: obj
             Tag of an ndmaterial object (previously defined) of which the element is composed
@@ -261,7 +261,7 @@ class N94QuadUP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of nine element nodes
         thick: float
             Element thickness
@@ -318,7 +318,7 @@ class N208BrickUP(ElementBase):
 
         Parameters
         ----------
-        ele_nodes: listi
+        ele_nodes: list
             A list of twenty element nodes
         mat: obj
             Tag of an ndmaterial object (previously defined) of which the element is composed
