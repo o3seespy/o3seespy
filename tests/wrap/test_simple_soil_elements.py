@@ -1,11 +1,9 @@
-import eqsig
-from eqsig import sdof
 import numpy as np
 import o3seespy.extensions
 import o3seespy as o3
 
 
-def check_2d_site_period():
+def test_2d_site_period():
 
     osi = o3.OpenSeesInstance(ndm=2, ndf=2, state=3)
     # Establish nodes

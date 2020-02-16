@@ -54,7 +54,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     sto_ys = np.insert(sto_ys, 0, 0)
     for cc in range(1, n_cols + 1):
         for ss in range(fb.n_storeys + 1):
-            nd["C{0}-S{1}".format(cc, ss)] = o3.node.Node(osi, col_xs[cc - 1], sto_ys[ss])
+            nd[f"C{cc}-S{ss}"] = o3.node.Node(osi, col_xs[cc - 1], sto_ys[ss])
 
             if ss != 0:
                 if cc == 1:
@@ -63,16 +63,16 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
                     node_mass = trib_mass_per_length * fb.bay_lengths[-1] / 2
                 else:
                     node_mass = trib_mass_per_length * (fb.bay_lengths[cc - 2] + fb.bay_lengths[cc - 1] / 2)
-                o3.set_node_mass(nd["C{0}-S{1}".format(cc, ss)], node_mass, 0., 0.)
+                o3.set_node_mass(osi, nd[f"C{cc}-S{ss}"], node_mass, 0., 0.)
 
     # Set all nodes on a storey to have the same displacement
     for ss in range(0, fb.n_storeys + 1):
         for cc in range(1, n_cols + 1):
-            o3.set_equal_dof(nd["C{0}-S{1}".format(1, ss)], nd["C{0}-S{1}".format(cc, ss)], o3.cc.X)
+            o3.set_equal_dof(osi, nd[f"C1-S{ss}"], nd[f"C{cc}-S{ss}"], o3.cc.X)
 
     # Fix all base nodes
     for cc in range(1, n_cols + 1):
-        opy.fix(nd["C%i-S%i" % (cc, 0)].tag, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
+        o3.Fix3DOF(osi, nd[f"C{cc}-S0"], o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
 
     # Coordinate transformation
     transf = o3.geom_transf.Linear2D(osi, [])
@@ -105,7 +105,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
         for cc in range(1, fb.n_cols + 1):
             lp_i = 0.4
             lp_j = 0.4  # plastic hinge length
-            ele_str = "C{0}-S{1}S{2}".format(cc, ss, ss + 1)
+            ele_str = f"C{cc}-S{ss}S{ss+1}"
 
             top_sect = o3.section.Elastic2D(osi, e_conc, a_columns[ss][cc - 1], i_columns[ss][cc - 1])
             bot_sect = o3.section.Elastic2D(osi, e_conc, a_columns[ss][cc - 1], i_columns[ss][cc - 1])
@@ -116,15 +116,15 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
 
             integ = o3.beam_integration.HingeMidpoint(osi, bot_sect, lp_i, top_sect, lp_j, centre_sect)
 
-            bot_node = nd["C%i-S%i" % (cc, ss)]
-            top_node = nd["C%i-S%i" % (cc, ss + 1)]
+            bot_node = nd[f"C{cc}-S{ss}"]
+            top_node = nd[f"C{cc}-S{ss+1}"]
             ed[ele_str] = o3.element.ForceBeamColumn(osi, [bot_node, top_node], transf, integ)
 
         # Set beams
         for bb in range(1, fb.n_bays + 1):
             lp_i = 0.5
             lp_j = 0.5
-            ele_str = "C{0}C{1}-S{2}".format(bb - 1, bb, ss)
+            ele_str = f"C{bb-1}C{bb}-S{ss}"
 
             mat = o3.uniaxial_material.ElasticBilin(osi, ei_beams[ss][bb - 1], 0.05 * ei_beams[ss][bb - 1], phi_y_beam[ss][bb - 1])
             md[ele_str] = mat
@@ -133,8 +133,8 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
             centre_sect = o3.section.Elastic2D(osi, e_conc, a_beams[ss][bb - 1], i_beams[ss][bb - 1])
             integ = o3.beam_integration.HingeMidpoint(osi, left_sect, lp_i, right_sect, lp_j, centre_sect)
 
-            left_node = nd["C%i-S%i" % (bb, ss + 1)]
-            right_node = nd["C%i-S%i" % (bb + 1, ss + 1)]
+            left_node = nd[f"C{bb}-S{ss+1}"]
+            right_node = nd[f"C{bb+1}-S{ss+1}"]
             ed[ele_str] = o3.element.ForceBeamColumn(osi, [left_node, right_node], transf, integ)
 
     # Define the dynamic analysis

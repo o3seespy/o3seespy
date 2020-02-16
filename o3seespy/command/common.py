@@ -295,6 +295,14 @@ def get_node_disp(osi, node, dof):
     return osi.to_process(op_type, parameters)
 
 
+def get_all_node_disps(osi, dof):
+    tags = get_node_tags(osi)
+    disps = []
+    for tag in tags:
+        disps.append(osi.to_process('nodeDisp', [tag, dof]))  # very slow
+    return disps
+
+
 def get_node_vel(osi, node, dof):
     op_type = 'nodeVel'
     parameters = [node.tag, dof]
@@ -418,3 +426,57 @@ def get_np(osi):
 def get_num_threads(osi):
     """return the total number of threads available"""
     return osi.to_process('getNumThread', [])
+
+
+def get_node_dofs(osi, node):
+    """Returns the DOF numbering of a node."""
+    return osi.to_process('nodeDOFs', node.tag)
+
+
+def get_node_tags(osi, mesh=None):
+    """Returns the OpenSEES numbering of the nodes."""
+    params = []
+    if mesh is not None:
+        params += ['-mesh', mesh.tag]
+    return osi.to_process('getNodeTags', params)
+
+
+def get_node_coords(osi, node, ndm=None):
+
+    if ndm is not None:
+        pms = [ndm]
+    else:
+        pms = []
+    return osi.to_process('nodeCoord', [node.tag, *pms])
+
+
+def get_all_node_coords(osi, ndm=None):
+    tags = get_node_tags(osi)
+    coords = []
+    if ndm is not None:
+        pms = [ndm]
+    else:
+        pms = []
+    for tag in tags:
+        coords.append(osi.to_process('nodeCoord', [tag, *pms]))  # very slow
+    return coords
+
+
+def get_all_ele_node_tags(osi):
+    ele_tags = get_node_tags(osi)
+    node_tags = []
+    for tag in ele_tags:
+        node_tags.append(osi.to_process('eleNodes', [tag]))
+    return node_tags
+
+
+def get_all_ele_node_tags_as_dict(osi):
+    ele_tags = get_node_tags(osi)
+    node_tags = {}
+    for tag in ele_tags:
+        tags = osi.to_process('eleNodes', [tag])
+        if tags is not None:
+            if len(tags) not in node_tags:
+                node_tags[len(tags)] = []
+            node_tags[len(tags)].append(tags)
+    return node_tags
