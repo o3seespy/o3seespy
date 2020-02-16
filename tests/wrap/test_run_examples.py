@@ -2,6 +2,7 @@ import sys
 from tests import conftest
 
 sys.path.append(conftest.EXAMPLES_DIR)
+import cantilever_w_hinge_under_force_then_disp_loading
 import frame_building_dynamic_analysis
 import readme_example
 import simple_sdof
