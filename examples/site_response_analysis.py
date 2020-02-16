@@ -5,11 +5,6 @@ import sfsimodels as sm
 
 import o3seespy as o3
 
-# for linear analysis comparison
-import liquepy as lq
-import pysra
-from bwplot import cbox
-import json
 
 
 def site_response(sp, asig, linear=0):
@@ -165,6 +160,8 @@ def site_response(sp, asig, linear=0):
 
 
 def run_pysra(soil_profile, asig, odepths):
+    import pysra
+    import liquepy as lq
     pysra_profile = lq.sra.sm_profile_to_pysra(soil_profile, d_inc=[0.5] * soil_profile.n_layers)
     # Should be input in g
     pysra_m = pysra.motion.TimeSeriesMotion(asig.label, None, time_step=asig.dt, accels=-asig.values / 9.8)
@@ -186,7 +183,7 @@ def run_pysra(soil_profile, asig, odepths):
     return out_series
 
 
-def run(show=0):
+def run(show=0, export=0):
     sl = sm.Soil()
 
     vs = 160.
@@ -217,9 +214,11 @@ def run(show=0):
     soil_profile.height = 20.0
     ecp_out = sm.Output()
     ecp_out.add_to_dict(soil_profile)
-    ofile = open('ecp.json', 'w')
-    ofile.write(json.dumps(ecp_out.to_dict(), indent=4))
-    ofile.close()
+    if export:
+        import json
+        ofile = open('ecp.json', 'w')
+        ofile.write(json.dumps(ecp_out.to_dict(), indent=4))
+        ofile.close()
     from tests.conftest import TEST_DATA_DIR
 
     record_path = TEST_DATA_DIR
@@ -237,6 +236,7 @@ def run(show=0):
     if show:
         lw = 0.7
         import matplotlib.pyplot as plt
+        from bwplot import cbox
         bf, sps = plt.subplots(nrows=3)
 
         # linear analysis with pysra

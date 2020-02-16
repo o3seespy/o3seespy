@@ -6,8 +6,9 @@
    :target: https://pypi.python.org/pypi/o3seespy
    :alt: PyPi version
 
-.. image:: https://coveralls.io/repos/github/eng-tools/o3seespy/badge.svg
-   :target: https://coveralls.io/github/eng-tools/o3seespy
+.. image:: https://coveralls.io/repos/github/o3seespy/o3seespy/badge.svg?branch=master
+   :target: https://coveralls.io/github/o3seespy/o3seespy?branch=master
+
 
 ********
 o3seespy
