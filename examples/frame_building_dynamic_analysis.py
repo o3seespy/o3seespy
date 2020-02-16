@@ -1,6 +1,5 @@
 from collections import OrderedDict
 
-import matplotlib.pyplot as plt
 import sfsimodels
 import eqsig
 
@@ -142,7 +141,11 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=a_series)
 
     # set damping based on first eigen mode
-    angular_freq = o3.get_eigen(osi, solver='fullGenLapack', n=1) ** 0.5
+    angular_freq_sqrd = o3.get_eigen(osi, solver='fullGenLapack', n=1)
+    if hasattr(angular_freq_sqrd, '__len__'):
+        angular_freq = angular_freq_sqrd[0] ** 0.5
+    else:
+        angular_freq = angular_freq_sqrd ** 0.5
     if isinstance(angular_freq, complex):
         raise ValueError("Angular frequency is complex, issue with stiffness or mass")
     beta_k = 2 * xi / angular_freq
@@ -193,34 +196,6 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     return outputs
 
 
-# def load_frame_building_sample_data():
-#     """
-#     Sample data for the FrameBuilding object
-#
-#     :param fb:
-#     :return:
-#     """
-#     number_of_storeys = 6
-#     interstorey_height = 3.4  # m
-#     masses = 40.0e3  # kg
-#     n_bays = 3
-#
-#     fb = sfsimodels.FrameBuilding2D(number_of_storeys, n_bays)
-#     fb.interstorey_heights = interstorey_height * np.ones(number_of_storeys)
-#     fb.floor_length = 18.0  # m
-#     fb.floor_width = 16.0  # m
-#     fb.storey_masses = masses * np.ones(number_of_storeys)  # kg
-#
-#     fb.bay_lengths = [6., 6.0, 6.0]
-#     fb.set_beam_prop("depth", [0.5, 0.5, 0.5], repeat="up")
-#     fb.set_beam_prop("width", [0.4, 0.4, 0.4], repeat="up")
-#     fb.set_column_prop("width", [0.5, 0.5, 0.5, 0.5], repeat="up")
-#     fb.set_column_prop("depth", [0.5, 0.5, 0.5, 0.5], repeat="up")
-#     fb.n_seismic_frames = 3
-#     fb.n_gravity_frames = 0
-#     return fb
-
-
 def load_small_frame_building_sample_data():
     """
     Sample data for the FrameBuilding object
@@ -247,7 +222,21 @@ def load_small_frame_building_sample_data():
     return fb
 
 
+def run_as_e2e():
+    from tests import conftest
+    record_filename = 'test_motion_dt0p01.txt'
+    motion_step = 0.01
+    rec = np.loadtxt(conftest.TEST_DATA_DIR + record_filename)
+
+    xi = 0.05
+
+    acc_signal = eqsig.AccSignal(rec, motion_step)
+    frame = load_small_frame_building_sample_data()
+    outputs = get_inelastic_response(frame, acc_signal, xi=xi, extra_time=0)
+
+
 if __name__ == '__main__':
+    import matplotlib.pyplot as plt
     from tests import conftest
     record_filename = 'test_motion_dt0p01.txt'
     motion_step = 0.01

@@ -7,3 +7,4 @@ import sys
 TEST_DIR = os.path.dirname(__file__)
 
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'unit_test_data/')
+EXAMPLES_DIR = TEST_DIR[:-5] + 'examples/'

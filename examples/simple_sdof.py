@@ -26,8 +26,8 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     top_node = o3.node.Node(osi, 0, 0)
 
     # Fix bottom node
-    o3.Fix(osi, top_node, o3.cc.FREE, o3.cc.FIXED, o3.cc.FIXED)
-    o3.Fix(osi, bot_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
+    o3.Fix3DOF(osi, top_node, o3.cc.FREE, o3.cc.FIXED, o3.cc.FIXED)
+    o3.Fix3DOF(osi, bot_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
     # Set out-of-plane DOFs to be slaved
     o3.EqualDOF(osi, top_node, bot_node, [o3.cc.Y, o3.cc.ROTZ])
 
@@ -38,14 +38,18 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     bilinear_mat = o3.uniaxial_material.Steel01(osi, fy=f_yield, e0=k_spring, b=r_post)
 
     # Assign zero length element, # Note: pass actual node and material objects into element
-    o3.element.ZeroLength(osi, [bot_node, top_node], mats=[bilinear_mat], dir_args=[o3.cc.DOF2D_X], r_flag=1)
+    o3.element.ZeroLength(osi, [bot_node, top_node], mats=[bilinear_mat], dirs=[o3.cc.DOF2D_X], r_flag=1)
 
     # Define the dynamic analysis
     acc_series = o3.time_series.Path(osi, dt=dt, values=-motion)  # should be negative
     o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=acc_series)
 
     # set damping based on first eigen mode
-    angular_freq = o3.get_eigen(osi, solver='fullGenLapack', n=1) ** 0.5
+    angular_freq_sqrd = o3.get_eigen(osi, solver='fullGenLapack', n=1)
+    if hasattr(angular_freq_sqrd, '__len__'):
+        angular_freq = angular_freq_sqrd[0] ** 0.5
+    else:
+        angular_freq = angular_freq_sqrd ** 0.5
     response_period = 2 * np.pi / angular_freq
     beta_k = 2 * xi / angular_freq
     o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
@@ -89,7 +93,7 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     return outputs
 
 
-def test_sdof():
+def test_sdof(show=0):
     """
     Create a plot of an elastic analysis, nonlinear analysis and closed form elastic
 
@@ -128,8 +132,7 @@ def test_sdof():
     assert diff_disp < 1.0e-2, diff_disp
     assert diff_acc < 5.0e-1, diff_acc
     assert np.isclose(disp_inelastic_final, 0.0186556)
-    run = 1
-    if run:
+    if show:
         import matplotlib.pyplot as plt
         bf, sps = plt.subplots(nrows=3)
         sps[0].plot(outputs_elastic["time"], outputs_elastic["rel_disp"])

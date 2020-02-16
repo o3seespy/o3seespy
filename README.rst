@@ -80,8 +80,8 @@ Example: Inelastic SDOF
     top_node = o3.node.Node(osi, 0, 0)
 
     # Fix bottom node
-    o3.Fix(osi, top_node, o3.cc.FREE, o3.cc.FIXED, o3.cc.FIXED)
-    o3.Fix(osi, bot_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
+    o3.Fix3DOF(osi, top_node, o3.cc.FREE, o3.cc.FIXED, o3.cc.FIXED)
+    o3.Fix3DOF(osi, bot_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
     # Set out-of-plane DOFs to be slaved
     o3.EqualDOF(osi, top_node, bot_node, [o3.cc.Y, o3.cc.ROTZ])
 
@@ -93,7 +93,7 @@ Example: Inelastic SDOF
     bilinear_mat = o3.uniaxial_material.Steel01(osi, fy=f_yield, e0=k_spring, b=r_post)
 
     # Assign zero length element, # Note: pass actual node and material objects into element
-    o3.element.ZeroLength(osi, bot_node, top_node, mat_x=bilinear_mat, r_flag=1)
+    o3.element.ZeroLength(osi, [bot_node, top_node], mats=[bilinear_mat], dirs=[o3.cc.DOF2D_X], r_flag=1)
 
     # Define the dynamic analysis
     load_tag_dynamic = 1

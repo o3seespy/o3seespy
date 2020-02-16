@@ -43,8 +43,12 @@ def test_2d_site_period():
             eles.append(o3.element.SSPquad(osi, nodes, soil_mat, o3.cc.PLANE_STRAIN, ele_thick, 0.0, 0.0))
 
     # set damping based on first eigen mode
-    angular_freq = o3.get_eigen(osi, solver='fullGenLapack', n=1) ** 0.5
-    o3.extensions.to_py_file(osi, 'many_eles_2d.py')
+    angular_freq_sqrd = o3.get_eigen(osi, solver='fullGenLapack', n=1)
+    if hasattr(angular_freq_sqrd, '__len__'):
+        angular_freq = angular_freq_sqrd[0] ** 0.5
+    else:
+        angular_freq = angular_freq_sqrd ** 0.5
+    # o3.extensions.to_py_file(osi, 'many_eles_2d.py')
     response_period = 2 * np.pi / angular_freq
     expected_period = 4 * max(node_depths) / vs
     print('response_period: ', response_period, expected_period, response_period / expected_period)

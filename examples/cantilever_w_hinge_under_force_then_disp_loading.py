@@ -13,8 +13,8 @@ def run(use_pload):
     right_node = o3.node.Node(osi, ele_len, 0)
 
     # Fix bottom node
-    o3.Fix(osi, left_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
-    o3.Fix(osi, right_node, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
+    o3.Fix3DOF(osi, left_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
+    o3.Fix3DOF(osi, right_node, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
     e_mod = 200.0e2
     i_sect = 0.1
     area = 0.5
