@@ -9,7 +9,7 @@ with open("o3seespy/__about__.py") as fp:
 
 version = about['__version__']
 
-failures = py.test.cmdline.main()
+failures = py.test.cmdline.main(['tests/'])
 if failures == 0:
     subprocess.check_call(["git", "tag", version, "-m", "version %s" % version])
     subprocess.check_call(["git", "push", "--tags"])
