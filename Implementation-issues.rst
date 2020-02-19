@@ -11,6 +11,5 @@ Models with implementation issues
  - section.layered_shell
  - element.beam_column
  - element.quadrilateral
- - region
  - block2D
  - block3D

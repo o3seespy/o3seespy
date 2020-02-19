@@ -4,20 +4,20 @@ from o3seespy.base_model import OpenSeesObject
 class Node(OpenSeesObject):
     op_base_type = "node"
     op_type = "node"
-    x_con = None
-    y_con = None
-    z_con = None
-    x_rot_con = None
-    y_rot_con = None
-    z_rot_con = None
-    x_mass = 0.0
-    y_mass = 0.0
-    z_rot_mass = 0.0
+    # x_con = None
+    # y_con = None
+    # z_con = None
+    # x_rot_con = None
+    # y_rot_con = None
+    # z_rot_con = None
+    # x_mass = 0.0
+    # y_mass = 0.0
+    # z_rot_mass = 0.0
 
     def __init__(self, osi, x: float, y=None, z=None, vel=None, acc=None,
                  x_mass=None, y_mass=None, z_mass=None, x_rot_mass=None, y_rot_mass=None, z_rot_mass=None):
         """
-        An Opensees node
+        An OpenSEES node
 
         Parameters
         ----------

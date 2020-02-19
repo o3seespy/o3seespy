@@ -441,6 +441,14 @@ def get_node_tags(osi, mesh=None):
     return osi.to_process('getNodeTags', params)
 
 
+def get_ele_tags(osi, mesh=None):
+    """Returns the OpenSEES numbering of the elements."""
+    params = []
+    if mesh is not None:
+        params += ['-mesh', mesh.tag]
+    return osi.to_process('getEleTags', params)
+
+
 def get_node_coords(osi, node, ndm=None):
 
     if ndm is not None:
