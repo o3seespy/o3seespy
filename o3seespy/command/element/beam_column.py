@@ -27,8 +27,7 @@ class ElasticBeamColumn2D(ElementBase):
         iz: float
             Second moment of area about the local z-axis
         transf: obj
-            Identifier for previously-defined coordinate-transformation (crdtransf) object adfg afe asfasffg asffgrgrg
-            szfrgr3gr asgrr
+            Identifier for previously-defined coordinate-transformation (crdtransf) object
         mass: None
             
         c_mass: str
@@ -83,8 +82,7 @@ class ElasticBeamColumn3D(ElementBase):
         iz: float
             Second moment of area about the local z-axis
         transf: obj
-            Identifier for previously-defined coordinate-transformation (crdtransf) object adfg afe asfasffg asffgrgrg
-            szfrgr3gr asgrr
+            Identifier for previously-defined coordinate-transformation (crdtransf) object
         mass: None
             
         c_mass: str

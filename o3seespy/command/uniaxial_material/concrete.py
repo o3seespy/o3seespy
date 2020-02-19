@@ -451,7 +451,7 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
     """
     op_type = 'FRPConfinedConcrete'
 
-    def __init__(self, osi, fpc1, fpc2, epsc0, big_d, c, ej, sj, tj, eju, big_s, fyl, fyh, dlong, dtrans, es, vo, k, use_buck):
+    def __init__(self, osi, fpc1, fpc2, epsc0, big_d, c, ej, sj, tj, eju, big_s, fyl, fyh, dlong, dtrans, es, nu0, k, use_buck):
         """
         Initial method for FRPConfinedConcrete
 
@@ -487,7 +487,7 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
             Diameter of the steel spiral/stirrups.
         es: float
             Elastic modulus of steel.
-        vo: float
+        nu0: float
             Initial poisson's coefficient for concrete.
         k: float
             Reduction factor for the rupture strain of the frp jacket, recommended values 0.5-0.8.
@@ -510,12 +510,12 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         self.dlong = float(dlong)
         self.dtrans = float(dtrans)
         self.es = float(es)
-        self.vo = float(vo)
+        self.nu0 = float(nu0)
         self.k = float(k)
         self.use_buck = float(use_buck)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.fpc1, self.fpc2, self.epsc0, self.big_d, self.c, self.ej, self.sj, self.tj, self.eju, self.big_s, self.fyl, self.fyh, self.dlong, self.dtrans, self.es, self.vo, self.k, self.use_buck]
+        self._parameters = [self.op_type, self._tag, self.fpc1, self.fpc2, self.epsc0, self.big_d, self.c, self.ej, self.sj, self.tj, self.eju, self.big_s, self.fyl, self.fyh, self.dlong, self.dtrans, self.es, self.nu0, self.k, self.use_buck]
         self.to_process(osi)
 
 

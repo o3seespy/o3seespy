@@ -9,7 +9,7 @@ class ElasticIsotropic(NDMaterialBase):
     """
     op_type = 'ElasticIsotropic'
 
-    def __init__(self, osi, e_mod, v, rho=0.0):
+    def __init__(self, osi, e_mod, nu, rho=0.0):
         """
         Initial method for ElasticIsotropic
 
@@ -17,17 +17,17 @@ class ElasticIsotropic(NDMaterialBase):
         ----------
         e_mod: float
             Elastic modulus
-        v: float
+        nu: float
             Poisson's ratio
         rho: float
             Mass density (optional)
         """
         self.e_mod = float(e_mod)
-        self.v = float(v)
+        self.nu = float(nu)
         self.rho = float(rho)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.e_mod, self.v, self.rho]
+        self._parameters = [self.op_type, self._tag, self.e_mod, self.nu, self.rho]
         self.to_process(osi)
 
 
@@ -39,7 +39,7 @@ class ElasticOrthotropic(NDMaterialBase):
     """
     op_type = 'ElasticOrthotropic'
 
-    def __init__(self, osi, ex, ey, ez, vxy, vyz, vzx, gxy, gyz, gzx, rho=0.0):
+    def __init__(self, osi, ex, ey, ez, nu_xy, nu_yz, nu_zx, gxy, gyz, gzx, rho=0.0):
         """
         Initial method for ElasticOrthotropic
 
@@ -51,11 +51,11 @@ class ElasticOrthotropic(NDMaterialBase):
             Elastic modulus in y direction
         ez: float
             Elastic modulus in z direction
-        vxy: float
+        nu_xy: float
             Poisson's ratios in x and y plane
-        vyz: float
+        nu_yz: float
             Poisson's ratios in y and z plane
-        vzx: float
+        nu_zx: float
             Poisson's ratios in z and x plane
         gxy: float
             Shear modulii in x and y plane
@@ -69,16 +69,16 @@ class ElasticOrthotropic(NDMaterialBase):
         self.ex = float(ex)
         self.ey = float(ey)
         self.ez = float(ez)
-        self.vxy = float(vxy)
-        self.vyz = float(vyz)
-        self.vzx = float(vzx)
+        self.nu_xy = float(nu_xy)
+        self.nu_yz = float(nu_yz)
+        self.nu_zx = float(nu_zx)
         self.gxy = float(gxy)
         self.gyz = float(gyz)
         self.gzx = float(gzx)
         self.rho = float(rho)
         osi.n_mat += 1
         self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.ex, self.ey, self.ez, self.vxy, self.vyz, self.vzx, self.gxy, self.gyz, self.gzx, self.rho]
+        self._parameters = [self.op_type, self._tag, self.ex, self.ey, self.ez, self.nu_xy, self.nu_yz, self.nu_zx, self.gxy, self.gyz, self.gzx, self.rho]
         self.to_process(osi)
 
 

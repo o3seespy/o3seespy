@@ -23,7 +23,7 @@ class NodeRegion(OpenSeesObject):
         self._tag = osi.n_region
         self._parameters = [self._tag, "-node"]
 
-        if nodes == 'all':
+        if isinstance(nodes, str) and nodes == 'all':
             self.nodes = 'all'
             self._parameters += get_node_tags(osi)
         else:
@@ -62,7 +62,7 @@ class ElementRegion(OpenSeesObject):
         self._tag = osi.n_region
         self._parameters = [self._tag, "-ele"]
 
-        if eles == 'all':
+        if isinstance(eles, str) and eles == 'all':
             self.eles = 'all'
             self._parameters += get_ele_tags(osi)
         else:
