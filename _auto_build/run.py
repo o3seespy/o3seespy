@@ -98,7 +98,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         op_kwargs[''] = []
     para = ['']
     tpara = []
-    for kw in op_kwargs:
+    for kw in op_kwargs:  # TODO: add a csv of objects that should not split since optional args are not exclusive (e.g. FRPConfinedConcrete02)
         name_from_kw = kw.replace('-', '')
         name_from_kw = name_from_kw.replace("'", '')
         if op_type is None:
@@ -408,7 +408,7 @@ def clean_docstring_content(doc_str):
     doc_str = doc_str.replace('\\s', '\\\\s')
     doc_str = doc_str.replace('\\e', '\\\\e')
     doc_str = doc_str.replace('\\d', '\\\\d')
-    doc_str = doc_str.replace('\\D', '\\\\D')
+    doc_str = doc_str.replace('\\D', '\\\\D')  # TODO: replace 'tag' with 'object'
     return doc_str
 
 
@@ -487,6 +487,8 @@ def clean_fn_line(line, has_tag=True):
         name_only = inpy.replace(' ', '')
         name_only = name_only.replace('[', '')
         name_only = name_only.replace(']', '')
+        name_only = name_only.replace('<', '')  # TODO: detect and group
+        name_only = name_only.replace('>', '')
         if '*' in name_only:
             name_only = name_only.replace('*', '')
             # name_only = name_only.replace('Args', '')
@@ -496,6 +498,8 @@ def clean_fn_line(line, has_tag=True):
         inpy = inpy.replace(' ', '')
         inpy = inpy.replace('[', '')
         inpy = inpy.replace(']', '')
+        inpy = inpy.replace('<', '')  # TODO: detect and group
+        inpy = inpy.replace('>', '')
         if '=' in inpy:
             inp, defo = inpy.split('=')
         else:
@@ -619,7 +623,6 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                 else:
                     cur_obj_blurb = sub_obj_blurbs[0]
                 if two_defs != 'doubleUp' or optype1 is not None:
-                    print('ss: ', ss)
                     pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype,
                                             base_type, osi_type, cl_name_suf, cur_obj_blurb)
                     pstr += pstr1
@@ -947,6 +950,7 @@ def parse_all_uniaxial_mat():
                 continue
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
+            print(mat)
             pstr, tstr, istr = parse_single_file(ffp, osi_type='mat')
             if istr not in ipara and istr != '':
                 ipara.append(istr)
@@ -1202,7 +1206,7 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'flatSliderBearing.rst', 'ele')
+        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'FRPConfinedConcrete02.rst', 'mat')
         print(pstr)
         # test_clean_fn_line()
         # parse_generic_single_file(obj_type='section', osi_type='sect')

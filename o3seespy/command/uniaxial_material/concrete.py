@@ -519,6 +519,114 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         self.to_process(osi)
 
 
+class FRPConfinedConcrete02JacketC(UniaxialMaterialBase):
+    """
+    The FRPConfinedConcrete02JacketC UniaxialMaterial Class
+    
+    | DEVELOPED AND IMPLEMENTED BY:| Jin-Yu LU, Southeast University, Nanjing, China| Guan LIN (guanlin@polyu.edu.hk),
+    Hong Kong Polytechnic University, Hong Kong, China.
+
+    Figure 1 Hysteretic Stress-Strain Relation.. image::
+    /_static/FRPConfinedConcrete02/Figure1.pngThis command is used to construct a uniaxial hysteretic
+    stress-strain model for fiber-reinforced polymer (FRP)-confined concrete. The envelope
+    compressive stress-strain response is described by a parabolic first portion and a
+    linear second portion with smooth connection between them (Figure 1). The
+    hysteretic rules of compression are based on Lam and Teng’s (2009)
+    model. The cyclic linear tension model of Yassin (1994) for
+    unconfined concrete (as adopted in Concrete02) is used
+    with slight modifications to describe the tensile behavior of FRP-confined concrete (Teng et al. 2015).
+    """
+    op_type = 'FRPConfinedConcrete02'
+
+    def __init__(self, osi, fc0, ec, ec0, tfrp, efrp, erup, big_r):
+        """
+        Initial method for FRPConfinedConcrete02JacketC
+
+        Parameters
+        ----------
+        fc0: float
+            Compressive strength of unconfined concrete (compression is negative)
+        ec: float
+            Elastic modulus of unconfined concrete (=4730√(-$fc0(mpa)))
+        ec0: float
+            Axial strain corresponding to unconfined concrete strength (≈ 0.002)
+        tfrp: float
+            Thickness of an frp jacket
+        efrp: float
+            Tensile elastic modulus of an frp jacket
+        erup: float
+            Hoop rupture strain of an frp jacket
+        big_r: float
+            Radius of circular column section
+        """
+        self.fc0 = float(fc0)
+        self.ec = float(ec)
+        self.ec0 = float(ec0)
+        self.tfrp = float(tfrp)
+        self.efrp = float(efrp)
+        self.erup = float(erup)
+        self.big_r = float(big_r)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.fc0, self.ec, self.ec0, '-JacketC', self.tfrp, self.efrp, self.erup, self.big_r]
+        self.to_process(osi)
+
+class FRPConfinedConcrete02Ultimate(UniaxialMaterialBase):
+    """
+    The FRPConfinedConcrete02Ultimate UniaxialMaterial Class
+    
+    | DEVELOPED AND IMPLEMENTED BY:| Jin-Yu LU, Southeast University, Nanjing, China| Guan LIN (guanlin@polyu.edu.hk),
+    Hong Kong Polytechnic University, Hong Kong, China.
+
+    Figure 1 Hysteretic Stress-Strain Relation.. image::
+    /_static/FRPConfinedConcrete02/Figure1.pngThis command is used to construct a uniaxial hysteretic
+    stress-strain model for fiber-reinforced polymer (FRP)-confined concrete. The envelope
+    compressive stress-strain response is described by a parabolic first portion and a
+    linear second portion with smooth connection between them (Figure 1). The
+    hysteretic rules of compression are based on Lam and Teng’s (2009)
+    model. The cyclic linear tension model of Yassin (1994) for
+    unconfined concrete (as adopted in Concrete02) is used
+    with slight modifications to describe the tensile behavior of FRP-confined concrete (Teng et al. 2015).
+    """
+    op_type = 'FRPConfinedConcrete02'
+
+    def __init__(self, osi, fc0, ec, ec0, fcu, ecu, ft, ets, unit):
+        """
+        Initial method for FRPConfinedConcrete02Ultimate
+
+        Parameters
+        ----------
+        fc0: float
+            Compressive strength of unconfined concrete (compression is negative)
+        ec: float
+            Elastic modulus of unconfined concrete (=4730√(-$fc0(mpa)))
+        ec0: float
+            Axial strain corresponding to unconfined concrete strength (≈ 0.002)
+        fcu: float
+            Ultimate stress of frp-confined concrete ($fcu ≥ $fc0)
+        ecu: float
+            Ultimate strain of frp-confined concrete
+        ft: float
+            Tensile strength of unconfined concrete (=0.632√(-$fc0(mpa)))
+        ets: float
+            Stiffness of tensile softening (≈ 0.05 ec)
+        unit: float
+            Unit indicator, unit = 1 for si metric units; unit = 0 for us customary units
+        """
+        self.fc0 = float(fc0)
+        self.ec = float(ec)
+        self.ec0 = float(ec0)
+        self.fcu = float(fcu)
+        self.ecu = float(ecu)
+        self.ft = float(ft)
+        self.ets = float(ets)
+        self.unit = float(unit)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.fc0, self.ec, self.ec0, '-Ultimate', self.fcu, self.ecu, self.ft, self.ets, self.unit]
+        self.to_process(osi)
+
+
 class ConcreteCM(UniaxialMaterialBase):
     """
     The ConcreteCM UniaxialMaterial Class
@@ -575,4 +683,273 @@ class ConcreteCM(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.fpcc, self.epcc, self.ec, self.rc, self.xcrn, self.ft, self.et, self.rt, self.xcrp]
         if getattr(self, 'gap_close') is not None:
             self._parameters += ['-GapClose', self.gap_close]
+        self.to_process(osi)
+
+
+class TDConcrete(UniaxialMaterialBase):
+    """
+    The TDConcrete UniaxialMaterial Class
+    
+    This command is used to construct a uniaxial time-dependent concrete material object with linear behavior in
+    compression, nonlinear behavior in tension (REF: Tamai et al., 1988) and creep and shrinkage according to ACI 209R-92.
+    """
+    op_type = 'TDConcrete'
+
+    def __init__(self, osi, fc, fct, ec, beta, t_d, epsshu, psish, tcr, phiu, psicr1, psicr2, tcast):
+        """
+        Initial method for TDConcrete
+
+        Parameters
+        ----------
+        fc: float
+            Concrete compressive strength (compression is negative)
+        fct: float
+            Concrete tensile strength (tension is positive)
+        ec: float
+            Concrete modulus of elasticity
+        beta: float
+            Tension softening parameter (tension softening exponent)
+        t_d: float
+            Analysis time at initiation of drying (in days)
+        epsshu: float
+            Ultimate shrinkage strain as per aci 209r-92 (shrinkage is negative)
+        psish: float
+            Fitting parameter of the shrinkage time evolution function as per aci 209r-92
+        tcr: float
+            Creep model age (in days)
+        phiu: float
+            Ultimate creep coefficient as per aci 209r-92
+        psicr1: float
+            Fitting parameter of the creep time evolution function as per aci 209r-92
+        psicr2: float
+            Fitting parameter of the creep time evolution function as per aci 209r-92
+        tcast: float
+            Analysis time corresponding to concrete casting (in days; minimum value 2.0)
+        """
+        self.fc = float(fc)
+        self.fct = float(fct)
+        self.ec = float(ec)
+        self.beta = float(beta)
+        self.t_d = float(t_d)
+        self.epsshu = float(epsshu)
+        self.psish = float(psish)
+        self.tcr = float(tcr)
+        self.phiu = float(phiu)
+        self.psicr1 = float(psicr1)
+        self.psicr2 = float(psicr2)
+        self.tcast = float(tcast)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.fc, self.fct, self.ec, self.beta, self.t_d, self.epsshu, self.psish, self.tcr, self.phiu, self.psicr1, self.psicr2, self.tcast]
+        self.to_process(osi)
+
+
+class TDConcreteEXP(UniaxialMaterialBase):
+    """
+    The TDConcreteEXP UniaxialMaterial Class
+    
+    This command is used to construct a uniaxial time-dependent concrete material object with linear behavior in
+    compression, nonlinear behavior in tension (REF: Tamai et al., 1988) and creep and shrinkage according to ACI 209R-92.
+    """
+    op_type = 'TDConcreteEXP'
+
+    def __init__(self, osi, fc, fct, ec, beta, t_d, epsshu, psish, tcr, epscru, sig_cr, psicr1, psicr2, tcast):
+        """
+        Initial method for TDConcreteEXP
+
+        Parameters
+        ----------
+        fc: float
+            Concrete compressive strength (compression is negative)
+        fct: float
+            Concrete tensile strength (tension is positive)
+        ec: float
+            Concrete modulus of elasticity
+        beta: float
+            Tension softening parameter (tension softening exponent)
+        t_d: float
+            Analysis time at initiation of drying (in days)
+        epsshu: float
+            Ultimate shrinkage strain as per aci 209r-92 (shrinkage is negative)
+        psish: float
+            Fitting parameter of the shrinkage time evolution function as per aci 209r-92
+        tcr: float
+            Creep model age (in days)
+        epscru: float
+            Ultimate creep strain (e.g., taken from experimental measurements)
+        sig_cr: float
+            Concrete compressive stress (input as negative) associated with $epscru (e.g., experimentally applied)
+        psicr1: float
+            Fitting parameter of the creep time evolution function as per aci 209r-92
+        psicr2: float
+            Fitting parameter of the creep time evolution function as per aci 209r-92
+        tcast: float
+            Analysis time corresponding to concrete casting (in days; minimum value 2.0)
+        """
+        self.fc = float(fc)
+        self.fct = float(fct)
+        self.ec = float(ec)
+        self.beta = float(beta)
+        self.t_d = float(t_d)
+        self.epsshu = float(epsshu)
+        self.psish = float(psish)
+        self.tcr = float(tcr)
+        self.epscru = float(epscru)
+        self.sig_cr = float(sig_cr)
+        self.psicr1 = float(psicr1)
+        self.psicr2 = float(psicr2)
+        self.tcast = float(tcast)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.fc, self.fct, self.ec, self.beta, self.t_d, self.epsshu, self.psish, self.tcr, self.epscru, self.sig_cr, self.psicr1, self.psicr2, self.tcast]
+        self.to_process(osi)
+
+
+class TDConcreteMC10(UniaxialMaterialBase):
+    """
+    The TDConcreteMC10 UniaxialMaterial Class
+    
+    This command is used to construct a uniaxial time-dependent concrete material object with linear behavior in
+    compression, nonlinear behavior in tension (REF: Tamai et al., 1988) and creep and shrinkage according to fib
+    Model Code 2010.
+    """
+    op_type = 'TDConcreteMC10'
+
+    def __init__(self, osi, fc, fct, ec, ecm, beta, t_d, epsba, epsbb, epsda, epsdb, phiba, phibb, phida, phidb, tcast, cem):
+        """
+        Initial method for TDConcreteMC10
+
+        Parameters
+        ----------
+        fc: float
+            Concrete compressive strength (compression is negative)
+        fct: float
+            Concrete tensile strength (tension is positive)
+        ec: float
+            Concrete modulus of elasticity at loading age
+        ecm: float
+            Concrete modulus of elasticity at 28 days
+        beta: float
+            Tension softening parameter (tension softening exponent)
+        t_d: float
+            Analysis time at initiation of drying (in days)
+        epsba: float
+            Ultimate basic shrinkage strain (input as negative) as per fib model code 2010
+        epsbb: float
+            Fitting parameter of the basic shrinkage time evolution function as per fib model code 2010
+        epsda: float
+            Product of ultimate drying shrinkage strain and relative humidity function as per fib model code 2010
+        epsdb: float
+            Fitting parameter of the basic shrinkage time evolution function as per fib model code 2010
+        phiba: float
+            Parameter for the effect of compressive strength on basic creep as per fib model code 2010
+        phibb: float
+            Fitting parameter of the basic creep time evolution function as per fib model code 2010
+        phida: float
+            Product of the effect of compressive strength and relative humidity on drying creep as per fib model code
+            2010
+        phidb: float
+            Fitting parameter of the drying creep time evolution function as per fib model code 2010
+        tcast: float
+            Analysis time corresponding to concrete casting (in days; minimum value 2.0)
+        cem: float
+            Coefficient dependent on the type of cement as per fib model code 2010
+        """
+        self.fc = float(fc)
+        self.fct = float(fct)
+        self.ec = float(ec)
+        self.ecm = float(ecm)
+        self.beta = float(beta)
+        self.t_d = float(t_d)
+        self.epsba = float(epsba)
+        self.epsbb = float(epsbb)
+        self.epsda = float(epsda)
+        self.epsdb = float(epsdb)
+        self.phiba = float(phiba)
+        self.phibb = float(phibb)
+        self.phida = float(phida)
+        self.phidb = float(phidb)
+        self.tcast = float(tcast)
+        self.cem = float(cem)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.fc, self.fct, self.ec, self.ecm, self.beta, self.t_d, self.epsba, self.epsbb, self.epsda, self.epsdb, self.phiba, self.phibb, self.phida, self.phidb, self.tcast, self.cem]
+        self.to_process(osi)
+
+
+class TDConcreteMC10NL(UniaxialMaterialBase):
+    """
+    The TDConcreteMC10NL UniaxialMaterial Class
+    
+    This command is used to construct a uniaxial time-dependent concrete material object with non-linear behavior in
+    compression (REF: Concrete02), nonlinear behavior in tension (REF: Tamai et al., 1988) and creep and shrinkage
+    according to fib Model Code 2010.
+    """
+    op_type = 'TDConcreteMC10NL'
+
+    def __init__(self, osi, fc, fcu, epscu, fct, ec, ecm, beta, t_d, epsba, epsbb, epsda, epsdb, phiba, phibb, phida, phidb, tcast, cem):
+        """
+        Initial method for TDConcreteMC10NL
+
+        Parameters
+        ----------
+        fc: float
+            Concrete compressive strength (compression is negative)
+        fcu: float
+            Concrete crushing strength (compression is negative)
+        epscu: float
+            Concrete strain at crushing strength (input as negative)
+        fct: float
+            Concrete tensile strength (tension is positive)
+        ec: float
+            Concrete modulus of elasticity at loading age
+        ecm: float
+            Concrete modulus of elasticity at 28 days
+        beta: float
+            Tension softening parameter (tension softening exponent)
+        t_d: float
+            Analysis time at initiation of drying (in days)
+        epsba: float
+            Ultimate basic shrinkage strain (input as negative) as per fib model code 2010
+        epsbb: float
+            Fitting parameter of the basic shrinkage time evolution function as per fib model code 2010
+        epsda: float
+            Product of ultimate drying shrinkage strain and relative humidity function as per fib model code 2010
+        epsdb: float
+            Fitting parameter of the basic shrinkage time evolution function as per fib model code 2010
+        phiba: float
+            Parameter for the effect of compressive strength on basic creep as per fib model code 2010
+        phibb: float
+            Fitting parameter of the basic creep time evolution function as per fib model code 2010
+        phida: float
+            Product of the effect of compressive strength and relative humidity on drying creep as per fib model code
+            2010
+        phidb: float
+            Fitting parameter of the drying creep time evolution function as per fib model code 2010
+        tcast: float
+            Analysis time corresponding to concrete casting (in days; minimum value 2.0)
+        cem: float
+            Coefficient dependent on the type of cement as per fib model code 2010
+        """
+        self.fc = float(fc)
+        self.fcu = float(fcu)
+        self.epscu = float(epscu)
+        self.fct = float(fct)
+        self.ec = float(ec)
+        self.ecm = float(ecm)
+        self.beta = float(beta)
+        self.t_d = float(t_d)
+        self.epsba = float(epsba)
+        self.epsbb = float(epsbb)
+        self.epsda = float(epsda)
+        self.epsdb = float(epsdb)
+        self.phiba = float(phiba)
+        self.phibb = float(phibb)
+        self.phida = float(phida)
+        self.phidb = float(phidb)
+        self.tcast = float(tcast)
+        self.cem = float(cem)
+        osi.n_mat += 1
+        self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.fc, self.fcu, self.epscu, self.fct, self.ec, self.ecm, self.beta, self.t_d, self.epsba, self.epsbb, self.epsda, self.epsdb, self.phiba, self.phibb, self.phida, self.phidb, self.tcast, self.cem]
         self.to_process(osi)
