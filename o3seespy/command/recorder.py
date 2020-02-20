@@ -99,7 +99,7 @@ class ElementToFile(RecorderBase):
 class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementToArray where data saved to memory and loaded as array without collect
     op_type = "Element"
 
-    def __init__(self, osi, element, material=None, arg_vals=None, nsd=8, fname=None, dt=None):
+    def __init__(self, osi, ele, material=None, arg_vals=None, nsd=8, fname=None, dt=None):
         if arg_vals is None:
             arg_vals = []
         extra_pms = []
@@ -109,8 +109,8 @@ class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementT
             self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
         else:
             self.tmpfname = fname
-        self.element = element
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-ele', element.tag, *extra_pms, *arg_vals]
+        self.ele = ele
+        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-ele', ele.tag, *extra_pms, *arg_vals]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -133,7 +133,7 @@ class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementT
 class ElementsToArrayCache(RecorderToArrayCacheBase):
     op_type = "Element"
 
-    def __init__(self, osi, elements, material=None, arg_vals=None, nsd=8, fname=None, dt=None):
+    def __init__(self, osi, eles, material=None, arg_vals=None, nsd=8, fname=None, dt=None):
         if arg_vals is None:
             arg_vals = []
         extra_pms = []
@@ -143,7 +143,7 @@ class ElementsToArrayCache(RecorderToArrayCacheBase):
             self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
         else:
             self.tmpfname = fname
-        self.ele_tags = [x.tag for x in elements]
+        self.ele_tags = [x.tag for x in eles]
 
         self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-ele', *self.ele_tags, *extra_pms, *arg_vals]
         if dt is not None:
