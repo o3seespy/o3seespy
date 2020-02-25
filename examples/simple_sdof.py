@@ -1,4 +1,3 @@
-import eqsig
 from eqsig import sdof
 import numpy as np
 
@@ -9,15 +8,24 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     """
     Run seismic analysis of a nonlinear SDOF
 
-    :param mass: SDOF mass
-    :param k_spring: spring stiffness
-    :param f_yield: yield strength
-    :param motion: array_like,
-        acceleration values
-    :param dt: float, time step of acceleration values
-    :param xi: damping ratio
-    :param r_post: post-yield stiffness
-    :return:
+    Parameters
+    ----------
+    mass: float
+        SDOF mass
+    k_spring: float
+        Spring stiffness
+    f_yield: float
+        Yield strength
+    motion: array_like,
+        Acceleration values
+    dt: float, time step of acceleration values
+    xi: damping ratio
+    r_post: post-yield stiffness
+
+    Returns
+    -------
+    outputs: dict
+        Dictionary containing time series from analysis
     """
     osi = o3.OpenSeesInstance(ndm=2, state=0)
 
@@ -96,17 +104,11 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
 def test_sdof(show=0):
     """
     Create a plot of an elastic analysis, nonlinear analysis and closed form elastic
-
-    :return:
     """
 
-    from tests.conftest import TEST_DATA_DIR
-
-    record_path = TEST_DATA_DIR
     record_filename = 'test_motion_dt0p01.txt'
     dt = 0.01
-    rec = np.loadtxt(record_path + record_filename)
-    acc_signal = eqsig.AccSignal(rec, dt)
+    rec = np.loadtxt(record_filename)
     period = 1.0
     xi = 0.05
     mass = 1.0
@@ -115,7 +117,6 @@ def test_sdof(show=0):
 
     periods = np.array([period])
     resp_u, resp_v, resp_a = sdof.response_series(motion=rec, dt=dt, periods=periods, xi=xi)
-    duhamel_u = sdof.single_elastic_response(motion=rec, step=dt, period=period, xi=xi)
 
     k_spring = 4 * np.pi ** 2 * mass / period ** 2
     outputs = get_inelastic_response(mass, k_spring, f_yield, rec, dt, xi=xi, r_post=r_post)
@@ -123,9 +124,10 @@ def test_sdof(show=0):
     ux_opensees = outputs["rel_disp"]
     disp_inelastic_final = ux_opensees[-1]
 
-    time = acc_signal.time
+    time = np.arange(len(rec)) * dt
 
     acc_opensees_elastic = np.interp(time, outputs_elastic["time"], outputs_elastic["rel_accel"]) - rec
+    acc_opensees_inelastic = np.interp(time, outputs["time"], outputs["rel_accel"]) - rec
     ux_opensees_elastic = np.interp(time, outputs_elastic["time"], outputs_elastic["rel_disp"])
     diff_disp = np.sum(abs(ux_opensees_elastic - resp_u[0]))
     diff_acc = np.sum(abs(acc_opensees_elastic - resp_a[0]))
@@ -134,17 +136,27 @@ def test_sdof(show=0):
     assert np.isclose(disp_inelastic_final, 0.0186556)
     if show:
         import matplotlib.pyplot as plt
-        bf, sps = plt.subplots(nrows=3)
-        sps[0].plot(outputs_elastic["time"], outputs_elastic["rel_disp"])
-        sps[0].plot(time, resp_u[0], lw=0.7, c='r')
-        sps[0].plot(time, duhamel_u, lw=1, c='g', ls=':')
-        sps[0].plot(outputs["time"], outputs["rel_disp"])
+        bf, sps = plt.subplots(nrows=3, sharex='col')
+        sps[0].plot(outputs_elastic["time"], outputs_elastic["rel_disp"], label='O3 Elastic', lw=0.7, c='b')
+        sps[0].plot(outputs["time"], outputs["rel_disp"], label='O3 Inelastic', lw=0.7, c='r')
+        sps[0].plot(time, resp_u[0], label='Closed form', lw=1.4, c='g', ls='--')
         sps[1].plot(outputs_elastic["time"], outputs_elastic["rel_vel"])
-        sps[1].plot(time, resp_v[0], lw=0.7, c='r')
-        sps[2].plot(time, acc_opensees_elastic)
-        sps[2].plot(time, resp_a[0], lw=0.7, c='r')
+        sps[1].plot(time, resp_v[0], lw=1.4, c='g', ls='--')
+        sps[2].plot(time, acc_opensees_elastic, c='b')
+        sps[2].plot(time, resp_a[0], lw=1.4, c='g', ls='--')
+        sps[2].plot(time, acc_opensees_inelastic, c='r')
+        sps[2].plot(time, rec, lw=0.7, c='k', label='Input', zorder=0)
+        sps[2].axhline(f_yield, c=(0.4, 0.4, 0.4), label='$f_{yield}$', ls='--', lw=0.5, zorder=-1)
+        sps[2].axhline(-f_yield, c=(0.4, 0.4, 0.4), ls='--', lw=0.5, zorder=-1)
+        sps[0].set_ylabel('Disp. [m]')
+        sps[1].set_ylabel('Vel. [m/s]')
+        sps[2].set_ylabel('Accel. [m/s2]')
+        sps[-1].set_xlabel('Time [s]')
+        sps[-1].set_xlim([0, time[-1]])
+        sps[0].legend(loc='upper right')
+        sps[2].legend(loc='upper right')
         plt.show()
 
 
 if __name__ == '__main__':
-    test_sdof()
+    test_sdof(show=1)
