@@ -3,12 +3,12 @@ import pytest
 
 def test_elastic_isotropic():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
+    o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
 
 
 def test_elastic_orthotropic():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.nd_material.ElasticOrthotropic(osi, ex=1.0, ey=1.0, ez=1.0, vxy=1.0, vyz=1.0, vzx=1.0, gxy=1.0, gyz=1.0, gzx=1.0, rho=0.0)
+    o3.nd_material.ElasticOrthotropic(osi, ex=1.0, ey=1.0, ez=1.0, nu_xy=1.0, nu_yz=1.0, nu_zx=1.0, gxy=1.0, gyz=1.0, gzx=1.0, rho=0.0)
 
 
 def test_j2plasticity():
@@ -30,13 +30,13 @@ def test_damage2p():
 
 def test_plane_stress():
     osi = o3.OpenSeesInstance(ndm=3)
-    mat_3d = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
+    mat_3d = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
     o3.nd_material.PlaneStress(osi, mat3d=mat_3d)
 
 
 def test_plane_strain():
     osi = o3.OpenSeesInstance(ndm=2)
-    mat_3d = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
+    mat_3d = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
     o3.nd_material.PlaneStrain(osi, mat3d=mat_3d)
 
 
@@ -52,7 +52,7 @@ def test_bounding_cam_clay():
 
 def test_plate_fiber():
     osi = o3.OpenSeesInstance(ndm=3)
-    mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
+    mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
     o3.nd_material.PlateFiber(osi, three_d=mat)
 
 

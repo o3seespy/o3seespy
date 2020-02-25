@@ -43,7 +43,7 @@ def test_concrete_d():
 
 def test_frp_confined_concrete():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.uniaxial_material.FRPConfinedConcrete(osi, fpc1=1.0, fpc2=1.0, epsc0=1.0, big_d=1.0, c=1.0, ej=1.0, sj=1.0, tj=1.0, eju=1.0, big_s=1.0, fyl=1.0, fyh=1.0, dlong=1.0, dtrans=1.0, es=1.0, vo=1.0, k=1.0, use_buck=1.0)
+    o3.uniaxial_material.FRPConfinedConcrete(osi, fpc1=1.0, fpc2=1.0, epsc0=1.0, big_d=1.0, c=1.0, ej=1.0, sj=1.0, tj=1.0, eju=1.0, big_s=1.0, fyl=1.0, fyh=1.0, dlong=1.0, dtrans=1.0, es=1.0, nu0=1.0, k=1.0, use_buck=1.0)
 
 
 def test_concrete_cm():

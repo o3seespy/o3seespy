@@ -10,7 +10,7 @@ def test_plane_stress_user_material():
 
 def test_plate_from_plane_stress():
     osi = o3.OpenSeesInstance(ndm=2)
-    mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
+    mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
     o3.nd_material.PlateFromPlaneStress(osi, pre_def_mat=mat, outof_plane_modulus=1.0)
 
 

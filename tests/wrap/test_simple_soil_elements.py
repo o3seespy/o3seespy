@@ -34,7 +34,7 @@ def test_2d_site_period():
     e_mod = 2 * g_mod * (1 + poissons_ratio)
     ele_thick = 1.0
 
-    soil_mat = o3.nd_material.ElasticIsotropic(osi, e_mod=e_mod, v=poissons_ratio, rho=rho)
+    soil_mat = o3.nd_material.ElasticIsotropic(osi, e_mod=e_mod, nu=poissons_ratio, rho=rho)
     eles = []
     for yy in range(0, len(node_depths) - 1):
         for xx in range(nx - 1):
@@ -86,7 +86,7 @@ def _run_dyn_1d_site_response(region_based=None):
     e_mod = 2 * g_mod * (1 + poissons_ratio)
     ele_thick = 1.0
 
-    soil_mat = o3.nd_material.ElasticIsotropic(osi, e_mod=e_mod, v=poissons_ratio, rho=rho)
+    soil_mat = o3.nd_material.ElasticIsotropic(osi, e_mod=e_mod, nu=poissons_ratio, rho=rho)
     eles = []
     for yy in range(0, len(node_depths) - 1):
         for xx in range(nx - 1):
