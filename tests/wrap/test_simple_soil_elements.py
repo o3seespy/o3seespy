@@ -1,7 +1,7 @@
 import numpy as np
 import o3seespy.extensions
 import o3seespy as o3
-
+import pytest
 
 def test_2d_site_period():
 
@@ -145,6 +145,7 @@ def _run_dyn_1d_site_response(region_based=None):
     return x_acc
 
 
+@pytest.mark.skip()  # not running on circleci
 def test_region_based_damping():
     wnr = _run_dyn_1d_site_response(region_based='node')
     wer = _run_dyn_1d_site_response(region_based='ele')
@@ -154,4 +155,5 @@ def test_region_based_damping():
 
 
 if __name__ == '__main__':
+    test_2d_site_period()
     test_region_based_damping()

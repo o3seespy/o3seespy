@@ -26,7 +26,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            py.test tests
+            py.test tests --ignore=tests/wrap/
             codecov
       - store_artifacts:
           path: htmlcov/
