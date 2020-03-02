@@ -145,7 +145,6 @@ def _run_dyn_1d_site_response(region_based=None):
     return x_acc
 
 
-@pytest.mark.skip()  # not running on circleci
 def test_region_based_damping():
     wnr = _run_dyn_1d_site_response(region_based='node')
     wer = _run_dyn_1d_site_response(region_based='ele')

@@ -35,7 +35,8 @@ def get_o3_kwargs_from_obj(obj, o3_obj, custom=None, overrides=None):
     sig = signature(o3_obj)
     kwargs = OrderedDict()
     args = []
-    for p in sig.parameters.values():
+    sig_vals = sig.parameters.values()
+    for p in sig_vals:
         if p.name in custom:
             pname = custom[p.name]
         else:
@@ -45,7 +46,13 @@ def get_o3_kwargs_from_obj(obj, o3_obj, custom=None, overrides=None):
         if pname in overrides:
             val = overrides[pname]
         else:
-            val = getattr(obj, pname)
+            try:
+                val = getattr(obj, pname)
+            except AttributeError as e:
+                if p.default == p.empty:
+                    raise AttributeError(e)
+                else:
+                    val = p.default
         if p.default == p.empty:
             args.append(val)
         else:

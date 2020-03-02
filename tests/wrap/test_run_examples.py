@@ -10,26 +10,21 @@ import site_response_analysis
 import pytest
 
 
-@pytest.mark.skip()
 def test_cantilever_w_hinge_under_force_then_disp_loading():
     cantilever_w_hinge_under_force_then_disp_loading.run(use_pload=0)
 
 
-@pytest.mark.skip()
 def test_frame_building_dynamic_analysis():
     frame_building_dynamic_analysis.run_as_e2e()
 
 
-@pytest.mark.skip()
 def test_readme_example():
     readme_example.run(show=0)
 
 
-@pytest.mark.skip()
 def test_simple_sdof():
     simple_sdof.test_sdof(show=0)
 
 
-@pytest.mark.skip()
 def test_site_response_analysis():
     site_response_analysis.run(show=0)
