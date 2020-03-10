@@ -56,7 +56,7 @@ def run_uniaxial_disp_driver(osi, mat_obj, disps, target_d_inc=1.0e-5):
             n = 1
             d_step = d_inc_i
         o3.integrator.DisplacementControl(osi, right_node, o3.cc.X, d_step)
-
+        o3.analyze(osi, n)
         o3.gen_reactions(osi)
         react.append(o3.get_ele_response(osi, ele, 'force')[0])
         end_disp = -o3.get_node_disp(osi, right_node, dof=o3.cc.X)

@@ -39,7 +39,8 @@ def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_are
         injected = 0
         pos = list(pos)
         if top_node.x not in pos:
-            pos.append(top_node.x).sort()
+            pos.append(top_node.x)
+            pos.sort()
             injected = 1
         ind = pos.index(top_node.x)
         if injected:
