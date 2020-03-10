@@ -67,12 +67,15 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
 class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
 
-    def __init__(self, osi, nodes, dofs, res_type, nsd=8, dt=None):
-        if nodes == 'all':
+    def __init__(self, osi, nodes, dofs, res_type, nsd=8, dt=None, ffp=None):
+        if isinstance(nodes, str) and nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
             node_tags = [x.tag for x in nodes]
-        self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+        if ffp is None:
+            self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+        else:
+            self.tmpfname = ffp
         self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
         if dt is not None:
             self._parameters.insert(5,'-dT')
@@ -102,6 +105,7 @@ class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementT
     def __init__(self, osi, ele, material=None, arg_vals=None, nsd=8, fname=None, dt=None):
         if arg_vals is None:
             arg_vals = []
+        self.arg_vals = [str(x) for x in arg_vals]
         extra_pms = []
         if material is not None:
             extra_pms += ['material', material]
@@ -110,7 +114,7 @@ class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementT
         else:
             self.tmpfname = fname
         self.ele = ele
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-ele', ele.tag, *extra_pms, *arg_vals]
+        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-ele', ele.tag, *extra_pms, *self.arg_vals]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)

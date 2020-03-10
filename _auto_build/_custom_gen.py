@@ -92,7 +92,7 @@ class PressureIndependMultiYield(NDMaterialBase):
     op_type = "PressureIndependMultiYield"
 
     def __init__(self, osi,  nd, rho, g_mod_ref, bulk_mod_ref, cohesion, peak_strain, phi=0.,
-                 p_ref=100., m=0., n_surf=20, strains=None, ratios=None):
+                 p_ref=100., d=0., n_surf=20, strains=None, ratios=None):
         """
         PressureIndependMultiYield material
 
@@ -124,7 +124,7 @@ class PressureIndependMultiYield(NDMaterialBase):
             (:math:`p'_ref`) Reference mean effective confining pressure at which
                           :math:`G_r`, :math:`B_r`, and :math:`\gamma_{max}`
                           are defined, optional (default is 100. kPa).
-       m: float
+       d: float
             (:math:`d`) A positive constant defining variations
                         of :math:`G` and :math:`B` as a function of
                           instantaneous effective
@@ -159,7 +159,7 @@ class PressureIndependMultiYield(NDMaterialBase):
         self.peak_strain = float(peak_strain)
         self.phi = float(phi)
         self.p_ref = float(p_ref)
-        self.m = float(m)
+        self.d = float(d)
         assert n_surf < 40
         self.n_surf = int(n_surf)
         if strains is not None:
@@ -176,7 +176,7 @@ class PressureIndependMultiYield(NDMaterialBase):
         self._tag = osi.n_mat
 
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.g_mod_ref, self.bulk_mod_ref,
-                            self.cohesion, self.peak_strain, self.phi, self.p_ref, self.m]
+                            self.cohesion, self.peak_strain, self.phi, self.p_ref, self.d]
 
         if self.yield_surf is not None:
             self._parameters.append(self.n_surf)  # from docs 'add a minus sign in front of noYieldSurf'
