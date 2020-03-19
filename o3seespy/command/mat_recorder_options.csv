@@ -1,0 +1,13 @@
+mat,form,recorder,outs
+ElasticIsotropic,PlaneStrain,stress,sxx-syy-sxy
+ElasticIsotropic,PlaneStress,stress,sxx-syy-sxy
+ElasticIsotropic,PlaneStrain,strain,exx-eyy-gxy
+ElasticIsotropic,PlaneStress,strain,exx-eyy-gxy
+PressureIndependMultiYield,PlaneStrain,stress,sxx-syy-szz-sxy-nur
+PressureIndependMultiYield,PlaneStress,stress,sxx-syy-szz-sxy-nur
+PressureIndependMultiYield,3D,stress,sxx-syy-szz-sxy-syz-szx-nur
+PressureIndependMultiYield,PlaneStrain,strain,exx-eyy-gxy
+PressureIndependMultiYield,PlaneStress,strain,exx-eyy-gxy
+PressureIndependMultiYield,3D,strain,exx-eyy-ezz-gxy-gyz-gzx
+stressDensity,PlaneStrain,stress,sxx-syy-sxy
+stressDensity,PlaneStrain,strain,exx-eyy-gxy

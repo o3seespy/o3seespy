@@ -1,6 +1,7 @@
 from o3seespy.base_model import OpenSeesObject
 import tempfile
 import os
+import numpy as np
 
 
 class RecorderBase(OpenSeesObject):
@@ -86,13 +87,13 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
 class ElementToFile(RecorderBase):
     op_type = "Element"
 
-    def __init__(self, osi, fname, element, material=None, args=None, nsd=8, dt=None):
-        if args is None:
-            args = []
+    def __init__(self, osi, fname, ele, material=None, arg_vals=None, nsd=8, dt=None):
+        if arg_vals is None:
+            arg_vals = []
         extra_pms = []
         if material is not None:
             extra_pms += ['material', material]
-        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-ele', element.tag, *extra_pms, *args]
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-ele', ele.tag, *extra_pms, *arg_vals]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -167,3 +168,8 @@ class ElementsToArrayCache(RecorderToArrayCacheBase):
     #     except PermissionError:
     #         print('Warning: Need to run opy.wipe() before collecting arrays')
     #     return a
+
+
+def load_recorder_options():
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    return open(folder_path + '/mat_recorder_options.csv')

@@ -24,7 +24,8 @@ setup(name='o3seespy',
           'Topic :: Scientific/Engineering',
           'Programming Language :: Python :: 3',
       ],
-      packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+      packages=find_packages(exclude=['contrib', 'docs', 'tests', 'examples',
+                                      '_auto_build', '.github']),
       install_requires=[
         "numpy",  # now it is optional
         "openseespy"
