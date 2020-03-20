@@ -11,17 +11,18 @@ class RecorderBase(OpenSeesObject):
 class RecorderToArrayCacheBase(RecorderBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     tmpfname = None
     
-    def collect(self):
+    def collect(self, unlink=True):
         from numpy import loadtxt
         try:
             a = loadtxt(self.tmpfname, dtype=float)
         except ValueError as e:
             print('Warning: Need to run opy.wipe() before collecting arrays')
             raise ValueError(e)
-        try:
-            os.unlink(self.tmpfname)
-        except PermissionError:
-            print('Warning: Need to run opy.wipe() before collecting arrays')
+        if unlink:
+            try:
+                os.unlink(self.tmpfname)
+            except PermissionError:
+                print('Warning: Need to run opy.wipe() before collecting arrays')
         return a
 
 

@@ -12,12 +12,16 @@ class Mass(OpenSeesObject):
     op_base_type = "mass"
     op_type = None
 
-    def __init__(self, osi, node, x_mass, y_mass, rot_mass):
+    def __init__(self, osi, node, x_mass, y_mass, rot_mass=None):
+        if osi.ndf > 2 and rot_mass is None:
+            rot_mass = 0.0
         self.node = node
         self.x_mass = x_mass
         self.y_mass = y_mass
         self.rot_mass = rot_mass
-        self._parameters = [self.node.tag, self.x_mass, self.y_mass, self.rot_mass]
+        self._parameters = [self.node.tag, self.x_mass, self.y_mass]
+        if self.rot_mass is not None:
+            self._parameters.append(self.rot_mass)
         self.to_process(osi)
 
 
