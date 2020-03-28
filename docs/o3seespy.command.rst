@@ -13,13 +13,7 @@ Subpackages
 Submodules
 ----------
 
-o3seespy.command.algorithm module
----------------------------------
 
-.. automodule:: o3seespy.command.algorithm
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 o3seespy.command.analysis module
 --------------------------------
@@ -77,14 +71,6 @@ o3seespy.command.layer module
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.node module
-----------------------------
-
-.. automodule:: o3seespy.command.node
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 o3seespy.command.numberer module
 --------------------------------
 
@@ -101,13 +87,6 @@ o3seespy.command.patch module
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.pattern module
--------------------------------
-
-.. automodule:: o3seespy.command.pattern
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 o3seespy.command.rayleigh module
 --------------------------------
@@ -149,21 +128,6 @@ o3seespy.command.system module
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.test module
-----------------------------
-
-.. automodule:: o3seespy.command.test
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-o3seespy.command.test\_check module
------------------------------------
-
-.. automodule:: o3seespy.command.test_check
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 o3seespy.command.time\_series module
 ------------------------------------

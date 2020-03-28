@@ -25,10 +25,14 @@ Submodules
 Commands
 --------
 
-.. automodule:: o3seespy.command
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+
+   o3seespy.command.element
+   o3seespy.command.nd_material
+   o3seespy.command.uniaxial_material
+   o3seespy.command.node
+   o3seespy.command.pattern
+   o3seespy.command.algorithm
 
 o3seespy.base\_model module
 ---------------------------
@@ -41,10 +45,7 @@ o3seespy.base\_model module
 o3seespy.cc module
 ------------------
 
-.. automodule:: o3seespy.cc
-   :members:
-   :undoc-members:
-   :show-inheritance:
+Static strings and integers defined as python variables
 
 o3seespy.exceptions module
 --------------------------
@@ -61,18 +62,6 @@ o3seespy.extensions module
    :members:
    :undoc-members:
    :show-inheritance:
-
-
-
-Module contents
----------------
-
-.. automodule:: o3seespy
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 
 
 Indices and tables
