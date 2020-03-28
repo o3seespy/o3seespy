@@ -1,190 +1,147 @@
-o3seespy.command.element package
-================================
+o3seespy.element
+================
 
-Submodules
-----------
-
-o3seespy.command.element.base\_element module
----------------------------------------------
+Base element
+------------
 
 .. automodule:: o3seespy.command.element.base_element
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.beam\_column module
---------------------------------------------
+Beam-column
+-----------
 
 .. automodule:: o3seespy.command.element.beam_column
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.bearing module
----------------------------------------
+Bearing
+-------
 
 .. automodule:: o3seespy.command.element.bearing
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.brick module
--------------------------------------
+Brick
+-----
 
 .. automodule:: o3seespy.command.element.brick
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.cable module
--------------------------------------
+Cable
+-----
 
 .. automodule:: o3seespy.command.element.cable
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.contact module
----------------------------------------
+Contact
+-------
 
 .. automodule:: o3seespy.command.element.contact
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.deprecated\_beam\_column\_element module
------------------------------------------------------------------
-
-.. automodule:: o3seespy.command.element.deprecated_beam_column_element
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-o3seespy.command.element.deprecated\_quadrilateral\_element module
-------------------------------------------------------------------
-
-.. automodule:: o3seespy.command.element.deprecated_quadrilateral_element
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-o3seespy.command.element.joint module
--------------------------------------
+Joint
+-----
 
 .. automodule:: o3seespy.command.element.joint
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.link module
-------------------------------------
+Link
+----
 
 .. automodule:: o3seespy.command.element.link
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.misc module
-------------------------------------
+Misc
+----
 
 .. automodule:: o3seespy.command.element.misc
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.other\_up module
------------------------------------------
+Other UP
+--------
 
 .. automodule:: o3seespy.command.element.other_up
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.pfem module
-------------------------------------
+PFEM
+----
 
 .. automodule:: o3seespy.command.element.pfem
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.quadrilateral module
----------------------------------------------
+quadrilateral
+-------------
 
 .. automodule:: o3seespy.command.element.quadrilateral
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.soil\_foundation module
-------------------------------------------------
+Soil-foundation
+---------------
 
 .. automodule:: o3seespy.command.element.soil_foundation
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.tetrahedron module
--------------------------------------------
+Tetrahedron
+-----------
 
 .. automodule:: o3seespy.command.element.tetrahedron
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.triangular module
-------------------------------------------
+Triangular
+----------
 
 .. automodule:: o3seespy.command.element.triangular
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.truss module
--------------------------------------
+Truss
+-----
 
 .. automodule:: o3seespy.command.element.truss
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.uc\_san\_diego\_up module
---------------------------------------------------
+UC San Diego UP
+---------------
 
 .. automodule:: o3seespy.command.element.uc_san_diego_up
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.zero\_length module
---------------------------------------------
+Zero length
+-----------
 
 .. automodule:: o3seespy.command.element.zero_length
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.element.zero\_length\_a module
------------------------------------------------
-
-.. automodule:: o3seespy.command.element.zero_length_a
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-o3seespy.command.element.zero\_lengthb module
----------------------------------------------
-
-.. automodule:: o3seespy.command.element.zero_lengthb
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: o3seespy.command.element
-   :members:
-   :undoc-members:
-   :show-inheritance:

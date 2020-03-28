@@ -3,36 +3,29 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-o3seespy package
-================
+o3seespy Documentation
+======================
 
-Subpackages
------------
-
-.. toctree::
-
-
-   o3seespy.tools
-
-Submodules
-----------
-
-.. automodule:: o3seespy.opensees_instance
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Commands
 --------
 
 .. toctree::
 
+   o3seespy.opensees_instance
+   o3seespy.command.common
+   o3seespy.command.algorithm
+   o3seespy.command.analysis
+   o3seespy.command.beam_integration
+   o3seespy.command.constraints
    o3seespy.command.element
+   o3seespy.command.geom_transf
+   o3seespy.command.integrator
    o3seespy.command.nd_material
-   o3seespy.command.uniaxial_material
    o3seespy.command.node
    o3seespy.command.pattern
-   o3seespy.command.algorithm
+   o3seespy.command.uniaxial_material
+
 
 o3seespy.base\_model module
 ---------------------------
@@ -54,6 +47,14 @@ o3seespy.exceptions module
    :members:
    :undoc-members:
    :show-inheritance:
+
+Tools
+-----
+
+.. toctree::
+
+
+   o3seespy.tools
 
 o3seespy.extensions module
 --------------------------

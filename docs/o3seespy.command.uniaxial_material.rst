@@ -1,70 +1,50 @@
-o3seespy.command.uniaxial\_material package
-===========================================
+o3seespy.uniaxial\_material
+===========================
 
-Submodules
-----------
-
-o3seespy.command.uniaxial\_material.base\_material module
----------------------------------------------------------
+base\_material
+--------------
 
 .. automodule:: o3seespy.command.uniaxial_material.base_material
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.uniaxial\_material.concrete module
----------------------------------------------------
+Concrete
+--------
 
 .. automodule:: o3seespy.command.uniaxial_material.concrete
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.uniaxial\_material.dep\_other\_materials module
-----------------------------------------------------------------
-
-.. automodule:: o3seespy.command.uniaxial_material.dep_other_materials
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-o3seespy.command.uniaxial\_material.other module
-------------------------------------------------
+Other
+-----
 
 .. automodule:: o3seespy.command.uniaxial_material.other
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.uniaxial\_material.pytz module
------------------------------------------------
+pytz
+----
 
 .. automodule:: o3seespy.command.uniaxial_material.pytz
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.uniaxial\_material.standard module
----------------------------------------------------
+Standard
+--------
 
 .. automodule:: o3seespy.command.uniaxial_material.standard
    :members:
    :undoc-members:
    :show-inheritance:
 
-o3seespy.command.uniaxial\_material.steel module
-------------------------------------------------
+Steel
+-----
 
 .. automodule:: o3seespy.command.uniaxial_material.steel
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: o3seespy.command.uniaxial_material
    :members:
    :undoc-members:
    :show-inheritance:
