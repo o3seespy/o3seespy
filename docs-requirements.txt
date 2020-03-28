@@ -2,5 +2,7 @@ sphinx
 sphinx-autobuild
 sphinxcontrib-bibtex
 
+sphinx-autodoc-typehints
+
 mock
 autodoc

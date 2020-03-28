@@ -49,8 +49,8 @@ Installation
     pip install o3seespy
 
 
-Example: Inelastic SDOF
------------------------
+Example: Dyanmic inelastic SDOF analysis
+----------------------------------------
 
 
 .. code:: python

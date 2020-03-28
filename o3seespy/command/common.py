@@ -225,7 +225,8 @@ class EleLoad2DPoint(OpenSeesObject):
 
     def __init__(self, osi, ele, p_y, x, p_x=None):
         """
-        type of load is 'beamPoint'
+        Type of load is 'beamPoint'
+
         x: float
             Position of load as a fraction of element length from node i
         """
