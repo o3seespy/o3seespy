@@ -17,6 +17,19 @@ Subpackages
 Submodules
 ----------
 
+.. automodule:: o3seespy.opensees_instance
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Commands
+--------
+
+.. automodule:: o3seespy.command
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 o3seespy.base\_model module
 ---------------------------
 
@@ -25,4 +38,46 @@ o3seespy.base\_model module
    :undoc-members:
    :show-inheritance:
 
+o3seespy.cc module
+------------------
 
+.. automodule:: o3seespy.cc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+o3seespy.exceptions module
+--------------------------
+
+.. automodule:: o3seespy.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+o3seespy.extensions module
+--------------------------
+
+.. automodule:: o3seespy.extensions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+
+Module contents
+---------------
+
+.. automodule:: o3seespy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
