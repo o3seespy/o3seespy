@@ -22,12 +22,12 @@ class LoadControl(IntegratorBase):
         osi: o3seespy.OpenSeesInstance
         incr: float
             Load factor increment :math:`\\lambda`.
-        num_iter: int
-            Number of iterations the user would like to occur in the solution algorithm. (optional)
-        min_incr: float (default=True)
-            Min stepsize the user will allow :math:`\\lambda_{min}`. (optional)
-        max_incr: float (default=True)
-            Max stepsize the user will allow :math:`\\lambda_{max}`. (optional)
+        num_iter: int, optional
+            Number of iterations the user would like to occur in the solution algorithm. 
+        min_incr: float (default=True), optional
+            Min stepsize the user will allow :math:`\\lambda_{min}`. 
+        max_incr: float (default=True), optional
+            Max stepsize the user will allow :math:`\\lambda_{max}`. 
         """
         self.incr = float(incr)
         self.num_iter = int(num_iter)
@@ -76,11 +76,11 @@ class DisplacementControl(IntegratorBase):
             Degree of freedom at the node, 1 through ndf.
         incr: float
             First displacement increment :math:`\\delta u_{dof}`.
-        num_iter: int
-            Number of iterations the user would like to occur in the solution algorithm. (optional)
-        d_umin: None (default=True)
+        num_iter: int, optional
+            Number of iterations the user would like to occur in the solution algorithm. 
+        d_umin: None (default=True), optional
             
-        d_umax: None (default=True)
+        d_umax: None (default=True), optional
             
         """
         self.node = node
@@ -126,11 +126,11 @@ class ParallelDisplacementControl(IntegratorBase):
             Degree of freedom at the node, 1 through ndf.
         incr: float
             First displacement increment :math:`\\delta u_{dof}`.
-        num_iter: int
-            Number of iterations the user would like to occur in the solution algorithm. (optional)
-        d_umin: None (default=True)
+        num_iter: int, optional
+            Number of iterations the user would like to occur in the solution algorithm. 
+        d_umin: None (default=True), optional
             
-        d_umax: None (default=True)
+        d_umax: None (default=True), optional
             
         """
         self.node = node
@@ -171,13 +171,13 @@ class MinUnbalDispNorm(IntegratorBase):
         dlambda1: float
             First load increment (pseudo-time step) at the first iteration in the next invocation of the analysis
             command.
-        jd: int
-            Factor relating first load increment at subsequent time steps. (optional)
-        min_lambda: float (default=True)
-            Min load increment. (optional)
-        max_lambda: float (default=True)
-            Max load increment. (optional)
-        det: None (default=True)
+        jd: int, optional
+            Factor relating first load increment at subsequent time steps. 
+        min_lambda: float (default=True), optional
+            Min load increment. 
+        max_lambda: float (default=True), optional
+            Max load increment. 
+        det: None (default=True), optional
             
         """
         self.dlambda1 = float(dlambda1)
@@ -274,9 +274,9 @@ class Newmark(IntegratorBase):
             :math:`\gamma` factor.
         beta: float
             :math:`\beta` factor.
-        form: str
-            Flag to indicate which variable to be used as primary variable (optional) * ``'d'`` -- displacement
-            (default) * ``'v'`` -- velocity * ``'a'`` -- acceleration
+        form: str, optional
+            Flag to indicate which variable to be used as primary variable  * ``'d'`` -- displacement (default) *
+            ``'v'`` -- velocity * ``'a'`` -- acceleration
         """
         self.gamma = float(gamma)
         self.beta = float(beta)
@@ -306,10 +306,10 @@ class HHT(IntegratorBase):
         osi: o3seespy.OpenSeesInstance
         alpha: float
             :math:`\alpha` factor.
-        gamma: float (default=True)
-            :math:`\gamma` factor. (optional)
-        beta: float (default=True)
-            :math:`\beta` factor. (optional)
+        gamma: float (default=True), optional
+            :math:`\gamma` factor. 
+        beta: float (default=True), optional
+            :math:`\beta` factor. 
         """
         self.alpha = float(alpha)
         if gamma is None:
@@ -355,10 +355,10 @@ class GeneralizedAlpha(IntegratorBase):
             :math:`\alpha_m` factor.
         alpha_f: float
             :math:`\alpha_f` factor.
-        gamma: float (default=True)
-            :math:`\gamma` factor. (optional)
-        beta: float (default=True)
-            :math:`\beta` factor. (optional)
+        gamma: float (default=True), optional
+            :math:`\gamma` factor. 
+        beta: float (default=True), optional
+            :math:`\beta` factor. 
         """
         self.alpha_m = float(alpha_m)
         self.alpha_f = float(alpha_f)

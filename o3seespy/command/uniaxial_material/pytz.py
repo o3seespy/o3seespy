@@ -28,7 +28,7 @@ class PySimple1(UniaxialMaterialBase):
             Displacement at which 50% of pult is mobilized in monotonic loading.
         cd: float
             Variable that sets the drag resistance within a fully-mobilized gap as cd*pult.
-        c: float
+        c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             (optional default = 0.0). nonzero c values are used to represent radiation damping effects
         """
@@ -65,7 +65,7 @@ class TzSimple1(UniaxialMaterialBase):
             Ultimate capacity of the t-z material. see note 1.
         z50: float
             Displacement at which 50% of tult is mobilized in monotonic loading.
-        c: float
+        c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             (optional default = 0.0). see note 2.
         """
@@ -101,9 +101,9 @@ class QzSimple1(UniaxialMaterialBase):
             Ultimate capacity of the q-z material. see note 1.
         z50: float
             Displacement at which 50% of qult is mobilized in monotonic loading. see note 2.
-        suction: float
+        suction: float, optional
             Uplift resistance is equal to suction*qult. default = 0.0. the value of suction must be 0.0 to 0.1.*
-        c: float
+        c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             default = 0.0. nonzero c values are used to represent radiation damping effects.*
         """
@@ -156,7 +156,7 @@ class PyLiq1(UniaxialMaterialBase):
         ele2: float
             Are the eleobject (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
             stresses and excess pore pressures
-        time_series: obj
+        time_series: obj, optional
             Alternatively, mean effective stress can be supplied by a time series by specifying the text string
             ``'-timeseries'`` and the object of the series    ``seriesobject``.
         """
@@ -207,7 +207,7 @@ class TzLiq1(UniaxialMaterialBase):
         ele2: float
             Are the eleobject (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
             stresses and excess pore pressures
-        time_series: obj
+        time_series: obj, optional
             Alternatively, mean effective stress can be supplied by a time series by specifying the text string
             ``'-timeseries'`` and the object of the seriesm    ``seriesobject``.
         """

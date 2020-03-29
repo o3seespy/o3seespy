@@ -31,21 +31,21 @@ class TwoNodeLink(ElementBase):
         osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
-        mats: list
+        mats: list, optional
             A list of objects associated with previously-defined uniaxialmaterial objects
-        dir: None
+        dir: None, optional
             
-        p_delta_vals: list
+        p_delta_vals: list, optional
             P-delta moment contribution ratios, size of ratio vector is 2 for 2d-case and 4 for 3d-case (entries:
             ``[my_inode, my_jnode, mz_inode, mz_jnode]``) ``my_inode`` + ``my_jnode`` <= 1.0, ``mz_inode`` + ``mz_jnode`` <=
-            1.0. remaining p-delta moments are resisted by shear couples. (optional)
-        shear_dist: None
+            1.0. remaining p-delta moments are resisted by shear couples. 
+        shear_dist: None, optional
             
         do_rayleigh: str
             To include rayleigh damping from the element (optional, default = no rayleigh damping contribution)
-        orient: list
+        orient: list, optional
             
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]

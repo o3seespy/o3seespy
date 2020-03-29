@@ -411,6 +411,7 @@ def clean_docstring_content(doc_str):
     doc_str = doc_str.replace('\\D', '\\\\D')
     doc_str = doc_str.replace('tag', 'object')
     doc_str = doc_str.replace('Tag', 'Object')
+    doc_str = doc_str.replace('(optional)', '')  # Note this is now dealt with in the type definition
     return doc_str
 
 
@@ -423,7 +424,11 @@ def build_init_method_docstring(classname, pms, pms_ordered):
         pdes = clean_docstring_content(pms[pm].p_description.capitalize())
         if pms[pm].default_is_expression:
             op_str = f' (default={pms[pm].default_is_expression})'
-        dstr.append(w8 + f'{pms[pm].o3_name}: {pms[pm].dtype}{op_str}')
+        if pms[pm].o3_default_is_none or pms[pm].default_value:
+            ostr = ', optional'
+        else:
+            ostr = ''
+        dstr.append(w8 + f'{pms[pm].o3_name}: {pms[pm].dtype}{op_str}{ostr}')
         descr = force_line_char_limit(w12 + f'{pdes}', w12)
         dstr.append(descr)
     dstr.append(w8 + '"""')

@@ -78,17 +78,17 @@ class Steel02(UniaxialMaterialBase):
         params: list
             Parameters to control the transition from elastic to plastic branches. ``params=[r0,cr1,cr2]``. recommended
             values: r0=between 10 and 20, cr1=0.925, cr2=0.15
-        a1: float (default=True)
+        a1: float (default=True), optional
             Isotropic hardening parameter, increase of compression yield envelope as proportion of yield strength after
-            a plastic strain of :math:`a_2*(f_y/e_0)` (optional)
-        a2: float
+            a plastic strain of :math:`a_2*(f_y/e_0)` 
+        a2: float, optional
             Isotropic hardening parameter
-        a3: float (default=True)
+        a3: float (default=True), optional
             Isotropic hardening parameter, increase of tension yield envelope as proportion of yield strength after a
-            plastic strain of :math:`a_4*(f_y/e_0)`. (optional)
-        a4: float
+            plastic strain of :math:`a_4*(f_y/e_0)`. 
+        a4: float, optional
             Isotropic hardening parameter (see explanation
-        sig_init: float
+        sig_init: float, optional
             Initial stress value (optional, default: 0.0) the strain is calculated from ``epsp=siginit/e`` :: if
             (siginit!= 0.0) { double epsinit = siginit/e; eps = trialstrain+epsinit; } else { eps = trialstrain; }
         """
@@ -145,7 +145,7 @@ class Hysteretic(UniaxialMaterialBase):
         p2: list
             ``p2=[s2p, e2p]``, stress and strain (or force & deformation) at second point of the envelope in the
             positive direction
-        p3: list (default=True)
+        p3: list (default=True), optional
             ``p3=[s3p, e3p]``, stress and strain (or force & deformation) at third point of the envelope in the positive
             direction
         n1: list
@@ -154,7 +154,7 @@ class Hysteretic(UniaxialMaterialBase):
         n2: list
             ``n2=[s2n, e2n]``, stress and strain (or force & deformation) at second point of the envelope in the
             negative direction
-        n3: list (default=True)
+        n3: list (default=True), optional
             ``n3=[s3n, e3n]``, stress and strain (or force & deformation) at third point of the envelope in the negative
             direction
         pinch_x: float
@@ -278,7 +278,7 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
             Strain at peak stress
         lsr_2: None
             
-        alpha: float
+        alpha: float, optional
             Coffin-manson constant a
         """
         self.fy = float(fy)
@@ -371,9 +371,9 @@ class ReinforcingSteelIsoHard(UniaxialMaterialBase):
             Strain corresponding to initial strain hardening
         eps_ult: float
             Strain at peak stress
-        a1: float
+        a1: float, optional
             Hardening constant (default = 4.3)
-        limit: float
+        limit: float, optional
             Limit for the reduction of the yield plateau. % of original plateau length to remain (0.01 < limit < 1.0 )
             limit =1.0, then no reduction takes place (default =0.01)
         """
@@ -418,11 +418,11 @@ class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
             Strain corresponding to initial strain hardening
         eps_ult: float
             Strain at peak stress
-        r1: float
+        r1: float, optional
             (default = 0.333)
-        r2: float
+        r2: float, optional
             (default = 18)
-        r3: float
+        r3: float, optional
             (default = 4)
         """
         self.fy = float(fy)
@@ -470,7 +470,7 @@ class DoddRestrepo(UniaxialMaterialBase):
             5*esh)/6, (esu + 3*esh)/4]
         fshi: float
             Tensile stress at point on strain hardening curve corresponding to eshi
-        omega_fac: float
+        omega_fac: float, optional
             Roundedness factor for bauschinger curve in cycle reversals from the strain hardening curve. range: [0.75,
             1.15]. largest value tends to near a bilinear bauschinger curve. default = 1.0.
         """
@@ -556,15 +556,15 @@ class SteelMPF(UniaxialMaterialBase):
             Curvature degradation parameter (a1 = 0.925 recommended)
         c_r2: float
             Curvature degradation parameter (a2 = 0.15 or 0.0015 recommended)
-        a1: float
+        a1: float, optional
             Isotropic hardening in compression parameter (optional, default = 0.0). shifts compression yield envelope by
             a proportion of compressive yield strength after a maximum plastic tensile strain of a2(fyp/e0)
-        a2: float
+        a2: float, optional
             Isotropic hardening in compression parameter (optional, default = 1.0).
-        a3: float
+        a3: float, optional
             Isotropic hardening in tension parameter (optional, default = 0.0). shifts tension yield envelope by a
             proportion of tensile yield strength after a maximum plastic compressive strain of a3(fyn/e0).
-        a4: float
+        a4: float, optional
             Isotropic hardening in tension parameter (optional, default = 1.0). see explanation of a3.
         """
         self.fyp = float(fyp)
@@ -608,12 +608,12 @@ class Steel01Thermal(UniaxialMaterialBase):
             Strain-hardening ratio (ratio between post-yield tangent and initial elastic tangent)
         a1: float
             Isotropic hardening parameter, increase of compression yield envelope as proportion of yield strength after
-            a plastic strain of :math:`a_2*(f_y/e_0)` (optional)
+            a plastic strain of :math:`a_2*(f_y/e_0)` 
         a2: float
             Isotropic hardening parameter
         a3: float
             Isotropic hardening parameter, increase of tension yield envelope as proportion of yield strength after a
-            plastic strain of :math:`a_4*(f_y/e_0)`. (optional)
+            plastic strain of :math:`a_4*(f_y/e_0)`. 
         a4: float
             Isotropic hardening parameter (see explanation
         """

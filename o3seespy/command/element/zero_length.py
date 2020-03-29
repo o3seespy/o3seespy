@@ -20,14 +20,14 @@ class ZeroLength(ElementBase):
         osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
-        mats: list
+        mats: list, optional
             A list of objects associated with previously-defined uniaxialmaterials
-        dirs: list
+        dirs: list, optional
             A list of material directions: * 1,2,3 - translation along local x,y,z axes, respectively; * 4,5,6 -
             rotation about local x,y,z axes, respectively
-        r_flag: float
+        r_flag: float, optional
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default)
-        orient: list
+        orient: list, optional
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -78,7 +78,7 @@ class ZeroLengthND(ElementBase):
         uni: obj
             Object associated with previously-defined uniaxialmaterial object which may be used to represent uncoupled
             behavior orthogonal to the plane of the ndmaterial response. see notes 2 and 3.
-        orient: list
+        orient: list, optional
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -113,9 +113,9 @@ class ZeroLengthSection(ElementBase):
             A list of two element nodes
         sec: obj
             Object associated with previously-defined section object
-        r_flag: float
+        r_flag: float, optional
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default) * ``rflag`` = 1 include rayleigh damping
-        orient: list
+        orient: list, optional
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -158,7 +158,7 @@ class CoupledZeroLength(ElementBase):
             The two directions, 1 through ndof.
         mat: obj
             Objects associated with previously-defined uniaxialmaterial
-        r_flag: float
+        r_flag: float, optional
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default) * ``rflag`` = 1 include rayleigh damping
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -276,11 +276,11 @@ class ZeroLengthContactNTS2D(ElementBase):
             Penalty in tangential direction
         phi: float
             Friction angle in degrees
-        s_nd_num: int
+        s_nd_num: int, optional
             Number of slave nodes
-        m_nd_num: int
+        m_nd_num: int, optional
             Number of master nodes
-        nodes: list
+        nodes: list, optional
             Slave and master node objects respectively
         """
         if s_nd_num is None:
@@ -335,11 +335,11 @@ class ZeroLengthInterface2Ddof(ElementBase):
             Penalty in tangential direction
         phi: float
             Friction angle in degrees
-        s_nd_num: int
+        s_nd_num: int, optional
             Number of slave nodes
-        m_nd_num: int
+        m_nd_num: int, optional
             Number of master nodes
-        nodes: list
+        nodes: list, optional
             Slave and master node objects respectively
         """
         if s_nd_num is None:

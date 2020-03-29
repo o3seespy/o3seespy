@@ -20,10 +20,10 @@ class Linear2D(GeomTransfBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        d_i: list
+        d_i: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: list
+        d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -64,10 +64,10 @@ class Linear3D(GeomTransfBase):
             components are specified in the global-coordinate system x,y,z and define a vector that is in a plane
             parallel to the x-z plane of the local-coordinate system. these items need to be specified for the
             three-dimensional problem.
-        d_i: list
+        d_i: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: list
+        d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -101,10 +101,10 @@ class PDelta2D(GeomTransfBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        d_i: list
+        d_i: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: list
+        d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -145,10 +145,10 @@ class PDelta3D(GeomTransfBase):
             components are specified in the global-coordinate system x,y,z and define a vector that is in a plane
             parallel to the x-z plane of the local-coordinate system. these items need to be specified for the
             three-dimensional problem.
-        d_i: list
+        d_i: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: list
+        d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """
@@ -182,10 +182,10 @@ class Corotational2D(GeomTransfBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        d_i: list
+        d_i: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
-        d_j: list
+        d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
         """

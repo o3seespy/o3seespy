@@ -20,8 +20,8 @@ class ElasticIsotropic(NDMaterialBase):
             Elastic modulus
         nu: float
             Poisson's ratio
-        rho: float
-            Mass density (optional)
+        rho: float, optional
+            Mass density 
         """
         self.e_mod = float(e_mod)
         self.nu = float(nu)
@@ -65,8 +65,8 @@ class ElasticOrthotropic(NDMaterialBase):
             Shear modulii in y and z plane
         gzx: float
             Shear modulii in z and x plane
-        rho: float
-            Mass density (optional)
+        rho: float, optional
+            Mass density 
         """
         self.ex = float(ex)
         self.ey = float(ey)
@@ -164,7 +164,7 @@ class DrukerPrager(NDMaterialBase):
             Controls relative proportions of isotropic and kinematic hardening, :math:`0 \\le theta \\le 1`.
         density: float
             Mass density of the material
-        atm_pressure: float
+        atm_pressure: float, optional
             Optional atmospheric pressure for update of elastic bulk and shear moduli
         """
         self.k_mod = float(k_mod)
@@ -204,32 +204,32 @@ class Damage2p(NDMaterialBase):
         osi: o3seespy.OpenSeesInstance
         fcc: float
             Concrete compressive strength, negative real value (positive input is changed in sign automatically)
-        fct: float
+        fct: float, optional
             Optional concrete tensile strength, positive real value (for concrete like materials is less than fcc),
             :math:`0.1*abs(fcc)` = :math:`4750*sqrt(abs(fcc))\text{ }if\text{ }abs(fcc)<2000` because fcc is assumed in mpa
             (see aci 318)
-        e_mod: float
+        e_mod: float, optional
             Optional young modulus, :math:`57000*sqrt(abs(fcc))` if :math:`abs(fcc)>2000` because fcc is assumed in psi
             (see aci 318)
-        ni: float
+        ni: float, optional
             Optional poisson coefficient, 0.15 (from comparison with tests by kupfer hilsdorf rusch 1969)
-        gt: float
+        gt: float, optional
             Optional tension fracture energy density, positive real value (integral of the stress-strain envelope in
             tension), :math:`1840*fct*fct/e` (from comparison with tests by gopalaratnam and shah 1985)
-        gc: float
+        gc: float, optional
             Optional compression fracture energy density, positive real value (integral of the stress-strain envelope
             after the peak in compression), :math:6250*fcc*fcc/e` (from comparison with tests by karsan and jirsa 1969)
-        rho_bar: float
+        rho_bar: float, optional
             Optional parameter of plastic volume change, positive real value :math:`0=rhobar< sqrt(2/3)`, 0.2 (from
             comparison with tests by kupfer hilsdorf rusch 1969)
-        big_h: float
+        big_h: float, optional
             Optional linear hardening parameter for plasticity, positive real value (usually less than e),
             :math:`0.25*e` (from comparison with tests by karsan and jirsa 1969 and gopalaratnam and shah 1985)
-        theta: float
+        theta: float, optional
             Optional ratio between isotropic and kinematic hardening, positive real value :math:`0=theta=1` (with: 0
             hardening kinematic only and 1 hardening isotropic only, 0.5 (from comparison with tests by karsan and jirsa 1969
             and gopalaratnam and shah 1985)
-        tangent: float
+        tangent: float, optional
             Optional integer to choose the computational stiffness matrix, 0: computational tangent; 1: damaged secant
             stiffness (hint: in case of strong nonlinearities use it with krylov-newton algorithm)
         """

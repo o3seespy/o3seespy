@@ -25,8 +25,8 @@ class Plain(PatternBase):
         osi: o3seespy.OpenSeesInstance
         ts: obj
             The object of the time series to be used in the load pattern
-        fact: float
-            Constant factor. (optional)
+        fact: float, optional
+            Constant factor. 
         """
         self.ts = ts
         if fact is None:
@@ -62,15 +62,15 @@ class UniformExcitation(PatternBase):
             to translation along the global y axis #. corresponds to translation along the global z axis #. corresponds to
             rotation about the global x axis #. corresponds to rotation about the global y axis #. corresponds to
             rotation about the global z axis
-        disp_series: obj
-            Object of the timeseries series defining the displacement history. (optional)
-        vel_series: obj
-            Object of the timeseries series defining the velocity history. (optional)
-        accel_series: obj
-            Object of the timeseries series defining the acceleration history. (optional)
-        vel0: float
+        disp_series: obj, optional
+            Object of the timeseries series defining the displacement history. 
+        vel_series: obj, optional
+            Object of the timeseries series defining the velocity history. 
+        accel_series: obj, optional
+            Object of the timeseries series defining the acceleration history. 
+        vel0: float, optional
             The initial velocity (optional, default=0.0)
-        fact: float
+        fact: float, optional
             Constant factor (optional, default=1.0)
         """
         self.dir = int(dir)

@@ -48,10 +48,10 @@ class BeamColumnJoint(ElementBase):
             Uniaxial material object for interface-shear spring at node 4
         mat13: obj
             Uniaxial material object for shear-panel
-        ele_height_fac: float
+        ele_height_fac: float, optional
             Floating point value (as a ratio to the total height of the element) to be considered for determination of
             the distance in between the tension-compression couples (optional, default: 1.0)
-        ele_width_fac: float
+        ele_width_fac: float, optional
             Floating point value (as a ratio to the total width of the element) to be considered for determination of
             the distance in between the tension-compression couples (optional, default: 1.0)
         """
@@ -149,16 +149,16 @@ class Joint2D(ElementBase):
             any other node)
         mat1: int
             Uniaxial material object for interface rotational spring at node 1. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. (optional)
+            that a beam-column element is rigidly framed to the joint. 
         mat2: int
             Uniaxial material object for interface rotational spring at node 2. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. (optional)
+            that a beam-column element is rigidly framed to the joint. 
         mat3: int
             Uniaxial material object for interface rotational spring at node 3. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. (optional)
+            that a beam-column element is rigidly framed to the joint. 
         mat4: int
             Uniaxial material object for interface rotational spring at node 4. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. (optional)
+            that a beam-column element is rigidly framed to the joint. 
         mat_c: int
             Uniaxial material object for rotational spring of the central node that describes shear panel behavior
         lrg_dsp: obj
@@ -167,7 +167,7 @@ class Joint2D(ElementBase):
             ,time varying geometry and length correction
         dmg: obj
             Damage model object
-        dmg1dmg2dmg3dmg4dmg_c: None
+        dmg1dmg2dmg3dmg4dmg_c: None, optional
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]

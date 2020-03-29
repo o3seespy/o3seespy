@@ -21,8 +21,8 @@ class Constant(TimeSeriesBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        factor: float
-            The load factor applied (optional)
+        factor: float, optional
+            The load factor applied 
         """
         if factor is None:
             self.factor = None
@@ -52,8 +52,8 @@ class Linear(TimeSeriesBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        factor: float
-            Linear factor. (optional)
+        factor: float, optional
+            Linear factor. 
         """
         if factor is None:
             self.factor = None
@@ -90,12 +90,12 @@ class Trig(TimeSeriesBase):
             Ending time of non-zero load factor.
         period: float
             Characteristic period of sine wave.
-        factor: float
-            Load factor. (optional)
-        shift: float
-            Phase shift in radians. (optional)
-        zero_shift: float
-            Zero shift. (optional)
+        factor: float, optional
+            Load factor. 
+        shift: float, optional
+            Phase shift in radians. 
+        zero_shift: float, optional
+            Zero shift. 
         """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
@@ -151,12 +151,12 @@ class Triangle(TimeSeriesBase):
             Ending time of non-zero load factor.
         period: float
             Characteristic period of sine wave.
-        factor: float
-            Load factor. (optional)
-        shift: float
-            Phase shift in radians. (optional)
-        zero_shift: float
-            Zero shift. (optional)
+        factor: float, optional
+            Load factor. 
+        shift: float, optional
+            Phase shift in radians. 
+        zero_shift: float, optional
+            Zero shift. 
         """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
@@ -205,8 +205,8 @@ class Rectangular(TimeSeriesBase):
             Starting time of non-zero load factor.
         t_end: float
             Ending time of non-zero load factor.
-        factor: float
-            Load factor. (optional)
+        factor: float, optional
+            Load factor. 
         """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
@@ -245,14 +245,14 @@ class Pulse(TimeSeriesBase):
             Ending time of non-zero load factor.
         period: float
             Characteristic period of pulse.
-        width: float
+        width: float, optional
             Pulse width as a fraction of the period. (optinal)
-        shift: float
-            Phase shift in seconds. (optional)
-        factor: float
-            Load factor. (optional)
-        zero_shift: float
-            Zero shift. (optional)
+        shift: float, optional
+            Phase shift in seconds. 
+        factor: float, optional
+            Load factor. 
+        zero_shift: float, optional
+            Zero shift. 
         """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
@@ -305,24 +305,24 @@ class Path(TimeSeriesBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        dt: float
-            Time interval between specified points. (optional)
-        values: list
-            Load factor values in a |list|. (optional)
-        time: list
-            Time values in a |list|. (optional)
-        filepath: str
-            File containing the load factors values. (optional)
-        file_time: str
-            File containing the time values for corresponding load factors. (optional)
-        factor: float
-            A factor to multiply load factors by. (optional)
-        start_time: float
-            Provide a start time for provided load factors. (optional)
+        dt: float, optional
+            Time interval between specified points. 
+        values: list, optional
+            Load factor values in a |list|. 
+        time: list, optional
+            Time values in a |list|. 
+        filepath: str, optional
+            File containing the load factors values. 
+        file_time: str, optional
+            File containing the time values for corresponding load factors. 
+        factor: float, optional
+            A factor to multiply load factors by. 
+        start_time: float, optional
+            Provide a start time for provided load factors. 
         use_last: str
-            Use last value after the end of the series. (optional)
+            Use last value after the end of the series. 
         prepend_zero: str
-            Prepend a zero value to the series of load factors. (optional)
+            Prepend a zero value to the series of load factors. 
         """
         if dt is None:
             self.dt = None

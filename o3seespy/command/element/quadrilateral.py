@@ -28,14 +28,14 @@ class Quad(ElementBase):
             ``'planestress'``
         mat: obj
             Object of ndmaterial
-        pressure: float
+        pressure: float, optional
             Surface pressure (optional, default = 0.0)
-        rho: float
+        rho: float, optional
             Element mass density (per unit volume) from which a lumped element mass matrix is computed (optional,
             default=0.0)
-        b1: float
+        b1: float, optional
             Constant body forces defined in the isoparametric domain (optional, default=0.0)
-        b2: float
+        b2: float, optional
             Constant body forces defined in the isoparametric domain (optional, default=0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]

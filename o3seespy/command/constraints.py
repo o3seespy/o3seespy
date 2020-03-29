@@ -47,9 +47,9 @@ class Lagrange(ConstraintsBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        alpha_s: float
+        alpha_s: float, optional
             :math:`\alpha_s` factor on single points.
-        alpha_m: float
+        alpha_m: float, optional
             :math:`\alpha_m` factor on multi-points.
         """
         self.alpha_s = float(alpha_s)
@@ -74,9 +74,9 @@ class Penalty(ConstraintsBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        alpha_s: float
+        alpha_s: float, optional
             :math:`\alpha_s` factor on single points.
-        alpha_m: float
+        alpha_m: float, optional
             :math:`\alpha_m` factor on multi-points.
         """
         self.alpha_s = float(alpha_s)

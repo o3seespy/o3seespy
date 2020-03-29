@@ -25,15 +25,15 @@ class NormUnbalance(TestBase):
             Tolerance criteria used to check for convergence.
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
-        max_incr: int (default=True)
-            Maximum times of error increasing. (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        max_incr: int (default=True), optional
+            Maximum times of error increasing. 
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -77,13 +77,13 @@ class NormDispIncr(TestBase):
             Tolerance criteria used to check for convergence.
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -113,13 +113,13 @@ class EnergyIncr(TestBase):
             Tolerance criteria used to check for convergence.
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -149,13 +149,13 @@ class RelativeNormUnbalance(TestBase):
             Tolerance criteria used to check for convergence.
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -185,13 +185,13 @@ class RelativeNormDispIncr(TestBase):
             Tolerance criteria used to check for convergence.
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -221,13 +221,13 @@ class RelativeTotalNormDispIncr(TestBase):
             Tolerance criteria used to check for convergence.
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -257,13 +257,13 @@ class RelativeEnergyIncr(TestBase):
             Tolerance criteria used to check for convergence.
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -290,13 +290,13 @@ class FixedNumIter(TestBase):
         osi: o3seespy.OpenSeesInstance
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         """
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -326,15 +326,15 @@ class NormDispAndUnbalance(TestBase):
             
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
-        maxincr: int
-            Maximum times of error increasing. (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        maxincr: int, optional
+            Maximum times of error increasing. 
         """
         self.tol_incr = float(tol_incr)
         self.tol_r = tol_r
@@ -367,15 +367,15 @@ class NormDispOrUnbalance(TestBase):
             
         max_iter: int
             Max number of iterations to check
-        p_flag: int
-            Print flag (optional): * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. *
-            2 print information on norms and number of iterations at end of successful test. * 4 at each step it will print the
-            norms and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter``
-            it will print an error message **but return a successfull test**.
-        n_type: int
-            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
-        maxincr: int
-            Maximum times of error increasing. (optional)
+        p_flag: int, optional
+            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
+            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
+            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            will print an error message **but return a successfull test**.
+        n_type: int, optional
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        maxincr: int, optional
+            Maximum times of error increasing. 
         """
         self.tol_incr = float(tol_incr)
         self.tol_r = tol_r

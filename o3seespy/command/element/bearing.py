@@ -41,17 +41,17 @@ class ElastomericBearingPlasticity2D(ElementBase):
             Post yield stiffness ratio of non-linear hardening component
         mu: float
             Exponent of non-linear hardening component
-        p_mat: obj
+        p_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in axial direction
-        mz_mat: obj
+        mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
-        orient: None
+        orient: None, optional
             
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
-        shear_dist: float
+        shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -130,21 +130,21 @@ class ElastomericBearingPlasticity3D(ElementBase):
             Post yield stiffness ratio of non-linear hardening component
         mu: float
             Exponent of non-linear hardening component
-        p_mat: obj
+        p_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in axial direction
-        t_mat: obj
+        t_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in torsional direction
-        my_mat: obj
+        my_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
-        mz_mat: obj
+        mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
-        orient: None
+        orient: None, optional
             
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
-        shear_dist: float
+        shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -235,18 +235,18 @@ class ElastomericBearingBoucWen2D(ElementBase):
             First hysteretic shape parameter (default = 0.5)
         gamma: float
             Second hysteretic shape parameter (default = 0.5)
-        p_mat: obj
+        p_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in axial direction
-        mz_mat: obj
+        mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        orient_vals: list
-            Vector components in global coordinates defining local x-axis (optional), vector components in global
-            coordinates defining local y-axis (optional)
-        shear_dist: float
+        orient_vals: list, optional
+            Vector components in global coordinates defining local x-axis , vector components in global coordinates
+            defining local y-axis 
+        shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -334,22 +334,22 @@ class ElastomericBearingBoucWen3D(ElementBase):
             First hysteretic shape parameter (default = 0.5)
         gamma: float
             Second hysteretic shape parameter (default = 0.5)
-        p_mat: obj
+        p_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in axial direction
-        t_mat: obj
+        t_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in torsional direction
-        my_mat: obj
+        my_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
-        mz_mat: obj
+        mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        orient_vals: list
-            Vector components in global coordinates defining local x-axis (optional), vector components in global
-            coordinates defining local y-axis (optional)
-        shear_dist: float
+        orient_vals: list, optional
+            Vector components in global coordinates defining local x-axis , vector components in global coordinates
+            defining local y-axis 
+        shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -438,21 +438,21 @@ class FlatSliderBearing2D(ElementBase):
             Object associated with previously-defined frictionmodel
         k_init: float
             Initial elastic stiffness in local shear direction
-        p_mat: obj
+        p_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in axial direction
-        mz_mat: obj
+        mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
-        max_iter: int
+        max_iter: int, optional
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
-        tol: float
+        tol: float, optional
             Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
-        orient: None
+        orient: None, optional
             
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
-        shear_dist: float
+        shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -543,25 +543,25 @@ class FlatSliderBearing3D(ElementBase):
             Object associated with previously-defined frictionmodel
         k_init: float
             Initial elastic stiffness in local shear direction
-        p_mat: obj
+        p_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in axial direction
-        t_mat: obj
+        t_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in torsional direction
-        my_mat: obj
+        my_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
-        mz_mat: obj
+        mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
-        max_iter: None
+        max_iter: None, optional
             
-        tol: float
+        tol: float, optional
             Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
-        orient: None
+        orient: None, optional
             
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
-        shear_dist: float
+        shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -654,21 +654,21 @@ class SingleFPBearing2D(ElementBase):
             Effective radius of concave sliding surface
         k_init: float
             Initial elastic stiffness in local shear direction
-        p_mat: obj
+        p_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in axial direction
-        mz_mat: obj
+        mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
-        max_iter: int
+        max_iter: int, optional
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
-        tol: float
+        tol: float, optional
             Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
-        orient: None
+        orient: None, optional
             
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
-        shear_dist: float
+        shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -759,25 +759,25 @@ class SingleFPBearing3D(ElementBase):
             Effective radius of concave sliding surface
         k_init: float
             Initial elastic stiffness in local shear direction
-        p_mat: obj
+        p_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in axial direction
-        t_mat: obj
+        t_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in torsional direction
-        my_mat: obj
+        my_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local y axis
-        mz_mat: obj
+        mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
-        max_iter: int
+        max_iter: int, optional
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
-        tol: float
+        tol: float, optional
             Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
-        orient: None
+        orient: None, optional
             
-        mass: float
+        mass: float, optional
             Element mass (optional, default = 0.0)
-        shear_dist: float
+        shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1047,13 +1047,13 @@ class MultipleShearSpring(ElementBase):
             A list of two element nodes
         n_spring: int
             Number of springs
-        mat: obj
+        mat: obj, optional
             Object associated with previously-defined uniaxialmaterial object
-        lim: float
+        lim: float, optional
             Minimum deformation to calculate equivalent coefficient (see note 1)
-        mass: float
+        mass: float, optional
             Element mass
-        orient: None
+        orient: None, optional
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1108,31 +1108,31 @@ class KikuchiBearingadjustPDOutput(ElementBase):
             P-delta moment adjustment for reaction force (default:    ``ci`` =0.5,    ``cj`` =0.5)
         cj: float
             P-delta moment adjustment for reaction force (default:    ``ci`` =0.5,    ``cj`` =0.5)
-        shape: float
+        shape: float, optional
             Following shapes are available: round, square
-        size: float
+        size: float, optional
             Diameter (round shape), length of edge (square shape)
-        total_height: float
+        total_height: float, optional
             Total height of the bearing (defaulut: distance between inode and jnode)
-        n_mss: int
+        n_mss: int, optional
             Number of springs in mss = nmss
-        mat_mss: obj
+        mat_mss: obj, optional
             Matobject for mss
-        lim_disp: float
+        lim_disp: float, optional
             Minimum deformation to calculate equivalent coefficient of mss (see note 1)
-        n_mns: int
+        n_mns: int, optional
             Number of springs in mns = nmns*nmns (for round and square shape)
-        mat_mns: obj
+        mat_mns: obj, optional
             Matobject for mns
-        lamb: float
+        lamb: float, optional
             Parameter to calculate compression modulus distribution on mns (see note 2)
         no_pd_input: str
             Not consider p-delta moment
         no_tilt: str
             Not consider tilt of rigid link
-        orient: None
+        orient: None, optional
             
-        mass: float
+        mass: float, optional
             Element mass
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1238,31 +1238,31 @@ class KikuchiBearingdoBalance(ElementBase):
         n_iter: float
             Tolerance of external unbalanced force (   ``limfo``), tolorance of internal unbalanced force (  
             ``limfi``), number of iterations to get rid of internal unbalanced force (   ``niter``)
-        shape: float
+        shape: float, optional
             Following shapes are available: round, square
-        size: float
+        size: float, optional
             Diameter (round shape), length of edge (square shape)
-        total_height: float
+        total_height: float, optional
             Total height of the bearing (defaulut: distance between inode and jnode)
-        n_mss: int
+        n_mss: int, optional
             Number of springs in mss = nmss
-        mat_mss: obj
+        mat_mss: obj, optional
             Matobject for mss
-        lim_disp: float
+        lim_disp: float, optional
             Minimum deformation to calculate equivalent coefficient of mss (see note 1)
-        n_mns: int
+        n_mns: int, optional
             Number of springs in mns = nmns*nmns (for round and square shape)
-        mat_mns: obj
+        mat_mns: obj, optional
             Matobject for mns
-        lamb: float
+        lamb: float, optional
             Parameter to calculate compression modulus distribution on mns (see note 2)
         no_pd_input: str
             Not consider p-delta moment
         no_tilt: str
             Not consider tilt of rigid link
-        orient: None
+        orient: None, optional
             
-        mass: float
+        mass: float, optional
             Element mass
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1371,9 +1371,9 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
             Coefficients for shear stress components of tau_r and tau_s
         cs: float
             Coefficients for shear stress components of tau_r and tau_s
-        orient: list
+        orient: list, optional
             
-        mass: float
+        mass: float, optional
             Element mass [kg]
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1443,17 +1443,17 @@ class ElastomericX(ElementBase):
         n: int
             Number of rubber layers
         x1: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         x2: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         x3: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         y1: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         y2: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         y3: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         kc: float
             Cavitation parameter (optional, default = 10.0)
         phi_m: float
@@ -1554,17 +1554,17 @@ class LeadRubberX(ElementBase):
         n: int
             Number of rubber layers
         x1: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         x2: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         x3: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         y1: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         y2: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         y3: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         kc: float
             Cavitation parameter (optional, default = 10.0)
         phi_m: float
@@ -1688,17 +1688,17 @@ class HDR(ElementBase):
         c4: float
             Parameters of the grant model
         x1: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         x2: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         x3: float
-            Vector components in global coordinates defining local x-axis (optional)
+            Vector components in global coordinates defining local x-axis 
         y1: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         y2: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         y3: float
-            Vector components in global coordinates defining local y-axis (optional)
+            Vector components in global coordinates defining local y-axis 
         kc: float
             Cavitation parameter (optional, default = 10.0)
         phi_m: float

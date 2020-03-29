@@ -26,7 +26,7 @@ class FluidSolidPorousMaterial(NDMaterialBase):
             Combined undrained bulk modulus :math:`b_c` relating changes in pore pressure and volumetric strain, may be
             approximated by: :math:`b_c \approx b_f /n` where :math:`b_f` is the bulk modulus of fluid phase (2.2x106 kpa (or
             3.191x105 psi) for water), and :math:`n` the initial porosity.
-        pa: float
+        pa: float, optional
             Optional atmospheric pressure for normalization (typically 101 kpa in si units, or 14.65 psi in english
             units)
         """

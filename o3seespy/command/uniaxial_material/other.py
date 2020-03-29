@@ -26,7 +26,7 @@ class Hardening(UniaxialMaterialBase):
             Isotropic hardening modulus
         h_kin: float
             Kinematic hardening modulus
-        eta: float
+        eta: float, optional
             Visco-plastic coefficient (optional, default=0.0)
         """
         self.e_mod = float(e_mod)
@@ -76,15 +76,15 @@ class Cast(UniaxialMaterialBase):
             Parameter that controls the bauschinger effect. recommended value cr1=0.925
         c_r2: float
             Parameter that controls the bauschinger effect. recommended value cr2=0.150
-        a1: float (default=True)
+        a1: float (default=True), optional
             Isotropic hardening parameter, increase of compression yield envelope as proportion of yield strength after
             a plastic deformation of a2*(pp/kp)
-        a2: float
+        a2: float, optional
             Isotropic hardening parameter (see explanation under a1). (optional default = 1.0)
-        a3: float (default=True)
+        a3: float (default=True), optional
             Isotropic hardening parameter, increase of tension yield envelope as proportion of yield strength after a
             plastic deformation of a4*(pp/kp)
-        a4: float
+        a4: float, optional
             Isotropic hardening parameter (see explanation under a3). (optional default = 1.0)
         """
         self.n = int(n)
@@ -148,16 +148,16 @@ class ViscousDamper(UniaxialMaterialBase):
             Damping coefficient
         alpha: float
             Velocity exponent
-        l_gap: float
+        l_gap: float, optional
             Gap length to simulate the gap length due to the pin tolerance
-        nm: int
+        nm: int, optional
             Employed adaptive numerical algorithm (default value nm = 1; * ``1`` = dormand-prince54, * ``2`` = 6th order
             adams-bashforth-moulton, * ``3`` = modified rosenbrock triple)
-        rel_tol: float
+        rel_tol: float, optional
             Tolerance for absolute relative error control of the adaptive iterative algorithm (default value 10^-6)
-        abs_tol: float
+        abs_tol: float, optional
             Tolerance for absolute error control of adaptive iterative algorithm (default value 10^-10)
-        max_half: int
+        max_half: int, optional
             Maximum number of sub-step iterations within an integration step (default value 15)
         """
         self.k_el = float(k_el)
@@ -196,20 +196,20 @@ class BilinearOilDamper(UniaxialMaterialBase):
             stiffness of the supporting brace and internal damper portion)
         cd: float
             Damping coefficient
-        fr: float
+        fr: float, optional
             Damper relief load (default=1.0, damper property)
-        p: float
+        p: float, optional
             Post-relief viscous damping coefficient ratio (default=1.0, linear oil damper)
-        l_gap: float
+        l_gap: float, optional
             Gap length to simulate the gap length due to the pin tolerance
-        nm: int
+        nm: int, optional
             Employed adaptive numerical algorithm (default value nm = 1; * ``1`` = dormand-prince54, * ``2`` = 6th order
             adams-bashforth-moulton, * ``3`` = modified rosenbrock triple)
-        rel_tol: float
+        rel_tol: float, optional
             Tolerance for absolute relative error control of the adaptive iterative algorithm (default value 10^-6)
-        abs_tol: float
+        abs_tol: float, optional
             Tolerance for absolute error control of adaptive iterative algorithm (default value 10^-10)
-        max_half: int
+        max_half: int, optional
             Maximum number of sub-step iterations within an integration step (default value 15)
         """
         self.k_el = float(k_el)
@@ -302,7 +302,7 @@ class Bilin(UniaxialMaterialBase):
         d__neg: float
             Rate of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
-        n_factor: float
+        n_factor: float, optional
             Elastic stiffness amplification factor, mainly for use with concentrated plastic hinge elements (optional,
             default = 0).
         """
@@ -656,13 +656,13 @@ class BarSlip(UniaxialMaterialBase):
         otype: str
             String indicating where the reinforcing bar is placed. (options: ``'beamtop'``, ``'beambot'`` or
             ``'column'``)
-        anc_lratio: float
+        anc_lratio: float, optional
             Floating point value defining the ratio of anchorage length used for the reinforcing bar to the dimension of
             the joint in the direction of the reinforcing bar (optional, default: 1.0)
-        damage: str
+        damage: str, optional
             String indicating type of damage:whether there is full damage in the material or no damage (optional,
             options: ``'damage'``, ``'nodamage'`` ; default: ``'damage'``)
-        unit: str
+        unit: str, optional
             String indicating the type of unit system used (optional, options: ``'psi'``, ``'mpa'``, ``'pa'``,
             ``'psf'``, ``'ksi'``, ``'ksf'``) (default: ``'psi'`` / ``'mpa'``)
         """
@@ -752,13 +752,13 @@ class Fatigue(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         other: obj
             Unique material object integer object for the material that is being wrapped
-        e0: float
+        e0: float, optional
             Value of strain at which one cycle will cause failure (default 0.191)
-        m: float
+        m: float, optional
             Slope of coffin-manson curve in log-log space (default -0.458)
-        min: float
+        min: float, optional
             Global minimum value for strain or deformation (default -1e16)
-        max: float
+        max: float, optional
             Global maximum value for strain or deformation (default 1e16)
         """
         self.other = other
@@ -964,9 +964,9 @@ class MinMax(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         other: obj
             Object of the other material
-        min_strain: float
+        min_strain: float, optional
             Minimum value of strain. optional default = -1.0e16.
-        max_strain: float
+        max_strain: float, optional
             Max value of strain. optional default = 1.0e16.
         """
         self.other = other
@@ -1010,11 +1010,11 @@ class ElasticBilin(UniaxialMaterialBase):
             Tangent when material in tension with strains >    ``epsp2``
         eps_p2: float
             Strain at which material changes tangent in tension.
-        en1: float (default=True)
+        en1: float (default=True), optional
             Optional, default =    ``ep1``. tangent in compression for stains: 0 < strains <=    ``epsn2``
-        en2: float (default=True)
+        en2: float (default=True), optional
             Optional, default =    ``ep2``. tangent in compression with strains <    ``epsn2``
-        eps_n2: float (default=True)
+        eps_n2: float (default=True), optional
             Optional, default = ``-epsp2``. strain at which material changes tangent in compression.
         """
         self.ep1 = float(ep1)
@@ -1069,11 +1069,11 @@ class ElasticMultiLinear(UniaxialMaterialBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        eta: float
+        eta: float, optional
             Damping tangent (optional, default=0.0)
-        strain: list
+        strain: list, optional
             List of strain points along stress-strain curve
-        stress: list
+        stress: list, optional
             List of stress points along stress-strain curve
         """
         self.eta = float(eta)
@@ -1288,11 +1288,11 @@ class SelfCentering(UniaxialMaterialBase):
             Forward activation stress/force
         beta: float
             Ratio of forward to reverse activation stress/force
-        eps_slip: float
+        eps_slip: float, optional
             Slip strain/deformation (if    ``epsslip`` = 0, there will be no slippage)
-        eps_bear: float
+        eps_bear: float, optional
             Bearing strain/deformation (if    ``epsbear`` = 0, there will be no bearing)
-        r_bear: float (default=True)
+        r_bear: float (default=True), optional
             Ratio of bearing stiffness to initial stiffness    ``k1``
         """
         self.k1 = float(k1)

@@ -36,9 +36,9 @@ class SSPquadUP(ElementBase):
             Voids ratio
         alpha: float
             Spatial pressure field stabilization parameter (see discussion below for more information)
-        b1: float
+        b1: float, optional
             Constant body forces in global x- and y-directions, respectively (optional, default = 0.0) - see note 3
-        b2: float
+        b2: float, optional
             Constant body forces in global x- and y-directions, respectively (optional, default = 0.0) - see note 3
         """
         self.ele_nodes = [x.tag for x in ele_nodes]

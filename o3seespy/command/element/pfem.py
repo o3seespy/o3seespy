@@ -31,7 +31,7 @@ class PFEMElementBubble(ElementBase):
         thickness: float
             Element thickness (required for 2d)
         kappa: float
-            Fluid bulk modulus (optional)
+            Fluid bulk modulus 
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.rho = float(rho)
@@ -73,9 +73,9 @@ class PFEMElementCompressible(ElementBase):
         b2: float
             Body body acceleration in y direction
         thickness: float
-            Element thickness (optional)
+            Element thickness 
         kappa: float
-            Fluid bulk modulus (optional)
+            Fluid bulk modulus 
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.rho = float(rho)

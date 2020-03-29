@@ -106,9 +106,9 @@ class Concrete04(UniaxialMaterialBase):
         ec: float
             Floating point values defining initial stiffness
         fct: float
-            Floating point value defining the maximum tensile strength of concrete (optional)
+            Floating point value defining the maximum tensile strength of concrete 
         et: float
-            Floating point value defining ultimate tensile strain of concrete (optional)
+            Floating point value defining ultimate tensile strain of concrete 
         beta: float
             Loating point value defining the exponential curve parameter to define the residual stress (as a factor of
             ft) at etu
@@ -250,7 +250,7 @@ class Concrete01WithSITC(UniaxialMaterialBase):
             Concrete crushing strength
         eps_u: float
             Concrete strain at crushing strength
-        end_strain_sitc: float
+        end_strain_sitc: float, optional
             Optional, default = 0.03
         """
         self.fpc = float(fpc)
@@ -325,10 +325,10 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             Ductility factor of the hoop steel.
         phi_lon: float
             Diameter of longitudinal bars.
-        internal_args: list
+        internal_args: list, optional
             ``internalargs= [phisi, si, fyhi, es0i, haratioi, mui]`` optional parameters for defining the internal
             transverse reinforcement. if they are not specified they will be assumed equal to the external ones
-        wrap_args: list
+        wrap_args: list, optional
             ``wrapargs=[cover, am, sw, ful, es0w]`` optional parameters required when section is strengthened with frp
             wraps. * ``cover`` cover thickness measured from the outer line of hoop. * ``am`` total area of frp wraps (number of
             layers x wrap thickness x wrap width). * ``sw`` spacing of frp wraps (if continuous wraps are used the spacing is
@@ -337,13 +337,13 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             Unknown
         silica: str
             Unknown
-        tol: float
+        tol: float, optional
             Unknown
-        max_num_iter: int
+        max_num_iter: int, optional
             Unknown
-        epscu_limit: float
+        epscu_limit: float, optional
             Unknown
-        st_ratio: unk
+        st_ratio: unk, optional
             Unknown
         """
         self.sec_type = sec_type
@@ -430,9 +430,9 @@ class ConcreteD(UniaxialMaterialBase):
             Compressive descending parameter
         alphat: float
             Tensile descending parameter
-        cesp: float
+        cesp: float, optional
             Plastic parameter, recommended values: 0.2~0.3
-        etap: float
+        etap: float, optional
             Plastic parameter, recommended values: 1.0~1.3
         """
         self.fc = float(fc)
@@ -674,7 +674,7 @@ class ConcreteCM(UniaxialMaterialBase):
         xcrp: float
             Non-dimensional critical strain on tension envelope (:math:`\\epsilon^{+}_{cr}`, where the envelope curve
             starts following a straight line - large value [e.g., 10000] recommended when tension stiffening is considered)
-        gap_close: float
+        gap_close: float, optional
             Gapclose = 0, less gradual gap closure (default); gapclose = 1, more gradual gap closure
         """
         self.fpcc = float(fpcc)

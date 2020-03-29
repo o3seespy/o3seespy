@@ -29,7 +29,7 @@ class ElasticBeamColumn2D(ElementBase):
             Second moment of area about the local z-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        mass: None
+        mass: None, optional
             
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
@@ -85,7 +85,7 @@ class ElasticBeamColumn3D(ElementBase):
             Second moment of area about the local z-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        mass: None
+        mass: None, optional
             
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
@@ -152,7 +152,7 @@ class ModElasticBeam2D(ElementBase):
             Identifier for previously-defined coordinate-transformation (crdtransf) object
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
-        mass: float
+        mass: float, optional
             Element mass per unit length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -213,7 +213,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
             Identifier for previously-defined coordinate-transformation (crdtransf) object
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
-        mass: float
+        mass: float, optional
             Element mass per unit length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -281,7 +281,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
             Identifier for previously-defined coordinate-transformation (crdtransf) object
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
-        mass: float
+        mass: float, optional
             Element mass per unit length (optional, default = 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -334,8 +334,8 @@ class DispBeamColumn(ElementBase):
             Object of :func:`beamintegration`
         c_mass: None
             
-        mass: float
-            Element mass density (per unit length), from which a lumped-mass matrix is formed (optional)
+        mass: float, optional
+            Element mass density (per unit length), from which a lumped-mass matrix is formed 
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.transf = transf
@@ -376,12 +376,12 @@ class ForceBeamColumn(ElementBase):
             Object of transformation
         integration: obj
             Object of :func:`beamintegration`
-        max_iter: int
-            Maximum number of iterations to undertake to satisfy element compatibility (optional)
-        tol: float
-            Tolerance for satisfaction of element compatibility (optional)
-        mass: float
-            Element mass density (per unit length), from which a lumped-mass matrix is formed (optional)
+        max_iter: int, optional
+            Maximum number of iterations to undertake to satisfy element compatibility 
+        tol: float, optional
+            Tolerance for satisfaction of element compatibility 
+        mass: float, optional
+            Element mass density (per unit length), from which a lumped-mass matrix is formed 
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.transf = transf
@@ -435,13 +435,13 @@ class NonlinearBeamColumn(ElementBase):
             Object of section
         transf: obj
             Object of transformation
-        max_iter: int
-            Maximum number of iterations to undertake to satisfy element compatibility (optional)
-        tol: float
-            Tolerance for satisfaction of element compatibility (optional)
-        mass: float
-            Element mass density (per unit length), from which a lumped-mass matrix is formed (optional)
-        int_type: str
+        max_iter: int, optional
+            Maximum number of iterations to undertake to satisfy element compatibility 
+        tol: float, optional
+            Tolerance for satisfaction of element compatibility 
+        mass: float, optional
+            Element mass density (per unit length), from which a lumped-mass matrix is formed 
+        int_type: str, optional
             Integration type (optional, default is ``'lobatto'``) * ``'lobatto'`` * ``'legendre'`` * ``'radau'`` *
             ``'newtoncotes'`` * ``'trapezoidal'``
         """
@@ -507,7 +507,7 @@ class DispBeamColumnInt(ElementBase):
         c_rot: float
             Identifier for element center of rotation (or center of curvature distribution). fraction of the height
             distance from bottom to the center of rotation (0 to 1)
-        mass: float
+        mass: float, optional
             Element mass density (per unit length), from which a lumped-mass matrix is formed (optional, default=0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -564,18 +564,18 @@ class MVLEM(ElementBase):
             Number of element macro-fibers
         c: float
             Location of center of rotation from the inode, ``c`` = 0.4 (recommended)
-        thick: list
+        thick: list, optional
             A list of ``m`` macro-fiber thicknesses
-        widths: list
+        widths: list, optional
             A list of ``m`` macro-fiber widths
-        rho: list
+        rho: list, optional
             A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
             a_{s,i}/a_{gross,i} (1 < i < m)`
-        mat_concretes: list
+        mat_concretes: list, optional
             A list of ``m`` uniaxialmaterial objects for concrete
-        mat_steels: list
+        mat_steels: list, optional
             A list of ``m`` uniaxialmaterial objects for steel
-        mat_shear: obj
+        mat_shear: obj, optional
             Object of uniaxialmaterial for shear material
         """
         self.dens = float(dens)
@@ -642,11 +642,11 @@ class SFIMVLEM(ElementBase):
             Number of element macro-fibers
         c: float
             Location of center of rotation with from the inode, ``c`` = 0.4 (recommended)
-        thick: None
+        thick: None, optional
             
-        widths: None
+        widths: None, optional
             
-        mats: None
+        mats: None, optional
             
         """
         self.ele_nodes = [x.tag for x in ele_nodes]

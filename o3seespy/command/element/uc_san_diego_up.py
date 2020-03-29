@@ -37,13 +37,13 @@ class QuadUP(ElementBase):
             Permeability coefficient in horizontal and vertical directions respectively.
         v_perm: float
             Permeability coefficient in horizontal and vertical directions respectively.
-        b1: float
+        b1: float, optional
             Optional gravity acceleration components in horizontal and vertical directions respectively (defaults are
             0.0)
-        b2: float
+        b2: float, optional
             Optional gravity acceleration components in horizontal and vertical directions respectively (defaults are
             0.0)
-        t: float
+        t: float, optional
             Optional uniform element normal traction, positive in tension (default is 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -97,13 +97,13 @@ class BrickUP(ElementBase):
             Permeability coefficients in x, y, and z directions respectively.
         perm_z: float
             Permeability coefficients in x, y, and z directions respectively.
-        b_x: float
+        b_x: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
-        b_y: float
+        b_y: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
-        b_z: float
+        b_z: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
         """
@@ -159,13 +159,13 @@ class BbarQuadUP(ElementBase):
             Permeability coefficient in horizontal and vertical directions respectively.
         v_perm: float
             Permeability coefficient in horizontal and vertical directions respectively.
-        b1: float
+        b1: float, optional
             Optional gravity acceleration components in horizontal and vertical directions respectively (defaults are
             0.0)
-        b2: float
+        b2: float, optional
             Optional gravity acceleration components in horizontal and vertical directions respectively (defaults are
             0.0)
-        t: float
+        t: float, optional
             Optional uniform element normal traction, positive in tension (default is 0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -220,13 +220,13 @@ class BbarBrickUP(ElementBase):
             Permeability coefficients in x, y, and z directions respectively.
         perm_z: float
             Permeability coefficients in x, y, and z directions respectively.
-        b_x: float
+        b_x: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
-        b_y: float
+        b_y: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
-        b_z: float
+        b_z: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
         """
@@ -282,10 +282,10 @@ class N94QuadUP(ElementBase):
             Permeability coefficient in horizontal and vertical directions respectively.
         v_perm: float
             Permeability coefficient in horizontal and vertical directions respectively.
-        b1: float
+        b1: float, optional
             Optional gravity acceleration components in horizontal and vertical directions respectively (defaults are
             0.0)
-        b2: float
+        b2: float, optional
             Optional gravity acceleration components in horizontal and vertical directions respectively (defaults are
             0.0)
         """
@@ -340,13 +340,13 @@ class N208BrickUP(ElementBase):
             Permeability coefficients in x, y, and z directions respectively.
         perm_z: float
             Permeability coefficients in x, y, and z directions respectively.
-        b_x: float
+        b_x: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
-        b_y: float
+        b_y: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
-        b_z: float
+        b_z: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
         """

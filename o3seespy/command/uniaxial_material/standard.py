@@ -19,9 +19,9 @@ class Elastic(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         e_mod: float
             Tangent
-        eta: float
+        eta: float, optional
             Damping tangent (optional, default=0.0)
-        eneg: float (default=True)
+        eneg: float (default=True), optional
             Tangent in compression (optional, default=e)
         """
         self.e_mod = float(e_mod)
@@ -65,10 +65,10 @@ class ElasticPP(UniaxialMaterialBase):
             Tangent
         epsy_p: float
             Strain or deformation at which material reaches plastic state in tension
-        epsy_n: float (default=True)
+        epsy_n: float (default=True), optional
             Strain or deformation at which material reaches plastic state in compression. (optional, default is tension
             value)
-        eps0: float
+        eps0: float, optional
             Initial strain (optional, default: zero)
         """
         self.e_mod = float(e_mod)
@@ -115,9 +115,9 @@ class ElasticPPGap(UniaxialMaterialBase):
             Stress or force at which material reaches plastic state
         gap: float
             Initial gap (strain or deformation)
-        eta: float
+        eta: float, optional
             Hardening ratio (=eh/e), which can be negative
-        damage: str
+        damage: str, optional
             An optional string to specify whether to accumulate damage or not in the material. with the default
             re-center on load reversal. is provided this recentering will not occur and gap will grow.
         """
@@ -175,7 +175,7 @@ class Parallel(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         mats: list
             Identification objects of materials making up the material model
-        factor_args: list
+        factor_args: list, optional
             Factors to create a linear combination of the specified materials. factors can be negative to subtract one
             material from an other. (optional, default = 1.0)
         """

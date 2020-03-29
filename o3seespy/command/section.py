@@ -26,10 +26,10 @@ class Elastic2D(SectionBase):
             Cross-sectional area of section
         iz: float
             Second moment of area about the local z-axis
-        g_mod: float (default=True)
+        g_mod: float (default=True), optional
             Shear modulus (optional for 2d analysis, required for 3d analysis)
-        alpha_y: float (default=True)
-            Shear shape factor along the local y-axis (optional)
+        alpha_y: float (default=True), optional
+            Shear shape factor along the local y-axis 
         """
         self.e_mod = float(e_mod)
         self.area = float(area)
@@ -86,10 +86,10 @@ class Elastic3D(SectionBase):
             Shear modulus (optional for 2d analysis, required for 3d analysis)
         jxx: float
             Torsional moment of inertia of section (required for 3d analysis)
-        alpha_y: float (default=True)
-            Shear shape factor along the local y-axis (optional)
-        alpha_z: float (default=True)
-            Shear shape factor along the local z-axis (optional)
+        alpha_y: float (default=True), optional
+            Shear shape factor along the local y-axis 
+        alpha_z: float (default=True), optional
+            Shear shape factor along the local z-axis 
         """
         self.e_mod = float(e_mod)
         self.area = float(area)
@@ -248,7 +248,7 @@ class FiberThermal(SectionBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        gj: None
+        gj: None, optional
             
         """
         self.gj = gj
@@ -429,7 +429,7 @@ class RCCircularSection(SectionBase):
             Number of fibers through the edges
         nsteel: int
             Number of fibers through the steels
-        gj: float
+        gj: float, optional
             Gj stiffness
         """
         self.core_mat = core_mat
@@ -643,13 +643,13 @@ class Bidirectional(SectionBase):
             Isotropic hardening modulus
         hkin: float
             Kinematic hardening modulus
-        code1: str
-            Section force code for direction 1 (optional)
-        code2: str
-            Section force code for direction 2 (optional) one of the following section code may be used: * ``'p'`` axial
-            force-deformation * ``'mz'`` moment-curvature about section local z-axis * ``'vy'`` shear force-deformation along
-            section local y-axis * ``'my'`` moment-curvature about section local y-axis * ``'vz'`` shear force-deformation
-            along section local z-axis * ``'t'`` torsion force-deformation
+        code1: str, optional
+            Section force code for direction 1 
+        code2: str, optional
+            Section force code for direction 2  one of the following section code may be used: * ``'p'`` axial
+            force-deformation * ``'mz'`` moment-curvature about section local z-axis * ``'vy'`` shear force-deformation
+            along section local y-axis * ``'my'`` moment-curvature about section local y-axis * ``'vz'`` shear
+            force-deformation along section local z-axis * ``'t'`` torsion force-deformation
         """
         self.e_mod = float(e_mod)
         self.fy = float(fy)
@@ -696,8 +696,8 @@ class Isolator2spring(SectionBase):
             Total height of elastomeric bearing
         pe: float
             Euler buckling load for the bearing
-        po: float
-            Axial load at which nominal yield strength is achieved (optional)
+        po: float, optional
+            Axial load at which nominal yield strength is achieved 
         """
         self.tol = float(tol)
         self.k1 = float(k1)
