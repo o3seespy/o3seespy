@@ -37,6 +37,17 @@ This package provides:
  7. All object numbering handled by objects - no need for number tags!
  8. Additional logic checking of optional inputs
 
+
+Related packages
+================
+
+The eco-system of Python packages that relate to this package are outlined in the figure below.
+
+.. image:: https://eng-tools.github.io/static/img/package-space.svg
+    :width: 80%
+    :align: center
+    :alt: Geotechnical Python packages
+
 How to Use
 ==========
 
@@ -49,7 +60,7 @@ Installation
     pip install o3seespy
 
 
-Example: Dyanmic inelastic SDOF analysis
+Example: Dynamic inelastic SDOF analysis
 ----------------------------------------
 
 
