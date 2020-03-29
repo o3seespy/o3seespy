@@ -26,6 +26,13 @@ class Linear2D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> d_i = [1.0, 1.0]
+        >>> d_j = [1.0, 1.0]
+        >>> o3.geom_transf.Linear2D(osi, d_i=d_i, d_j=d_j)
         """
         self.d_i = d_i
         self.d_j = d_j
@@ -70,6 +77,14 @@ class Linear3D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> vecxz = [1.0, 1.0]
+        >>> d_i = [1.0, 1.0]
+        >>> d_j = [1.0, 1.0]
+        >>> o3.geom_transf.Linear3D(osi, vecxz=vecxz, d_i=d_i, d_j=d_j)
         """
         self.vecxz = vecxz
         self.d_i = d_i
@@ -107,6 +122,13 @@ class PDelta2D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> d_i = [1.0, 1.0]
+        >>> d_j = [1.0, 1.0]
+        >>> o3.geom_transf.PDelta2D(osi, d_i=d_i, d_j=d_j)
         """
         self.d_i = d_i
         self.d_j = d_j
@@ -151,6 +173,14 @@ class PDelta3D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> vecxz = [1.0, 1.0]
+        >>> d_i = [1.0, 1.0]
+        >>> d_j = [1.0, 1.0]
+        >>> o3.geom_transf.PDelta3D(osi, vecxz=vecxz, d_i=d_i, d_j=d_j)
         """
         self.vecxz = vecxz
         self.d_i = d_i
@@ -188,6 +218,13 @@ class Corotational2D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> d_i = [1.0, 1.0]
+        >>> d_j = [1.0, 1.0]
+        >>> o3.geom_transf.Corotational2D(osi, d_i=d_i, d_j=d_j)
         """
         self.d_i = d_i
         self.d_j = d_j
@@ -225,6 +262,12 @@ class Corotational3D(GeomTransfBase):
             components are specified in the global-coordinate system x,y,z and define a vector that is in a plane
             parallel to the x-z plane of the local-coordinate system. these items need to be specified for the
             three-dimensional problem.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> vecxz = [1.0, 1.0]
+        >>> o3.geom_transf.Corotational3D(osi, vecxz=vecxz)
         """
         self.vecxz = vecxz
         osi.n_transformation += 1

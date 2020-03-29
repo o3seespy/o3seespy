@@ -23,6 +23,11 @@ class Constant(TimeSeriesBase):
         osi: o3seespy.OpenSeesInstance
         factor: float, optional
             The load factor applied 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.time_series.Constant(osi, factor=1.0)
         """
         if factor is None:
             self.factor = None
@@ -54,6 +59,11 @@ class Linear(TimeSeriesBase):
         osi: o3seespy.OpenSeesInstance
         factor: float, optional
             Linear factor. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.time_series.Linear(osi, factor=1.0)
         """
         if factor is None:
             self.factor = None
@@ -96,6 +106,11 @@ class Trig(TimeSeriesBase):
             Phase shift in radians. 
         zero_shift: float, optional
             Zero shift. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.time_series.Trig(osi, t_start=1.0, t_end=1.0, period=1.0, factor=1.0, shift=0.0, zero_shift=0.0)
         """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
@@ -157,6 +172,11 @@ class Triangle(TimeSeriesBase):
             Phase shift in radians. 
         zero_shift: float, optional
             Zero shift. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.time_series.Triangle(osi, t_start=1.0, t_end=1.0, period=1.0, factor=1.0, shift=0.0, zero_shift=0.0)
         """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
@@ -207,6 +227,11 @@ class Rectangular(TimeSeriesBase):
             Ending time of non-zero load factor.
         factor: float, optional
             Load factor. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.time_series.Rectangular(osi, t_start=1.0, t_end=1.0, factor=1.0)
         """
         self.t_start = float(t_start)
         self.t_end = float(t_end)
@@ -253,6 +278,11 @@ class Pulse(TimeSeriesBase):
             Load factor. 
         zero_shift: float, optional
             Zero shift. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.time_series.Pulse(osi, t_start=1.0, t_end=1.0, period=1.0, width=0.5, shift=0.0, factor=1.0, zero_shift=0.0)
         """
         self.t_start = float(t_start)
         self.t_end = float(t_end)

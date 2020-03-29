@@ -30,6 +30,11 @@ class Elastic2D(SectionBase):
             Shear modulus (optional for 2d analysis, required for 3d analysis)
         alpha_y: float (default=True), optional
             Shear shape factor along the local y-axis 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0, g_mod=0.0, alpha_y=0.0)
         """
         self.e_mod = float(e_mod)
         self.area = float(area)
@@ -90,6 +95,11 @@ class Elastic3D(SectionBase):
             Shear shape factor along the local y-axis 
         alpha_z: float (default=True), optional
             Shear shape factor along the local z-axis 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.section.Elastic3D(osi, e_mod=1.0, area=1.0, iz=1.0, iy=1.0, g_mod=1.0, jxx=1.0, alpha_y=0.0, alpha_z=0.0)
         """
         self.e_mod = float(e_mod)
         self.area = float(area)
@@ -250,6 +260,11 @@ class FiberThermal(SectionBase):
         osi: o3seespy.OpenSeesInstance
         gj: None, optional
             
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.section.FiberThermal(osi, gj=0.0)
         """
         self.gj = gj
         osi.n_sect += 1
@@ -282,6 +297,11 @@ class NDFiber(SectionBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.section.NDFiber(osi)
         """
         osi.n_sect += 1
         self._tag = osi.n_sect
@@ -319,6 +339,12 @@ class WFSection2D(SectionBase):
             Number of fibers in the web
         nff: float
             Number of fibers in each flange
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
+        >>> o3.section.WFSection2D(osi, mat=mat, d=1.0, tw=1.0, bf=1.0, tf=1.0, nfw=1.0, nff=1.0)
         """
         self.mat = mat
         self.d = float(d)
@@ -374,6 +400,14 @@ class RCSection2D(SectionBase):
             Number of fibers through the cover depth
         nfs: float
             Number of bars on the top and bottom rows of reinforcement (nfs-2 bars will be placed on the side rows)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> core_mat = o3.uniaxial_material.Concrete01(osi, -6.0, -0.004, -5.0, -0.014)
+        >>> cover_mat = o3.uniaxial_material.Concrete01(osi, -5.0, -0.002, 0.0, -0.006)
+        >>> steel_mat = o3.uniaxial_material.Steel01(osi, 60.0, 30000.0, 0.01)
+        >>> o3.section.RCSection2D(osi, core_mat=core_mat, cover_mat=cover_mat, steel_mat=steel_mat, d=1.0, b=1.0, cover_depth=1.0, atop=1.0, abot=1.0, aside=1.0, nfcore=1.0, nfcover=1.0, nfs=1.0)
         """
         self.core_mat = core_mat
         self.cover_mat = cover_mat
@@ -431,6 +465,15 @@ class RCCircularSection(SectionBase):
             Number of fibers through the steels
         gj: float, optional
             Gj stiffness
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> core_mat = o3.uniaxial_material.Concrete01(osi, -6.0, -0.004, -5.0, -0.014)
+        >>> cover_mat = o3.uniaxial_material.Concrete01(osi, -5.0, -0.002, 0.0, -0.006)
+        >>> steel_mat = o3.uniaxial_material.Steel01(osi, 60.0, 30000.0, 0.01)
+        >>> o3.section.RCCircularSection(osi, core_mat=core_mat, cover_mat=cover_mat, steel_mat=steel_mat, d=1.0,
+        >>>                              cover_depth=0.10, a_s=0.1, nrings_core=2, nrings_cover=2, newedges=2, nsteel=4, gj=0.0)
         """
         self.core_mat = core_mat
         self.cover_mat = cover_mat
@@ -471,6 +514,13 @@ class Parallel(SectionBase):
         osi: o3seespy.OpenSeesInstance
         secs: list
             Objects of of predefined sections.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> secs = [o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0, g_mod=0.0, alpha_y=0.0),
+        >>>          o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0, g_mod=0.0, alpha_y=0.0)]
+        >>> o3.section.Parallel(osi, secs)
         """
         self.secs = [x.tag for x in secs]
         osi.n_sect += 1
@@ -546,6 +596,12 @@ class Uniaxial(SectionBase):
             used: * ``'p'`` axial force-deformation * ``'mz'`` moment-curvature about section local z-axis * ``'vy'`` shear
             force-deformation along section local y-axis * ``'my'`` moment-curvature about section local y-axis * ``'vz'``
             shear force-deformation along section local z-axis * ``'t'`` torsion force-deformation
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
+        >>> o3.section.Uniaxial(osi, mat=mat, quantity='P')
         """
         self.mat = mat
         self.quantity = quantity
@@ -579,6 +635,11 @@ class ElasticMembranePlateSection(SectionBase):
             Depth of section
         rho: float
             Mass density
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.section.ElasticMembranePlateSection(osi, e_mod=1.0, nu=1.0, h=1.0, rho=1.0)
         """
         self.e_mod = float(e_mod)
         self.nu = float(nu)
@@ -610,6 +671,13 @@ class PlateFiber(SectionBase):
             Ndmaterial object to be assigned to each fiber
         h: float
             Plate thickness
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_plate_fiber():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
+        >>> o3.section.PlateFiber(osi, mat=mat, h=1.0)
         """
         self.mat = mat
         self.h = float(h)
@@ -650,6 +718,11 @@ class Bidirectional(SectionBase):
             force-deformation * ``'mz'`` moment-curvature about section local z-axis * ``'vy'`` shear force-deformation
             along section local y-axis * ``'my'`` moment-curvature about section local y-axis * ``'vz'`` shear
             force-deformation along section local z-axis * ``'t'`` torsion force-deformation
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.section.Bidirectional(osi, e_mod=1.0, fy=1.0, hiso=1.0, hkin=1.0, code1='Vy', code2='P')
         """
         self.e_mod = float(e_mod)
         self.fy = float(fy)

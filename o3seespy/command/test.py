@@ -34,6 +34,11 @@ class NormUnbalance(TestBase):
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         max_incr: int (default=True), optional
             Maximum times of error increasing. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.NormUnbalance(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2, max_incr=None)
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -84,6 +89,11 @@ class NormDispIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.NormDispIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -120,6 +130,11 @@ class EnergyIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.EnergyIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -156,6 +171,11 @@ class RelativeNormUnbalance(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.RelativeNormUnbalance(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -192,6 +212,11 @@ class RelativeNormDispIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.RelativeNormDispIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -228,6 +253,12 @@ class RelativeTotalNormDispIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_relative_total_norm_disp_incr():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.RelativeTotalNormDispIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -264,6 +295,11 @@ class RelativeEnergyIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.RelativeEnergyIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
         self.tol = float(tol)
         self.max_iter = int(max_iter)
@@ -297,6 +333,11 @@ class FixedNumIter(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.FixedNumIter(osi, max_iter=1, p_flag=0, n_type=2)
         """
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -335,6 +376,11 @@ class NormDispAndUnbalance(TestBase):
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         maxincr: int, optional
             Maximum times of error increasing. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.NormDispAndUnbalance(osi, tol_incr=1.0, tol_r=1, max_iter=1, p_flag=0, n_type=2, maxincr=-1)
         """
         self.tol_incr = float(tol_incr)
         self.tol_r = tol_r
@@ -376,6 +422,11 @@ class NormDispOrUnbalance(TestBase):
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         maxincr: int, optional
             Maximum times of error increasing. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.test.NormDispOrUnbalance(osi, tol_incr=1.0, tol_r=1, max_iter=1, p_flag=0, n_type=2, maxincr=-1)
         """
         self.tol_incr = float(tol_incr)
         self.tol_r = tol_r

@@ -185,6 +185,32 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         pjoined = ', '.join(pjoins)
         para.append(f'    def __init__(self, {pjoined}):')
         para += build_init_method_docstring(cur_obj_class_name, pms, inp_pms_order)
+        import importlib
+
+        # Try to insert the initialisation example from tests
+        print(base_type)
+        if op_type is None:
+            low_op_name = convert_camel_to_snake(base_class_name)
+            op_class_name = base_class_name
+        else:
+            low_op_name = convert_camel_to_snake(op_class_name)
+        low_base_name = convert_camel_to_snake(base_class_name)  # TODO: should actually be file name
+        try:
+            tcommands = importlib.import_module(f"tests.commands.test_{low_base_name}")
+            tname = f'test_{low_op_name}'
+            if tname in dir(tcommands):
+                source = inspect.getsource(getattr(tcommands, tname)).splitlines()
+                para = para[:-1]  # remove triple quote at end of docstring
+                para.append(w8 + 'Examples')
+                para.append(w8 + '--------')
+                para.append(w8 + '>>> import o3seespy as o3')
+
+                for line in source[1:]:  # skip first line which says 'test_'
+                    nline = w8 + '>>> ' + line[4:]
+                    para.append(nline)
+                para.append(w8 + '"""')
+        except ModuleNotFoundError:
+            pass
 
         # Create init function saving logic
         for i, pm in enumerate(cl_pms):
@@ -286,13 +312,6 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             para.append(w8 + w8 + 'break')
         para.append(w8 + 'self.to_process(osi)')
         para.append('')
-
-        if op_type is None:
-            low_op_name = convert_camel_to_snake(base_class_name)
-            op_class_name = base_class_name
-        else:
-            low_op_name = convert_camel_to_snake(op_class_name)
-        low_base_name = convert_camel_to_snake(base_class_name)  # TODO: should actually be file name
 
         # Build test
         names = {

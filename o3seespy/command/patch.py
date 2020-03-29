@@ -36,6 +36,16 @@ class Quad(PatchBase):
             Y & z-coordinates of vertex k (local coordinate system)
         crds_l: list
             Y & z-coordinates of vertex l (local coordinate system)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> crds_i = [1.0, 1.0]
+        >>> crds_j = [1.0, 1.0]
+        >>> crds_k = [1.0, 1.0]
+        >>> crds_l = [1.0, 1.0]
+        >>> conc_conf = o3.uniaxial_material.Concrete01(osi, fpc=-5.0, epsc0=-0.005, fpcu=-3.5, eps_u=-0.02)
+        >>> o3.patch.Quad(osi, conc_conf, num_subdiv_ij=1, num_subdiv_jk=1, crds_i=crds_i, crds_j=crds_j, crds_k=crds_k, crds_l=crds_l)
         """
         self.mat = mat
         self.num_subdiv_ij = int(num_subdiv_ij)
@@ -75,6 +85,14 @@ class Rect(PatchBase):
             Y & z-coordinates of vertex i (local coordinate system)
         crds_j: list
             Y & z-coordinates of vertex j (local coordinate system)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> crds_i = [1.0, 1.0]
+        >>> crds_j = [1.0, 1.0]
+        >>> conc_conf = o3.uniaxial_material.Concrete01(osi, fpc=-5.0, epsc0=-0.005, fpcu=-3.5, eps_u=-0.02)
+        >>> o3.patch.Rect(osi, conc_conf, num_subdiv_y=1, num_subdiv_z=1, crds_i=crds_i, crds_j=crds_j)
         """
         self.mat = mat
         self.num_subdiv_y = int(num_subdiv_y)
@@ -112,6 +130,15 @@ class Circ(PatchBase):
             Internal & external radius
         ang: list
             Starting & ending-coordinates angles (degrees)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> center = [1.0, 1.0]
+        >>> rad = [1.0, 1.0]
+        >>> ang = [1.0, 1.0]
+        >>> conc_conf = o3.uniaxial_material.Concrete01(osi, fpc=-5.0, epsc0=-0.005, fpcu=-3.5, eps_u=-0.02)
+        >>> o3.patch.Circ(osi, conc_conf, num_subdiv_circ=1, num_subdiv_rad=1, center=center, rad=rad, ang=ang)
         """
         self.mat = mat
         self.num_subdiv_circ = int(num_subdiv_circ)

@@ -25,6 +25,11 @@ class Plain(ConstraintsBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.constraints.Plain(osi)
         """
         self._parameters = [self.op_type]
         self.to_process(osi)
@@ -51,6 +56,11 @@ class Lagrange(ConstraintsBase):
             :math:`\alpha_s` factor on single points.
         alpha_m: float, optional
             :math:`\alpha_m` factor on multi-points.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.constraints.Lagrange(osi, alpha_m=1.0)
         """
         self.alpha_s = float(alpha_s)
         self.alpha_m = float(alpha_m)
@@ -78,6 +88,11 @@ class Penalty(ConstraintsBase):
             :math:`\alpha_s` factor on single points.
         alpha_m: float, optional
             :math:`\alpha_m` factor on multi-points.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.constraints.Penalty(osi, alpha_m=1.0)
         """
         self.alpha_s = float(alpha_s)
         self.alpha_m = float(alpha_m)
@@ -108,6 +123,11 @@ class Transformation(ConstraintsBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.constraints.Transformation(osi)
         """
         self._parameters = [self.op_type]
         self.to_process(osi)

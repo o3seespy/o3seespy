@@ -28,6 +28,11 @@ class LoadControl(IntegratorBase):
             Min stepsize the user will allow :math:`\\lambda_{min}`. 
         max_incr: float (default=True), optional
             Max stepsize the user will allow :math:`\\lambda_{max}`. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.LoadControl(osi, incr=1.0, num_iter=1, min_incr=None, max_incr=None)
         """
         self.incr = float(incr)
         self.num_iter = int(num_iter)
@@ -82,6 +87,12 @@ class DisplacementControl(IntegratorBase):
             
         d_umax: None (default=True), optional
             
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> node = o3.node.Node(osi, 0.0, 0.0)
+        >>> o3.integrator.DisplacementControl(osi, node, dof=1, incr=1.0, num_iter=1, d_umin=None, d_umax=None)
         """
         self.node = node
         self.dof = int(dof)
@@ -132,6 +143,12 @@ class ParallelDisplacementControl(IntegratorBase):
             
         d_umax: None (default=True), optional
             
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> node = o3.node.Node(osi, 0.0, 0.0)
+        >>> o3.integrator.ParallelDisplacementControl(osi, node, dof=1, incr=1.0, num_iter=1, d_umin=None, d_umax=None)
         """
         self.node = node
         self.dof = int(dof)
@@ -179,6 +196,11 @@ class MinUnbalDispNorm(IntegratorBase):
             Max load increment. 
         det: None (default=True), optional
             
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.MinUnbalDispNorm(osi, dlambda1=1.0, jd=1, min_lambda=None, max_lambda=None, det=None)
         """
         self.dlambda1 = float(dlambda1)
         self.jd = int(jd)
@@ -225,6 +247,11 @@ class ArcLength(IntegratorBase):
             The arclength.
         alpha: float
             :math:`\alpha` a scaling factor on the reference loads.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.ArcLength(osi, s=1.0, alpha=1.0)
         """
         self.s = float(s)
         self.alpha = float(alpha)
@@ -250,6 +277,11 @@ class CentralDifference(IntegratorBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.CentralDifference(osi)
         """
         self._parameters = [self.op_type]
         self.to_process(osi)
@@ -277,6 +309,11 @@ class Newmark(IntegratorBase):
         form: str, optional
             Flag to indicate which variable to be used as primary variable  * ``'d'`` -- displacement (default) *
             ``'v'`` -- velocity * ``'a'`` -- acceleration
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.Newmark(osi, gamma=1.0, beta=1.0, form=1)
         """
         self.gamma = float(gamma)
         self.beta = float(beta)
@@ -310,6 +347,11 @@ class HHT(IntegratorBase):
             :math:`\gamma` factor. 
         beta: float (default=True), optional
             :math:`\beta` factor. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.HHT(osi, alpha=1.0, gamma=1.0, beta=1.0)
         """
         self.alpha = float(alpha)
         if gamma is None:
@@ -359,6 +401,11 @@ class GeneralizedAlpha(IntegratorBase):
             :math:`\gamma` factor. 
         beta: float (default=True), optional
             :math:`\beta` factor. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.GeneralizedAlpha(osi, alpha_m=1.0, alpha_f=1.0, gamma=1.0, beta=1.0)
         """
         self.alpha_m = float(alpha_m)
         self.alpha_f = float(alpha_f)
@@ -403,6 +450,11 @@ class TRBDF2(IntegratorBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.TRBDF2(osi)
         """
         self._parameters = [self.op_type]
         self.to_process(osi)
@@ -427,6 +479,11 @@ class ExplicitDifference(IntegratorBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.ExplicitDifference(osi)
         """
         self._parameters = [self.op_type]
         self.to_process(osi)

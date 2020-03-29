@@ -27,6 +27,12 @@ class Plain(PatternBase):
             The object of the time series to be used in the load pattern
         fact: float, optional
             Constant factor. 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> ts = o3.time_series.Linear(osi, factor=1.0)
+        >>> o3.pattern.Plain(osi, ts=ts, fact=1.0)
         """
         self.ts = ts
         if fact is None:
@@ -72,6 +78,12 @@ class UniformExcitation(PatternBase):
             The initial velocity (optional, default=0.0)
         fact: float, optional
             Constant factor (optional, default=1.0)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> ts = o3.time_series.Linear(osi, factor=1.0)
+        >>> o3.pattern.UniformExcitation(osi, dir=1, accel_series=ts, vel0=1.0, fact=1.0)
         """
         self.dir = int(dir)
         self.disp_series = disp_series
@@ -118,6 +130,11 @@ class MultipleSupport(PatternBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.pattern.MultipleSupport(osi)
         """
         osi.n_pat += 1
         self._tag = osi.n_pat
