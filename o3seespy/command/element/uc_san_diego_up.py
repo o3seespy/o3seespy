@@ -20,12 +20,13 @@ class QuadUP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
             Element thickness
         mat: obj
-            Tag of an ndmaterial object (previously defined) of which the element is composed
+            Object of an ndmaterial object (previously defined) of which the element is composed
         bulk: float
             Combined undrained bulk modulus bc relating changes in pore pressure and volumetric strain, may be
             approximated by: :math:`b_c \approx b_f/n` where :math:`b_f` is the bulk modulus of fluid phase
@@ -79,10 +80,11 @@ class BrickUP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of eight element nodes
         mat: obj
-            Tag of an ndmaterial object (previously defined) of which the element is composed
+            Object of an ndmaterial object (previously defined) of which the element is composed
         bulk: float
             Combined undrained bulk modulus bc relating changes in pore pressure and volumetric strain, may be
             approximated by: :math:`b_c \approx b_f/n` where :math:`b_f` is the bulk modulus of fluid phase
@@ -140,12 +142,13 @@ class BbarQuadUP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
             Element thickness
         mat: obj
-            Tag of an ndmaterial object (previously defined) of which the element is composed
+            Object of an ndmaterial object (previously defined) of which the element is composed
         bulk: float
             Combined undrained bulk modulus bc relating changes in pore pressure and volumetric strain, may be
             approximated by: :math:`b_c \approx b_f/n` where :math:`b_f` is the bulk modulus of fluid phase
@@ -200,10 +203,11 @@ class BbarBrickUP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of eight element nodes
         mat: obj
-            Tag of an ndmaterial object (previously defined) of which the element is composed
+            Object of an ndmaterial object (previously defined) of which the element is composed
         bulk: float
             Combined undrained bulk modulus bc relating changes in pore pressure and volumetric strain, may be
             approximated by: :math:`b_c \approx b_f/n` where :math:`b_f` is the bulk modulus of fluid phase
@@ -261,12 +265,13 @@ class N94QuadUP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of nine element nodes
         thick: float
             Element thickness
         mat: obj
-            Tag of an ndmaterial object (previously defined) of which the element is composed
+            Object of an ndmaterial object (previously defined) of which the element is composed
         bulk: float
             Combined undrained bulk modulus bc relating changes in pore pressure and volumetric strain, may be
             approximated by: :math:`b_c \approx b_f/n` where :math:`b_f` is the bulk modulus of fluid phase
@@ -318,10 +323,11 @@ class N208BrickUP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of twenty element nodes
         mat: obj
-            Tag of an ndmaterial object (previously defined) of which the element is composed
+            Object of an ndmaterial object (previously defined) of which the element is composed
         bulk: float
             Combined undrained bulk modulus bc relating changes in pore pressure and volumetric strain, may be
             approximated by: :math:`b_c \approx b_f/n` where :math:`b_f` is the bulk modulus of fluid phase

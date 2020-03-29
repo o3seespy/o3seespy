@@ -15,6 +15,7 @@ class ContactMaterial2D(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mu: float
             Interface frictional coefficient
         g_mod: float
@@ -48,6 +49,7 @@ class ContactMaterial3D(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mu: float
             Interface frictional coefficient
         g_mod: float

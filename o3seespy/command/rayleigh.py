@@ -11,7 +11,7 @@ class Rayleigh(OpenSeesObject):
 
         Parameters
         ----------
-        osi
+        osi: o3seespy.OpenSeesInstance
         alpha_m : float
             factor applied to element or nodes mass matrix
         beta_k : float

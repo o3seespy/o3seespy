@@ -20,6 +20,7 @@ class Constant(TimeSeriesBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         factor: float
             The load factor applied (optional)
         """
@@ -50,6 +51,7 @@ class Linear(TimeSeriesBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         factor: float
             Linear factor. (optional)
         """
@@ -81,6 +83,7 @@ class Trig(TimeSeriesBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         t_start: float
             Starting time of non-zero load factor.
         t_end: float
@@ -141,6 +144,7 @@ class Triangle(TimeSeriesBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         t_start: float
             Starting time of non-zero load factor.
         t_end: float
@@ -196,6 +200,7 @@ class Rectangular(TimeSeriesBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         t_start: float
             Starting time of non-zero load factor.
         t_end: float
@@ -233,6 +238,7 @@ class Pulse(TimeSeriesBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         t_start: float
             Starting time of non-zero load factor.
         t_end: float
@@ -298,6 +304,7 @@ class Path(TimeSeriesBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         dt: float
             Time interval between specified points. (optional)
         values: list

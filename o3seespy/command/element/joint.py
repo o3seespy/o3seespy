@@ -19,34 +19,35 @@ class BeamColumnJoint(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes
         mat1: obj
-            Uniaxial material tag for left bar-slip spring at node 1
+            Uniaxial material object for left bar-slip spring at node 1
         mat2: obj
-            Uniaxial material tag for right bar-slip spring at node 1
+            Uniaxial material object for right bar-slip spring at node 1
         mat3: obj
-            Uniaxial material tag for interface-shear spring at node 1
+            Uniaxial material object for interface-shear spring at node 1
         mat4: obj
-            Uniaxial material tag for lower bar-slip spring at node 2
+            Uniaxial material object for lower bar-slip spring at node 2
         mat5: obj
-            Uniaxial material tag for upper bar-slip spring at node 2
+            Uniaxial material object for upper bar-slip spring at node 2
         mat6: obj
-            Uniaxial material tag for interface-shear spring at node 2
+            Uniaxial material object for interface-shear spring at node 2
         mat7: obj
-            Uniaxial material tag for left bar-slip spring at node 3
+            Uniaxial material object for left bar-slip spring at node 3
         mat8: obj
-            Uniaxial material tag for right bar-slip spring at node 3
+            Uniaxial material object for right bar-slip spring at node 3
         mat9: obj
-            Uniaxial material tag for interface-shear spring at node 3
+            Uniaxial material object for interface-shear spring at node 3
         mat10: obj
-            Uniaxial material tag for lower bar-slip spring at node 4
+            Uniaxial material object for lower bar-slip spring at node 4
         mat11: obj
-            Uniaxial material tag for upper bar-slip spring at node 4
+            Uniaxial material object for upper bar-slip spring at node 4
         mat12: obj
-            Uniaxial material tag for interface-shear spring at node 4
+            Uniaxial material object for interface-shear spring at node 4
         mat13: obj
-            Uniaxial material tag for shear-panel
+            Uniaxial material object for shear-panel
         ele_height_fac: float
             Floating point value (as a ratio to the total height of the element) to be considered for determination of
             the distance in between the tension-compression couples (optional, default: 1.0)
@@ -93,6 +94,7 @@ class ElasticTubularJoint(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         brace__diameter: float
@@ -140,30 +142,31 @@ class Joint2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of five element nodes = ``[nd1,nd2,nd3,nd4,ndc]``. ``ndc`` is the central node of beam-column joint.
-            (the tag ``ndc`` is used to generate the internal node, thus, the node should not exist in the domain or be used by
+            (the object ``ndc`` is used to generate the internal node, thus, the node should not exist in the domain or be used by
             any other node)
         mat1: int
-            Uniaxial material tag for interface rotational spring at node 1. use a zero tag to indicate the case that a
-            beam-column element is rigidly framed to the joint. (optional)
+            Uniaxial material object for interface rotational spring at node 1. use a zero object to indicate the case
+            that a beam-column element is rigidly framed to the joint. (optional)
         mat2: int
-            Uniaxial material tag for interface rotational spring at node 2. use a zero tag to indicate the case that a
-            beam-column element is rigidly framed to the joint. (optional)
+            Uniaxial material object for interface rotational spring at node 2. use a zero object to indicate the case
+            that a beam-column element is rigidly framed to the joint. (optional)
         mat3: int
-            Uniaxial material tag for interface rotational spring at node 3. use a zero tag to indicate the case that a
-            beam-column element is rigidly framed to the joint. (optional)
+            Uniaxial material object for interface rotational spring at node 3. use a zero object to indicate the case
+            that a beam-column element is rigidly framed to the joint. (optional)
         mat4: int
-            Uniaxial material tag for interface rotational spring at node 4. use a zero tag to indicate the case that a
-            beam-column element is rigidly framed to the joint. (optional)
+            Uniaxial material object for interface rotational spring at node 4. use a zero object to indicate the case
+            that a beam-column element is rigidly framed to the joint. (optional)
         mat_c: int
-            Uniaxial material tag for rotational spring of the central node that describes shear panel behavior
+            Uniaxial material object for rotational spring of the central node that describes shear panel behavior
         lrg_dsp: obj
             An integer indicating the flag for considering large deformations: * ``0`` - for small deformations and
             constant geometry * ``1`` - for large deformations and time varying geometry * ``2`` - for large deformations
             ,time varying geometry and length correction
         dmg: obj
-            Damage model tag
+            Damage model object
         dmg1dmg2dmg3dmg4dmg_c: None
             
         """

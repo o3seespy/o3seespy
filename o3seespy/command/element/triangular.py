@@ -18,6 +18,7 @@ class Tri31(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of three element nodes in counter-clockwise order
         thick: float
@@ -26,7 +27,7 @@ class Tri31(ElementBase):
             String representing material behavior. the type parameter can be either ``'planestrain'`` or
             ``'planestress'``
         mat: obj
-            Tag of ndmaterial
+            Object of ndmaterial
         pressure: float
             Surface pressure (optional, default = 0.0)
         rho: float

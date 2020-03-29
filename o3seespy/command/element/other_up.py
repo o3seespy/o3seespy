@@ -17,10 +17,11 @@ class SSPquadUP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         mat: obj
-            Unique integer tag associated with previously-defined ndmaterial object
+            Unique integer object associated with previously-defined ndmaterial object
         thick: float
             Thickness of the element in out-of-plane direction
         f_bulk: float
@@ -73,10 +74,11 @@ class SSPbrickUP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of eight element nodes in counter-clockwise order
         mat: obj
-            Unique integer tag associated with previously-defined ndmaterial object
+            Unique integer object associated with previously-defined ndmaterial object
         f_bulk: float
             Bulk modulus of the pore fluid
         f_den: float

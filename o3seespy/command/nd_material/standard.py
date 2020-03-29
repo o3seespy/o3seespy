@@ -15,6 +15,7 @@ class ElasticIsotropic(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Elastic modulus
         nu: float
@@ -45,6 +46,7 @@ class ElasticOrthotropic(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ex: float
             Elastic modulus in x direction
         ey: float
@@ -97,6 +99,7 @@ class J2Plasticity(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k_mod: float
             Bulk modulus
         g_mod: float
@@ -136,6 +139,7 @@ class DrukerPrager(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k_mod: float
             Bulk modulus
         g_mod: float
@@ -197,6 +201,7 @@ class Damage2p(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fcc: float
             Concrete compressive strength, negative real value (positive input is changed in sign automatically)
         fct: float
@@ -304,8 +309,9 @@ class PlaneStress(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mat3d: obj
-            Tag of perviously defined 3d ndmaterial material
+            Object of perviously defined 3d ndmaterial material
         """
         self.mat3d = mat3d
         osi.n_mat += 1
@@ -329,8 +335,9 @@ class PlaneStrain(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mat3d: obj
-            Integer tag of previously defined 3d ndmaterial material
+            Integer object of previously defined 3d ndmaterial material
         """
         self.mat3d = mat3d
         osi.n_mat += 1
@@ -353,6 +360,7 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         rho: float
             Density
         k_mod: float
@@ -402,6 +410,7 @@ class BoundingCamClay(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mass_density: float
             Mass density
         big_c: float
@@ -452,8 +461,9 @@ class PlateFiber(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         three_d: obj
-            Material tag for a previously-defined three-dimensional material
+            Material object for a previously-defined three-dimensional material
         """
         self.three_d = three_d
         osi.n_mat += 1
@@ -496,14 +506,15 @@ class FSAM(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         rho: float
             Material density
         s_x: obj
-            Tag of uniaxialmaterial simulating horizontal (x) reinforcement
+            Object of uniaxialmaterial simulating horizontal (x) reinforcement
         s_y: obj
-            Tag of uniaxialmaterial simulating vertical (y) reinforcement
+            Object of uniaxialmaterial simulating vertical (y) reinforcement
         conc: obj
-            Tag of uniaxialmaterial simulating concrete, shall be used with uniaxialmaterial concretecm
+            Object of uniaxialmaterial simulating concrete, shall be used with uniaxialmaterial concretecm
         rou_x: float
             Reinforcing ratio in horizontal (x) direction (:math:`roux = _{s,x}/a_{gross,x}`)
         rou_y: float
@@ -541,6 +552,7 @@ class ManzariDafalias(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         g0: float
             Shear modulus constant
         nu: float
@@ -709,6 +721,7 @@ class AcousticMedium(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k_mod: float
             Bulk module of the acoustic medium
         rho: float

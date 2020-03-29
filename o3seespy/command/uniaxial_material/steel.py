@@ -68,6 +68,7 @@ class Steel02(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield strength
         e0: float
@@ -137,6 +138,7 @@ class Hysteretic(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         p1: list
             ``p1=[s1p, e1p]``, stress and strain (or force & deformation) at first point of the envelope in the positive
             direction
@@ -208,6 +210,7 @@ class ReinforcingSteelGABuck(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield stress in tension
         fu: float
@@ -260,6 +263,7 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield stress in tension
         fu: float
@@ -305,6 +309,7 @@ class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield stress in tension
         fu: float
@@ -353,6 +358,7 @@ class ReinforcingSteelIsoHard(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield stress in tension
         fu: float
@@ -399,6 +405,7 @@ class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield stress in tension
         fu: float
@@ -447,6 +454,7 @@ class DoddRestrepo(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield strength
         fsu: float
@@ -494,6 +502,7 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield strength
         e0: float
@@ -530,6 +539,7 @@ class SteelMPF(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fyp: float
             Yield strength in tension (positive loading direction)
         fyn: float
@@ -589,6 +599,7 @@ class Steel01Thermal(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield strength
         e0: float

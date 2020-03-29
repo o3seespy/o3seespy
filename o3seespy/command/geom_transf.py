@@ -19,6 +19,7 @@ class Linear2D(GeomTransfBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         d_i: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
@@ -56,6 +57,7 @@ class Linear3D(GeomTransfBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         vecxz: list
             X, y, and z components of vecxz, the vector used to define the local x-z plane of the local-coordinate
             system. the local y-axis is defined by taking the cross product of the vecxz vector and the x-axis. these
@@ -98,6 +100,7 @@ class PDelta2D(GeomTransfBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         d_i: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
@@ -135,6 +138,7 @@ class PDelta3D(GeomTransfBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         vecxz: list
             X, y, and z components of vecxz, the vector used to define the local x-z plane of the local-coordinate
             system. the local y-axis is defined by taking the cross product of the vecxz vector and the x-axis. these
@@ -177,6 +181,7 @@ class Corotational2D(GeomTransfBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         d_i: list
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node i
             (the number of arguments depends on the dimensions of the current model).
@@ -213,6 +218,7 @@ class Corotational3D(GeomTransfBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         vecxz: list
             X, y, and z components of vecxz, the vector used to define the local x-z plane of the local-coordinate
             system. the local y-axis is defined by taking the cross product of the vecxz vector and the x-axis. these

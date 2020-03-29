@@ -17,6 +17,7 @@ class SimpleContact2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         i_node: obj
             Master nodes (-ndm 2 -ndf 2)
         j_node: obj
@@ -26,7 +27,7 @@ class SimpleContact2D(ElementBase):
         l_node: int
             Lagrange multiplier node (-ndm 2 -ndf 2)
         mat: obj
-            Unique integer tag associated with previously-defined ndmaterial object
+            Unique integer object associated with previously-defined ndmaterial object
         g_tol: float
             Gap tolerance
         f_tol: float
@@ -61,6 +62,7 @@ class SimpleContact3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         i_node: obj
             Master nodes (-ndm 3 -ndf 3)
         j_node: obj
@@ -74,7 +76,7 @@ class SimpleContact3D(ElementBase):
         lagr_node: int
             Lagrange multiplier node (-ndm 3 -ndf 3)
         mat: obj
-            Unique integer tag associated with previously-defined ndmaterial object
+            Unique integer object associated with previously-defined ndmaterial object
         g_tol: float
             Gap tolerance
         f_tol: float
@@ -111,6 +113,7 @@ class BeamContact2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         i_node: obj
             Master nodes (-ndm 2 -ndf 3)
         j_node: obj
@@ -120,7 +123,7 @@ class BeamContact2D(ElementBase):
         l_node: int
             Lagrange multiplier node (-ndm 2 -ndf 2)
         mat: obj
-            Unique integer tag associated with previously-defined ndmaterial object
+            Unique integer object associated with previously-defined ndmaterial object
         width: float
             The width of the wall represented by the beam element in plane strain
         g_tol: float
@@ -161,6 +164,7 @@ class BeamContact3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         i_node: obj
             Master nodes (-ndm 3 -ndf 6)
         j_node: obj
@@ -172,9 +176,9 @@ class BeamContact3D(ElementBase):
         radius: float
             Constant radius of circular beam associated with beam element
         crd_transf: int
-            Unique integer tag associated with previously-defined geometrictransf object
+            Unique integer object associated with previously-defined geometrictransf object
         mat: obj
-            Unique integer tag associated with previously-defined ndmaterial object
+            Unique integer object associated with previously-defined ndmaterial object
         g_tol: float
             Gap tolerance
         f_tol: float
@@ -214,6 +218,7 @@ class BeamEndContact3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         i_node: obj
             Master node from the beam (-ndm 3 -ndf 6)
         j_node: obj

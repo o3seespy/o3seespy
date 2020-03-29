@@ -17,6 +17,7 @@ class FluidSolidPorousMaterial(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         nd: float
             Number of dimensions, 2 for plane-strain, and 3 for 3d analysis.
         soil_mat: obj

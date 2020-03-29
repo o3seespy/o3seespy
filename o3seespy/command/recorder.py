@@ -1,7 +1,6 @@
 from o3seespy.base_model import OpenSeesObject
 import tempfile
 import os
-import numpy as np
 
 
 class RecorderBase(OpenSeesObject):
@@ -30,6 +29,24 @@ class NodeToFile(RecorderBase):
     op_type = "Node"
 
     def __init__(self, osi, fname, node, dofs, res_type, nsd=8, dt=None):
+        """
+        Records properties of a node and saves the results to a file
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        fname: str
+            Full file name
+        node: o3seespy.node.Node
+        dofs: list
+            A list of integers representing the degrees-of-freedom
+        res_type: str
+            Response type
+        nsd: int
+            Number of significant figures
+        dt: float
+            Time step
+        """
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', node.tag]
         if dt is not None:
             self._parameters.insert(5, '-dT')
@@ -42,6 +59,25 @@ class NodesToFile(RecorderBase):
     op_type = "Node"
 
     def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None):
+        """
+        Records properties of several nodes and saves the results to a file
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        fname: str
+            Full file name
+        node: list
+            List of o3seespy.node.Node objects
+        dofs: list
+            A list of integers representing the degrees-of-freedom
+        res_type: str
+            Response type
+        nsd: int
+            Number of significant figures
+        dt: float
+            Time step
+        """
         if nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
@@ -57,6 +93,22 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
     op_type = "Node"
 
     def __init__(self, osi, node, dofs, res_type, nsd=8, dt=None):
+        """
+        Records properties of a node and saves results to a numpy array
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        node: o3seespy.node.Node
+        dofs: list
+            A list of integers representing the degrees-of-freedom
+        res_type: str
+            Response type
+        nsd: int
+            Number of significant figures
+        dt: float
+            Time step
+        """
         self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
         self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', node.tag]
         if dt is not None:
@@ -70,6 +122,23 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
     op_type = "Node"
 
     def __init__(self, osi, nodes, dofs, res_type, nsd=8, dt=None, ffp=None):
+        """
+       Records properties of several nodes and saves results to a numpy array
+
+       Parameters
+       ----------
+       osi: o3seespy.OpenSeesInstance
+       nodes: list
+            A list of o3seespy.node.Node objects
+       dofs: list
+           A list of integers representing the degrees-of-freedom
+       res_type: str
+           Response type
+       nsd: int
+           Number of significant figures
+       dt: float
+           Time step
+       """
         if isinstance(nodes, str) and nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
@@ -89,6 +158,24 @@ class ElementToFile(RecorderBase):
     op_type = "Element"
 
     def __init__(self, osi, fname, ele, material=None, arg_vals=None, nsd=8, dt=None):
+        """
+        Records properties of an element and saves the results to a file
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        fname: str
+            Full file name
+        ele: o3seespy.element.BaseElement
+            An o3seespy element
+        material: -
+        arg_vals: list
+            Extra arguments passed to element recorder method
+        nsd: int
+            Number of significant figures
+        dt: float
+            Time step
+        """
         if arg_vals is None:
             arg_vals = []
         extra_pms = []

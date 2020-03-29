@@ -19,6 +19,7 @@ class LoadControl(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         incr: float
             Load factor increment :math:`\\lambda`.
         num_iter: int
@@ -68,8 +69,9 @@ class DisplacementControl(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         node: obj
-            Tag of node whose response controls solution
+            Object of node whose response controls solution
         dof: int
             Degree of freedom at the node, 1 through ndf.
         incr: float
@@ -117,8 +119,9 @@ class ParallelDisplacementControl(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         node: obj
-            Tag of node whose response controls solution
+            Object of node whose response controls solution
         dof: int
             Degree of freedom at the node, 1 through ndf.
         incr: float
@@ -164,6 +167,7 @@ class MinUnbalDispNorm(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         dlambda1: float
             First load increment (pseudo-time step) at the first iteration in the next invocation of the analysis
             command.
@@ -216,6 +220,7 @@ class ArcLength(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         s: float
             The arclength.
         alpha: float
@@ -244,6 +249,7 @@ class CentralDifference(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         """
         self._parameters = [self.op_type]
         self.to_process(osi)
@@ -263,6 +269,7 @@ class Newmark(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         gamma: float
             :math:`\gamma` factor.
         beta: float
@@ -296,6 +303,7 @@ class HHT(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         alpha: float
             :math:`\alpha` factor.
         gamma: float (default=True)
@@ -342,6 +350,7 @@ class GeneralizedAlpha(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         alpha_m: float
             :math:`\alpha_m` factor.
         alpha_f: float
@@ -393,6 +402,7 @@ class TRBDF2(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         """
         self._parameters = [self.op_type]
         self.to_process(osi)
@@ -416,6 +426,7 @@ class ExplicitDifference(IntegratorBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         """
         self._parameters = [self.op_type]
         self.to_process(osi)

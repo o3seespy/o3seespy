@@ -18,10 +18,11 @@ class StdBrick(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of eight element nodes in bottom and top faces and in counter-clockwise order
         mat: obj
-            Tag of ndmaterial
+            Object of ndmaterial
         b1: float
             Body forces in global x,y,z directions
         b2: float
@@ -57,10 +58,11 @@ class BbarBrick(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of eight element nodes in bottom and top faces and in counter-clockwise order
         mat: obj
-            Tag of ndmaterial
+            Object of ndmaterial
         b1: float
             Body forces in global x,y,z directions
         b2: float
@@ -95,10 +97,11 @@ class Brick20N(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of twenty element nodes, input order is shown in notes below
         mat: obj
-            Material tag associated with previsouly-defined ndmaterial object
+            Material object associated with previsouly-defined ndmaterial object
         bf1: float
             Body force in the direction of global coordinates x, y and z
         bf2: float
@@ -136,10 +139,11 @@ class SSPbrick(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of eight element nodes in bottom and top faces and in counter-clockwise order
         mat: obj
-            Unique integer tag associated with previously-defined ndmaterial object
+            Unique integer object associated with previously-defined ndmaterial object
         b1: float
             Constant body forces in global x-, y-, and z-directions, respectively (optional, default = 0.0)
         b2: float

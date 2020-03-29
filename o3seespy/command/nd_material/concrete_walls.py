@@ -16,6 +16,7 @@ class PlaneStressUserMaterial(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Concrete compressive strength at 28 days (positive)
         ft: float
@@ -59,8 +60,9 @@ class PlateFromPlaneStress(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         pre_def_mat: obj
-            Integer tag identifying planestress material
+            Integer object identifying planestress material
         outof_plane_modulus: float
             Shear modulus for out of plane stresses
         """
@@ -86,8 +88,9 @@ class PlateRebar(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         pre_def_mat: obj
-            Integer tag identifying uniaxial material
+            Integer object identifying uniaxial material
         sita: float
             Define the angle of reinforcement layer, 90 (longitudinal), 0 (tranverse)
         """

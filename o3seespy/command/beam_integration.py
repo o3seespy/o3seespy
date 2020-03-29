@@ -21,6 +21,7 @@ class Lobatto(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec: obj
             A previous-defined section object.
         big_n: int
@@ -52,6 +53,7 @@ class Legendre(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec: obj
             
         big_n: None
@@ -82,6 +84,7 @@ class NewtonCotes(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec: obj
             
         big_n: None
@@ -113,6 +116,7 @@ class Radau(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec: obj
             
         big_n: None
@@ -140,6 +144,7 @@ class Trapezoidal(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec: obj
             
         big_n: None
@@ -167,6 +172,7 @@ class CompositeSimpson(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec: obj
             
         big_n: None
@@ -195,6 +201,7 @@ class UserDefined(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         big_n: int
             Number of integration points along the element.
         secs: list
@@ -231,6 +238,7 @@ class FixedLocation(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         big_n: int
             Number of integration points along the element.
         secs: list
@@ -265,6 +273,7 @@ class LowOrder(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         big_n: int
             Number of integration points along the element.
         secs: list
@@ -301,6 +310,7 @@ class MidDistance(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         big_n: int
             Number of integration points along the element.
         secs: list
@@ -331,6 +341,7 @@ class UserHinge(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec_e: obj
             A previous-defined section objects for non-hinge area.
         np_l: int
@@ -381,6 +392,7 @@ class HingeMidpoint(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec_i: obj
             A previous-defined section object for hinge at i.
         lp_i: float
@@ -421,6 +433,7 @@ class HingeRadau(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec_i: obj
             
         lp_i: None
@@ -461,6 +474,7 @@ class HingeRadauTwo(BeamIntegrationBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec_i: obj
             
         lp_i: None
@@ -499,6 +513,7 @@ class BeamhingeEndpoint(OpenSeesObject):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         lp_i: float
             The plastic hinge length at i.
         sec_j: obj

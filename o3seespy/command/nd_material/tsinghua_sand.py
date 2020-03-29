@@ -28,6 +28,7 @@ class CycLiqCP(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         g0: float
             A constant related to elastic shear modulus
         kappa: float
@@ -98,6 +99,7 @@ class CycLiqCPSP(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         g0: float
             A constant related to elastic shear modulus
         kappa: float

@@ -408,13 +408,16 @@ def clean_docstring_content(doc_str):
     doc_str = doc_str.replace('\\s', '\\\\s')
     doc_str = doc_str.replace('\\e', '\\\\e')
     doc_str = doc_str.replace('\\d', '\\\\d')
-    doc_str = doc_str.replace('\\D', '\\\\D')  # TODO: replace 'tag' with 'object'
+    doc_str = doc_str.replace('\\D', '\\\\D')
+    doc_str = doc_str.replace('tag', 'object')
+    doc_str = doc_str.replace('Tag', 'Object')
     return doc_str
 
 
 def build_init_method_docstring(classname, pms, pms_ordered):
     init_blurb = f'Initial method for {classname}'
-    dstr = [w8 + '"""', w8 + init_blurb, '', w8 + 'Parameters', w8 + '----------']
+    dstr = [w8 + '"""', w8 + init_blurb, '', w8 + 'Parameters', w8 + '----------',
+            w8 + f'osi: o3seespy.OpenSeesInstance']
     for pm in pms_ordered:
         op_str = ''
         pdes = clean_docstring_content(pms[pm].p_description.capitalize())

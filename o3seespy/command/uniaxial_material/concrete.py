@@ -17,6 +17,7 @@ class Concrete01(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fpc: float
             Concrete compressive strength at 28 days (compression is negative)
         epsc0: float
@@ -51,6 +52,7 @@ class Concrete02(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fpc: float
             Concrete compressive strength at 28 days (compression is negative)
         epsc0: float
@@ -94,6 +96,7 @@ class Concrete04(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Floating point values defining concrete compressive strength at 28 days (compression is negative)
         epsc: float
@@ -138,6 +141,7 @@ class Concrete06(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Concrete compressive strength (compression is negative)
         e0: float
@@ -189,6 +193,7 @@ class Concrete07(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Concrete compressive strength (compression is negative)
         epsc: float
@@ -236,6 +241,7 @@ class Concrete01WithSITC(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fpc: float
             Concrete compressive strength at 28 days (compression is negative)
         epsc0: float
@@ -272,16 +278,17 @@ class ConfinedConcrete01(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sec_type: str
-            Tag for the transverse reinforcement configuration. see image below. * ``'s1'`` square section with s1 type
-            of transverse reinforcement with or without external frp wrapping * ``'s2'`` square section with s2 type of transverse
-            reinforcement with or without external frp wrapping * ``'s3'`` square section with s3 type of transverse
-            reinforcement with or without external frp wrapping * ``'s4a'`` square section with s4a type of
-            transverse reinforcement with or without external frp wrapping * ``'s4b'`` square section with
-            s4b type of transverse reinforcement with or without external frp wrapping * ``'s5'`` square
-            section with s5 type of transverse reinforcement with or without external frp wrapping *
-            ``'c'`` circular section with or without external frp wrapping * ``'r'`` rectangular
-            section with or without external frp wrapping.
+            Object for the transverse reinforcement configuration. see image below. * ``'s1'`` square section with s1
+            type of transverse reinforcement with or without external frp wrapping * ``'s2'`` square section with s2 type of
+            transverse reinforcement with or without external frp wrapping * ``'s3'`` square section with s3 type of
+            transverse reinforcement with or without external frp wrapping * ``'s4a'`` square section with s4a type
+            of transverse reinforcement with or without external frp wrapping * ``'s4b'`` square section with s4b
+            type of transverse reinforcement with or without external frp wrapping * ``'s5'`` square section
+            with s5 type of transverse reinforcement with or without external frp wrapping * ``'c'``
+            circular section with or without external frp wrapping * ``'r'`` rectangular section
+            with or without external frp wrapping.
         fpc: float
             Unconfined cylindrical strength of concrete specimen.
         ec: float
@@ -408,6 +415,7 @@ class ConcreteD(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Concrete compressive strength
         epsc: float
@@ -457,6 +465,7 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fpc1: float
             Concrete core compressive strength.
         fpc2: float
@@ -544,6 +553,7 @@ class FRPConfinedConcrete02JacketC(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc0: float
             Compressive strength of unconfined concrete (compression is negative)
         ec: float
@@ -596,6 +606,7 @@ class FRPConfinedConcrete02Ultimate(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc0: float
             Compressive strength of unconfined concrete (compression is negative)
         ec: float
@@ -642,6 +653,7 @@ class ConcreteCM(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fpcc: float
             Compressive strength (:math:`f'_c`)
         epcc: float
@@ -701,6 +713,7 @@ class TDConcrete(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Concrete compressive strength (compression is negative)
         fct: float
@@ -759,6 +772,7 @@ class TDConcreteEXP(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Concrete compressive strength (compression is negative)
         fct: float
@@ -821,6 +835,7 @@ class TDConcreteMC10(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Concrete compressive strength (compression is negative)
         fct: float
@@ -893,6 +908,7 @@ class TDConcreteMC10NL(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Concrete compressive strength (compression is negative)
         fcu: float

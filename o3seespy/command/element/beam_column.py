@@ -18,6 +18,7 @@ class ElasticBeamColumn2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         area: float
@@ -67,6 +68,7 @@ class ElasticBeamColumn3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         area: float
@@ -131,6 +133,7 @@ class ModElasticBeam2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         area: float
@@ -193,6 +196,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         e_mod: float
@@ -252,6 +256,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         e_mod: float
@@ -320,12 +325,13 @@ class DispBeamColumn(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
-            List of two node tags
+            List of two node objects
         transf: obj
-            Tag of transformation
+            Object of transformation
         integration: obj
-            Tag of :func:`beamintegration`
+            Object of :func:`beamintegration`
         c_mass: None
             
         mass: float
@@ -363,12 +369,13 @@ class ForceBeamColumn(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         transf: obj
-            Tag of transformation
+            Object of transformation
         integration: obj
-            Tag of :func:`beamintegration`
+            Object of :func:`beamintegration`
         max_iter: int
             Maximum number of iterations to undertake to satisfy element compatibility (optional)
         tol: float
@@ -419,14 +426,15 @@ class NonlinearBeamColumn(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         num_intgr_pts: int
             Number of integration points.
         sec: obj
-            Tag of section
+            Object of section
         transf: obj
-            Tag of transformation
+            Object of transformation
         max_iter: int
             Maximum number of iterations to undertake to satisfy element compatibility (optional)
         tol: float
@@ -487,6 +495,7 @@ class DispBeamColumnInt(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         num_intgr_pts: int
@@ -546,6 +555,7 @@ class MVLEM(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         dens: float
             Wall density
         ele_nodes: list
@@ -562,11 +572,11 @@ class MVLEM(ElementBase):
             A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
             a_{s,i}/a_{gross,i} (1 < i < m)`
         mat_concretes: list
-            A list of ``m`` uniaxialmaterial tags for concrete
+            A list of ``m`` uniaxialmaterial objects for concrete
         mat_steels: list
-            A list of ``m`` uniaxialmaterial tags for steel
+            A list of ``m`` uniaxialmaterial objects for steel
         mat_shear: obj
-            Tag of uniaxialmaterial for shear material
+            Object of uniaxialmaterial for shear material
         """
         self.dens = float(dens)
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -625,6 +635,7 @@ class SFIMVLEM(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         m: int

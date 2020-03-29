@@ -20,6 +20,7 @@ class NormUnbalance(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol: float
             Tolerance criteria used to check for convergence.
         max_iter: int
@@ -71,6 +72,7 @@ class NormDispIncr(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol: float
             Tolerance criteria used to check for convergence.
         max_iter: int
@@ -106,6 +108,7 @@ class EnergyIncr(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol: float
             Tolerance criteria used to check for convergence.
         max_iter: int
@@ -141,6 +144,7 @@ class RelativeNormUnbalance(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol: float
             Tolerance criteria used to check for convergence.
         max_iter: int
@@ -176,6 +180,7 @@ class RelativeNormDispIncr(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol: float
             Tolerance criteria used to check for convergence.
         max_iter: int
@@ -211,6 +216,7 @@ class RelativeTotalNormDispIncr(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol: float
             Tolerance criteria used to check for convergence.
         max_iter: int
@@ -246,6 +252,7 @@ class RelativeEnergyIncr(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol: float
             Tolerance criteria used to check for convergence.
         max_iter: int
@@ -280,6 +287,7 @@ class FixedNumIter(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         max_iter: int
             Max number of iterations to check
         p_flag: int
@@ -311,6 +319,7 @@ class NormDispAndUnbalance(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol_incr: float
             Tolerance for right hand residual
         tol_r: None
@@ -351,6 +360,7 @@ class NormDispOrUnbalance(TestBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol_incr: float
             Tolerance for right hand residual
         tol_r: None

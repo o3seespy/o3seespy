@@ -17,10 +17,11 @@ class ZeroLength(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         mats: list
-            A list of tags associated with previously-defined uniaxialmaterials
+            A list of objects associated with previously-defined uniaxialmaterials
         dirs: list
             A list of material directions: * 1,2,3 - translation along local x,y,z axes, respectively; * 4,5,6 -
             rotation about local x,y,z axes, respectively
@@ -69,12 +70,13 @@ class ZeroLengthND(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         mat: obj
-            Tag associated with previously-defined ndmaterial object
+            Object associated with previously-defined ndmaterial object
         uni: obj
-            Tag associated with previously-defined uniaxialmaterial object which may be used to represent uncoupled
+            Object associated with previously-defined uniaxialmaterial object which may be used to represent uncoupled
             behavior orthogonal to the plane of the ndmaterial response. see notes 2 and 3.
         orient: list
             
@@ -106,10 +108,11 @@ class ZeroLengthSection(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         sec: obj
-            Tag associated with previously-defined section object
+            Object associated with previously-defined section object
         r_flag: float
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default) * ``rflag`` = 1 include rayleigh damping
         orient: list
@@ -146,6 +149,7 @@ class CoupledZeroLength(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         dirn1: int
@@ -153,7 +157,7 @@ class CoupledZeroLength(ElementBase):
         dirn2: int
             The two directions, 1 through ndof.
         mat: obj
-            Tags associated with previously-defined uniaxialmaterial
+            Objects associated with previously-defined uniaxialmaterial
         r_flag: float
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default) * ``rflag`` = 1 include rayleigh damping
         """
@@ -183,6 +187,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of a slave and a master nodes
         kn: float
@@ -222,6 +227,7 @@ class ZeroLengthContact3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of a slave and a master nodes
         kn: float
@@ -263,6 +269,7 @@ class ZeroLengthContactNTS2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         kn: float
             Penalty in normal direction
         kt: float
@@ -274,7 +281,7 @@ class ZeroLengthContactNTS2D(ElementBase):
         m_nd_num: int
             Number of master nodes
         nodes: list
-            Slave and master node tags respectively
+            Slave and master node objects respectively
         """
         if s_nd_num is None:
             self.s_nd_num = None
@@ -317,6 +324,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sdof: int
             Slave and master degree of freedom
         mdof: int
@@ -332,7 +340,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
         m_nd_num: int
             Number of master nodes
         nodes: list
-            Slave and master node tags respectively
+            Slave and master node objects respectively
         """
         if s_nd_num is None:
             self.s_nd_num = None
@@ -378,6 +386,7 @@ class ZeroLengthImpact3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of a slave and a master nodes * ``1`` if out-normal vector of master plane points to +x direction *
             ``2`` if out-normal vector of master plane points to +y direction * ``3`` if out-normal vector of master plane points

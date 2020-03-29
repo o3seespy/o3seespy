@@ -18,8 +18,9 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         n_d_mat: obj
-            The tag of the associated ndmaterial object
+            The object of the associated ndmaterial object
         n_dim: int
             Number of dimensions (2 for 2d, 3 for 3d)
         """
@@ -47,8 +48,9 @@ class InitStressNDMaterial(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         other: obj
-            Tag of the other material
+            Object of the other material
         init_stress: float
             Initial stress
         n_dim: int
@@ -79,8 +81,9 @@ class InitStrainNDMaterial(NDMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         other: obj
-            Tag of the other material
+            Object of the other material
         init_strain: float
             Initial strain
         n_dim: float

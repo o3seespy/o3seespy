@@ -16,6 +16,7 @@ class PySimple1(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         soil_type: int
             Soiltype = 1 backbone of p-y curve approximates matlock (1970) soft clay relation. soiltype = 2 backbone of
             p-y curve approximates api (1993) sand relation.
@@ -56,6 +57,7 @@ class TzSimple1(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         soil_type: int
             Soiltype = 1 backbone of t-z curve approximates reese and o'neill (1987). soiltype = 2 backbone of t-z curve
             approximates mosher (1984) relation.
@@ -91,6 +93,7 @@ class QzSimple1(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         qz_type: int
             Qztype = 1 backbone of q-z curve approximates reese and o'neill's (1987) relation for drilled shafts in
             clay. qztype = 2 backbone of q-z curve approximates vijayvergiya's (1977) relation for piles in sand.
@@ -129,6 +132,7 @@ class PyLiq1(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         soil_type: int
             Soiltype = 1 backbone of p-y curve approximates matlock (1970) soft clay relation. soiltype = 2 backbone of
             p-y curve approximates api (1993) sand relation.
@@ -147,14 +151,14 @@ class PyLiq1(UniaxialMaterialBase):
             Sets the minimum (or residual) peak resistance that the material retains as the adjacent solid soil elements
             liquefy
         ele1: float
-            Are the eletag (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
+            Are the eleobject (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
             stresses and excess pore pressures
         ele2: float
-            Are the eletag (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
+            Are the eleobject (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
             stresses and excess pore pressures
         time_series: obj
             Alternatively, mean effective stress can be supplied by a time series by specifying the text string
-            ``'-timeseries'`` and the tag of the series    ``seriestag``.
+            ``'-timeseries'`` and the object of the series    ``seriesobject``.
         """
         self.soil_type = int(soil_type)
         self.pult = float(pult)
@@ -187,6 +191,7 @@ class TzLiq1(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tz_type: int
             Tztype = 1 backbone of t-z curve approximates reese and o'neill (1987). tztype = 2 backbone of t-z curve
             approximates mosher (1984) relation.
@@ -197,14 +202,14 @@ class TzLiq1(UniaxialMaterialBase):
         c: float
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
         ele1: float
-            Are the eletag (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
+            Are the eleobject (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
             stresses and excess pore pressures
         ele2: float
-            Are the eletag (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
+            Are the eleobject (element numbers) for the two solid elements from which pyliq1 will obtain mean effective
             stresses and excess pore pressures
         time_series: obj
             Alternatively, mean effective stress can be supplied by a time series by specifying the text string
-            ``'-timeseries'`` and the tag of the seriesm    ``seriestag``.
+            ``'-timeseries'`` and the object of the seriesm    ``seriesobject``.
         """
         self.tz_type = int(tz_type)
         self.tult = float(tult)

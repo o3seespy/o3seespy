@@ -17,6 +17,7 @@ class CatenaryCable(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         i_node: obj
             End nodes (3 dof per node)
         j_node: obj

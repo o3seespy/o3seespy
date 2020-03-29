@@ -22,8 +22,9 @@ class Plain(PatternBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ts: obj
-            The tag of the time series to be used in the load pattern
+            The object of the time series to be used in the load pattern
         fact: float
             Constant factor. (optional)
         """
@@ -55,17 +56,18 @@ class UniformExcitation(PatternBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         dir: int
             Direction in which ground motion acts #. corresponds to translation along the global x axis #. corresponds
             to translation along the global y axis #. corresponds to translation along the global z axis #. corresponds to
             rotation about the global x axis #. corresponds to rotation about the global y axis #. corresponds to
             rotation about the global z axis
         disp_series: obj
-            Tag of the timeseries series defining the displacement history. (optional)
+            Object of the timeseries series defining the displacement history. (optional)
         vel_series: obj
-            Tag of the timeseries series defining the velocity history. (optional)
+            Object of the timeseries series defining the velocity history. (optional)
         accel_series: obj
-            Tag of the timeseries series defining the acceleration history. (optional)
+            Object of the timeseries series defining the acceleration history. (optional)
         vel0: float
             The initial velocity (optional, default=0.0)
         fact: float
@@ -115,6 +117,7 @@ class MultipleSupport(PatternBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         """
         osi.n_pat += 1
         self._tag = osi.n_pat

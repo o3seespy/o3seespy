@@ -19,6 +19,7 @@ class Elastic2D(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Young's modulus
         area: float
@@ -72,6 +73,7 @@ class Elastic3D(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Young's modulus
         area: float
@@ -245,6 +247,7 @@ class FiberThermal(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         gj: None
             
         """
@@ -278,6 +281,7 @@ class NDFiber(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         """
         osi.n_sect += 1
         self._tag = osi.n_sect
@@ -300,8 +304,9 @@ class WFSection2D(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mat: obj
-            Tag of uniaxialmaterial assigned to each fiber
+            Object of uniaxialmaterial assigned to each fiber
         d: float
             Section depth
         tw: float
@@ -344,12 +349,13 @@ class RCSection2D(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         core_mat: obj
-            Tag of uniaxialmaterial assigned to each fiber in the core region
+            Object of uniaxialmaterial assigned to each fiber in the core region
         cover_mat: obj
-            Tag of uniaxialmaterial assigned to each fiber in the cover region
+            Object of uniaxialmaterial assigned to each fiber in the cover region
         steel_mat: obj
-            Tag of uniaxialmaterial assigned to each reinforcing bar
+            Object of uniaxialmaterial assigned to each reinforcing bar
         d: float
             Section depth
         b: float
@@ -402,12 +408,13 @@ class RCCircularSection(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         core_mat: obj
-            Tag of uniaxialmaterial assigned to each fiber in the core region
+            Object of uniaxialmaterial assigned to each fiber in the core region
         cover_mat: obj
-            Tag of uniaxialmaterial assigned to each fiber in the cover region
+            Object of uniaxialmaterial assigned to each fiber in the cover region
         steel_mat: obj
-            Tag of uniaxialmaterial assigned to each reinforcing bar
+            Object of uniaxialmaterial assigned to each reinforcing bar
         d: float
             Section radius
         cover_depth: float
@@ -461,8 +468,9 @@ class Parallel(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         secs: list
-            Tags of of predefined sections.
+            Objects of of predefined sections.
         """
         self.secs = [x.tag for x in secs]
         osi.n_sect += 1
@@ -530,8 +538,9 @@ class Uniaxial(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mat: obj
-            Tag of uniaxial material
+            Object of uniaxial material
         quantity: str
             The force-deformation quantity to be modeled by this section object. one of the following section dof may be
             used: * ``'p'`` axial force-deformation * ``'mz'`` moment-curvature about section local z-axis * ``'vy'`` shear
@@ -561,6 +570,7 @@ class ElasticMembranePlateSection(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Young's modulus
         nu: float
@@ -595,8 +605,9 @@ class PlateFiber(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mat: obj
-            Ndmaterial tag to be assigned to each fiber
+            Ndmaterial object to be assigned to each fiber
         h: float
             Plate thickness
         """
@@ -623,6 +634,7 @@ class Bidirectional(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Elastic modulus
         fy: float
@@ -668,6 +680,7 @@ class Isolator2spring(SectionBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         tol: float
             Tolerance for convergence of the element state. suggested value: e-12 to e-10. opensees will warn if
             convergence is not achieved, however this usually does not prevent global convergence.

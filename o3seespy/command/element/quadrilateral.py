@@ -18,6 +18,7 @@ class Quad(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
@@ -26,7 +27,7 @@ class Quad(ElementBase):
             String representing material behavior. the type parameter can be either ``'planestrain'`` or
             ``'planestress'``
         mat: obj
-            Tag of ndmaterial
+            Object of ndmaterial
         pressure: float
             Surface pressure (optional, default = 0.0)
         rho: float
@@ -68,10 +69,11 @@ class ShellMITC4(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         sec: obj
-            Tag associated with previously-defined sectionforcedeformation object. currently must be either a
+            Object associated with previously-defined sectionforcedeformation object. currently must be either a
             ``'platefibersection'``, or ``'elasticmembraneplatesection'``
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -99,10 +101,11 @@ class ShellDKGQ(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         sec: obj
-            Tag associated with previously-defined sectionforcedeformation object. currently can be a
+            Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -130,10 +133,11 @@ class ShellDKGT(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of three element nodes in clockwise or counter-clockwise order
         sec: obj
-            Tag associated with previously-defined sectionforcedeformation object. currently can be a
+            Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -161,10 +165,11 @@ class ShellNLDKGQ(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         sec: obj
-            Tag associated with previously-defined sectionforcedeformation object. currently can be a
+            Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -192,10 +197,11 @@ class ShellNLDKGT(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of three element nodes in clockwise or counter-clockwise order around the element
         sec: obj
-            Tag associated with previously-defined sectionforcedeformation object. currently can be a
+            Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -220,11 +226,12 @@ class ShellNL(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of nine element nodes, input is the typical, firstly four corner nodes counter-clockwise, then
             mid-side nodes counter-clockwise and finally the central node
         sec: obj
-            Tag associated with previously-defined sectionforcedeformation object. currently can be a
+            Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -252,12 +259,13 @@ class BbarQuad(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
             Element thickness
         mat: obj
-            Tag of ndmaterial
+            Object of ndmaterial
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
@@ -285,6 +293,7 @@ class EnhancedQuad(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         thick: float
@@ -293,7 +302,7 @@ class EnhancedQuad(ElementBase):
             String representing material behavior. valid options depend on the ndmaterial object and its available
             material formulations. the type parameter can be either ``'planestrain'`` or ``'planestress'``
         mat: obj
-            Tag of ndmaterial
+            Object of ndmaterial
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
@@ -321,10 +330,11 @@ class SSPquad(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes in counter-clockwise order
         mat: obj
-            Unique integer tag associated with previously-defined ndmaterial object
+            Unique integer object associated with previously-defined ndmaterial object
         otype: str
             String to relay material behavior to the element, can be either ``'planestrain'`` or ``'planestress'``
         thick: float

@@ -17,6 +17,7 @@ class SurfaceLoad(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             The four nodes defining the element, input in counterclockwise order (-ndm 3 -ndf 3)
         p: float
@@ -47,6 +48,7 @@ class VS3D4(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             4 end nodes
         big_e: float
@@ -92,10 +94,11 @@ class AC3D8(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             8 end nodes
         mat: obj
-            Material tag of previously defined nd material
+            Material object of previously defined nd material
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
@@ -123,6 +126,7 @@ class ASI3D8(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes1: None
             
         ele_nodes2: None
@@ -153,10 +157,11 @@ class AV3D4(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             4 end nodes
         mat: obj
-            Material tag of previously defined nd material
+            Material object of previously defined nd material
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat

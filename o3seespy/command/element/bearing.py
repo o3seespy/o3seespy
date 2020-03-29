@@ -28,6 +28,7 @@ class ElastomericBearingPlasticity2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         k_init: float
@@ -41,9 +42,9 @@ class ElastomericBearingPlasticity2D(ElementBase):
         mu: float
             Exponent of non-linear hardening component
         p_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         orient: None
@@ -116,6 +117,7 @@ class ElastomericBearingPlasticity3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         k_init: float
@@ -129,13 +131,13 @@ class ElastomericBearingPlasticity3D(ElementBase):
         mu: float
             Exponent of non-linear hardening component
         p_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxialmaterial in axial direction
         t_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in torsional direction
+            Object associated with previously-defined uniaxialmaterial in torsional direction
         my_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local y-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
         mz_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         orient: None
@@ -214,6 +216,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         k_init: float
@@ -233,9 +236,9 @@ class ElastomericBearingBoucWen2D(ElementBase):
         gamma: float
             Second hysteretic shape parameter (default = 0.5)
         p_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         orient_vals: list
             Vector components in global coordinates defining local x-axis (optional), vector components in global
             coordinates defining local y-axis (optional)
@@ -312,6 +315,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         k_init: float
@@ -331,13 +335,13 @@ class ElastomericBearingBoucWen3D(ElementBase):
         gamma: float
             Second hysteretic shape parameter (default = 0.5)
         p_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxialmaterial in axial direction
         t_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in torsional direction
+            Object associated with previously-defined uniaxialmaterial in torsional direction
         my_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local y-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
         mz_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         orient_vals: list
             Vector components in global coordinates defining local x-axis (optional), vector components in global
             coordinates defining local y-axis (optional)
@@ -427,16 +431,17 @@ class FlatSliderBearing2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         frn_mdl: obj
-            Tag associated with previously-defined frictionmodel
+            Object associated with previously-defined frictionmodel
         k_init: float
             Initial elastic stiffness in local shear direction
         p_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int
@@ -531,20 +536,21 @@ class FlatSliderBearing3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         frn_mdl: obj
-            Tag associated with previously-defined frictionmodel
+            Object associated with previously-defined frictionmodel
         k_init: float
             Initial elastic stiffness in local shear direction
         p_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxialmaterial in axial direction
         t_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in torsional direction
+            Object associated with previously-defined uniaxialmaterial in torsional direction
         my_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local y-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
         mz_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: None
@@ -639,18 +645,19 @@ class SingleFPBearing2D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         frn_mdl: obj
-            Tag associated with previously-defined frictionmodel
+            Object associated with previously-defined frictionmodel
         reff: float
             Effective radius of concave sliding surface
         k_init: float
             Initial elastic stiffness in local shear direction
         p_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int
@@ -743,22 +750,23 @@ class SingleFPBearing3D(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         frn_mdl: obj
-            Tag associated with previously-defined frictionmodel
+            Object associated with previously-defined frictionmodel
         reff: float
             Effective radius of concave sliding surface
         k_init: float
             Initial elastic stiffness in local shear direction
         p_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxialmaterial in axial direction
         t_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in torsional direction
+            Object associated with previously-defined uniaxialmaterial in torsional direction
         my_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local y axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local y axis
         mz_mat: obj
-            Tag associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
         do_rayleigh: str
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int
@@ -853,6 +861,7 @@ class TFP(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         r1: float
@@ -946,22 +955,23 @@ class TripleFrictionPendulum(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         frn_tag1: int
-            = tags associated with previously-defined frictionmodels at the three sliding interfaces
+            = objects associated with previously-defined frictionmodels at the three sliding interfaces
         frn_tag2: int
-            = tags associated with previously-defined frictionmodels at the three sliding interfaces
+            = objects associated with previously-defined frictionmodels at the three sliding interfaces
         frn_tag3: int
-            = tags associated with previously-defined frictionmodels at the three sliding interfaces
+            = objects associated with previously-defined frictionmodels at the three sliding interfaces
         vert_mat: obj
-            = pre-defined material tag for compression behavior of the bearing
+            = pre-defined material object for compression behavior of the bearing
         rot_z_mat: obj
-            = pre-defined material tags for rotational behavior about 3-axis, 1-axis and 2-axis, respectively.
+            = pre-defined material objects for rotational behavior about 3-axis, 1-axis and 2-axis, respectively.
         rot_x_mat: obj
-            = pre-defined material tags for rotational behavior about 3-axis, 1-axis and 2-axis, respectively.
+            = pre-defined material objects for rotational behavior about 3-axis, 1-axis and 2-axis, respectively.
         rot_y_mat: obj
-            = pre-defined material tags for rotational behavior about 3-axis, 1-axis and 2-axis, respectively.
+            = pre-defined material objects for rotational behavior about 3-axis, 1-axis and 2-axis, respectively.
         l1: float
             = effective radii. li = r_i - h_i (see figure 1)
         l2: float
@@ -1032,12 +1042,13 @@ class MultipleShearSpring(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         n_spring: int
             Number of springs
         mat: obj
-            Tag associated with previously-defined uniaxialmaterial object
+            Object associated with previously-defined uniaxialmaterial object
         lim: float
             Minimum deformation to calculate equivalent coefficient (see note 1)
         mass: float
@@ -1088,6 +1099,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         total_rubber: float
@@ -1105,13 +1117,13 @@ class KikuchiBearingadjustPDOutput(ElementBase):
         n_mss: int
             Number of springs in mss = nmss
         mat_mss: obj
-            Mattag for mss
+            Matobject for mss
         lim_disp: float
             Minimum deformation to calculate equivalent coefficient of mss (see note 1)
         n_mns: int
             Number of springs in mns = nmns*nmns (for round and square shape)
         mat_mns: obj
-            Mattag for mns
+            Matobject for mns
         lamb: float
             Parameter to calculate compression modulus distribution on mns (see note 2)
         no_pd_input: str
@@ -1212,6 +1224,7 @@ class KikuchiBearingdoBalance(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         total_rubber: float
@@ -1234,13 +1247,13 @@ class KikuchiBearingdoBalance(ElementBase):
         n_mss: int
             Number of springs in mss = nmss
         mat_mss: obj
-            Mattag for mss
+            Matobject for mss
         lim_disp: float
             Minimum deformation to calculate equivalent coefficient of mss (see note 1)
         n_mns: int
             Number of springs in mns = nmns*nmns (for round and square shape)
         mat_mns: obj
-            Mattag for mns
+            Matobject for mns
         lamb: float
             Parameter to calculate compression modulus distribution on mns (see note 2)
         no_pd_input: str
@@ -1343,6 +1356,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         tp: int
@@ -1407,6 +1421,7 @@ class ElastomericX(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         fy: float
@@ -1454,13 +1469,13 @@ class ElastomericX(ElementBase):
         tc: float
             Cover thickness (optional, default = 0.0)
         tag1: float
-            Tag to include cavitation and post-cavitation (optional, default = 0)
+            Object to include cavitation and post-cavitation (optional, default = 0)
         tag2: float
-            Tag to include buckling load variation (optional, default = 0)
+            Object to include buckling load variation (optional, default = 0)
         tag3: float
-            Tag to include horizontal stiffness variation (optional, default = 0)
+            Object to include horizontal stiffness variation (optional, default = 0)
         tag4: float
-            Tag to include vertical stiffness variation (optional, default = 0)
+            Object to include vertical stiffness variation (optional, default = 0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.fy = float(fy)
@@ -1517,6 +1532,7 @@ class LeadRubberX(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         fy: float
@@ -1572,15 +1588,15 @@ class LeadRubberX(ElementBase):
         a_s: float
             Thermal diffusivity of steel (optional, default = 1.41e-05 m2/s)
         tag1: int
-            Tag to include cavitation and post-cavitation (optional, default = 0)
+            Object to include cavitation and post-cavitation (optional, default = 0)
         tag2: int
-            Tag to include buckling load variation (optional, default = 0)
+            Object to include buckling load variation (optional, default = 0)
         tag3: int
-            Tag to include horizontal stiffness variation (optional, default = 0)
+            Object to include horizontal stiffness variation (optional, default = 0)
         tag4: int
-            Tag to include vertical stiffness variation (optional, default = 0)
+            Object to include vertical stiffness variation (optional, default = 0)
         tag5: int
-            Tag to include strength degradation in shear due to heating of lead core (optional, default = 0)
+            Object to include strength degradation in shear due to heating of lead core (optional, default = 0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.fy = float(fy)
@@ -1634,6 +1650,7 @@ class HDR(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         gr: float
@@ -1751,6 +1768,7 @@ class FPBearingPTV(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         mu_ref: float
@@ -1776,13 +1794,13 @@ class FPBearingPTV(ElementBase):
         k_initial: float
             Lateral  stiffness of the sliding bearing before sliding begins
         the_material_a: int
-            Tag for the uniaxial material in the axial direction
+            Object for the uniaxial material in the axial direction
         the_material_b: int
-            Tag for the uniaxial material in the torsional direction
+            Object for the uniaxial material in the torsional direction
         the_material_c: int
-            Tag for the uniaxial material for rocking about local y axis
+            Object for the uniaxial material for rocking about local y axis
         the_material_d: int
-            Tag for the uniaxial material for rocking about local z axis
+            Object for the uniaxial material for rocking about local z axis
         x1: float
             Vector components to define local x axis
         x2: float
@@ -1806,8 +1824,8 @@ class FPBearingPTV(ElementBase):
         tol: float
             Convergence tolerance to satisfy the equilibrium of the element
         unit: int
-            Tag to identify the unit from the list below. * ``1``: n, m, s, c * ``2``: kn, m, s, c * ``3``: n, mm, s, c
-            * ``4``: kn, mm, s, c * ``5``: lb, in, s, c * ``6``: kip, in, s, c * ``7``: lb, ft, s, c * ``8``: kip, ft, s, c
+            Object to identify the unit from the list below. * ``1``: n, m, s, c * ``2``: kn, m, s, c * ``3``: n, mm, s,
+            c * ``4``: kn, mm, s, c * ``5``: lb, in, s, c * ``6``: kip, in, s, c * ``7``: lb, ft, s, c * ``8``: kip, ft, s, c
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mu_ref = float(mu_ref)

@@ -28,10 +28,11 @@ class TwoNodeLink(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
         mats: list
-            A list of tags associated with previously-defined uniaxialmaterial objects
+            A list of objects associated with previously-defined uniaxialmaterial objects
         dir: None
             
         p_delta_vals: list

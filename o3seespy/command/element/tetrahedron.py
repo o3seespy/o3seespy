@@ -18,10 +18,11 @@ class FourNodeTetrahedron(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes
         mat: obj
-            Tag of ndmaterial
+            Object of ndmaterial
         b1: float
             Body forces in global x,y,z directions
         b2: float

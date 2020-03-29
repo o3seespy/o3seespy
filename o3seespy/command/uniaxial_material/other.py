@@ -17,6 +17,7 @@ class Hardening(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Tangent stiffness
         sigma_y: float
@@ -54,6 +55,7 @@ class Cast(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         n: int
             Number of yield fingers of the csf-brace
         bo: float
@@ -138,6 +140,7 @@ class ViscousDamper(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k_el: float
             Elastic stiffness of linear spring to model the axial flexibility of a viscous damper (e.g. combined
             stiffness of the supporting brace and internal damper portion)
@@ -187,6 +190,7 @@ class BilinearOilDamper(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k_el: float
             Elastic stiffness of linear spring to model the axial flexibility of a viscous damper (e.g. combined
             stiffness of the supporting brace and internal damper portion)
@@ -244,6 +248,7 @@ class Bilin(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k0: float
             Elastic stiffness
         as__plus: float
@@ -351,6 +356,7 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k0: float
             Elastic stiffness
         as__plus: float
@@ -452,6 +458,7 @@ class ModIMKPinching(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k0: float
             Elastic stiffness
         as__plus: float
@@ -561,6 +568,7 @@ class SAWS(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         f0: float
             Intercept strength of the shear wall spring element for the asymtotic line to the envelope curve f0 > fi > 0
         fi: float
@@ -618,6 +626,7 @@ class BarSlip(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fc: float
             Positive floating point value defining the compressive strength of the concrete in which the reinforcing bar
             is anchored
@@ -699,6 +708,7 @@ class BondSP01(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         fy: float
             Yield strength of the reinforcement steel
         sy: float
@@ -739,8 +749,9 @@ class Fatigue(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         other: obj
-            Unique material object integer tag for the material that is being wrapped
+            Unique material object integer object for the material that is being wrapped
         e0: float
             Value of strain at which one cycle will cause failure (default 0.191)
         m: float
@@ -795,6 +806,7 @@ class ImpactMaterial(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k1: float
             Initial stiffness
         k2: float
@@ -828,6 +840,7 @@ class HyperbolicGapMaterial(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         kmax: float
             Initial stiffness
         kur: float
@@ -866,6 +879,7 @@ class LimitState(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         s1p: float
             Stress and strain (or force & deformation) at first point of the envelope in the positive direction
         e1p: float
@@ -901,7 +915,7 @@ class LimitState(UniaxialMaterialBase):
         beta: float
             Power used to determine the degraded unloading stiffness based on ductility, m-b (optional, default=0.0)
         curve: obj
-            An integer tag for the limit curve defining the limit surface
+            An integer object for the limit curve defining the limit surface
         curve_type: int
             An integer defining the type of limitcurve (0 = no curve, 1 = axial curve, all other curves can be any other
             integer)
@@ -947,8 +961,9 @@ class MinMax(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         other: obj
-            Tag of the other material
+            Object of the other material
         min_strain: float
             Minimum value of strain. optional default = -1.0e16.
         max_strain: float
@@ -988,6 +1003,7 @@ class ElasticBilin(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ep1: float
             Tangent in tension for stains: 0 <= strains <=    ``epsp2``
         ep2: float
@@ -1052,6 +1068,7 @@ class ElasticMultiLinear(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         eta: float
             Damping tangent (optional, default=0.0)
         strain: list
@@ -1086,6 +1103,7 @@ class MultiLinear(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         pts: list
             A list of strain and stress points ``pts = [strain1, stress1, strain2, stress2, ..., ]``
         """
@@ -1112,8 +1130,9 @@ class InitStrainMaterial(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         other: obj
-            Tag of the other material
+            Object of the other material
         init_strain: float
             Initial strain
         """
@@ -1141,8 +1160,9 @@ class InitStressMaterial(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         other: obj
-            Tag of the other material
+            Object of the other material
         init_stress: float
             Initial stress
         """
@@ -1168,6 +1188,7 @@ class PathIndependent(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         other: obj
             A pre-defined material
         """
@@ -1193,6 +1214,7 @@ class ECC01(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sigt0: float
             Tensile cracking stress
         epst0: float
@@ -1257,6 +1279,7 @@ class SelfCentering(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         k1: float
             Initial stiffness
         k2: float
@@ -1312,6 +1335,7 @@ class Viscous(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         big_c: float
             Damping coeficient
         alpha: float
@@ -1340,6 +1364,7 @@ class BoucWen(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         alpha: float
             Ratio of post-yield stiffness to the initial elastic stiffenss (0< alpha <1)
         ko: float
@@ -1392,6 +1417,7 @@ class BWBN(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         alpha: float
             Ratio of post-yield stiffness to the initial elastic stiffenss (0< alpha <1)
         ko: float
@@ -1459,6 +1485,7 @@ class AxialSp(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sce: float
             Compressive modulus
         fty: float
@@ -1505,6 +1532,7 @@ class AxialSpHD(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         sce: float
             Compressive modulus
         fty: float
@@ -1561,6 +1589,7 @@ class CFSWSWP(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         height: float
             Swp's height (mm)
         width: float
@@ -1631,6 +1660,7 @@ class CFSSSWP(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         height: float
             Swp's height (mm)
         width: float

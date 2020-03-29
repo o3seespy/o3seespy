@@ -15,6 +15,7 @@ class PFEMElementBubble(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of three or four element nodes, four are required for 3d
         rho: float
@@ -60,6 +61,7 @@ class PFEMElementCompressible(ElementBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of four element nodes, last one is middle node
         rho: float

@@ -16,6 +16,7 @@ class Elastic(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Tangent
         eta: float
@@ -59,6 +60,7 @@ class ElasticPP(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Tangent
         epsy_p: float
@@ -106,6 +108,7 @@ class ElasticPPGap(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Tangent
         fy: float
@@ -143,6 +146,7 @@ class ENT(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         e_mod: float
             Tangent
         """
@@ -168,8 +172,9 @@ class Parallel(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mats: list
-            Identification tags of materials making up the material model
+            Identification objects of materials making up the material model
         factor_args: list
             Factors to create a linear combination of the specified materials. factors can be negative to subtract one
             material from an other. (optional, default = 1.0)
@@ -199,8 +204,9 @@ class Series(UniaxialMaterialBase):
 
         Parameters
         ----------
+        osi: o3seespy.OpenSeesInstance
         mats: list
-            Identification tags of materials making up the material model
+            Identification objects of materials making up the material model
         """
         self.mats = [x.tag for x in mats]
         osi.n_mat += 1
