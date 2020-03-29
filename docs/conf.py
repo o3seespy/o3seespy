@@ -135,3 +135,6 @@ texinfo_documents = [
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+# Append init docstring to class docstring
+autoclass_content = 'both'
