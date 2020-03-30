@@ -20,15 +20,16 @@ to evaluate OpenSees inputs. This improves debugging and allows parameters to be
 Contents
 ========
 
-.. toctree::
-
-   o3seespy.command
-   o3seespy.tools
-
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+.. toctree::
+
+   o3seespy.command
+   o3seespy.tools
 
 
 Features
