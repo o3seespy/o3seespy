@@ -23,6 +23,11 @@ class Elastic(UniaxialMaterialBase):
             Damping tangent (optional, default=0.0)
         eneg: float (default=True), optional
             Tangent in compression (optional, default=e)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         """
         self.e_mod = float(e_mod)
         self.eta = float(eta)
@@ -70,6 +75,11 @@ class ElasticPP(UniaxialMaterialBase):
             value)
         eps0: float, optional
             Initial strain (optional, default: zero)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ElasticPP(osi, e_mod=1.0, epsy_p=1.0, epsy_n=None, eps0=0.0)
         """
         self.e_mod = float(e_mod)
         self.epsy_p = float(epsy_p)
@@ -120,6 +130,11 @@ class ElasticPPGap(UniaxialMaterialBase):
         damage: str, optional
             An optional string to specify whether to accumulate damage or not in the material. with the default
             re-center on load reversal. is provided this recentering will not occur and gap will grow.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ElasticPPGap(osi, e_mod=1.0, fy=1.0, gap=1.0, eta=0.0, damage='noDamage')
         """
         self.e_mod = float(e_mod)
         self.fy = float(fy)
@@ -149,6 +164,11 @@ class ENT(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         e_mod: float
             Tangent
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ENT(osi, e_mod=1.0)
         """
         self.e_mod = float(e_mod)
         osi.n_mat += 1
@@ -178,6 +198,14 @@ class Parallel(UniaxialMaterialBase):
         factor_args: list, optional
             Factors to create a linear combination of the specified materials. factors can be negative to subtract one
             material from an other. (optional, default = 1.0)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_parallel():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> tags = [1, 1]
+        >>> factor_args = [1.0, 1.0]
+        >>> o3.uniaxial_material.Parallel(osi, tags=tags, factor_args=factor_args)
         """
         self.mats = [x.tag for x in mats]
         self.factor_args = factor_args
@@ -207,6 +235,13 @@ class Series(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         mats: list
             Identification objects of materials making up the material model
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_series():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> tags = [1, 1]
+        >>> o3.uniaxial_material.Series(osi, tags=tags)
         """
         self.mats = [x.tag for x in mats]
         osi.n_mat += 1

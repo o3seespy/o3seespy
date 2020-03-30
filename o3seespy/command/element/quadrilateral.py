@@ -37,6 +37,15 @@ class Quad(ElementBase):
             Constant body forces defined in the isoparametric domain (optional, default=0.0)
         b2: float, optional
             Constant body forces defined in the isoparametric domain (optional, default=0.0)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_quad():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> obj = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> o3.element.Quad(osi, ele_nodes=ele_nodes, thick=1.0, otype='PlaneStrain', mat=obj, pressure=1.0, rho=1.0, b1=0.0, b2=0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
@@ -266,6 +275,15 @@ class BbarQuad(ElementBase):
             Element thickness
         mat: obj
             Object of ndmaterial
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_bbar_quad():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> o3.element.BbarQuad(osi, ele_nodes=ele_nodes, thick=1.0, mat=mat)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
@@ -303,6 +321,15 @@ class EnhancedQuad(ElementBase):
             material formulations. the type parameter can be either ``'planestrain'`` or ``'planestress'``
         mat: obj
             Object of ndmaterial
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_enhanced_quad():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> obj = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> o3.element.EnhancedQuad(osi, ele_nodes=ele_nodes, thick=1.0, otype='PlaneStress', mat=obj)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
@@ -343,6 +370,14 @@ class SSPquad(ElementBase):
             Constant body forces in global x- and y-directions, respectively (optional, default = 0.0)
         b2: float
             Constant body forces in global x- and y-directions, respectively (optional, default = 0.0)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> obj = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> o3.element.SSPquad(osi, ele_nodes=ele_nodes, mat=obj, otype='PlaneStrain', thick=1.0, b1=0.0, b2=0.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat

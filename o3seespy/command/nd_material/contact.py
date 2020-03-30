@@ -24,6 +24,11 @@ class ContactMaterial2D(NDMaterialBase):
             Interface cohesive intercept
         t: float
             Interface tensile strength
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.ContactMaterial2D(osi, mu=1.0, g_mod=1.0, c=1.0, t=1.0)
         """
         self.mu = float(mu)
         self.g_mod = float(g_mod)
@@ -58,6 +63,11 @@ class ContactMaterial3D(NDMaterialBase):
             Interface cohesive intercept
         t: float
             Interface tensile strength
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.ContactMaterial3D(osi, mu=1.0, g_mod=1.0, c=1.0, t=1.0)
         """
         self.mu = float(mu)
         self.g_mod = float(g_mod)

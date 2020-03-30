@@ -22,6 +22,11 @@ class ElasticIsotropic(NDMaterialBase):
             Poisson's ratio
         rho: float, optional
             Mass density 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
         """
         self.e_mod = float(e_mod)
         self.nu = float(nu)
@@ -67,6 +72,11 @@ class ElasticOrthotropic(NDMaterialBase):
             Shear modulii in z and x plane
         rho: float, optional
             Mass density 
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.ElasticOrthotropic(osi, ex=1.0, ey=1.0, ez=1.0, nu_xy=1.0, nu_yz=1.0, nu_zx=1.0, gxy=1.0, gyz=1.0, gzx=1.0, rho=0.0)
         """
         self.ex = float(ex)
         self.ey = float(ey)
@@ -112,6 +122,11 @@ class J2Plasticity(NDMaterialBase):
             Exponential hardening parameter
         big_h: float
             Linear hardening parameter
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.J2Plasticity(osi, k_mod=1.0, g_mod=1.0, sig0=1.0, sig_inf=1.0, delta=1.0, big_h=1.0)
         """
         self.k_mod = float(k_mod)
         self.g_mod = float(g_mod)
@@ -166,6 +181,12 @@ class DrukerPrager(NDMaterialBase):
             Mass density of the material
         atm_pressure: float, optional
             Optional atmospheric pressure for update of elastic bulk and shear moduli
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_druker_prager():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.DrukerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, atm_pressure=101e3)
         """
         self.k_mod = float(k_mod)
         self.g_mod = float(g_mod)
@@ -232,6 +253,12 @@ class Damage2p(NDMaterialBase):
         tangent: float, optional
             Optional integer to choose the computational stiffness matrix, 0: computational tangent; 1: damaged secant
             stiffness (hint: in case of strong nonlinearities use it with krylov-newton algorithm)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_damage2p():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.Damage2p(osi, fcc=1.0, fct=1.0, e_mod=1.0, ni=1.0, gt=1.0, gc=1.0, rho_bar=1.0, big_h=1.0, theta=1.0, tangent=1.0)
         """
         self.fcc = float(fcc)
         if fct is None:
@@ -312,6 +339,12 @@ class PlaneStress(NDMaterialBase):
         osi: o3seespy.OpenSeesInstance
         mat3d: obj
             Object of perviously defined 3d ndmaterial material
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=3)
+        >>> mat_3d = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
+        >>> o3.nd_material.PlaneStress(osi, mat3d=mat_3d)
         """
         self.mat3d = mat3d
         osi.n_mat += 1
@@ -338,6 +371,12 @@ class PlaneStrain(NDMaterialBase):
         osi: o3seespy.OpenSeesInstance
         mat3d: obj
             Integer object of previously defined 3d ndmaterial material
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat_3d = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
+        >>> o3.nd_material.PlaneStrain(osi, mat3d=mat_3d)
         """
         self.mat3d = mat3d
         osi.n_mat += 1
@@ -379,6 +418,11 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
             Integration parameter, usually beta=0.5
         k_coeff: float
             Coefficient of earth pressure, k0
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.MultiaxialCyclicPlasticity(osi, rho=1.0, k_mod=1.0, g_mod=1.0, su=1.0, ho=1.0, h=1.0, m=1.0, beta=1.0, k_coeff=1.0)
         """
         self.rho = float(rho)
         self.k_mod = float(k_mod)
@@ -430,6 +474,11 @@ class BoundingCamClay(NDMaterialBase):
         m: float
             Hardening parameter (exponent) for plastic response inside of bounding surface (if m = 0, only linear
             hardening)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.BoundingCamClay(osi, mass_density=1.0, big_c=1.0, bulk_mod=1.0, ocr=1.0, mu_o=1.0, alpha=1.0, lamb=1.0, h=1.0, m=1.0)
         """
         self.mass_density = float(mass_density)
         self.big_c = float(big_c)
@@ -464,6 +513,12 @@ class PlateFiber(NDMaterialBase):
         osi: o3seespy.OpenSeesInstance
         three_d: obj
             Material object for a previously-defined three-dimensional material
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=3)
+        >>> mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
+        >>> o3.nd_material.PlateFiber(osi, three_d=mat)
         """
         self.three_d = three_d
         osi.n_mat += 1
@@ -523,6 +578,15 @@ class FSAM(NDMaterialBase):
             Concrete friction coefficient (:math:`0.0 < \nu < 1.5`)
         alfadow: float
             Stiffness coefficient of reinforcement dowel action (:math:`0.0 < alfadow < 0.05`)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=3)
+        >>> s_x = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+        >>> s_y = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+        >>> conc = o3.uniaxial_material.ConcreteCM(osi, fpcc=1.0, epcc=1.0, ec=1.0, rc=1.0, xcrn=1.0, ft=1.0, et=1.0, rt=1.0, xcrp=1.0,
+        >>>                                 gap_close=0)
+        >>> o3.nd_material.FSAM(osi, rho=1.0, s_x=s_x, s_y=s_y, conc=conc, rou_x=1.0, rou_y=1.0, nu=1.0, alfadow=1.0)
         """
         self.rho = float(rho)
         self.s_x = s_x
@@ -589,6 +653,11 @@ class ManzariDafalias(NDMaterialBase):
             Fabric-dilatancy tensor parameter
         den: float
             Mass density of the material
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.ManzariDafalias(osi, g0=1.0, nu=1.0, e_init=1.0, mc=1.0, c=1.0, lambda_c=1.0, e0=1.0, ksi=1.0, p_atm=1.0, m=1.0, h0=1.0, ch=1.0, nb=1.0, a0=1.0, nd=1.0, z_max=1.0, cz=1.0, den=1.0)
         """
         self.g0 = float(g0)
         self.nu = float(nu)
@@ -726,6 +795,11 @@ class AcousticMedium(NDMaterialBase):
             Bulk module of the acoustic medium
         rho: float
             Mass density of the acoustic medium
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.AcousticMedium(osi, k_mod=1.0, rho=1.0)
         """
         self.k_mod = float(k_mod)
         self.rho = float(rho)

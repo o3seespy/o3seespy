@@ -26,6 +26,11 @@ class Concrete01(UniaxialMaterialBase):
             Concrete crushing strength
         eps_u: float
             Concrete strain at crushing strength
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Concrete01(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0)
         """
         self.fpc = float(fpc)
         self.epsc0 = float(epsc0)
@@ -67,6 +72,11 @@ class Concrete02(UniaxialMaterialBase):
             Tensile strength
         ets: float
             Tension softening stiffness (absolute value) (slope of the linear tension softening branch)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Concrete02(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0, lamb=1.0, ft=1.0, ets=1.0)
         """
         self.fpc = float(fpc)
         self.epsc0 = float(epsc0)
@@ -112,6 +122,11 @@ class Concrete04(UniaxialMaterialBase):
         beta: float
             Loating point value defining the exponential curve parameter to define the residual stress (as a factor of
             ft) at etu
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Concrete04(osi, fc=1.0, epsc=1.0, epscu=1.0, ec=1.0, fct=1.0, et=1.0, beta=1.0)
         """
         self.fc = float(fc)
         self.epsc = float(epsc)
@@ -160,6 +175,11 @@ class Concrete06(UniaxialMaterialBase):
             Exponent of the tension stiffening curve
         alpha2: float
             :math:`\alpha_2` parameter for tensile plastic strain definition
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Concrete06(osi, fc=1.0, e0=1.0, n=1.0, k=1.0, alpha1=1.0, fcr=1.0, ecr=1.0, b=1.0, alpha2=1.0)
         """
         self.fc = float(fc)
         self.e0 = float(e0)
@@ -210,6 +230,11 @@ class Concrete07(UniaxialMaterialBase):
             Non-dimensional term that defines the strain at which the straight line descent begins in compression
         r: float
             Parameter that controls the nonlinear descending branch
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Concrete07(osi, fc=1.0, epsc=1.0, ec=1.0, ft=1.0, et=1.0, xp=1.0, xn=1.0, r=1.0)
         """
         self.fc = float(fc)
         self.epsc = float(epsc)
@@ -252,6 +277,11 @@ class Concrete01WithSITC(UniaxialMaterialBase):
             Concrete strain at crushing strength
         end_strain_sitc: float, optional
             Optional, default = 0.03
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Concrete01WithSITC(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0, end_strain_sitc=0.01)
         """
         self.fpc = float(fpc)
         self.epsc0 = float(epsc0)
@@ -345,6 +375,11 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             Unknown
         st_ratio: unk, optional
             Unknown
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ConfinedConcrete01(osi, sec_type='R', fpc=1.0, ec=1.0, epscu_type=1, epscu_val=1.0, nu=1, l1=1.0, l2=1.0, l3=1.0, phis=1.0, big_s=1.0, fyh=1.0, es0=1.0, ha_ratio=1.0, mu=1.0, phi_lon=1.0, gravel=1, tol=1.0, max_num_iter=1, epscu_limit=1.0, st_ratio=1)
         """
         self.sec_type = sec_type
         self.fpc = float(fpc)
@@ -434,6 +469,11 @@ class ConcreteD(UniaxialMaterialBase):
             Plastic parameter, recommended values: 0.2~0.3
         etap: float, optional
             Plastic parameter, recommended values: 1.0~1.3
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ConcreteD(osi, fc=1.0, epsc=1.0, ft=1.0, epst=1.0, ec=1.0, alphac=1.0, alphat=1.0, cesp=0.25, etap=1.15)
         """
         self.fc = float(fc)
         self.epsc = float(epsc)
@@ -503,6 +543,11 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         use_buck: float
             Frp jacket failure criterion due to buckling of longitudinal compressive steel bars (0 = not                
                                        include it, 1= to include it).
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.FRPConfinedConcrete(osi, fpc1=1.0, fpc2=1.0, epsc0=1.0, big_d=1.0, c=1.0, ej=1.0, sj=1.0, tj=1.0, eju=1.0, big_s=1.0, fyl=1.0, fyh=1.0, dlong=1.0, dtrans=1.0, es=1.0, nu0=1.0, k=1.0, use_buck=1.0)
         """
         self.fpc1 = float(fpc1)
         self.fpc2 = float(fpc2)
@@ -676,6 +721,11 @@ class ConcreteCM(UniaxialMaterialBase):
             starts following a straight line - large value [e.g., 10000] recommended when tension stiffening is considered)
         gap_close: float, optional
             Gapclose = 0, less gradual gap closure (default); gapclose = 1, more gradual gap closure
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ConcreteCM(osi, fpcc=1.0, epcc=1.0, ec=1.0, rc=1.0, xcrn=1.0, ft=1.0, et=1.0, rt=1.0, xcrp=1.0, gap_close=0)
         """
         self.fpcc = float(fpcc)
         self.epcc = float(epcc)

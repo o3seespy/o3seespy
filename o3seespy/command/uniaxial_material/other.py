@@ -28,6 +28,11 @@ class Hardening(UniaxialMaterialBase):
             Kinematic hardening modulus
         eta: float, optional
             Visco-plastic coefficient (optional, default=0.0)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
         """
         self.e_mod = float(e_mod)
         self.sigma_y = float(sigma_y)
@@ -86,6 +91,12 @@ class Cast(UniaxialMaterialBase):
             plastic deformation of a4*(pp/kp)
         a4: float, optional
             Isotropic hardening parameter (see explanation under a3). (optional default = 1.0)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_cast():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Cast(osi, n=1, bo=1.0, h=1.0, fy=1.0, e_mod=1.0, big_l=1.0, b=1.0, ro=1.0, c_r1=1.0, c_r2=1.0, a1=None, a2=1.0, a3=None, a4=1.0)
         """
         self.n = int(n)
         self.bo = float(bo)
@@ -159,6 +170,11 @@ class ViscousDamper(UniaxialMaterialBase):
             Tolerance for absolute error control of adaptive iterative algorithm (default value 10^-10)
         max_half: int, optional
             Maximum number of sub-step iterations within an integration step (default value 15)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ViscousDamper(osi, k_el=1.0, cd=1.0, alpha=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15)
         """
         self.k_el = float(k_el)
         self.cd = float(cd)
@@ -211,6 +227,11 @@ class BilinearOilDamper(UniaxialMaterialBase):
             Tolerance for absolute error control of adaptive iterative algorithm (default value 10^-10)
         max_half: int, optional
             Maximum number of sub-step iterations within an integration step (default value 15)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.BilinearOilDamper(osi, k_el=1.0, cd=1.0, fr=1.0, p=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15)
         """
         self.k_el = float(k_el)
         self.cd = float(cd)
@@ -305,6 +326,11 @@ class Bilin(UniaxialMaterialBase):
         n_factor: float, optional
             Elastic stiffness amplification factor, mainly for use with concentrated plastic hinge elements (optional,
             default = 0).
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Bilin(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0, n_factor=0.0)
         """
         self.k0 = float(k0)
         self.as__plus = float(as__plus)
@@ -410,6 +436,11 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
         d__neg: float
             Rate  of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ModIMKPeakOriented(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
         """
         self.k0 = float(k0)
         self.as__plus = float(as__plus)
@@ -520,6 +551,11 @@ class ModIMKPinching(UniaxialMaterialBase):
         d__neg: float
             Rate of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
         """
         self.k0 = float(k0)
         self.as__plus = float(as__plus)
@@ -592,6 +628,11 @@ class SAWS(UniaxialMaterialBase):
             Stiffness degradation parameter for the shear wall spring element. (alpha > 0).
         beta: float
             Stiffness degradation parameter for the spring element. (beta > 0).
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.SAWS(osi, f0=1.0, fi=1.0, du=1.0, s0=1.0, r1=1.0, r2=1.0, r3=1.0, r4=1.0, alpha=1.0, beta=1.0)
         """
         self.f0 = float(f0)
         self.fi = float(fi)
@@ -665,6 +706,12 @@ class BarSlip(UniaxialMaterialBase):
         unit: str, optional
             String indicating the type of unit system used (optional, options: ``'psi'``, ``'mpa'``, ``'pa'``,
             ``'psf'``, ``'ksi'``, ``'ksf'``) (default: ``'psi'`` / ``'mpa'``)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_bar_slip():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.BarSlip(osi, fc=1.0, fy=1.0, es=1.0, fu=1.0, eh=1.0, db=1.0, ld=1.0, nb=1, depth=1.0, height=1.0, anc_lratio=1.0, bs_flag="Strong", otype="beamtop", damage='Damage', unit='psi')
         """
         self.fc = float(fc)
         self.fy = float(fy)
@@ -721,6 +768,11 @@ class BondSP01(UniaxialMaterialBase):
             Initial hardening ratio in the monotonic slip vs. bar stress response (0.3~0.5)
         big_r: float
             Pinching factor for the cyclic slip vs. bar response (0.5~1.0)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.BondSP01(osi, fy=1.0, sy=1.0, fu=1.0, su=1.0, b=1.0, big_r=1.0)
         """
         self.fy = float(fy)
         self.sy = float(sy)
@@ -760,6 +812,12 @@ class Fatigue(UniaxialMaterialBase):
             Global minimum value for strain or deformation (default -1e16)
         max: float, optional
             Global maximum value for strain or deformation (default 1e16)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
+        >>> o3.uniaxial_material.Fatigue(osi, other=other, e0=0.191, m=-0.458, min=-1e16, max=1e16)
         """
         self.other = other
         if e0 is None:
@@ -815,6 +873,12 @@ class ImpactMaterial(UniaxialMaterialBase):
             Yield displacement
         gap: float
             Initial gap
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_impact_material():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ImpactMaterial(osi, k1=1.0, k2=1.0, sigy=1.0, gap=1.0)
         """
         self.k1 = float(k1)
         self.k2 = float(k2)
@@ -851,6 +915,12 @@ class HyperbolicGapMaterial(UniaxialMaterialBase):
             Ultimate (maximum) passive resistance
         gap: float
             Initial gap
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_hyperbolic_gap_material():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.HyperbolicGapMaterial(osi, kmax=1.0, kur=1.0, rf=1.0, fult=1.0, gap=1.0)
         """
         self.kmax = float(kmax)
         self.kur = float(kur)
@@ -919,6 +989,13 @@ class LimitState(UniaxialMaterialBase):
         curve_type: int
             An integer defining the type of limitcurve (0 = no curve, 1 = axial curve, all other curves can be any other
             integer)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_limit_state():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> curve = 1
+        >>> o3.uniaxial_material.LimitState(osi, s1p=1.0, e1p=1.0, s2p=1.0, e2p=1.0, s3p=1.0, e3p=1.0, s1n=1.0, e1n=1.0, s2n=1.0, e2n=1.0, s3n=1.0, e3n=1.0, pinch_x=1.0, pinch_y=1.0, damage1=1.0, damage2=1.0, beta=1.0, curve=curve, curve_type=1)
         """
         self.s1p = float(s1p)
         self.e1p = float(e1p)
@@ -968,6 +1045,12 @@ class MinMax(UniaxialMaterialBase):
             Minimum value of strain. optional default = -1.0e16.
         max_strain: float, optional
             Max value of strain. optional default = 1.0e16.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
+        >>> o3.uniaxial_material.MinMax(osi, other=other, min_strain=1e-16, max_strain=1e16)
         """
         self.other = other
         if min_strain is None:
@@ -1016,6 +1099,11 @@ class ElasticBilin(UniaxialMaterialBase):
             Optional, default =    ``ep2``. tangent in compression with strains <    ``epsn2``
         eps_n2: float (default=True), optional
             Optional, default = ``-epsp2``. strain at which material changes tangent in compression.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ElasticBilin(osi, ep1=1.0, ep2=1.0, eps_p2=1.0, en1=None, en2=None, eps_n2=None)
         """
         self.ep1 = float(ep1)
         self.ep2 = float(ep2)
@@ -1075,6 +1163,13 @@ class ElasticMultiLinear(UniaxialMaterialBase):
             List of strain points along stress-strain curve
         stress: list, optional
             List of stress points along stress-strain curve
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> strain = [1.0, 1.0]
+        >>> stress = [1.0, 1.0]
+        >>> o3.uniaxial_material.ElasticMultiLinear(osi, eta=0.0, strain=strain, stress=stress)
         """
         self.eta = float(eta)
         self.strain = strain
@@ -1106,6 +1201,12 @@ class MultiLinear(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         pts: list
             A list of strain and stress points ``pts = [strain1, stress1, strain2, stress2, ..., ]``
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> pts = [0.01, 1.0, 0.02, 2.0]
+        >>> o3.uniaxial_material.MultiLinear(osi, pts=pts)
         """
         self.pts = pts
         osi.n_mat += 1
@@ -1135,6 +1236,12 @@ class InitStrainMaterial(UniaxialMaterialBase):
             Object of the other material
         init_strain: float
             Initial strain
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> other = o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
+        >>> o3.uniaxial_material.InitStrainMaterial(osi, other=other, init_strain=1.0)
         """
         self.other = other
         self.init_strain = float(init_strain)
@@ -1165,6 +1272,17 @@ class InitStressMaterial(UniaxialMaterialBase):
             Object of the other material
         init_stress: float
             Initial stress
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> other = o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0,
+        >>>                                             fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0,
+        >>>                                             lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0,
+        >>>                                             theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0,
+        >>>                                             theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0,
+        >>>                                             theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
+        >>> o3.uniaxial_material.InitStressMaterial(osi, other=other, init_stress=1.0)
         """
         self.other = other
         self.init_stress = float(init_stress)
@@ -1191,6 +1309,12 @@ class PathIndependent(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         other: obj
             A pre-defined material
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
+        >>> o3.uniaxial_material.PathIndependent(osi, other=other)
         """
         self.other = other
         osi.n_mat += 1
@@ -1243,6 +1367,11 @@ class ECC01(UniaxialMaterialBase):
             Parameter to determine permanent strain in tension
         beta_c: float
             Parameter to determine permanent strain in compression
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ECC01(osi, sigt0=1.0, epst0=1.0, sigt1=1.0, epst1=1.0, epst2=1.0, sigc0=1.0, epsc0=1.0, epsc1=1.0, alpha_t1=1.0, alpha_t2=1.0, alpha_c=1.0, alpha_cu=1.0, beta_t=1.0, beta_c=1.0)
         """
         self.sigt0 = float(sigt0)
         self.epst0 = float(epst0)
@@ -1294,6 +1423,11 @@ class SelfCentering(UniaxialMaterialBase):
             Bearing strain/deformation (if    ``epsbear`` = 0, there will be no bearing)
         r_bear: float (default=True), optional
             Ratio of bearing stiffness to initial stiffness    ``k1``
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.SelfCentering(osi, k1=1.0, k2=1.0, sig_act=1.0, beta=1.0, eps_slip=0, eps_bear=0, r_bear=None)
         """
         self.k1 = float(k1)
         self.k2 = float(k2)
@@ -1340,6 +1474,11 @@ class Viscous(UniaxialMaterialBase):
             Damping coeficient
         alpha: float
             Power factor (=1 means linear damping)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.Viscous(osi, big_c=1.0, alpha=1.0)
         """
         self.big_c = float(big_c)
         self.alpha = float(alpha)
@@ -1386,6 +1525,11 @@ class BoucWen(UniaxialMaterialBase):
             Parameters that control material degradation
         delta_eta: float
             Parameters that control material degradation
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.BoucWen(osi, alpha=1.0, ko=1.0, n=1.0, gamma=1.0, beta=1.0, ao=1.0, delta_a=1.0, delta_nu=1.0, delta_eta=1.0)
         """
         self.alpha = float(alpha)
         self.ko = float(ko)
@@ -1449,6 +1593,11 @@ class BWBN(UniaxialMaterialBase):
             Tolerance
         max_iter: float
             Maximum iterations
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.BWBN(osi, alpha=1.0, ko=1.0, n=1.0, gamma=1.0, beta=1.0, ao=1.0, q=1.0, zetas=1.0, p=1.0, shi=1.0, delta_shi=1.0, lamb=1.0, tol=1.0, max_iter=1.0)
         """
         self.alpha = float(alpha)
         self.ko = float(ko)
@@ -1503,6 +1652,11 @@ class AxialSp(UniaxialMaterialBase):
             yielding (   ``bcy``) (see note 1)
         fcr: float
             Target point stress (see note 1)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.AxialSp(osi, sce=1.0, fty=1.0, fcy=1.0, bte=1.0, bty=1.0, bcy=1.0, fcr=1.0)
         """
         self.sce = float(sce)
         self.fty = float(fty)
@@ -1555,6 +1709,11 @@ class AxialSpHD(UniaxialMaterialBase):
             Target point stress (see note 1)
         ath: float
             Hardening strain ratio to yield strain
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.AxialSpHD(osi, sce=1.0, fty=1.0, fcy=1.0, bte=1.0, bty=1.0, bth=1.0, bcy=1.0, fcr=1.0, ath=1.0)
         """
         self.sce = float(sce)
         self.fty = float(fty)
@@ -1620,6 +1779,11 @@ class CFSWSWP(UniaxialMaterialBase):
             Total area of openings (mm2)
         opening_length: float
             Cumulative length of openings (mm)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.CFSWSWP(osi, height=1.0, width=1.0, fut=1.0, tf=1.0, ife=1.0, ifi=1.0, ts=1.0, np=1.0, ds=1.0, vs=1.0, sc=1.0, nc=1.0, otype=1, opening_area=1.0, opening_length=1.0)
         """
         self.height = float(height)
         self.width = float(width)
@@ -1693,6 +1857,11 @@ class CFSSSWP(UniaxialMaterialBase):
             Total area of openings (mm2)
         opening_length: float
             Cumulative length of openings (mm)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.CFSSSWP(osi, height=1.0, width=1.0, fuf=1.0, fyf=1.0, tf=1.0, af=1.0, fus=1.0, fys=1.0, ts=1.0, np=1.0, ds=1.0, vs=1.0, sc=1.0, dt=1.0, opening_area=1.0, opening_length=1.0)
         """
         self.height = float(height)
         self.width = float(width)

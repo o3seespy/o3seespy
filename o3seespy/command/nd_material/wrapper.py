@@ -23,6 +23,12 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
             The object of the associated ndmaterial object
         n_dim: int
             Number of dimensions (2 for 2d, 3 for 3d)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
+        >>> o3.nd_material.InitialStateAnalysisWrapper(osi, n_d_mat=mat, n_dim=1)
         """
         self.n_d_mat = n_d_mat
         self.n_dim = int(n_dim)

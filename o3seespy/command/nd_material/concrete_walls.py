@@ -31,6 +31,12 @@ class PlaneStressUserMaterial(NDMaterialBase):
             Ultimate tensile strain (positive)
         stc: float
             Shear retention factor
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_plane_stress_user_material():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.PlaneStressUserMaterial(osi, fc=1.0, ft=1.0, fcu=1.0, epsc0=1.0, epscu=1.0, epstu=1.0, stc=1.0)
         """
         self.fc = float(fc)
         self.ft = float(ft)
@@ -65,6 +71,12 @@ class PlateFromPlaneStress(NDMaterialBase):
             Integer object identifying planestress material
         outof_plane_modulus: float
             Shear modulus for out of plane stresses
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
+        >>> o3.nd_material.PlateFromPlaneStress(osi, pre_def_mat=mat, outof_plane_modulus=1.0)
         """
         self.pre_def_mat = pre_def_mat
         self.outof_plane_modulus = float(outof_plane_modulus)
@@ -93,6 +105,12 @@ class PlateRebar(NDMaterialBase):
             Integer object identifying uniaxial material
         sita: float
             Define the angle of reinforcement layer, 90 (longitudinal), 0 (tranverse)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
+        >>> o3.nd_material.PlateRebar(osi, pre_def_mat=mat, sita=1.0)
         """
         self.pre_def_mat = pre_def_mat
         self.sita = float(sita)

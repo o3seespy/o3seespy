@@ -31,6 +31,11 @@ class PySimple1(UniaxialMaterialBase):
         c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             (optional default = 0.0). nonzero c values are used to represent radiation damping effects
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.PySimple1(osi, soil_type=1, pult=1.0, y50=1.0, cd=1.0, c=0.0)
         """
         self.soil_type = int(soil_type)
         self.pult = float(pult)
@@ -68,6 +73,11 @@ class TzSimple1(UniaxialMaterialBase):
         c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             (optional default = 0.0). see note 2.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.TzSimple1(osi, soil_type=1, tult=1.0, z50=1.0, c=0.0)
         """
         self.soil_type = int(soil_type)
         self.tult = float(tult)
@@ -106,6 +116,11 @@ class QzSimple1(UniaxialMaterialBase):
         c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             default = 0.0. nonzero c values are used to represent radiation damping effects.*
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.QzSimple1(osi, qz_type=1, qult=1.0, z50=1.0, suction=0.0, c=0.0)
         """
         self.qz_type = int(qz_type)
         self.qult = float(qult)
@@ -159,6 +174,11 @@ class PyLiq1(UniaxialMaterialBase):
         time_series: obj, optional
             Alternatively, mean effective stress can be supplied by a time series by specifying the text string
             ``'-timeseries'`` and the object of the series    ``seriesobject``.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.PyLiq1(osi, soil_type=1, pult=1.0, y50=1.0, cd=1.0, c=1.0, p_res=1.0, ele1=1.0, ele2=1.0)
         """
         self.soil_type = int(soil_type)
         self.pult = float(pult)
@@ -210,6 +230,11 @@ class TzLiq1(UniaxialMaterialBase):
         time_series: obj, optional
             Alternatively, mean effective stress can be supplied by a time series by specifying the text string
             ``'-timeseries'`` and the object of the seriesm    ``seriesobject``.
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.TzLiq1(osi, tz_type=1, tult=1.0, z50=1.0, c=1.0, ele1=1.0, ele2=1.0)
         """
         self.tz_type = int(tz_type)
         self.tult = float(tult)

@@ -47,6 +47,17 @@ class TwoNodeLink(ElementBase):
             
         mass: float, optional
             Element mass (optional, default = 0.0)
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_two_node_link():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
+        >>> mats = [o3.uniaxial_material.Elastic(osi, 1.0),
+        >>>         o3.uniaxial_material.Elastic(osi, 1.0)]
+        >>> p_delta_vals = [1.0, 1.0]
+        >>> o3.element.TwoNodeLink(osi, ele_nodes=ele_nodes, mats=mats, dir=[1, 1], p_delta_vals=p_delta_vals)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         if mats is None:

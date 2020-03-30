@@ -22,6 +22,13 @@ class SurfaceLoad(ElementBase):
             The four nodes defining the element, input in counterclockwise order (-ndm 3 -ndf 3)
         p: float
             Applied pressure loading normal to the surface, outward is positive, inward is negative
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> o3.element.SurfaceLoad(osi, ele_nodes=ele_nodes, p=1.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.p = float(p)
@@ -63,6 +70,13 @@ class VS3D4(ElementBase):
             Correction parameter in the normal direction
         alpha_t: float
             Correction parameter in the tangential direction
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> o3.element.VS3D4(osi, ele_nodes=ele_nodes, big_e=1.0, big_g=1.0, rho=1.0, big_r=1.0, alpha_n=1.0, alpha_t=1.0)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_e = float(big_e)
@@ -99,6 +113,15 @@ class AC3D8(ElementBase):
             8 end nodes
         mat: obj
             Material object of previously defined nd material
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_ac3d8():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
+        >>> o3.element.AC3D8(osi, ele_nodes=ele_nodes, mat=mat)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
@@ -131,6 +154,12 @@ class ASI3D8(ElementBase):
             
         ele_nodes2: None
             
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_asi3d8():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.element.ASI3D8(osi, ele_nodes1=1, ele_nodes2=1)
         """
         self.ele_nodes1 = ele_nodes1
         self.ele_nodes2 = ele_nodes2
@@ -162,6 +191,15 @@ class AV3D4(ElementBase):
             4 end nodes
         mat: obj
             Material object of previously defined nd material
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> test_av3d4():
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
+        >>> o3.element.AV3D4(osi, ele_nodes=ele_nodes, mat=mat)
         """
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat

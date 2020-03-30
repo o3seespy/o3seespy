@@ -23,6 +23,50 @@ special_words = {
     'iter': 'max_iter'
 }
 
+eles = {
+    'Zero-Length Element': 'zero_length',
+    'Truss Elements': 'truss',
+    'Beam-Column Elements': 'beam_column',
+    'Joint Elements': 'joint',
+    'Link Elements': 'link',
+    'Bearing Elements': 'bearing',
+    'Quadrilateral Elements': 'quadrilateral',
+    'Triangular Elements': 'triangular',
+    'Brick Elements': 'brick',
+    'Tetrahedron Elements': 'tetrahedron',
+    'UC San Diego u-p element (saturated soil)': 'uc_san_diego_up',
+    'Other u-p elements': 'other_up',
+    'Contact Elements': 'contact',
+    'Cable Elements': 'cable',
+    'PFEM Elements': 'pfem',
+    'Misc.': 'misc'
+
+}
+
+
+unimats = {
+    'Steel & Reinforcing-Steel Materials': 'steel',
+    'Concrete Materials': 'concrete',
+    'Standard Uniaxial Materials': 'standard',
+    'PyTzQz uniaxial materials': 'pytz',
+    'Other Uniaxial Materials': 'other'
+}
+
+
+ndmats = {
+    'Standard Models': 'standard',
+    'Materials for Modeling Concrete Walls': 'concrete_walls',
+    'Tsinghua Sand Models': 'tsinghua_sand',
+    'Contact Materials for 2D and 3D': 'contact',
+    'Wrapper material for Initial State Analysis': 'wrapper',
+    'UC San Diego soil models': 'uc_san_diego_soil',
+    'UC San Diego Saturated Undrained soil': 'uc_san_diego_ud_soil'
+}
+
+extra_heir = {'element': eles,
+              'uniaxial_material': unimats,
+              'nd_material': ndmats}
+
 def clean_param_names(params, base_type):
     pms = OrderedDict()
     for pm in params:
@@ -195,22 +239,39 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         else:
             low_op_name = convert_camel_to_snake(op_class_name)
         low_base_name = convert_camel_to_snake(base_class_name)  # TODO: should actually be file name
-        try:
-            tcommands = importlib.import_module(f"tests.commands.test_{low_base_name}")
-            tname = f'test_{low_op_name}'
-            if tname in dir(tcommands):
-                source = inspect.getsource(getattr(tcommands, tname)).splitlines()
-                para = para[:-1]  # remove triple quote at end of docstring
-                para.append(w8 + 'Examples')
-                para.append(w8 + '--------')
-                para.append(w8 + '>>> import o3seespy as o3')
+        source = None
+        if low_base_name in extra_heir:
+            fdict = extra_heir[low_base_name]
+            if low_base_name == 'uniaxial_material':
+                estr = 'uniaxial_'
+            else:
+                estr = ''
 
-                for line in source[1:]:  # skip first line which says 'test_'
-                    nline = w8 + '>>> ' + line[4:]
-                    para.append(nline)
-                para.append(w8 + '"""')
-        except ModuleNotFoundError:
-            pass
+            for f_old in fdict:
+                f_new = fdict[f_old]
+                tcommands = importlib.import_module(f"tests.commands.{low_base_name}.test_{estr}{f_new}")
+                tname = f'test_{low_op_name}'
+                if tname in dir(tcommands):
+                    source = inspect.getsource(getattr(tcommands, tname)).splitlines()
+                    break
+        else:
+            try:
+                tcommands = importlib.import_module(f"tests.commands.test_{low_base_name}")
+                tname = f'test_{low_op_name}'
+                if tname in dir(tcommands):
+                    source = inspect.getsource(getattr(tcommands, tname)).splitlines()
+            except ModuleNotFoundError:
+                pass
+        if source is not None:
+            para = para[:-1]  # remove triple quote at end of docstring
+            para.append(w8 + 'Examples')
+            para.append(w8 + '--------')
+            para.append(w8 + '>>> import o3seespy as o3')
+
+            for line in source[1:]:  # skip first line which says 'test_'
+                nline = w8 + '>>> ' + line[4:]
+                para.append(nline)
+            para.append(w8 + '"""')
 
         # Create init function saving logic
         for i, pm in enumerate(cl_pms):
@@ -916,14 +977,6 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     # if line[3:5] == '``':
     #     para = line[5:]
 
-unimats = {
-    'Steel & Reinforcing-Steel Materials': 'steel',
-    'Concrete Materials': 'concrete',
-    'Standard Uniaxial Materials': 'standard',
-    'PyTzQz uniaxial materials': 'pytz',
-    'Other Uniaxial Materials': 'other'
-}
-
 
 def parse_all_uniaxial_mat():
     import user_paths as up
@@ -995,16 +1048,6 @@ def parse_all_uniaxial_mat():
         with open(f'temp_tests/uniaxial/atest_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
 
-ndmats = {
-    'Standard Models': 'standard',
-    'Materials for Modeling Concrete Walls': 'concrete_walls',
-    'Tsinghua Sand Models': 'tsinghua_sand',
-    'Contact Materials for 2D and 3D': 'contact',
-    'Wrapper material for Initial State Analysis': 'wrapper',
-    'UC San Diego soil models': 'uc_san_diego_soil',
-    'UC San Diego Saturated Undrained soil': 'uc_san_diego_ud_soil'
-}
-
 
 def parse_all_ndmat():
     import user_paths as up
@@ -1064,27 +1107,6 @@ def parse_all_ndmat():
             os.makedirs(diry)
         with open(f'temp_tests/nd_material/atest_{item}.py', 'w') as ofile:
             ofile.write('\n'.join(tpara))
-
-
-eles = {
-    'Zero-Length Element': 'zero_length',
-    'Truss Elements': 'truss',
-    'Beam-Column Elements': 'beam_column',
-    'Joint Elements': 'joint',
-    'Link Elements': 'link',
-    'Bearing Elements': 'bearing',
-    'Quadrilateral Elements': 'quadrilateral',
-    'Triangular Elements': 'triangular',
-    'Brick Elements': 'brick',
-    'Tetrahedron Elements': 'tetrahedron',
-    'UC San Diego u-p element (saturated soil)': 'uc_san_diego_up',
-    'Other u-p elements': 'other_up',
-    'Contact Elements': 'contact',
-    'Cable Elements': 'cable',
-    'PFEM Elements': 'pfem',
-    'Misc.': 'misc'
-
-}
 
 
 def parse_all_elements():
