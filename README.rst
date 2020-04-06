@@ -9,6 +9,9 @@
 .. image:: https://coveralls.io/repos/github/o3seespy/o3seespy/badge.svg?branch=master
    :target: https://coveralls.io/github/o3seespy/o3seespy?branch=master
 
+.. image:: https://readthedocs.org/projects/o3seespy/badge/?version=latest
+   :target: https://readthedocs.org/projects/o3seespy/badge/?version=latest
+
 
 ********
 o3seespy

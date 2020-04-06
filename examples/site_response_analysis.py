@@ -125,7 +125,7 @@ def site_response(sp, asig, linear=0):
 
     # o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
     na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
-    es = o3.recorder.ElementsToArrayCache(osi, elements=eles, arg_vals=['stress'])
+    es = o3.recorder.ElementsToArrayCache(osi, eles=eles, arg_vals=['stress'])
 
     # Define the dynamic analysis
     ts_obj = o3.time_series.Path(osi, dt=asig.dt, values=asig.velocity * -1, factor=c_base)

@@ -231,7 +231,6 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         para += build_init_method_docstring(cur_obj_class_name, pms, inp_pms_order)
         import importlib
 
-        # Try to insert the initialisation example from tests
         print(base_type)
         if op_type is None:
             low_op_name = convert_camel_to_snake(base_class_name)
@@ -239,39 +238,44 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         else:
             low_op_name = convert_camel_to_snake(op_class_name)
         low_base_name = convert_camel_to_snake(base_class_name)  # TODO: should actually be file name
-        source = None
-        if low_base_name in extra_heir:
-            fdict = extra_heir[low_base_name]
-            if low_base_name == 'uniaxial_material':
-                estr = 'uniaxial_'
+
+        # Try to insert the initialisation example from tests
+        insert_example = 1
+        if insert_example:
+
+            source = None
+            if low_base_name in extra_heir:
+                fdict = extra_heir[low_base_name]
+                if low_base_name == 'uniaxial_material':
+                    estr = 'uniaxial_'
+                else:
+                    estr = ''
+
+                for f_old in fdict:
+                    f_new = fdict[f_old]
+                    tcommands = importlib.import_module(f"tests.commands.{low_base_name}.test_{estr}{f_new}")
+                    tname = f'test_{low_op_name}'
+                    if tname in dir(tcommands):
+                        source = inspect.getsource(getattr(tcommands, tname)).splitlines()
+                        break
             else:
-                estr = ''
+                try:
+                    tcommands = importlib.import_module(f"tests.commands.test_{low_base_name}")
+                    tname = f'test_{low_op_name}'
+                    if tname in dir(tcommands):
+                        source = inspect.getsource(getattr(tcommands, tname)).splitlines()
+                except ModuleNotFoundError:
+                    pass
+            if source is not None:
+                para = para[:-1]  # remove triple quote at end of docstring
+                para.append(w8 + 'Examples')
+                para.append(w8 + '--------')
+                para.append(w8 + '>>> import o3seespy as o3')
 
-            for f_old in fdict:
-                f_new = fdict[f_old]
-                tcommands = importlib.import_module(f"tests.commands.{low_base_name}.test_{estr}{f_new}")
-                tname = f'test_{low_op_name}'
-                if tname in dir(tcommands):
-                    source = inspect.getsource(getattr(tcommands, tname)).splitlines()
-                    break
-        else:
-            try:
-                tcommands = importlib.import_module(f"tests.commands.test_{low_base_name}")
-                tname = f'test_{low_op_name}'
-                if tname in dir(tcommands):
-                    source = inspect.getsource(getattr(tcommands, tname)).splitlines()
-            except ModuleNotFoundError:
-                pass
-        if source is not None:
-            para = para[:-1]  # remove triple quote at end of docstring
-            para.append(w8 + 'Examples')
-            para.append(w8 + '--------')
-            para.append(w8 + '>>> import o3seespy as o3')
-
-            for line in source[1:]:  # skip first line which says 'test_'
-                nline = w8 + '>>> ' + line[4:]
-                para.append(nline)
-            para.append(w8 + '"""')
+                for line in source[1:]:  # skip first line which says 'test_'
+                    nline = w8 + '>>> ' + line[4:]
+                    para.append(nline)
+                para.append(w8 + '"""')
 
         # Create init function saving logic
         for i, pm in enumerate(cl_pms):
@@ -561,7 +565,9 @@ def clean_fn_line(line, has_tag=True):
     df_op = df[(df['base_type'] == base_type) & (df['op_type'] == optype)]
 
     inputs_str = line.split(')')[0]
-    inputs = inputs_str.split(',')
+    inputs1 = inputs_str.split(',')
+    mstr = r'(?![^)(]*\([^)(]*?\)\)),(?![^\[]*\])'
+    inputs = re.split(mstr, inputs_str)
     if has_tag:
         inputs = inputs[2:]  # remove class definition and tag
     else:
@@ -589,6 +595,7 @@ def clean_fn_line(line, has_tag=True):
         inpy = inpy.replace('<', '')  # TODO: detect and group
         inpy = inpy.replace('>', '')
         if '=' in inpy:
+            print(line)
             inp, defo = inpy.split('=')
         else:
             inp = inpy
@@ -1080,10 +1087,10 @@ def parse_all_ndmat():
         ipara =[]
         print(item, collys[item])
         for mat in collys[item]:
-            if mat == 'PressureDependMultiYield':
-                continue
-            if mat == 'PressureDependMultiYield02':
-                continue
+            # if mat == 'PressureDependMultiYield':
+            #     continue
+            # if mat == 'PressureDependMultiYield02':
+            #     continue
             # if mat == 'StressDensityModel':
             #     continue
             if mat == 'PM4Sand':
@@ -1255,7 +1262,7 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'FRPConfinedConcrete02.rst', 'mat')
+        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PressureDependMultiYield.rst', 'mat')
         print(pstr)
         # test_clean_fn_line()
         # parse_generic_single_file(obj_type='section', osi_type='sect')

@@ -1,5 +1,6 @@
 from eqsig import sdof
 import numpy as np
+import os
 
 import o3seespy as o3
 
@@ -106,7 +107,8 @@ def test_sdof(show=0):
     Create a plot of an elastic analysis, nonlinear analysis and closed form elastic
     """
 
-    record_filename = 'test_motion_dt0p01.txt'
+    folder_path = os.path.dirname(os.path.abspath(__file__))
+    record_filename = folder_path + '/test_motion_dt0p01.txt'
     dt = 0.01
     rec = np.loadtxt(record_filename)
     period = 1.0
