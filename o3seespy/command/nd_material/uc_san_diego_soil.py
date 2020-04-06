@@ -100,6 +100,10 @@ class PressureIndependMultiYield(NDMaterialBase):
             self._parameters.append(self.n_surf)
         self.to_process(osi)
 
+    def update_to_nonlinear(self, osi):
+        from o3seespy import update_material_stage
+        update_material_stage(osi, self, 1)
+
 
 
 class PressureDependMultiYield(NDMaterialBase):
@@ -115,7 +119,7 @@ class PressureDependMultiYield(NDMaterialBase):
 
     def __init__(self, osi, nd, rho, g_mod_ref, bulk_mod_ref, phi, peak_strain, p_ref,
                  d, pt_ang, con_rate, dil_rates, liquefac, n_surf=20.0, strains=None, ratios=None,
-                 e_init=0.6, params=None, c=0.3):
+                 e_init=0.6, cs_params=None, c=0.3):
         """
         Initial method for PressureDependMultiYield
 
@@ -180,7 +184,7 @@ class PressureDependMultiYield(NDMaterialBase):
             provide a list of shear strains and corresponding shear modulus reduction ratios (`ratios`)
         e_init: float, optional
             Initial void ratio, optional (default is 0.6).
-        params: list (default=[0.9, 0.02, 0.7, 101.0]), optional
+        cs_params: list (default=[0.9, 0.02, 0.7, 101.0]), optional
             ``params=[cs1, cs2, cs3, pa]`` defining a straight critical-state line ec in e-p' space. if cs3=0, ec =
             cs1-cs2 log(p'/pa) else (li and wang, jgge, 124(12)), ec = cs1-cs2(p'/pa)cs3 where pa is atmospheric pressure for
             normalization (typically 101 kpa in si units, or 14.65 psi in english units). all four constants are optional
@@ -211,7 +215,7 @@ class PressureDependMultiYield(NDMaterialBase):
         else:
             self.yield_surf = None
         self.e_init = float(e_init)
-        self.params = params
+        self.cs_params = cs_params
         self.c = float(c)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -220,7 +224,7 @@ class PressureDependMultiYield(NDMaterialBase):
                             self.con_rate, *self.dil_rates, *self.liquefac, self.n_surf]
         if self.yield_surf is not None:
             self._parameters += list(self.yield_surf)
-        special_pms = ['e_init', 'params', 'c']
+        special_pms = ['e_init', 'cs_params', 'c']
         packets = [False, True, False]
         for i, pm in enumerate(special_pms):
             if getattr(self, pm) is not None:
@@ -231,6 +235,10 @@ class PressureDependMultiYield(NDMaterialBase):
             else:
                 break
         self.to_process(osi)
+
+    def update_to_nonlinear(self, osi):
+        from o3seespy import update_material_stage
+        update_material_stage(osi, self, 1)
 
 
 
@@ -248,7 +256,7 @@ class PressureDependMultiYield02(NDMaterialBase):
 
     def __init__(self, osi, nd, rho, g_mod_ref, bulk_mod_ref, phi, peak_strain, p_ref,
                  d, pt_ang, con_rates, dil_rates, liquefac=(1., 0.), n_surf=20.0, strains=None, ratios=None,
-                  e_init=0.6, params=None, c=0.1):
+                  e_init=0.6, cs_params=None, c=0.1):
         """
         Initial method for PressureDependMultiYield02
 
@@ -314,7 +322,7 @@ class PressureDependMultiYield02(NDMaterialBase):
             provide a list of shear strains and corresponding shear modulus reduction ratios (`ratios`)
         e_init: float, optional
             Initial void ratio, optional (default is 0.6).
-        params: list (default=[0.9, 0.02, 0.7, 101.0]), optional
+        cs_params: list (default=[0.9, 0.02, 0.7, 101.0]), optional
             ``params=[cs1, cs2, cs3, pa]`` defining a straight critical-state line ec in e-p' space. if cs3=0, ec =
             cs1-cs2 log(p'/pa) else (li and wang, jgge, 124(12)), ec = cs1-cs2(p'/pa)cs3 where pa is atmospheric pressure for
             normalization (typically 101 kpa in si units, or 14.65 psi in english units). all four constants are optional
@@ -351,7 +359,7 @@ class PressureDependMultiYield02(NDMaterialBase):
         else:
             self.yield_surf = None
         self.e_init = float(e_init)
-        self.params = params
+        self.cs_params = cs_params
         self.c = float(c)
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -361,7 +369,7 @@ class PressureDependMultiYield02(NDMaterialBase):
         if self.yield_surf is not None:
             self._parameters += list(self.yield_surf)
         self._parameters += [contrac2, dilat2]
-        special_pms = ['e_init', 'params', 'c']
+        special_pms = ['e_init', 'cs_params', 'c']
         packets = [False, True, False]
         for i, pm in enumerate(special_pms):
             if getattr(self, pm) is not None:
@@ -372,4 +380,8 @@ class PressureDependMultiYield02(NDMaterialBase):
             else:
                 break
         self.to_process(osi)
+
+    def update_to_nonlinear(self, osi):
+        from o3seespy import update_material_stage
+        update_material_stage(osi, self, 1)
 

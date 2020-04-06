@@ -59,3 +59,38 @@ def get_o3_kwargs_from_obj(obj, o3_obj, custom=None, overrides=None):
             if val is not None:
                 kwargs[p.name] = val
     return args, kwargs
+
+
+def has_o3_model_changed(cur_type, prev_type, cur_args, prev_args, cur_kwargs, prev_kwargs):
+    import numpy as np
+    changed = 0
+    if cur_type != prev_type or len(cur_args) != len(prev_args) or len(cur_kwargs) != len(prev_kwargs):
+        changed = 1
+    else:
+        for j, arg in enumerate(cur_args):
+            if hasattr(arg, '__len__'):
+                if len(arg) != len(prev_args[j]):
+                    changed = 1
+                    break
+                for k, subarg in enumerate(arg):
+                    if not np.isclose(subarg, prev_args[j][k]):
+                        changed = 1
+            elif not np.isclose(arg, prev_args[j]):
+                changed = 1
+                break
+        for pm in cur_kwargs:
+            if pm not in prev_kwargs:
+                changed = 1
+                break
+            if hasattr(cur_kwargs[pm], '__len__'):
+                if len(cur_kwargs[pm]) != len(prev_kwargs[pm]):
+                    changed = 1
+                    break
+                for k, subarg in enumerate(cur_kwargs[pm]):
+                    if not np.isclose(subarg, cur_kwargs[pm][k]):
+                        changed = 1
+                        break
+            elif not np.isclose(cur_kwargs[pm], prev_kwargs[pm]):
+                changed = 1
+                break
+    return changed

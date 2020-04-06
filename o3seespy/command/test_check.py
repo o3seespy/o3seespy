@@ -44,6 +44,26 @@ class RelativeNormDispIncr(TestBase):
     op_type = "RelativeNormDispIncr"
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
+        """
+        Initial method for RelativeNormDispIncr
+
+        Parameters
+        ----------
+        tol: float
+            Tolerance criteria used to check for convergence.
+        max_iter: int
+            Max number of iterations to check
+        p_flag: int
+            Print flag (optional):
+            * 0 print nothing.
+            * 1 print information on norms each time ``test()`` is invoked.
+            * 2 print information on norms and number of iterations at end of successful test.
+            * 4 at each step it will print the norms and also the :math:`\\delta u` and :math:`R(u)` vectors.
+            * 5 if it fails to converge at end of ``numiter``
+                it will print an error message **but return a successfull test**.
+        n_type: int
+            Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
+        """
         self.tol = float(tol)
         self.max_iter = int(max_iter)  # changed to avoid python function iter
         self.p_flag = int(p_flag)

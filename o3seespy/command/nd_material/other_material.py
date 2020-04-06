@@ -103,8 +103,12 @@ class PM4Sand(NDMaterialBase):
 
         self.to_process(osi)
 
-    def pre_dynamic(self, osi):
+    def pre_dynamic(self, osi):  # deprecated
         update_material_stage(osi, self, stage=1)
         # opw.set_parameter(osi, value=0, eles=[ele], args=['FirstCall', 1])
+
+    def update_to_nonlinear(self, osi):
+        from o3seespy import update_material_stage
+        update_material_stage(osi, self, 1)
 
 
