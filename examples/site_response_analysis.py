@@ -89,7 +89,7 @@ def site_response(sp, asig, linear=0):
         if not linear:
             mat = o3.nd_material.PressureIndependMultiYield(osi, 2, unit_masses[i], g_mods[i],
                                                          bulk_mods[i], cohesions[i], strain_peaks[i],
-                                                         phis[i], press_depend_coe=0.0, no_yield_surf=16,
+                                                         phis[i], d=0.0, n_surf=16,
                                                          strains=strains, ratios=rats)
         else:
             mat = o3.nd_material.ElasticIsotropic(osi, youngs_mods[i], poissons_ratio[i], rho=unit_masses[i])

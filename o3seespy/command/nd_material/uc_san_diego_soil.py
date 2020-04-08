@@ -126,7 +126,7 @@ class PressureDependMultiYield(NDMaterialBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        nd: float
+        nd: int
             Number of dimensions, 2 for plane-strain, and 3 for 3d analysis.
         rho: float
             Saturated soil mass density.
@@ -191,7 +191,7 @@ class PressureDependMultiYield(NDMaterialBase):
         c: float, optional
             Numerical constant (default value = 0.3 kPa)
         """
-        self.nd = float(nd)
+        self.nd = int(nd)
         self.rho = float(rho)
         self.g_mod_ref = float(g_mod_ref)
         self.bulk_mod_ref = float(bulk_mod_ref)
@@ -263,7 +263,7 @@ class PressureDependMultiYield02(NDMaterialBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        nd: float
+        nd: int
             Number of dimensions, 2 for plane-strain, and 3 for 3d analysis.
         rho: float
             Saturated soil mass density.
@@ -329,7 +329,7 @@ class PressureDependMultiYield02(NDMaterialBase):
         c: float, optional
             Numerical constant (default value = 0.1 kPa)
         """
-        self.nd = float(nd)
+        self.nd = int(nd)
         self.rho = float(rho)
         self.g_mod_ref = float(g_mod_ref)
         self.bulk_mod_ref = float(bulk_mod_ref)
