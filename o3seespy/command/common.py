@@ -414,8 +414,12 @@ def update_material_stage(osi, material, stage):
 
 
 def get_eigen(osi, solver='genBandArpack', n=1):
+    """Gets a list eigen values"""
     parameters = [f'-{solver}', n]
-    return osi.to_process("eigen", parameters)
+    outs = osi.to_process("eigen", parameters)
+    if not hasattr(outs, '__len__'):
+        return [outs]
+    return outs
 
 
 def get_pid(osi):
@@ -484,7 +488,7 @@ def get_all_ele_node_tags(osi):
 
 
 def get_all_ele_node_tags_as_dict(osi):
-    ele_tags = get_node_tags(osi)
+    ele_tags = get_ele_tags(osi)
     node_tags = {}
     for tag in ele_tags:
         tags = osi.to_process('eleNodes', [tag])

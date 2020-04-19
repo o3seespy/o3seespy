@@ -8,4 +8,5 @@ from o3seespy.command import section, beam_integration, transformation, constrai
 from o3seespy.command import integrator, analysis, recorder, pattern, time_series, geom_transf, patch, layer
 import o3seespy.tools
 from o3seespy.command import test_check  # deprecated
+from o3seespy.__about__ import __version__
 

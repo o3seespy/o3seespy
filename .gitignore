@@ -1,8 +1,8 @@
 
 .idea/
-eqsig/.idea/
-eqsig/__pycache__/
-eqsig.egg-info/
+o3seespy/.idea/
+o3seespy/__pycache__/
+o3seespy.egg-info/
 tests/matplotlibrc
 .cache/
 tests/__pycache__/

@@ -227,7 +227,7 @@ def run(show=0, export=0):
     rec = np.loadtxt(record_path + record_filename) / 2
     acc_signal = eqsig.AccSignal(rec, dt)
 
-    outputs = site_response(soil_profile, acc_signal, linear=1)
+    outputs = site_response(soil_profile, acc_signal, linear=0)
     tot_acc = np.sum(abs(outputs['rel_accel']))
     assert np.isclose(tot_acc, 515.76262984), tot_acc  # v3.1.0.11
     resp_dt = outputs['time'][2] - outputs['time'][1]
@@ -264,4 +264,4 @@ def run(show=0, export=0):
 
 
 if __name__ == '__main__':
-    run()
+    run(show=1)
