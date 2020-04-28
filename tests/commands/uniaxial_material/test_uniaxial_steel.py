@@ -7,14 +7,16 @@ def test_steel02():
     o3.uniaxial_material.Steel02(osi, fy=1.0, e0=1.0, b=1.0, params=[15, 0.925, 0.15])
 
 
-@pytest.mark.skip()
+
 def test_hysteretic():
     osi = o3.OpenSeesInstance(ndm=2)
-    p1 = [1.0, 1.0]
+    p1 = [0.5, 0.5]
     p2 = [1.0, 1.0]
-    n1 = [1.0, 1.0]
-    n2 = [1.0, 1.0]
-    o3.uniaxial_material.Hysteretic(osi, p1=p1, p2=p2, p3=None, n1=n1, n2=n2, n3=None, pinch_x=1.0, pinch_y=1.0, damage1=1.0, damage2=1.0, beta=1.0)
+    p3 = [0, 1.5]
+    n1 = [-0.5, -0.5]
+    n2 = [-1.0, -1.0]
+    n3 = [0, -1.5]
+    o3.uniaxial_material.Hysteretic(osi, p1=p1, p2=p2, p3=p3, n1=n1, n2=n2, n3=n3, pinch_x=1, pinch_y=0, damage1=0, damage2=0)
 
 
 def test_reinforcing_steel_ga_buck():
@@ -42,7 +44,7 @@ def test_reinforcing_steel_mp_curve_params():
     o3.uniaxial_material.ReinforcingSteelMPCurveParams(osi, fy=1.0, fu=1.0, es=1.0, esh=1.0, eps_sh=1.0, eps_ult=1.0, r1=0.333, r2=18.0, r3=4.0)
 
 
-@pytest.mark.skip()
+@pytest.mark.skip()  # not connected in openseespy - works in tcl
 def test_dodd_restrepo():
     osi = o3.OpenSeesInstance(ndm=2)
     o3.uniaxial_material.DoddRestrepo(osi, fy=1.0, fsu=1.0, esh=1.0, esu=1.0, youngs=1.0, eshi=1.0, fshi=1.0, omega_fac=1.0)

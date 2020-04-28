@@ -22,17 +22,19 @@ def test_ent():
     o3.uniaxial_material.ENT(osi, e_mod=1.0)
 
 
-@pytest.mark.skip()
+
 def test_parallel():
     osi = o3.OpenSeesInstance(ndm=2)
-    tags = [1, 1]
+    mats = [o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None),
+            o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)]
     factor_args = [1.0, 1.0]
-    o3.uniaxial_material.Parallel(osi, tags=tags, factor_args=factor_args)
+    o3.uniaxial_material.Parallel(osi, mats=mats, factor_args=factor_args)
 
 
-@pytest.mark.skip()
+
 def test_series():
     osi = o3.OpenSeesInstance(ndm=2)
-    tags = [1, 1]
-    o3.uniaxial_material.Series(osi, tags=tags)
+    mats = [o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None),
+            o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)]
+    o3.uniaxial_material.Series(osi, mats=mats)
 

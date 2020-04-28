@@ -119,7 +119,7 @@ Example: Dynamic inelastic SDOF analysis
     o3.pattern.UniformExcitation(osi, dir=o3.cc.X, accel_series=acc_series)
 
     # set damping based on first eigen mode
-    angular_freq = o3.get_eigen(osi, solver='fullGenLapack', n=1) ** 0.5
+    angular_freq = o3.get_eigen(osi, solver='fullGenLapack', n=1)[0] ** 0.5
     beta_k = 2 * xi / angular_freq
     o3.rayleigh.Rayleigh(osi, alpha_m=0.0, beta_k=beta_k, beta_k_init=0.0, beta_k_comm=0.0)
 

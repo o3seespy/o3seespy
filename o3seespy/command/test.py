@@ -233,7 +233,7 @@ class RelativeTotalNormDispIncr(TestBase):
     Create a RelativeTotalNormDispIncr test, which uses the ratio of the current norm to the total norm (the sum of all
     the norms since last convergence) of the solution vector.
     """
-    op_type = 'relativeTotalNormDispIncr'
+    op_type = 'RelativeTotalNormDispIncr'
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
         """

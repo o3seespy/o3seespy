@@ -201,7 +201,6 @@ class Parallel(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_parallel():
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> tags = [1, 1]
         >>> factor_args = [1.0, 1.0]
@@ -213,7 +212,7 @@ class Parallel(UniaxialMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.mats]
         if getattr(self, 'factor_args') is not None:
-            self._parameters += ['-factor', *self.factor_args]
+            self._parameters += ['-factors', *self.factor_args]
         self.to_process(osi)
 
 

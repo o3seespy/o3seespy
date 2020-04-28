@@ -68,7 +68,8 @@ def test_nonlinear_beam_column():
     j_node = o3.node.Node(osi, 0.0, 1.0)
     sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
     transf = o3.geom_transf.Linear2D(osi, [])
-    o3.element.NonlinearBeamColumn(osi, ele_nodes=[i_node, j_node], num_intgr_pts=1, sec=sec, transf=transf, max_iter=10, tol=1e-12, mass=0.0, int_type="radau")
+    o3.element.NonlinearBeamColumn(osi, ele_nodes=[i_node, j_node], num_intgr_pts=1, sec=sec, transf=transf,
+                                   max_iter=10, tol=1e-12, mass=0.0, int_type="radau")
 
 
 @pytest.mark.skip()

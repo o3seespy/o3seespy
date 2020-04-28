@@ -27,6 +27,16 @@ def to_py_file(osi, ofile='ofile.py', w_analyze=False):
     ofile.close()
 
 
+def to_tcl_file(osi, ofile='ofile.tcl', w_analyze=False):
+    ofile = open(ofile, 'w')
+    pstr = '\n'.join(osi.commands)
+    if w_analyze:
+        pstr += '\nopy.analyze(1, 0.1)\n'
+    tcl_str = py2tcl(pstr)
+    ofile.write(tcl_str)
+    ofile.close()
+
+
 def get_o3_kwargs_from_obj(obj, o3_obj, custom=None, overrides=None):
     if custom is None:
         custom = {}
@@ -94,3 +104,21 @@ def has_o3_model_changed(cur_type, prev_type, cur_args, prev_args, cur_kwargs, p
                 changed = 1
                 break
     return changed
+
+
+def py2tcl(pystr):
+    """
+    Converts openseespy script to tcl
+
+    Returns
+    -------
+
+    """
+    # new = '\n'.join(pystr.split()[1:])  # removes the import line
+    new = pystr.replace('(', ' ')
+    new = new.replace(')', ' ')
+    new = new.replace('opy.', '')
+    new = new.replace(',', '')
+    new = new.replace("'", '')
+    new = new.replace('"', '')
+    return new

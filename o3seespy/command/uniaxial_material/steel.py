@@ -137,7 +137,7 @@ class Hysteretic(UniaxialMaterialBase):
     """
     op_type = 'Hysteretic'
 
-    def __init__(self, osi, p1, p2, p3, n1, n2, n3, pinch_x, pinch_y, damage1, damage2, beta):
+    def __init__(self, osi, p1, p2, p3, n1, n2, n3, pinch_x, pinch_y, damage1, damage2, beta=0.0):
         """
         Initial method for Hysteretic
 
@@ -175,13 +175,16 @@ class Hysteretic(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_hysteretic():
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> p1 = [1.0, 1.0]
+        >>> p1 = [0.5, 0.5]
         >>> p2 = [1.0, 1.0]
-        >>> n1 = [1.0, 1.0]
-        >>> n2 = [1.0, 1.0]
-        >>> o3.uniaxial_material.Hysteretic(osi, p1=p1, p2=p2, p3=None, n1=n1, n2=n2, n3=None, pinch_x=1.0, pinch_y=1.0, damage1=1.0, damage2=1.0, beta=1.0)
+        >>> p3 = [0, 1.5]
+        >>> n1 = [-0.5, -0.5]
+        >>> n2 = [-1.0, -1.0]
+        >>> n3 = [0, -1.5]
+        >>> o3.uniaxial_material.Hysteretic(osi, p1=p1, p2=p2, p3=p3, n1=n1, n2=n2, n3=n3, pinch_x=1,
+        >>>                                 pinch_y=0, damage1=0, damage2=0)
+
         """
         self.p1 = p1
         self.p2 = p2

@@ -13,3 +13,4 @@ Models with implementation issues
  - element.quadrilateral
  - block2D
  - block3D
+ - Dodd_Restrepo - not connected in openseespy
