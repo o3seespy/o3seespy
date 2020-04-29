@@ -385,3 +385,9 @@ class PressureDependMultiYield02(NDMaterialBase):
         from o3seespy import update_material_stage
         update_material_stage(osi, self, 1)
 
+    def update_nu(self, osi, nu, ele=None, eles=None):
+        from o3seespy import set_parameter
+        if ele is not None:
+            set_parameter(osi, value=nu, eles=[ele], args=['poissonRatio', 1])
+        if eles is not None:
+            set_parameter(osi, value=nu, eles=eles, args=['poissonRatio', 1])

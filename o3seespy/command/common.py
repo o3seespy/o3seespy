@@ -378,7 +378,7 @@ def set_parameter(osi, value, eles=None, ele_range=None, args=None):
     else:
         raise ValueError("'eles or ele_range must not be None in set_parameter")
     if args:
-        parameters += [*args]
+        parameters += [str(x) for x in args]
     else:
         raise ValueError("'args' can not be None in set_parameter")
     # p_str = ', '.join([str(x) for x in parameters])

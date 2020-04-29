@@ -36,6 +36,20 @@ class ElasticIsotropic(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.e_mod, self.nu, self.rho]
         self.to_process(osi)
 
+    def update_nu(self, osi, nu, ele=None, eles=None):
+        from o3seespy import set_parameter
+        if ele is not None:
+            set_parameter(osi, value=nu, eles=[ele], args=['nu', 1])
+        if eles is not None:
+            set_parameter(osi, value=nu, eles=eles, args=['nu', 1])
+
+    def update_e_mod(self, osi, e_mod, ele=None, eles=None):
+        from o3seespy import set_parameter
+        if ele is not None:
+            set_parameter(osi, value=e_mod, eles=[ele], args=['E', 1])
+        if eles is not None:
+            set_parameter(osi, value=e_mod, eles=eles, args=['E', 1])
+
 
 class ElasticOrthotropic(NDMaterialBase):
     """

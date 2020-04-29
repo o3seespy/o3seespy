@@ -237,7 +237,6 @@ class Series(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_series():
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> tags = [1, 1]
         >>> o3.uniaxial_material.Series(osi, tags=tags)
