@@ -36,19 +36,14 @@ class ElasticIsotropic(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.e_mod, self.nu, self.rho]
         self.to_process(osi)
 
-    def update_nu(self, osi, nu, ele=None, eles=None):
-        from o3seespy import set_parameter
-        if ele is not None:
-            set_parameter(osi, value=nu, eles=[ele], args=['nu', 1])
-        if eles is not None:
-            set_parameter(osi, value=nu, eles=eles, args=['nu', 1])
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
 
-    def update_e_mod(self, osi, e_mod, ele=None, eles=None):
-        from o3seespy import set_parameter
-        if ele is not None:
-            set_parameter(osi, value=e_mod, eles=[ele], args=['E', 1])
-        if eles is not None:
-            set_parameter(osi, value=e_mod, eles=eles, args=['E', 1])
+    def set_v(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'v', value, ele, eles)
+
+    def set_rho(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'rho', value, ele, eles)
 
 
 class ElasticOrthotropic(NDMaterialBase):
@@ -107,6 +102,36 @@ class ElasticOrthotropic(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.ex, self.ey, self.ez, self.nu_xy, self.nu_yz, self.nu_zx, self.gxy, self.gyz, self.gzx, self.rho]
         self.to_process(osi)
 
+    def set_ex(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Ex', value, ele, eles)
+
+    def set_ey(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Ey', value, ele, eles)
+
+    def set_ez(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Ez', value, ele, eles)
+
+    def set_vyx(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'vyx', value, ele, eles)
+
+    def set_vzy(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'vzy', value, ele, eles)
+
+    def set_vxz(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'vxz', value, ele, eles)
+
+    def set_gyx(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Gyx', value, ele, eles)
+
+    def set_gzy(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Gzy', value, ele, eles)
+
+    def set_gxz(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Gxz', value, ele, eles)
+
+    def set_rho(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'rho', value, ele, eles)
+
 
 class J2Plasticity(NDMaterialBase):
     """
@@ -152,6 +177,15 @@ class J2Plasticity(NDMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sig0, self.sig_inf, self.delta, self.big_h]
         self.to_process(osi)
+
+    def set_k(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'K', value, ele, eles)
+
+    def set_mu(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'mu', value, ele, eles)
+
+    def set_rho(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'rho', value, ele, eles)
 
 
 class DrukerPrager(NDMaterialBase):
@@ -366,6 +400,24 @@ class PlaneStress(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.mat3d.tag]
         self.to_process(osi)
 
+    def set_tangent(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Tangent', value, ele, eles)
+
+    def set_tangent(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'tangent', value, ele, eles)
+
+    def set_stress(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'stress', value, ele, eles)
+
+    def set_stresses(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'stresses', value, ele, eles)
+
+    def set_strain(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'strain', value, ele, eles)
+
+    def set_strains(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'strains', value, ele, eles)
+
 
 class PlaneStrain(NDMaterialBase):
     """
@@ -397,6 +449,24 @@ class PlaneStrain(NDMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mat3d.tag]
         self.to_process(osi)
+
+    def set_tangent(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Tangent', value, ele, eles)
+
+    def set_tangent(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'tangent', value, ele, eles)
+
+    def set_stress(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'stress', value, ele, eles)
+
+    def set_stresses(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'stresses', value, ele, eles)
+
+    def set_strain(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'strain', value, ele, eles)
+
+    def set_strains(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'strains', value, ele, eles)
 
 
 class MultiaxialCyclicPlasticity(NDMaterialBase):
@@ -508,6 +578,9 @@ class BoundingCamClay(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.mass_density, self.big_c, self.bulk_mod, self.ocr, self.mu_o, self.alpha, self.lamb, self.h, self.m]
         self.to_process(osi)
 
+    def set_material_state(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'materialState', value, ele, eles)
+
 
 class PlateFiber(NDMaterialBase):
     """
@@ -539,6 +612,24 @@ class PlateFiber(NDMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.three_d.tag]
         self.to_process(osi)
+
+    def set_tangent(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Tangent', value, ele, eles)
+
+    def set_tangent(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'tangent', value, ele, eles)
+
+    def set_stress(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'stress', value, ele, eles)
+
+    def set_stresses(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'stresses', value, ele, eles)
+
+    def set_strain(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'strain', value, ele, eles)
+
+    def set_strains(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'strains', value, ele, eles)
 
 
 class FSAM(NDMaterialBase):
@@ -696,6 +787,33 @@ class ManzariDafalias(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.mc, self.c, self.lambda_c, self.e0, self.ksi, self.p_atm, self.m, self.h0, self.ch, self.nb, self.a0, self.nd, self.z_max, self.cz, self.den]
         self.to_process(osi)
 
+    def set_update_material_stage(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+
+    def set_material_state(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'materialState', value, ele, eles)
+
+    def set_integration_scheme(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'IntegrationScheme', value, ele, eles)
+
+    def set_jacobian(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Jacobian', value, ele, eles)
+
+    def set_ref_shear_modulus(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'refShearModulus', value, ele, eles)
+
+    def set_g_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'ShearModulus', value, ele, eles)
+
+    def set_nu(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'poissonRatio', value, ele, eles)
+
+    def set_void_ratio(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'voidRatio', value, ele, eles)
+
+    def set_stress_correction(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'stressCorrection', value, ele, eles)
+
 
 class StressDensity(NDMaterialBase):
     op_type = "stressDensity"
@@ -821,3 +939,12 @@ class AcousticMedium(NDMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k_mod, self.rho]
         self.to_process(osi)
+
+    def set_kf(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Kf', value, ele, eles)
+
+    def set_rho(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'rho', value, ele, eles)
+
+    def set_gamma(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'gamma', value, ele, eles)

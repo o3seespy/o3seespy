@@ -196,6 +196,9 @@ class PyLiq1(UniaxialMaterialBase):
             self._parameters += ['-timeSeries', self.time_series.tag]
         self.to_process(osi)
 
+    def set_update_material_stage(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+
 
 class TzLiq1(UniaxialMaterialBase):
     """
@@ -249,3 +252,6 @@ class TzLiq1(UniaxialMaterialBase):
         if getattr(self, 'time_series') is not None:
             self._parameters += ['-timeSeries', self.time_series.tag]
         self.to_process(osi)
+
+    def set_update_material_stage(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)

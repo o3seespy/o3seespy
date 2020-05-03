@@ -256,7 +256,6 @@ class RelativeTotalNormDispIncr(TestBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_relative_total_norm_disp_incr():
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.RelativeTotalNormDispIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """

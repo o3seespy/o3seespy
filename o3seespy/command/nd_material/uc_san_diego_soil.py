@@ -408,3 +408,4 @@ class PressureDependMultiYield02(NDMaterialBase):
         else:
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
             self.update_parameter(osi, 'bulkModulus', bulk_mod, ele, eles)
+

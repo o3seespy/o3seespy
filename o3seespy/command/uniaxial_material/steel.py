@@ -127,6 +127,27 @@ class Steel02(UniaxialMaterialBase):
                 break
         self.to_process(osi)
 
+    def set_fy(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Fy', value, ele, eles)
+
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
+    def set_b(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'b', value, ele, eles)
+
+    def set_a1(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'a1', value, ele, eles)
+
+    def set_a2(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'a2', value, ele, eles)
+
+    def set_a3(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'a3', value, ele, eles)
+
+    def set_a4(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'a4', value, ele, eles)
+
 
 class Hysteretic(UniaxialMaterialBase):
     """
@@ -170,7 +191,7 @@ class Hysteretic(UniaxialMaterialBase):
             Damage due to ductility: d1(mu-1)
         damage2: float
             Damage due to energy: d2(eii/eult)
-        beta: float
+        beta: float, optional
             Power used to determine the degraded unloading stiffness based on ductility, mu-beta (optional, default=0.0)
         Examples
         --------
@@ -182,9 +203,7 @@ class Hysteretic(UniaxialMaterialBase):
         >>> n1 = [-0.5, -0.5]
         >>> n2 = [-1.0, -1.0]
         >>> n3 = [0, -1.5]
-        >>> o3.uniaxial_material.Hysteretic(osi, p1=p1, p2=p2, p3=p3, n1=n1, n2=n2, n3=n3, pinch_x=1,
-        >>>                                 pinch_y=0, damage1=0, damage2=0)
-
+        >>> o3.uniaxial_material.Hysteretic(osi, p1=p1, p2=p2, p3=p3, n1=n1, n2=n2, n3=n3, pinch_x=1, pinch_y=0, damage1=0, damage2=0)
         """
         self.p1 = p1
         self.p2 = p2
@@ -692,3 +711,24 @@ class Steel01Thermal(UniaxialMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.e0, self.b, self.a1, self.a2, self.a3, self.a4]
         self.to_process(osi)
+
+    def set_fy(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fy', value, ele, eles)
+
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
+    def set_b(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'b', value, ele, eles)
+
+    def set_a1(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'a1', value, ele, eles)
+
+    def set_a2(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'a2', value, ele, eles)
+
+    def set_a3(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'a3', value, ele, eles)
+
+    def set_a4(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'a4', value, ele, eles)

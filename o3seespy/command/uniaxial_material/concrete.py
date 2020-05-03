@@ -41,6 +41,18 @@ class Concrete01(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_u]
         self.to_process(osi)
 
+    def set_fc(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fc', value, ele, eles)
+
+    def set_epsco(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'epsco', value, ele, eles)
+
+    def set_fcu(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fcu', value, ele, eles)
+
+    def set_epscu(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'epscu', value, ele, eles)
+
 
 class Concrete02(UniaxialMaterialBase):
     """
@@ -435,6 +447,18 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             self._parameters += ['-stRatio', self.st_ratio]
         self.to_process(osi)
 
+    def set_fc(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fc', value, ele, eles)
+
+    def set_epsco(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'epsco', value, ele, eles)
+
+    def set_fcu(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fcu', value, ele, eles)
+
+    def set_epscu(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'epscu', value, ele, eles)
+
 
 class ConcreteD(UniaxialMaterialBase):
     """
@@ -571,6 +595,60 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc1, self.fpc2, self.epsc0, self.big_d, self.c, self.ej, self.sj, self.tj, self.eju, self.big_s, self.fyl, self.fyh, self.dlong, self.dtrans, self.es, self.nu0, self.k, self.use_buck]
         self.to_process(osi)
+
+    def set_fc1(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fc1', value, ele, eles)
+
+    def set_fc2(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fc2', value, ele, eles)
+
+    def set_epsco(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'epsco', value, ele, eles)
+
+    def set_d(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'D', value, ele, eles)
+
+    def set_c(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'c', value, ele, eles)
+
+    def set_ej(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Ej', value, ele, eles)
+
+    def set_sj(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Sj', value, ele, eles)
+
+    def set_tj(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'tj', value, ele, eles)
+
+    def set_eju(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'eju', value, ele, eles)
+
+    def set_s(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'S', value, ele, eles)
+
+    def set_fyl(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fyl', value, ele, eles)
+
+    def set_fyh(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'fyh', value, ele, eles)
+
+    def set_dlong(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'dlong', value, ele, eles)
+
+    def set_dtrans(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'dtrans', value, ele, eles)
+
+    def set_es(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Es', value, ele, eles)
+
+    def set_vo(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'vo', value, ele, eles)
+
+    def set_k(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'k', value, ele, eles)
+
+    def set_use_buck(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'useBuck', value, ele, eles)
 
 
 class FRPConfinedConcrete02JacketC(UniaxialMaterialBase):

@@ -76,6 +76,9 @@ class CycLiqCP(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.g0, self.kappa, self.h, self.mfc, self.dre1, self.mdc, self.dre2, self.rdr, self.alpha, self.dir, self.ein, self.rho]
         self.to_process(osi)
 
+    def set_update_material_stage(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+
 
 class CycLiqCPSP(NDMaterialBase):
     """
@@ -163,3 +166,6 @@ class CycLiqCPSP(NDMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.g0, self.kappa, self.h, self.big_m, self.dre1, self.dre2, self.rdr, self.alpha, self.dir, self.lambdac, self.ksi, self.e0, self.np, self.nd, self.ein, self.rho]
         self.to_process(osi)
+
+    def set_update_material_stage(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)

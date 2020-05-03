@@ -44,6 +44,18 @@ class Hardening(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.e_mod, self.sigma_y, self.h_iso, self.h_kin, self.eta]
         self.to_process(osi)
 
+    def set_fy(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Fy', value, ele, eles)
+
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
+    def set_hkin(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Hkin', value, ele, eles)
+
+    def set_hiso(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Hiso', value, ele, eles)
+
 
 class Cast(UniaxialMaterialBase):
     """
@@ -189,6 +201,12 @@ class ViscousDamper(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.k_el, self.cd, self.alpha, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
         self.to_process(osi)
 
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
+    def set_eta(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'eta', value, ele, eles)
+
 
 class BilinearOilDamper(UniaxialMaterialBase):
     """
@@ -246,6 +264,21 @@ class BilinearOilDamper(UniaxialMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k_el, self.cd, self.fr, self.p, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
         self.to_process(osi)
+
+    def set_k(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'K', value, ele, eles)
+
+    def set_c(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'C', value, ele, eles)
+
+    def set_fr(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Fr', value, ele, eles)
+
+    def set_p(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'p', value, ele, eles)
+
+    def set_l_gap(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'LGap', value, ele, eles)
 
 
 class Bilin(UniaxialMaterialBase):
@@ -1021,6 +1054,9 @@ class LimitState(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.s1p, self.e1p, self.s2p, self.e2p, self.s3p, self.e3p, self.s1n, self.e1n, self.s2n, self.e2n, self.s3n, self.e3n, self.pinch_x, self.pinch_y, self.damage1, self.damage2, self.beta, self.curve.tag, self.curve_type]
         self.to_process(osi)
 
+    def set_state_flag(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'stateFlag', value, ele, eles)
+
 
 class MinMax(UniaxialMaterialBase):
     """
@@ -1291,6 +1327,9 @@ class InitStressMaterial(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_stress]
         self.to_process(osi)
 
+    def set_f0(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'F0', value, ele, eles)
+
 
 class PathIndependent(UniaxialMaterialBase):
     """
@@ -1487,6 +1526,15 @@ class Viscous(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.big_c, self.alpha]
         self.to_process(osi)
 
+    def set_c(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'C', value, ele, eles)
+
+    def set_alpha(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Alpha', value, ele, eles)
+
+    def set_min_vel(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'minVel', value, ele, eles)
+
 
 class BoucWen(UniaxialMaterialBase):
     """
@@ -1544,6 +1592,33 @@ class BoucWen(UniaxialMaterialBase):
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.alpha, self.ko, self.n, self.gamma, self.beta, self.ao, self.delta_a, self.delta_nu, self.delta_eta]
         self.to_process(osi)
+
+    def set_alpha(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'alpha', value, ele, eles)
+
+    def set_ko(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'ko', value, ele, eles)
+
+    def set_n(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'n', value, ele, eles)
+
+    def set_gamma(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'gamma', value, ele, eles)
+
+    def set_beta(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'beta', value, ele, eles)
+
+    def set_ao(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Ao', value, ele, eles)
+
+    def set_delta_a(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'deltaA', value, ele, eles)
+
+    def set_delta_nu(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'deltaNu', value, ele, eles)
+
+    def set_delta_eta(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'deltaEta', value, ele, eles)
 
 
 class BWBN(UniaxialMaterialBase):

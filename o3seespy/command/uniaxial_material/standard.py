@@ -50,6 +50,18 @@ class Elastic(UniaxialMaterialBase):
                 break
         self.to_process(osi)
 
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
+    def set_epos(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Epos', value, ele, eles)
+
+    def set_eneg(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Eneg', value, ele, eles)
+
+    def set_eta(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'eta', value, ele, eles)
+
 
 class ElasticPP(UniaxialMaterialBase):
     """
@@ -102,6 +114,15 @@ class ElasticPP(UniaxialMaterialBase):
             else:
                 break
         self.to_process(osi)
+
+    def set_fy(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'Fy', value, ele, eles)
+
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
+    def set_ep(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'ep', value, ele, eles)
 
 
 class ElasticPPGap(UniaxialMaterialBase):
@@ -176,6 +197,9 @@ class ENT(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.e_mod]
         self.to_process(osi)
 
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
 
 class Parallel(UniaxialMaterialBase):
     """
@@ -202,9 +226,10 @@ class Parallel(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> tags = [1, 1]
+        >>> mats = [o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None),
+        >>>         o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)]
         >>> factor_args = [1.0, 1.0]
-        >>> o3.uniaxial_material.Parallel(osi, tags=tags, factor_args=factor_args)
+        >>> o3.uniaxial_material.Parallel(osi, mats=mats, factor_args=factor_args)
         """
         self.mats = [x.tag for x in mats]
         self.factor_args = factor_args
@@ -238,8 +263,9 @@ class Series(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> tags = [1, 1]
-        >>> o3.uniaxial_material.Series(osi, tags=tags)
+        >>> mats = [o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None),
+        >>>         o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)]
+        >>> o3.uniaxial_material.Series(osi, mats=mats)
         """
         self.mats = [x.tag for x in mats]
         osi.n_mat += 1

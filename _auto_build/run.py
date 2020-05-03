@@ -122,8 +122,34 @@ def convert_camel_to_snake(name):
     return s1
 
 
+def build_additional_methods(obj_type, obj_name):
+    if obj_type == 'nDMaterial':
+        df = pd.read_csv('markup_lists/nD-set-parameters.csv')
+    elif obj_type == 'uniaxialMaterial':
+        df = pd.read_csv('markup_lists/uniaxial-set-parameters.csv')
+    elif obj_type == 'section':
+        df = pd.read_csv('markup_lists/section-set-parameters.csv')
+    else:
+        return []
+    df.fillna('', inplace=True)
+    df = df[df['obj'] == obj_name]
+    if not len(df):
+        return []
+    print(obj_type, obj_name)
+    o3_names = df['o3_name'].iloc[0].split('-')
+    cpp_names = df['cpp_name'].iloc[0].split('-')
+    if len(o3_names) == 1 and o3_names[0] == '':
+        return []
+    para = []
+    for i, name in enumerate(o3_names):
+        para.append(w4 + f'def set_{name}(self, osi, value, ele=None, eles=None):')
+        para.append(w8 + f"self.set_parameter(osi, '{cpp_names[i]}', value, ele, eles)")
+        para.append('')
+    return para
+
+
 def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="", obj_blurb=""):
-    df_ip = pd.read_csv('force_in_place.csv')
+    df_ip = pd.read_csv('markup_lists/force_in_place.csv')
     df_ip = df_ip[(df_ip['base_type'] == base_type) & (df_ip['op_type'] == op_type)]
     if len(op_kwargs) == 1:
         iis = list(op_kwargs)
@@ -378,6 +404,8 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         para.append(w8 + 'self.to_process(osi)')
         para.append('')
 
+        para += build_additional_methods(base_type, op_type)
+
         # Build test
         names = {
             'low_op_name': low_op_name,
@@ -553,7 +581,7 @@ suffixes = ['', 'Args', 'Tag', 'Tags', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Val
 
 
 def clean_fn_line(line, has_tag=True):
-    df = pd.read_csv('overrides.csv')
+    df = pd.read_csv('markup_lists/overrides.csv')
     defaults = OrderedDict()
     base_type = line.split('.. function:: ')[-1]
     base_type = base_type.split('(')[0]
@@ -707,7 +735,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                 if not fn_line_counter:
                     raise ValueError
                 cl_name_suf = ''
-                df_td = pd.read_csv('two_definitions.csv')
+                df_td = pd.read_csv('markup_lists/two_definitions.csv')
                 df_td = df_td[(df_td['base_type'] == base_type) & (df_td['op_type'] == optype)]
                 if len(df_td):
                     two_defs = df_td['option'].iloc[0]
@@ -808,7 +836,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                 glob_list.append(f'{base_type}-{optype}')
 
                 base_type1, optype1, defaults1, op_kwargs1 = clean_fn_line(line, has_tag)
-                df_td = pd.read_csv('two_definitions.csv')
+                df_td = pd.read_csv('markup_lists/two_definitions.csv')
                 df_td = df_td[(df_td['base_type'] == base_type) & (df_td['op_type'] == optype)]
                 two_defs = df_td['option'].iloc[0]
                 if not len(df_td):
@@ -1173,6 +1201,14 @@ def parse_all_elements():
             ofile.write('\n'.join(tpara))
 
 
+def str_of_set_parameter_base_method():
+    return [w4 + 'def set_parameter(self, osi, pstr, value, ele, eles):',
+        w8 + 'from o3seespy import set_parameter',
+        w8 + 'if ele is not None:',
+        w12 + 'set_parameter(osi, value=value, eles=[ele], args=[pstr, 1])',
+        w8 + 'if eles is not None:',
+        w12 + 'set_parameter(osi, value=value, eles=eles, args=[pstr, 1])', '']
+
 def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False):
     o3_type = convert_camel_to_snake(obj_type)
     o3_class_type = convert_name_to_class_name(obj_type)
@@ -1203,6 +1239,8 @@ def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False):
         para = ['from o3seespy.base_model import OpenSeesObject', '', '']
         para += [f'class {o3_class_type}Base(OpenSeesObject):']
         para += [w4 + f'op_base_type = "{obj_type}"', '']
+        if obj_type == 'section':
+            para += str_of_set_parameter_base_method()
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         ipara = []
         for mat in collys[item]:

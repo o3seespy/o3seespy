@@ -4,6 +4,13 @@ from o3seespy.base_model import OpenSeesObject
 class SectionBase(OpenSeesObject):
     op_base_type = "section"
 
+    def set_parameter(self, osi, pstr, value, ele, eles):
+        from o3seespy import set_parameter
+        if ele is not None:
+            set_parameter(osi, value=value, eles=[ele], args=[pstr, 1])
+        if eles is not None:
+            set_parameter(osi, value=value, eles=eles, args=[pstr, 1])
+
 
 class Elastic2D(SectionBase):
     """
@@ -61,6 +68,15 @@ class Elastic2D(SectionBase):
             else:
                 break
         self.to_process(osi)
+
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
+    def set_a(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'A', value, ele, eles)
+
+    def set_i(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'I', value, ele, eles)
 
 
 class Elastic3D(SectionBase):
@@ -129,6 +145,15 @@ class Elastic3D(SectionBase):
             else:
                 break
         self.to_process(osi)
+
+    def set_e_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'E', value, ele, eles)
+
+    def set_a(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'A', value, ele, eles)
+
+    def set_i(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'I', value, ele, eles)
 
 
 class Fiber(SectionBase):

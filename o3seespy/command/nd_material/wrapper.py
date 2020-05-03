@@ -37,6 +37,21 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.n_d_mat.tag, self.n_dim]
         self.to_process(osi)
 
+    def set_update_material_stage(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+
+    def set_g_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'shearModulus', value, ele, eles)
+
+    def set_bulk_mod(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'bulkModulus', value, ele, eles)
+
+    def set_friction_angle(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'frictionAngle', value, ele, eles)
+
+    def set_cohesion(self, osi, value, ele=None, eles=None):
+        self.set_parameter(osi, 'cohesion', value, ele, eles)
+
 
 class InitStressNDMaterial(NDMaterialBase):
     """

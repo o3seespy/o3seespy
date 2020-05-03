@@ -1,0 +1,13 @@
+obj,o3_name,cpp_name
+Elastic,e_mod-a-i,E-A-I
+Fiber,,
+NDFiber,,
+ElasticMembranePlateSection,,
+ElasticWarpingShear,e_mod-a-i-g_mod-alpha-j-b-c,E-A-I-G-alpha-J-B-C
+ElasticTube,e_mod-t-d-g_mod,E-t-D-G
+WSection2d,,
+Parallel,,
+ElasticPlateSection,,
+ElasticMembranePlateSection,,
+Bidirectional,,
+Isolator2spring,,

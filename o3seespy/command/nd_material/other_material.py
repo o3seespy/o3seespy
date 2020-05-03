@@ -126,7 +126,7 @@ class PM4Sand(NDMaterialBase):
             set_parameter(osi, value=value, eles=eles, args=['materialState', 1])
 
     def set_first_call(self, osi, value, ele=None, eles=None):
-        self.update_parameter(osi, 'FirstCall', value, ele, eles)
+        self.set_parameter(osi, 'FirstCall', value, ele, eles)
 
 
 
