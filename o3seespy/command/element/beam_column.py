@@ -42,6 +42,7 @@ class ElasticBeamColumn2D(ElementBase):
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, transf=transf, mass=1.0, c_mass="string")
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.area = float(area)
         self.e_mod = float(e_mod)
@@ -106,6 +107,7 @@ class ElasticBeamColumn3D(ElementBase):
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.ElasticBeamColumn3D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, g_mod=1.0, jxx=1.0, iy=1.0, iz=1.0, transf=transf, mass=1.0, c_mass="string")
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.area = float(area)
         self.e_mod = float(e_mod)
@@ -171,6 +173,7 @@ class ModElasticBeam2D(ElementBase):
         mass: float, optional
             Element mass per unit length (optional, default = 0.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.area = float(area)
         self.e_mod = float(e_mod)
@@ -240,6 +243,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.ElasticTimoshenkoBeam2D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, avy=1.0, transf=transf, mass=1.0, c_mass="string")
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.e_mod = float(e_mod)
         self.g_mod = float(g_mod)
@@ -316,6 +320,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.ElasticTimoshenkoBeam3D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, jxx=1.0, iy=1.0, iz_2=1, avy=1.0, avz=1.0, transf=transf, mass=1.0, c_mass="string")
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.e_mod = float(e_mod)
         self.g_mod = float(g_mod)
@@ -379,6 +384,7 @@ class DispBeamColumn(ElementBase):
         >>> integration = o3.beam_integration.Lobatto(osi, sec, 5)
         >>> o3.element.DispBeamColumn(osi, ele_nodes=[i_node, j_node], transf=transf, integration=integration, c_mass=1, mass=0.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.transf = transf
         self.integration = integration
@@ -435,6 +441,7 @@ class ForceBeamColumn(ElementBase):
         >>> integration = o3.beam_integration.Lobatto(osi, sec, 5)
         >>> o3.element.ForceBeamColumn(osi, ele_nodes=[i_node, j_node], transf=transf, integration=integration, max_iter=10, tol=1e-12, mass=0.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.transf = transf
         self.integration = integration
@@ -508,6 +515,7 @@ class NonlinearBeamColumn(ElementBase):
         >>> o3.element.NonlinearBeamColumn(osi, ele_nodes=[i_node, j_node], num_intgr_pts=1, sec=sec, transf=transf,
         >>>                                max_iter=10, tol=1e-12, mass=0.0, int_type="radau")
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
@@ -583,6 +591,7 @@ class DispBeamColumnInt(ElementBase):
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.DispBeamColumnInt(osi, ele_nodes=ele_nodes, num_intgr_pts=4, sec=sec, transf=transf, c_rot=1.0, mass=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
@@ -664,6 +673,7 @@ class MVLEM(ElementBase):
         >>> o3.element.MVLEM(osi, dens=1.0, ele_nodes=ele_nodes, m=1, c=1.0, thick=[1.0, 1.0], widths=[1, 1], rho=[1., 1.],
         >>>                  mat_concretes=mat_conc, mat_steels=mat_steel, mat_shear=mat_shear)
         """
+        self.osi = osi
         self.dens = float(dens)
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
@@ -745,6 +755,7 @@ class SFIMVLEM(ElementBase):
         >>> mat_tags = [x.tag for x in mats]  # TODO: should pass in mats not mat tags
         >>> o3.element.SFIMVLEM(osi, ele_nodes=ele_nodes, m=1, c=1.0, thick=[1.0, 1.0], widths=[1.0, 1.0], mat_tags=mat_tags)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.m = int(m)
         self.c = float(c)

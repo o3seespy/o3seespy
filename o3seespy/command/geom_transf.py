@@ -34,6 +34,7 @@ class Linear2D(GeomTransfBase):
         >>> d_j = [1.0, 1.0]
         >>> o3.geom_transf.Linear2D(osi, d_i=d_i, d_j=d_j)
         """
+        self.osi = osi
         self.d_i = d_i
         self.d_j = d_j
         osi.n_transformation += 1
@@ -86,6 +87,7 @@ class Linear3D(GeomTransfBase):
         >>> d_j = [1.0, 1.0]
         >>> o3.geom_transf.Linear3D(osi, vecxz=vecxz, d_i=d_i, d_j=d_j)
         """
+        self.osi = osi
         self.vecxz = vecxz
         self.d_i = d_i
         self.d_j = d_j
@@ -130,6 +132,7 @@ class PDelta2D(GeomTransfBase):
         >>> d_j = [1.0, 1.0]
         >>> o3.geom_transf.PDelta2D(osi, d_i=d_i, d_j=d_j)
         """
+        self.osi = osi
         self.d_i = d_i
         self.d_j = d_j
         osi.n_transformation += 1
@@ -182,6 +185,7 @@ class PDelta3D(GeomTransfBase):
         >>> d_j = [1.0, 1.0]
         >>> o3.geom_transf.PDelta3D(osi, vecxz=vecxz, d_i=d_i, d_j=d_j)
         """
+        self.osi = osi
         self.vecxz = vecxz
         self.d_i = d_i
         self.d_j = d_j
@@ -226,6 +230,7 @@ class Corotational2D(GeomTransfBase):
         >>> d_j = [1.0, 1.0]
         >>> o3.geom_transf.Corotational2D(osi, d_i=d_i, d_j=d_j)
         """
+        self.osi = osi
         self.d_i = d_i
         self.d_j = d_j
         osi.n_transformation += 1
@@ -269,6 +274,7 @@ class Corotational3D(GeomTransfBase):
         >>> vecxz = [1.0, 1.0]
         >>> o3.geom_transf.Corotational3D(osi, vecxz=vecxz)
         """
+        self.osi = osi
         self.vecxz = vecxz
         osi.n_transformation += 1
         self._tag = osi.n_transformation

@@ -30,6 +30,7 @@ class ContactMaterial2D(NDMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.nd_material.ContactMaterial2D(osi, mu=1.0, g_mod=1.0, c=1.0, t=1.0)
         """
+        self.osi = osi
         self.mu = float(mu)
         self.g_mod = float(g_mod)
         self.c = float(c)
@@ -69,6 +70,7 @@ class ContactMaterial3D(NDMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.nd_material.ContactMaterial3D(osi, mu=1.0, g_mod=1.0, c=1.0, t=1.0)
         """
+        self.osi = osi
         self.mu = float(mu)
         self.g_mod = float(g_mod)
         self.c = float(c)

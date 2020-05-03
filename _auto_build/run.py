@@ -142,8 +142,8 @@ def build_additional_methods(obj_type, obj_name):
         return []
     para = []
     for i, name in enumerate(o3_names):
-        para.append(w4 + f'def set_{name}(self, osi, value, ele=None, eles=None):')
-        para.append(w8 + f"self.set_parameter(osi, '{cpp_names[i]}', value, ele, eles)")
+        para.append(w4 + f'def set_{name}(self, value, ele=None, eles=None):')
+        para.append(w8 + f"self.set_parameter(self.osi, '{cpp_names[i]}', value, ele, eles)")
         para.append('')
     return para
 
@@ -304,6 +304,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                 para.append(w8 + '"""')
 
         # Create init function saving logic
+        para.append(w8 + 'self.osi = osi')
         for i, pm in enumerate(cl_pms):
             o3_name = pms[pm].o3_name
             dtype = pms[pm].dtype

@@ -32,6 +32,7 @@ class Concrete01(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Concrete01(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0)
         """
+        self.osi = osi
         self.fpc = float(fpc)
         self.epsc0 = float(epsc0)
         self.fpcu = float(fpcu)
@@ -41,17 +42,17 @@ class Concrete01(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_u]
         self.to_process(osi)
 
-    def set_fc(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'fc', value, ele, eles)
+    def set_fc(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'fc', value, ele, eles)
 
-    def set_epsco(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'epsco', value, ele, eles)
+    def set_epsco(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'epsco', value, ele, eles)
 
-    def set_fcu(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'fcu', value, ele, eles)
+    def set_fcu(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'fcu', value, ele, eles)
 
-    def set_epscu(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'epscu', value, ele, eles)
+    def set_epscu(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'epscu', value, ele, eles)
 
 
 class Concrete02(UniaxialMaterialBase):
@@ -90,6 +91,7 @@ class Concrete02(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Concrete02(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0, lamb=1.0, ft=1.0, ets=1.0)
         """
+        self.osi = osi
         self.fpc = float(fpc)
         self.epsc0 = float(epsc0)
         self.fpcu = float(fpcu)
@@ -140,6 +142,7 @@ class Concrete04(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Concrete04(osi, fc=1.0, epsc=1.0, epscu=1.0, ec=1.0, fct=1.0, et=1.0, beta=1.0)
         """
+        self.osi = osi
         self.fc = float(fc)
         self.epsc = float(epsc)
         self.epscu = float(epscu)
@@ -193,6 +196,7 @@ class Concrete06(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Concrete06(osi, fc=1.0, e0=1.0, n=1.0, k=1.0, alpha1=1.0, fcr=1.0, ecr=1.0, b=1.0, alpha2=1.0)
         """
+        self.osi = osi
         self.fc = float(fc)
         self.e0 = float(e0)
         self.n = float(n)
@@ -248,6 +252,7 @@ class Concrete07(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Concrete07(osi, fc=1.0, epsc=1.0, ec=1.0, ft=1.0, et=1.0, xp=1.0, xn=1.0, r=1.0)
         """
+        self.osi = osi
         self.fc = float(fc)
         self.epsc = float(epsc)
         self.ec = float(ec)
@@ -295,6 +300,7 @@ class Concrete01WithSITC(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Concrete01WithSITC(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0, end_strain_sitc=0.01)
         """
+        self.osi = osi
         self.fpc = float(fpc)
         self.epsc0 = float(epsc0)
         self.fpcu = float(fpcu)
@@ -393,6 +399,7 @@ class ConfinedConcrete01(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ConfinedConcrete01(osi, sec_type='R', fpc=1.0, ec=1.0, epscu_type=1, epscu_val=1.0, nu=1, l1=1.0, l2=1.0, l3=1.0, phis=1.0, big_s=1.0, fyh=1.0, es0=1.0, ha_ratio=1.0, mu=1.0, phi_lon=1.0, gravel=1, tol=1.0, max_num_iter=1, epscu_limit=1.0, st_ratio=1)
         """
+        self.osi = osi
         self.sec_type = sec_type
         self.fpc = float(fpc)
         self.ec = float(ec)
@@ -447,17 +454,17 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             self._parameters += ['-stRatio', self.st_ratio]
         self.to_process(osi)
 
-    def set_fc(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'fc', value, ele, eles)
+    def set_fc(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'fc', value, ele, eles)
 
-    def set_epsco(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'epsco', value, ele, eles)
+    def set_epsco(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'epsco', value, ele, eles)
 
-    def set_fcu(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'fcu', value, ele, eles)
+    def set_fcu(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'fcu', value, ele, eles)
 
-    def set_epscu(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'epscu', value, ele, eles)
+    def set_epscu(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'epscu', value, ele, eles)
 
 
 class ConcreteD(UniaxialMaterialBase):
@@ -499,6 +506,7 @@ class ConcreteD(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ConcreteD(osi, fc=1.0, epsc=1.0, ft=1.0, epst=1.0, ec=1.0, alphac=1.0, alphat=1.0, cesp=0.25, etap=1.15)
         """
+        self.osi = osi
         self.fc = float(fc)
         self.epsc = float(epsc)
         self.ft = float(ft)
@@ -573,6 +581,7 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.FRPConfinedConcrete(osi, fpc1=1.0, fpc2=1.0, epsc0=1.0, big_d=1.0, c=1.0, ej=1.0, sj=1.0, tj=1.0, eju=1.0, big_s=1.0, fyl=1.0, fyh=1.0, dlong=1.0, dtrans=1.0, es=1.0, nu0=1.0, k=1.0, use_buck=1.0)
         """
+        self.osi = osi
         self.fpc1 = float(fpc1)
         self.fpc2 = float(fpc2)
         self.epsc0 = float(epsc0)
@@ -596,59 +605,59 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.fpc1, self.fpc2, self.epsc0, self.big_d, self.c, self.ej, self.sj, self.tj, self.eju, self.big_s, self.fyl, self.fyh, self.dlong, self.dtrans, self.es, self.nu0, self.k, self.use_buck]
         self.to_process(osi)
 
-    def set_fc1(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'fc1', value, ele, eles)
+    def set_fc1(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'fc1', value, ele, eles)
 
-    def set_fc2(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'fc2', value, ele, eles)
+    def set_fc2(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'fc2', value, ele, eles)
 
-    def set_epsco(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'epsco', value, ele, eles)
+    def set_epsco(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'epsco', value, ele, eles)
 
-    def set_d(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'D', value, ele, eles)
+    def set_d(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'D', value, ele, eles)
 
-    def set_c(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'c', value, ele, eles)
+    def set_c(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'c', value, ele, eles)
 
-    def set_ej(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Ej', value, ele, eles)
+    def set_ej(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Ej', value, ele, eles)
 
-    def set_sj(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Sj', value, ele, eles)
+    def set_sj(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Sj', value, ele, eles)
 
-    def set_tj(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'tj', value, ele, eles)
+    def set_tj(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'tj', value, ele, eles)
 
-    def set_eju(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'eju', value, ele, eles)
+    def set_eju(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'eju', value, ele, eles)
 
-    def set_s(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'S', value, ele, eles)
+    def set_s(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'S', value, ele, eles)
 
-    def set_fyl(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'fyl', value, ele, eles)
+    def set_fyl(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'fyl', value, ele, eles)
 
-    def set_fyh(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'fyh', value, ele, eles)
+    def set_fyh(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'fyh', value, ele, eles)
 
-    def set_dlong(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'dlong', value, ele, eles)
+    def set_dlong(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'dlong', value, ele, eles)
 
-    def set_dtrans(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'dtrans', value, ele, eles)
+    def set_dtrans(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'dtrans', value, ele, eles)
 
-    def set_es(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Es', value, ele, eles)
+    def set_es(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Es', value, ele, eles)
 
-    def set_vo(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'vo', value, ele, eles)
+    def set_vo(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'vo', value, ele, eles)
 
-    def set_k(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'k', value, ele, eles)
+    def set_k(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'k', value, ele, eles)
 
-    def set_use_buck(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'useBuck', value, ele, eles)
+    def set_use_buck(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'useBuck', value, ele, eles)
 
 
 class FRPConfinedConcrete02JacketC(UniaxialMaterialBase):
@@ -692,6 +701,7 @@ class FRPConfinedConcrete02JacketC(UniaxialMaterialBase):
         big_r: float
             Radius of circular column section
         """
+        self.osi = osi
         self.fc0 = float(fc0)
         self.ec = float(ec)
         self.ec0 = float(ec0)
@@ -747,6 +757,7 @@ class FRPConfinedConcrete02Ultimate(UniaxialMaterialBase):
         unit: float
             Unit indicator, unit = 1 for si metric units; unit = 0 for us customary units
         """
+        self.osi = osi
         self.fc0 = float(fc0)
         self.ec = float(ec)
         self.ec0 = float(ec0)
@@ -805,6 +816,7 @@ class ConcreteCM(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ConcreteCM(osi, fpcc=1.0, epcc=1.0, ec=1.0, rc=1.0, xcrn=1.0, ft=1.0, et=1.0, rt=1.0, xcrp=1.0, gap_close=0)
         """
+        self.osi = osi
         self.fpcc = float(fpcc)
         self.epcc = float(epcc)
         self.ec = float(ec)
@@ -867,6 +879,7 @@ class TDConcrete(UniaxialMaterialBase):
         tcast: float
             Analysis time corresponding to concrete casting (in days; minimum value 2.0)
         """
+        self.osi = osi
         self.fc = float(fc)
         self.fct = float(fct)
         self.ec = float(ec)
@@ -928,6 +941,7 @@ class TDConcreteEXP(UniaxialMaterialBase):
         tcast: float
             Analysis time corresponding to concrete casting (in days; minimum value 2.0)
         """
+        self.osi = osi
         self.fc = float(fc)
         self.fct = float(fct)
         self.ec = float(ec)
@@ -998,6 +1012,7 @@ class TDConcreteMC10(UniaxialMaterialBase):
         cem: float
             Coefficient dependent on the type of cement as per fib model code 2010
         """
+        self.osi = osi
         self.fc = float(fc)
         self.fct = float(fct)
         self.ec = float(ec)
@@ -1075,6 +1090,7 @@ class TDConcreteMC10NL(UniaxialMaterialBase):
         cem: float
             Coefficient dependent on the type of cement as per fib model code 2010
         """
+        self.osi = osi
         self.fc = float(fc)
         self.fcu = float(fcu)
         self.epscu = float(epscu)

@@ -63,6 +63,7 @@ class BeamColumnJoint(ElementBase):
         >>> mats = [o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None) for x in range(13)]
         >>> o3.element.BeamColumnJoint(osi, ele_nodes, *mats, ele_height_fac=1.0, ele_width_fac=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat1 = mat1
         self.mat2 = mat2
@@ -125,6 +126,7 @@ class ElasticTubularJoint(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.ElasticTubularJoint(osi, ele_nodes=ele_nodes, brace__diameter=1.0, brace__angle=1.0, big_e=1.0, chord__diameter=1.0, chord__thickness=1.0, chord__angle=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.brace__diameter = float(brace__diameter)
         self.brace__angle = float(brace__angle)
@@ -193,6 +195,7 @@ class Joint2D(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> o3.element.Joint2D(osi, ele_nodes=ele_nodes, mat1=1, mat2=1, mat3=1, mat4=1, mat_c=1, lrg_dsp='', dmg='', dmg1dmg2dmg3dmg4dmg_c=1)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat1 = int(mat1)
         self.mat2 = int(mat2)

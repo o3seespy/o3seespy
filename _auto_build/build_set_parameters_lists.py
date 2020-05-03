@@ -72,11 +72,12 @@ def create():
                 if sname in md:
                     sname = md[sname]
                 else:
-                    if pm[0] == 'G' and pm[1] in ['xyz']:
+                    if pm[0] == 'G' and pm[1] in 'xyz':
                         sname = 'g_mod_' + pm[1:]
-                    if pm[0] == 'E' and pm[1] in ['xyz']:
+                    if pm[0] == 'E' and pm[1] in 'xyz':
                         sname = 'e_mod_' + pm[1:]
-                snames.append(sname)  # TODO: deal with duplicate name
+                if sname not in snames:
+                    snames.append(sname)  # TODO: deal with duplicate name
             od['obj'].append(obj)
             od['o3_name'].append('-'.join(snames))
             od['cpp_name'].append('-'.join(params))

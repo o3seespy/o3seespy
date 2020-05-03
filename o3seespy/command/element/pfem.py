@@ -41,6 +41,7 @@ class PFEMElementBubble(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.PFEMElementBubble(osi, ele_nodes, rho=1.0, mu=1.0, b1=1.0, b2=1.0, b3=1.0, thickness=1.0, kappa=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.rho = float(rho)
         self.mu = float(mu)
@@ -93,6 +94,7 @@ class PFEMElementCompressible(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.PFEMElementCompressible(osi, ele_nodes, rho=1.0, mu=1.0, b1=1.0, b2=1.0, thickness=1.0, kappa=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.rho = float(rho)
         self.mu = float(mu)

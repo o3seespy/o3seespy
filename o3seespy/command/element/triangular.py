@@ -46,6 +46,7 @@ class Tri31(ElementBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> o3.element.Tri31(osi, ele_nodes=ele_nodes, thick=1.0, otype=o3.cc.PLANE_STRAIN, mat=mat, pressure=1.0, rho=1.0, b1=1.0, b2=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
         self.otype = otype

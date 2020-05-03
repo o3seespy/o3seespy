@@ -29,6 +29,7 @@ class Constant(TimeSeriesBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.time_series.Constant(osi, factor=1.0)
         """
+        self.osi = osi
         if factor is None:
             self.factor = None
         else:
@@ -65,6 +66,7 @@ class Linear(TimeSeriesBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.time_series.Linear(osi, factor=1.0)
         """
+        self.osi = osi
         if factor is None:
             self.factor = None
         else:
@@ -112,6 +114,7 @@ class Trig(TimeSeriesBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.time_series.Trig(osi, t_start=1.0, t_end=1.0, period=1.0, factor=1.0, shift=0.0, zero_shift=0.0)
         """
+        self.osi = osi
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
@@ -178,6 +181,7 @@ class Triangle(TimeSeriesBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.time_series.Triangle(osi, t_start=1.0, t_end=1.0, period=1.0, factor=1.0, shift=0.0, zero_shift=0.0)
         """
+        self.osi = osi
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
@@ -233,6 +237,7 @@ class Rectangular(TimeSeriesBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.time_series.Rectangular(osi, t_start=1.0, t_end=1.0, factor=1.0)
         """
+        self.osi = osi
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         if factor is None:
@@ -284,6 +289,7 @@ class Pulse(TimeSeriesBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.time_series.Pulse(osi, t_start=1.0, t_end=1.0, period=1.0, width=0.5, shift=0.0, factor=1.0, zero_shift=0.0)
         """
+        self.osi = osi
         self.t_start = float(t_start)
         self.t_end = float(t_end)
         self.period = float(period)
@@ -354,6 +360,7 @@ class Path(TimeSeriesBase):
         prepend_zero: str
             Prepend a zero value to the series of load factors. 
         """
+        self.osi = osi
         if dt is None:
             self.dt = None
         else:

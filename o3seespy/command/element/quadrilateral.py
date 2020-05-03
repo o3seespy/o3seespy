@@ -47,6 +47,7 @@ class Quad(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.Quad(osi, ele_nodes=ele_nodes, thick=1.0, otype='PlaneStrain', mat=obj, pressure=1.0, rho=1.0, b1=0.0, b2=0.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
         self.otype = otype
@@ -85,6 +86,7 @@ class ShellMITC4(ElementBase):
             Object associated with previously-defined sectionforcedeformation object. currently must be either a
             ``'platefibersection'``, or ``'elasticmembraneplatesection'``
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.sec = sec
         osi.n_ele += 1
@@ -117,6 +119,7 @@ class ShellDKGQ(ElementBase):
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.sec = sec
         osi.n_ele += 1
@@ -149,6 +152,7 @@ class ShellDKGT(ElementBase):
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.sec = sec
         osi.n_ele += 1
@@ -181,6 +185,7 @@ class ShellNLDKGQ(ElementBase):
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.sec = sec
         osi.n_ele += 1
@@ -213,6 +218,7 @@ class ShellNLDKGT(ElementBase):
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.sec = sec
         osi.n_ele += 1
@@ -243,6 +249,7 @@ class ShellNL(ElementBase):
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.sec = sec
         osi.n_ele += 1
@@ -285,6 +292,7 @@ class BbarQuad(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.BbarQuad(osi, ele_nodes=ele_nodes, thick=1.0, mat=mat)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
         self.mat = mat
@@ -331,6 +339,7 @@ class EnhancedQuad(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.EnhancedQuad(osi, ele_nodes=ele_nodes, thick=1.0, otype='PlaneStress', mat=obj)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.thick = float(thick)
         self.otype = otype
@@ -379,6 +388,7 @@ class SSPquad(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.SSPquad(osi, ele_nodes=ele_nodes, mat=obj, otype='PlaneStrain', thick=1.0, b1=0.0, b2=0.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
         self.otype = otype

@@ -31,6 +31,7 @@ class Plain(ConstraintsBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.constraints.Plain(osi)
         """
+        self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)
 
@@ -62,6 +63,7 @@ class Lagrange(ConstraintsBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.constraints.Lagrange(osi, alpha_m=1.0)
         """
+        self.osi = osi
         self.alpha_s = float(alpha_s)
         self.alpha_m = float(alpha_m)
         self._parameters = [self.op_type, self.alpha_s, self.alpha_m]
@@ -94,6 +96,7 @@ class Penalty(ConstraintsBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.constraints.Penalty(osi, alpha_m=1.0)
         """
+        self.osi = osi
         self.alpha_s = float(alpha_s)
         self.alpha_m = float(alpha_m)
         self._parameters = [self.op_type, self.alpha_s, self.alpha_m]
@@ -129,5 +132,6 @@ class Transformation(ConstraintsBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.constraints.Transformation(osi)
         """
+        self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)

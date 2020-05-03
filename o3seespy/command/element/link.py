@@ -59,6 +59,7 @@ class TwoNodeLink(ElementBase):
         >>> p_delta_vals = [1.0, 1.0]
         >>> o3.element.TwoNodeLink(osi, ele_nodes=ele_nodes, mats=mats, dir=[1, 1], p_delta_vals=p_delta_vals)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         if mats is None:
             self.mats = None

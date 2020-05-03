@@ -23,7 +23,7 @@ InitialStateAnalysisWrapper,update_material_stage-g_mod-bulk_mod-friction_angle-
 StressDensityModel,update_material_stage-material_state-nu-stresses-strains,updateMaterialStage-materialState-poissonRatio-stresses-strains
 stressDensity,update_material_stage-material_state-nu,updateMaterialStage-materialState-poissonRatio
 ElasticIsotropic,e_mod-v-rho,E-v-rho
-ElasticOrthotropic,ex-ey-ez-vyx-vzy-vxz-gyx-gzy-gxz-rho,Ex-Ey-Ez-vyx-vzy-vxz-Gyx-Gzy-Gxz-rho
+ElasticOrthotropic,e_mod_x-e_mod_y-e_mod_z-vyx-vzy-vxz-g_mod_yx-g_mod_zy-g_mod_xz-rho,Ex-Ey-Ez-vyx-vzy-vxz-Gyx-Gzy-Gxz-rho
 PressureDependentElastic3D,,
 J2Plasticity,k-mu-rho,K-mu-rho
 PlaneStressSimplifiedJ2,,
@@ -31,14 +31,14 @@ MultiaxialCyclicPlasticity,,
 PressureIndependMultiYield,update_material_stage-g_mod-bulk_mod-friction_angle-cohesion,updateMaterialStage-shearModulus-bulkModulus-frictionAngle-cohesion
 MultiYieldSurfaceClay,,
 PressureDependMultiYield,update_material_stage-g_mod-bulk_mod-stresses-strains-tangent-backbone,updateMaterialStage-shearModulus-bulkModulus-stresses-strains-tangent-backbone
-PressureDependMultiYield02,update_material_stage-g_mod-bulk_mod-update_material_stage-g_mod-bulk_mod-friction_angle-cohesion,updateMaterialStage-shearModulus-bulkModulus-updateMaterialStage-shearModulus-bulkModulus-frictionAngle-cohesion
+PressureDependMultiYield02,update_material_stage-g_mod-bulk_mod-friction_angle-cohesion,updateMaterialStage-shearModulus-bulkModulus-updateMaterialStage-shearModulus-bulkModulus-frictionAngle-cohesion
 FluidSolidPorous,update_material_stage-combined_bulk_modulus,updateMaterialStage-combinedBulkModulus
-PlaneStressMaterial,tangent-tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
-PlaneStress,tangent-tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
-PlaneStrainMaterial,tangent-tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
-PlaneStrain,tangent-tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
-PlateFiber,tangent-tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
-PlateFiberMaterial,tangent-tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
+PlaneStressMaterial,tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
+PlaneStress,tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
+PlaneStrainMaterial,tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
+PlaneStrain,tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
+PlateFiber,tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
+PlateFiberMaterial,tangent-stress-stresses-strain-strains,Tangent-tangent-stress-stresses-strain-strains
 CapPlasticity,g_mod-k-rho-x-d-w-r-lambda-theta-beta-alpha-t,G-K-rho-X-D-W-R-lambda-theta-beta-alpha-T
 PlateRebarMaterial,,
 PlateRebar,,
@@ -51,5 +51,5 @@ BeamFiber,,
 PM4Sand,update_material_stage-material_state-integration_scheme-ref_shear_modulus-g_mod-nu-first_call-void_ratio-post_shake,updateMaterialStage-materialState-IntegrationScheme-refShearModulus-ShearModulus-poissonRatio-FirstCall-voidRatio-PostShake
 UVCplanestress,,
 UVCmultiaxial,,
-PressureDependMultiYield03,update_material_stage-g_mod-bulk_mod-update_material_stage-g_mod-bulk_mod-friction_angle-cohesion,updateMaterialStage-shearModulus-bulkModulus-updateMaterialStage-shearModulus-bulkModulus-frictionAngle-cohesion
+PressureDependMultiYield03,update_material_stage-g_mod-bulk_mod-friction_angle-cohesion,updateMaterialStage-shearModulus-bulkModulus-updateMaterialStage-shearModulus-bulkModulus-frictionAngle-cohesion
 PlasticDamageConcretePlaneStress,,

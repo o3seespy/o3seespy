@@ -151,6 +151,7 @@ class PressureIndependMultiYield(NDMaterialBase):
             desired shear modulus reduction curve.
             provide a list of shear strains and corresponding shear modulus reduction ratios (`ratios`)
         """
+        self.osi = osi
         self.nd = nd
         self.rho = float(rho)
         self.g_mod_ref = float(g_mod_ref)
@@ -191,13 +192,13 @@ class PressureIndependMultiYield(NDMaterialBase):
         from o3seespy import update_material_stage
         update_material_stage(osi, self, 1)
 
-    def set_nu(self, osi, nu, ele=None, eles=None, adj_g_mod=False):
+    def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
             g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
-            self.update_parameter(osi, 'shearModulus', g_mod, ele, eles)
+            self.update_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
         else:
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
-            self.update_parameter(osi, 'bulkModulus', bulk_mod, ele, eles)
+            self.update_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
 
 
 class PressureDependMultiYield(NDMaterialBase):
@@ -285,6 +286,7 @@ class PressureDependMultiYield(NDMaterialBase):
         c: float, optional
             Numerical constant (default value = 0.3 kPa)
         """
+        self.osi = osi
         self.nd = int(nd)
         self.rho = float(rho)
         self.g_mod_ref = float(g_mod_ref)
@@ -334,13 +336,13 @@ class PressureDependMultiYield(NDMaterialBase):
         from o3seespy import update_material_stage
         update_material_stage(osi, self, 1)
 
-    def set_nu(self, osi, nu, ele=None, eles=None, adj_g_mod=False):
+    def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
             g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
-            self.update_parameter(osi, 'shearModulus', g_mod, ele, eles)
+            self.update_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
         else:
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
-            self.update_parameter(osi, 'bulkModulus', bulk_mod, ele, eles)
+            self.update_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
 
 
 class PressureDependMultiYield02(NDMaterialBase):
@@ -430,6 +432,7 @@ class PressureDependMultiYield02(NDMaterialBase):
         c: float, optional
             Numerical constant (default value = 0.1 kPa)
         """
+        self.osi = osi
         self.nd = int(nd)
         self.rho = float(rho)
         self.g_mod_ref = float(g_mod_ref)
@@ -486,13 +489,13 @@ class PressureDependMultiYield02(NDMaterialBase):
         from o3seespy import update_material_stage
         update_material_stage(osi, self, 1)
 
-    def set_nu(self, osi, nu, ele=None, eles=None, adj_g_mod=False):
+    def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
             g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
-            self.update_parameter(osi, 'shearModulus', g_mod, ele, eles)
+            self.update_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
         else:
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
-            self.update_parameter(osi, 'bulkModulus', bulk_mod, ele, eles)
+            self.update_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
 
 
 class Steel01(UniaxialMaterialBase):
@@ -527,6 +530,7 @@ class Steel01(UniaxialMaterialBase):
         a4: float
             Isotropic hardening parameter (see explanation
         """
+        self.osi = osi
         self.fy = float(fy)
         self.e0 = float(e0)
         self.b = float(b)
@@ -543,6 +547,27 @@ class Steel01(UniaxialMaterialBase):
                 break
             self._parameters.append(a)
         self.to_process(osi)
+
+    def set_fy(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Fy', value, ele, eles)
+
+    def set_e_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'E', value, ele, eles)
+
+    def set_b(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'b', value, ele, eles)
+
+    def set_a1(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'a1', value, ele, eles)
+
+    def set_a2(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'a2', value, ele, eles)
+
+    def set_a3(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'a3', value, ele, eles)
+
+    def set_a4(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'a4', value, ele, eles)
 
 
 class Fiber(SectionBase):
@@ -566,6 +591,7 @@ class Fiber(SectionBase):
         torsion_mat: obj
             Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
         """
+        self.osi = osi
         if gj is None:
             self.gj = None
         else:
@@ -610,6 +636,7 @@ class Circ(LayerBase):
             Starting and ending angle (optional) [0.0, 360.0-360/num_fibres]
 
         """
+        self.osi = osi
         self.mat = mat
         self.num_fiber = int(num_fiber)
         self.area_fiber = float(area_fiber)

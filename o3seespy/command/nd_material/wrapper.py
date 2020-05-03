@@ -30,6 +30,7 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
         >>> o3.nd_material.InitialStateAnalysisWrapper(osi, n_d_mat=mat, n_dim=1)
         """
+        self.osi = osi
         self.n_d_mat = n_d_mat
         self.n_dim = int(n_dim)
         osi.n_mat += 1
@@ -37,20 +38,20 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.n_d_mat.tag, self.n_dim]
         self.to_process(osi)
 
-    def set_update_material_stage(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
 
-    def set_g_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'shearModulus', value, ele, eles)
+    def set_g_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'shearModulus', value, ele, eles)
 
-    def set_bulk_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'bulkModulus', value, ele, eles)
+    def set_bulk_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'bulkModulus', value, ele, eles)
 
-    def set_friction_angle(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'frictionAngle', value, ele, eles)
+    def set_friction_angle(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'frictionAngle', value, ele, eles)
 
-    def set_cohesion(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'cohesion', value, ele, eles)
+    def set_cohesion(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'cohesion', value, ele, eles)
 
 
 class InitStressNDMaterial(NDMaterialBase):
@@ -77,6 +78,7 @@ class InitStressNDMaterial(NDMaterialBase):
         n_dim: int
             Number of dimensions (e.g. if plane strain ndim=2)
         """
+        self.osi = osi
         self.other = other
         self.init_stress = float(init_stress)
         self.n_dim = int(n_dim)
@@ -110,6 +112,7 @@ class InitStrainNDMaterial(NDMaterialBase):
         n_dim: float
             Number of dimensions
         """
+        self.osi = osi
         self.other = other
         self.init_strain = float(init_strain)
         self.n_dim = float(n_dim)

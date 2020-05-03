@@ -34,6 +34,7 @@ class Plain(PatternBase):
         >>> ts = o3.time_series.Linear(osi, factor=1.0)
         >>> o3.pattern.Plain(osi, ts=ts, fact=1.0)
         """
+        self.osi = osi
         self.ts = ts
         if fact is None:
             self.fact = None
@@ -85,6 +86,7 @@ class UniformExcitation(PatternBase):
         >>> ts = o3.time_series.Linear(osi, factor=1.0)
         >>> o3.pattern.UniformExcitation(osi, dir=1, accel_series=ts, vel0=1.0, fact=1.0)
         """
+        self.osi = osi
         self.dir = int(dir)
         self.disp_series = disp_series
         self.vel_series = vel_series
@@ -136,6 +138,7 @@ class MultipleSupport(PatternBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.pattern.MultipleSupport(osi)
         """
+        self.osi = osi
         osi.n_pat += 1
         self._tag = osi.n_pat
         self._parameters = [self.op_type, self._tag]

@@ -21,6 +21,7 @@ class Rayleigh(OpenSeesObject):
         beta_k_comm : float
             factor applied to element committed stiffness matrix
         """
+        self.osi = osi
         self.alpha_m = float(alpha_m)
         self.beta_k = float(beta_k)
         self.beta_k_init = float(beta_k_init)

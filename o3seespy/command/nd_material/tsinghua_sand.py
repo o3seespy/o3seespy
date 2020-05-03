@@ -59,6 +59,7 @@ class CycLiqCP(NDMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.nd_material.CycLiqCP(osi, g0=1.0, kappa=1.0, h=1.0, mfc=1.0, dre1=1.0, mdc=1.0, dre2=1.0, rdr=1.0, alpha=1.0, dir=1.0, ein=1.0, rho=1.0)
         """
+        self.osi = osi
         self.g0 = float(g0)
         self.kappa = float(kappa)
         self.h = float(h)
@@ -76,8 +77,8 @@ class CycLiqCP(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.g0, self.kappa, self.h, self.mfc, self.dre1, self.mdc, self.dre2, self.rdr, self.alpha, self.dir, self.ein, self.rho]
         self.to_process(osi)
 
-    def set_update_material_stage(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
 
 
 class CycLiqCPSP(NDMaterialBase):
@@ -146,6 +147,7 @@ class CycLiqCPSP(NDMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.nd_material.CycLiqCPSP(osi, g0=1.0, kappa=1.0, h=1.0, big_m=1.0, dre1=1.0, dre2=1.0, rdr=1.0, alpha=1.0, dir=1.0, lambdac=1.0, ksi=1.0, e0=1.0, np=1.0, nd=1.0, ein=1.0, rho=1.0)
         """
+        self.osi = osi
         self.g0 = float(g0)
         self.kappa = float(kappa)
         self.h = float(h)
@@ -167,5 +169,5 @@ class CycLiqCPSP(NDMaterialBase):
         self._parameters = [self.op_type, self._tag, self.g0, self.kappa, self.h, self.big_m, self.dre1, self.dre2, self.rdr, self.alpha, self.dir, self.lambdac, self.ksi, self.e0, self.np, self.nd, self.ein, self.rho]
         self.to_process(osi)
 
-    def set_update_material_stage(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)

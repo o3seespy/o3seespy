@@ -33,6 +33,7 @@ class Lobatto(BeamIntegrationBase):
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.Lobatto(osi, sec=sec, big_n=1)
         """
+        self.osi = osi
         self.sec = sec
         self.big_n = int(big_n)
         osi.n_integ += 1
@@ -71,6 +72,7 @@ class Legendre(BeamIntegrationBase):
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.Legendre(osi, sec=sec, big_n=1)
         """
+        self.osi = osi
         self.sec = sec
         self.big_n = big_n
         osi.n_integ += 1
@@ -108,6 +110,7 @@ class NewtonCotes(BeamIntegrationBase):
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.NewtonCotes(osi, sec=sec, big_n=1)
         """
+        self.osi = osi
         self.sec = sec
         self.big_n = big_n
         osi.n_integ += 1
@@ -146,6 +149,7 @@ class Radau(BeamIntegrationBase):
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.Radau(osi, sec=sec, big_n=1)
         """
+        self.osi = osi
         self.sec = sec
         self.big_n = big_n
         osi.n_integ += 1
@@ -180,6 +184,7 @@ class Trapezoidal(BeamIntegrationBase):
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.Trapezoidal(osi, sec=sec, big_n=1)
         """
+        self.osi = osi
         self.sec = sec
         self.big_n = big_n
         osi.n_integ += 1
@@ -214,6 +219,7 @@ class CompositeSimpson(BeamIntegrationBase):
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.CompositeSimpson(osi, sec=sec, big_n=1)
         """
+        self.osi = osi
         self.sec = sec
         self.big_n = big_n
         osi.n_integ += 1
@@ -254,6 +260,7 @@ class UserDefined(BeamIntegrationBase):
         >>>          o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0)]
         >>> o3.beam_integration.UserDefined(osi, big_n=2, secs=secs, locs=[0.2, 0.9], wts=[0.5, 0.5])
         """
+        self.osi = osi
         self.big_n = int(big_n)
         self.secs = [x.tag for x in secs]
         self.locs = locs
@@ -296,6 +303,7 @@ class FixedLocation(BeamIntegrationBase):
         >>>         o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0)]
         >>> o3.beam_integration.FixedLocation(osi, big_n=2, secs=secs, locs=[0.2, 0.9])
         """
+        self.osi = osi
         self.big_n = int(big_n)
         self.secs = [x.tag for x in secs]
         self.locs = locs
@@ -340,6 +348,7 @@ class LowOrder(BeamIntegrationBase):
         >>>         o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0)]
         >>> o3.beam_integration.LowOrder(osi, big_n=2, secs=secs, locs=[0.2, 0.9], wts=[0.5, 0.5])
         """
+        self.osi = osi
         self.big_n = int(big_n)
         self.secs = [x.tag for x in secs]
         self.locs = locs
@@ -382,6 +391,7 @@ class MidDistance(BeamIntegrationBase):
         >>>         o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0)]
         >>> o3.beam_integration.MidDistance(osi, big_n=2, secs=secs, locs=[0.2, 0.9])
         """
+        self.osi = osi
         self.big_n = int(big_n)
         self.secs = [x.tag for x in secs]
         self.locs = locs
@@ -434,6 +444,7 @@ class UserHinge(BeamIntegrationBase):
         >>> o3.beam_integration.UserHinge(osi, sec_e=sec_e, np_l=1, secs_ls=secs_l, locs_l=[1], wts_l=[1], np_r=1,
         >>>                               secs_rs=secs_r, locs_r=[1], wts_r=[1])
         """
+        self.osi = osi
         self.sec_e = sec_e
         self.np_l = int(np_l)
         self.secs_ls = [x.tag for x in secs_ls]
@@ -485,6 +496,7 @@ class HingeMidpoint(BeamIntegrationBase):
         >>> sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.HingeMidpoint(osi, sec_i=sec_i, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
         """
+        self.osi = osi
         self.sec_i = sec_i
         self.lp_i = float(lp_i)
         self.sec_j = sec_j
@@ -534,6 +546,7 @@ class HingeRadau(BeamIntegrationBase):
         >>> sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.HingeRadau(osi, sec_i=sec_i, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
         """
+        self.osi = osi
         self.sec_i = sec_i
         self.lp_i = lp_i
         self.sec_j = sec_j
@@ -583,6 +596,7 @@ class HingeRadauTwo(BeamIntegrationBase):
         >>> sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.beam_integration.HingeRadauTwo(osi, sec_i=sec_i, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
         """
+        self.osi = osi
         self.sec_i = sec_i
         self.lp_i = lp_i
         self.sec_j = sec_j
@@ -620,6 +634,7 @@ class BeamhingeEndpoint(OpenSeesObject):
         sec_e: obj
             A previous-defined section object for the element interior.
         """
+        self.osi = osi
         self.lp_i = float(lp_i)
         self.sec_j = sec_j
         self.lp_j = float(lp_j)

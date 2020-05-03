@@ -42,6 +42,7 @@ class SimpleContact2D(ElementBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> o3.element.SimpleContact2D(osi, i_node=i_node, j_node=j_node, s_node=1, l_node=1, mat=mat, g_tol=1.0, f_tol=1.0)
         """
+        self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
         self.s_node = int(s_node)
@@ -100,6 +101,7 @@ class SimpleContact3D(ElementBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> o3.element.SimpleContact3D(osi, i_node=i_node, j_node=j_node, k_node=1, l_node=1, s_node=1, lagr_node=1, mat=mat, g_tol=1.0, f_tol=1.0)
         """
+        self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
         self.k_node = int(k_node)
@@ -160,6 +162,7 @@ class BeamContact2D(ElementBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> o3.element.BeamContact2D(osi, i_node=i_node, j_node=j_node, s_node=1, l_node=1, mat=mat, width=1.0, g_tol=1.0, f_tol=1.0, c_flag=1)
         """
+        self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
         self.s_node = int(s_node)
@@ -222,6 +225,7 @@ class BeamContact3D(ElementBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> o3.element.BeamContact3D(osi, i_node=i_node, j_node=j_node, s_node=1, l_node=1, radius=1.0, crd_transf=1, mat=mat, g_tol=1.0, f_tol=1.0, c_flag=1)
         """
+        self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
         self.s_node = int(s_node)
@@ -280,6 +284,7 @@ class BeamEndContact3D(ElementBase):
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
         >>> o3.element.BeamEndContact3D(osi, i_node=i_node, j_node=j_node, s_node=1, l_node=1, radius=1.0, g_tol=1.0, f_tol=1.0, c_flag=1.0)
         """
+        self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
         self.s_node = int(s_node)

@@ -38,6 +38,7 @@ class ZeroLength(ElementBase):
         >>> bilinear_mat = o3.uniaxial_material.Steel01(osi, fy=300., e0=200.0e3, b=0.01)
         >>> o3.element.ZeroLength(osi, ele_nodes, mats=[bilinear_mat], dirs=[o3.cc.DOF2D_X], r_flag=1)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         if mats is None:
             self.mats = None
@@ -99,6 +100,7 @@ class ZeroLengthND(ElementBase):
         >>> uni = o3.uniaxial_material.Elastic(osi, 1.0)
         >>> o3.element.ZeroLengthND(osi, ele_nodes=ele_nodes, mat=mat, uni=uni, orient=[1, 2, 3, 4, 5, 6])
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
         self.uni = uni
@@ -144,6 +146,7 @@ class ZeroLengthSection(ElementBase):
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> o3.element.ZeroLengthSection(osi, ele_nodes=ele_nodes, sec=sec, r_flag=1.0, orient=[1])
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.sec = sec
         if r_flag is None:
@@ -195,6 +198,7 @@ class CoupledZeroLength(ElementBase):
         >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
         >>> o3.element.CoupledZeroLength(osi, ele_nodes=ele_nodes, dirn1=1, dirn2=1, mat=mat, r_flag=1)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.dirn1 = int(dirn1)
         self.dirn2 = int(dirn2)
@@ -243,6 +247,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> o3.element.ZeroLengthContact2Dnormal(osi, ele_nodes=ele_nodes, kn=1.0, kt=1.0, mu=1.0, nx=1, ny=0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.kn = float(kn)
         self.kt = float(kt)
@@ -292,6 +297,7 @@ class ZeroLengthContact3D(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> o3.element.ZeroLengthContact3D(osi, ele_nodes=ele_nodes, kn=1.0, kt=1.0, mu=1.0, c=1.0, dir=1)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.kn = float(kn)
         self.kt = float(kt)
@@ -340,6 +346,7 @@ class ZeroLengthContactNTS2D(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> o3.element.ZeroLengthContactNTS2D(osi, s_nd_num=1, m_nd_num=1, nodes=ele_nodes, kn=1.0, kt=1.0, phi=1.0)
         """
+        self.osi = osi
         if s_nd_num is None:
             self.s_nd_num = None
         else:
@@ -406,6 +413,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
         >>> nodes = [1, 1]
         >>> o3.element.ZeroLengthInterface2Ddof(osi, s_nd_num=1, m_nd_num=1, sdof=1, mdof=1, nodes=nodes, kn=1.0, kt=1.0, phi=1.0)
         """
+        self.osi = osi
         if s_nd_num is None:
             self.s_nd_num = None
         else:
@@ -479,6 +487,7 @@ class ZeroLengthImpact3D(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.ZeroLengthImpact3D(osi, ele_nodes=ele_nodes, direction=1, init_gap=1.0, friction_ratio=1.0, kt=1.0, kn=1.0, kn2=1.0, delta_y=1.0, cohesion=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.direction = direction
         self.init_gap = float(init_gap)

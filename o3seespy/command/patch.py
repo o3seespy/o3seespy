@@ -47,6 +47,7 @@ class Quad(PatchBase):
         >>> conc_conf = o3.uniaxial_material.Concrete01(osi, fpc=-5.0, epsc0=-0.005, fpcu=-3.5, eps_u=-0.02)
         >>> o3.patch.Quad(osi, conc_conf, num_subdiv_ij=1, num_subdiv_jk=1, crds_i=crds_i, crds_j=crds_j, crds_k=crds_k, crds_l=crds_l)
         """
+        self.osi = osi
         self.mat = mat
         self.num_subdiv_ij = int(num_subdiv_ij)
         self.num_subdiv_jk = int(num_subdiv_jk)
@@ -94,6 +95,7 @@ class Rect(PatchBase):
         >>> conc_conf = o3.uniaxial_material.Concrete01(osi, fpc=-5.0, epsc0=-0.005, fpcu=-3.5, eps_u=-0.02)
         >>> o3.patch.Rect(osi, conc_conf, num_subdiv_y=1, num_subdiv_z=1, crds_i=crds_i, crds_j=crds_j)
         """
+        self.osi = osi
         self.mat = mat
         self.num_subdiv_y = int(num_subdiv_y)
         self.num_subdiv_z = int(num_subdiv_z)
@@ -140,6 +142,7 @@ class Circ(PatchBase):
         >>> conc_conf = o3.uniaxial_material.Concrete01(osi, fpc=-5.0, epsc0=-0.005, fpcu=-3.5, eps_u=-0.02)
         >>> o3.patch.Circ(osi, conc_conf, num_subdiv_circ=1, num_subdiv_rad=1, center=center, rad=rad, ang=ang)
         """
+        self.osi = osi
         self.mat = mat
         self.num_subdiv_circ = int(num_subdiv_circ)
         self.num_subdiv_rad = int(num_subdiv_rad)

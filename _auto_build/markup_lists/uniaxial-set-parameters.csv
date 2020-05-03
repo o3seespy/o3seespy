@@ -89,7 +89,7 @@ ConcreteSakaiKawashima,,
 Concrete02Thermal,,
 ResilienceLow,,
 ResilienceMaterialHR,,
-Elastic2,zero_e-e_mod-eta-zero_e,zeroE-E-eta-zeroE
+Elastic2,zero_e-e_mod-eta,zeroE-E-eta-zeroE
 Backbone,,
 Cable,e_mod-eta,E-eta
 ShearPanel,,

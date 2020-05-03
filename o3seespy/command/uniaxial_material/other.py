@@ -34,6 +34,7 @@ class Hardening(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         self.sigma_y = float(sigma_y)
         self.h_iso = float(h_iso)
@@ -44,17 +45,17 @@ class Hardening(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.e_mod, self.sigma_y, self.h_iso, self.h_kin, self.eta]
         self.to_process(osi)
 
-    def set_fy(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Fy', value, ele, eles)
+    def set_fy(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Fy', value, ele, eles)
 
-    def set_e_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'E', value, ele, eles)
+    def set_e_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'E', value, ele, eles)
 
-    def set_hkin(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Hkin', value, ele, eles)
+    def set_hkin(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Hkin', value, ele, eles)
 
-    def set_hiso(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Hiso', value, ele, eles)
+    def set_hiso(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Hiso', value, ele, eles)
 
 
 class Cast(UniaxialMaterialBase):
@@ -110,6 +111,7 @@ class Cast(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Cast(osi, n=1, bo=1.0, h=1.0, fy=1.0, e_mod=1.0, big_l=1.0, b=1.0, ro=1.0, c_r1=1.0, c_r2=1.0, a1=None, a2=1.0, a3=None, a4=1.0)
         """
+        self.osi = osi
         self.n = int(n)
         self.bo = float(bo)
         self.h = float(h)
@@ -188,6 +190,7 @@ class ViscousDamper(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ViscousDamper(osi, k_el=1.0, cd=1.0, alpha=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15)
         """
+        self.osi = osi
         self.k_el = float(k_el)
         self.cd = float(cd)
         self.alpha = float(alpha)
@@ -201,11 +204,11 @@ class ViscousDamper(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.k_el, self.cd, self.alpha, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
         self.to_process(osi)
 
-    def set_e_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'E', value, ele, eles)
+    def set_e_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'E', value, ele, eles)
 
-    def set_eta(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'eta', value, ele, eles)
+    def set_eta(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'eta', value, ele, eles)
 
 
 class BilinearOilDamper(UniaxialMaterialBase):
@@ -251,6 +254,7 @@ class BilinearOilDamper(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.BilinearOilDamper(osi, k_el=1.0, cd=1.0, fr=1.0, p=1.0, l_gap=0.0, nm=1, rel_tol=1e-6, abs_tol=1e-10, max_half=15)
         """
+        self.osi = osi
         self.k_el = float(k_el)
         self.cd = float(cd)
         self.fr = float(fr)
@@ -265,20 +269,20 @@ class BilinearOilDamper(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.k_el, self.cd, self.fr, self.p, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
         self.to_process(osi)
 
-    def set_k(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'K', value, ele, eles)
+    def set_k(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'K', value, ele, eles)
 
-    def set_c(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'C', value, ele, eles)
+    def set_c(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'C', value, ele, eles)
 
-    def set_fr(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Fr', value, ele, eles)
+    def set_fr(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Fr', value, ele, eles)
 
-    def set_p(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'p', value, ele, eles)
+    def set_p(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'p', value, ele, eles)
 
-    def set_l_gap(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'LGap', value, ele, eles)
+    def set_l_gap(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'LGap', value, ele, eles)
 
 
 class Bilin(UniaxialMaterialBase):
@@ -365,6 +369,7 @@ class Bilin(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Bilin(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0, n_factor=0.0)
         """
+        self.osi = osi
         self.k0 = float(k0)
         self.as__plus = float(as__plus)
         self.as__neg = float(as__neg)
@@ -475,6 +480,7 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ModIMKPeakOriented(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
         """
+        self.osi = osi
         self.k0 = float(k0)
         self.as__plus = float(as__plus)
         self.as__neg = float(as__neg)
@@ -590,6 +596,7 @@ class ModIMKPinching(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
         """
+        self.osi = osi
         self.k0 = float(k0)
         self.as__plus = float(as__plus)
         self.as__neg = float(as__neg)
@@ -667,6 +674,7 @@ class SAWS(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.SAWS(osi, f0=1.0, fi=1.0, du=1.0, s0=1.0, r1=1.0, r2=1.0, r3=1.0, r4=1.0, alpha=1.0, beta=1.0)
         """
+        self.osi = osi
         self.f0 = float(f0)
         self.fi = float(fi)
         self.du = float(du)
@@ -746,6 +754,7 @@ class BarSlip(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.BarSlip(osi, fc=1.0, fy=1.0, es=1.0, fu=1.0, eh=1.0, db=1.0, ld=1.0, nb=1, depth=1.0, height=1.0, anc_lratio=1.0, bs_flag="Strong", otype="beamtop", damage='Damage', unit='psi')
         """
+        self.osi = osi
         self.fc = float(fc)
         self.fy = float(fy)
         self.es = float(es)
@@ -807,6 +816,7 @@ class BondSP01(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.BondSP01(osi, fy=1.0, sy=1.0, fu=1.0, su=1.0, b=1.0, big_r=1.0)
         """
+        self.osi = osi
         self.fy = float(fy)
         self.sy = float(sy)
         self.fu = float(fu)
@@ -852,6 +862,7 @@ class Fatigue(UniaxialMaterialBase):
         >>> other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
         >>> o3.uniaxial_material.Fatigue(osi, other=other, e0=0.191, m=-0.458, min=-1e16, max=1e16)
         """
+        self.osi = osi
         self.other = other
         if e0 is None:
             self.e0 = None
@@ -913,6 +924,7 @@ class ImpactMaterial(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ImpactMaterial(osi, k1=1.0, k2=1.0, sigy=1.0, gap=1.0)
         """
+        self.osi = osi
         self.k1 = float(k1)
         self.k2 = float(k2)
         self.sigy = float(sigy)
@@ -955,6 +967,7 @@ class HyperbolicGapMaterial(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.HyperbolicGapMaterial(osi, kmax=1.0, kur=1.0, rf=1.0, fult=1.0, gap=1.0)
         """
+        self.osi = osi
         self.kmax = float(kmax)
         self.kur = float(kur)
         self.rf = float(rf)
@@ -1030,6 +1043,7 @@ class LimitState(UniaxialMaterialBase):
         >>> curve = 1
         >>> o3.uniaxial_material.LimitState(osi, s1p=1.0, e1p=1.0, s2p=1.0, e2p=1.0, s3p=1.0, e3p=1.0, s1n=1.0, e1n=1.0, s2n=1.0, e2n=1.0, s3n=1.0, e3n=1.0, pinch_x=1.0, pinch_y=1.0, damage1=1.0, damage2=1.0, beta=1.0, curve=curve, curve_type=1)
         """
+        self.osi = osi
         self.s1p = float(s1p)
         self.e1p = float(e1p)
         self.s2p = float(s2p)
@@ -1054,8 +1068,8 @@ class LimitState(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.s1p, self.e1p, self.s2p, self.e2p, self.s3p, self.e3p, self.s1n, self.e1n, self.s2n, self.e2n, self.s3n, self.e3n, self.pinch_x, self.pinch_y, self.damage1, self.damage2, self.beta, self.curve.tag, self.curve_type]
         self.to_process(osi)
 
-    def set_state_flag(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'stateFlag', value, ele, eles)
+    def set_state_flag(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'stateFlag', value, ele, eles)
 
 
 class MinMax(UniaxialMaterialBase):
@@ -1088,6 +1102,7 @@ class MinMax(UniaxialMaterialBase):
         >>> other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
         >>> o3.uniaxial_material.MinMax(osi, other=other, min_strain=1e-16, max_strain=1e16)
         """
+        self.osi = osi
         self.other = other
         if min_strain is None:
             self.min_strain = None
@@ -1141,6 +1156,7 @@ class ElasticBilin(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ElasticBilin(osi, ep1=1.0, ep2=1.0, eps_p2=1.0, en1=None, en2=None, eps_n2=None)
         """
+        self.osi = osi
         self.ep1 = float(ep1)
         self.ep2 = float(ep2)
         self.eps_p2 = float(eps_p2)
@@ -1207,6 +1223,7 @@ class ElasticMultiLinear(UniaxialMaterialBase):
         >>> stress = [1.0, 1.0]
         >>> o3.uniaxial_material.ElasticMultiLinear(osi, eta=0.0, strain=strain, stress=stress)
         """
+        self.osi = osi
         self.eta = float(eta)
         self.strain = strain
         self.stress = stress
@@ -1244,6 +1261,7 @@ class MultiLinear(UniaxialMaterialBase):
         >>> pts = [0.01, 1.0, 0.02, 2.0]
         >>> o3.uniaxial_material.MultiLinear(osi, pts=pts)
         """
+        self.osi = osi
         self.pts = pts
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -1279,6 +1297,7 @@ class InitStrainMaterial(UniaxialMaterialBase):
         >>> other = o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
         >>> o3.uniaxial_material.InitStrainMaterial(osi, other=other, init_strain=1.0)
         """
+        self.osi = osi
         self.other = other
         self.init_strain = float(init_strain)
         osi.n_mat += 1
@@ -1320,6 +1339,7 @@ class InitStressMaterial(UniaxialMaterialBase):
         >>>                                             theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
         >>> o3.uniaxial_material.InitStressMaterial(osi, other=other, init_stress=1.0)
         """
+        self.osi = osi
         self.other = other
         self.init_stress = float(init_stress)
         osi.n_mat += 1
@@ -1327,8 +1347,8 @@ class InitStressMaterial(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_stress]
         self.to_process(osi)
 
-    def set_f0(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'F0', value, ele, eles)
+    def set_f0(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'F0', value, ele, eles)
 
 
 class PathIndependent(UniaxialMaterialBase):
@@ -1355,6 +1375,7 @@ class PathIndependent(UniaxialMaterialBase):
         >>> other = o3.uniaxial_material.Hardening(osi, e_mod=1.0, sigma_y=1.0, h_iso=1.0, h_kin=1.0, eta=0.0)
         >>> o3.uniaxial_material.PathIndependent(osi, other=other)
         """
+        self.osi = osi
         self.other = other
         osi.n_mat += 1
         self._tag = osi.n_mat
@@ -1412,6 +1433,7 @@ class ECC01(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ECC01(osi, sigt0=1.0, epst0=1.0, sigt1=1.0, epst1=1.0, epst2=1.0, sigc0=1.0, epsc0=1.0, epsc1=1.0, alpha_t1=1.0, alpha_t2=1.0, alpha_c=1.0, alpha_cu=1.0, beta_t=1.0, beta_c=1.0)
         """
+        self.osi = osi
         self.sigt0 = float(sigt0)
         self.epst0 = float(epst0)
         self.sigt1 = float(sigt1)
@@ -1468,6 +1490,7 @@ class SelfCentering(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.SelfCentering(osi, k1=1.0, k2=1.0, sig_act=1.0, beta=1.0, eps_slip=0, eps_bear=0, r_bear=None)
         """
+        self.osi = osi
         self.k1 = float(k1)
         self.k2 = float(k2)
         self.sig_act = float(sig_act)
@@ -1519,6 +1542,7 @@ class Viscous(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Viscous(osi, big_c=1.0, alpha=1.0)
         """
+        self.osi = osi
         self.big_c = float(big_c)
         self.alpha = float(alpha)
         osi.n_mat += 1
@@ -1526,14 +1550,14 @@ class Viscous(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.big_c, self.alpha]
         self.to_process(osi)
 
-    def set_c(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'C', value, ele, eles)
+    def set_c(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'C', value, ele, eles)
 
-    def set_alpha(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Alpha', value, ele, eles)
+    def set_alpha(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Alpha', value, ele, eles)
 
-    def set_min_vel(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'minVel', value, ele, eles)
+    def set_min_vel(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'minVel', value, ele, eles)
 
 
 class BoucWen(UniaxialMaterialBase):
@@ -1579,6 +1603,7 @@ class BoucWen(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.BoucWen(osi, alpha=1.0, ko=1.0, n=1.0, gamma=1.0, beta=1.0, ao=1.0, delta_a=1.0, delta_nu=1.0, delta_eta=1.0)
         """
+        self.osi = osi
         self.alpha = float(alpha)
         self.ko = float(ko)
         self.n = float(n)
@@ -1593,32 +1618,32 @@ class BoucWen(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.alpha, self.ko, self.n, self.gamma, self.beta, self.ao, self.delta_a, self.delta_nu, self.delta_eta]
         self.to_process(osi)
 
-    def set_alpha(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'alpha', value, ele, eles)
+    def set_alpha(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'alpha', value, ele, eles)
 
-    def set_ko(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'ko', value, ele, eles)
+    def set_ko(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'ko', value, ele, eles)
 
-    def set_n(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'n', value, ele, eles)
+    def set_n(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'n', value, ele, eles)
 
-    def set_gamma(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'gamma', value, ele, eles)
+    def set_gamma(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'gamma', value, ele, eles)
 
-    def set_beta(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'beta', value, ele, eles)
+    def set_beta(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'beta', value, ele, eles)
 
-    def set_ao(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Ao', value, ele, eles)
+    def set_ao(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Ao', value, ele, eles)
 
-    def set_delta_a(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'deltaA', value, ele, eles)
+    def set_delta_a(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'deltaA', value, ele, eles)
 
-    def set_delta_nu(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'deltaNu', value, ele, eles)
+    def set_delta_nu(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'deltaNu', value, ele, eles)
 
-    def set_delta_eta(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'deltaEta', value, ele, eles)
+    def set_delta_eta(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'deltaEta', value, ele, eles)
 
 
 class BWBN(UniaxialMaterialBase):
@@ -1674,6 +1699,7 @@ class BWBN(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.BWBN(osi, alpha=1.0, ko=1.0, n=1.0, gamma=1.0, beta=1.0, ao=1.0, q=1.0, zetas=1.0, p=1.0, shi=1.0, delta_shi=1.0, lamb=1.0, tol=1.0, max_iter=1.0)
         """
+        self.osi = osi
         self.alpha = float(alpha)
         self.ko = float(ko)
         self.n = float(n)
@@ -1733,6 +1759,7 @@ class AxialSp(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.AxialSp(osi, sce=1.0, fty=1.0, fcy=1.0, bte=1.0, bty=1.0, bcy=1.0, fcr=1.0)
         """
+        self.osi = osi
         self.sce = float(sce)
         self.fty = float(fty)
         self.fcy = float(fcy)
@@ -1790,6 +1817,7 @@ class AxialSpHD(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.AxialSpHD(osi, sce=1.0, fty=1.0, fcy=1.0, bte=1.0, bty=1.0, bth=1.0, bcy=1.0, fcr=1.0, ath=1.0)
         """
+        self.osi = osi
         self.sce = float(sce)
         self.fty = float(fty)
         self.fcy = float(fcy)
@@ -1860,6 +1888,7 @@ class CFSWSWP(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.CFSWSWP(osi, height=1.0, width=1.0, fut=1.0, tf=1.0, ife=1.0, ifi=1.0, ts=1.0, np=1.0, ds=1.0, vs=1.0, sc=1.0, nc=1.0, otype=1, opening_area=1.0, opening_length=1.0)
         """
+        self.osi = osi
         self.height = float(height)
         self.width = float(width)
         self.fut = float(fut)
@@ -1938,6 +1967,7 @@ class CFSSSWP(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.CFSSSWP(osi, height=1.0, width=1.0, fuf=1.0, fyf=1.0, tf=1.0, af=1.0, fus=1.0, fys=1.0, ts=1.0, np=1.0, ds=1.0, vs=1.0, sc=1.0, dt=1.0, opening_area=1.0, opening_length=1.0)
         """
+        self.osi = osi
         self.height = float(height)
         self.width = float(width)
         self.fuf = float(fuf)

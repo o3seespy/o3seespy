@@ -38,6 +38,7 @@ class FourNodeTetrahedron(ElementBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> o3.element.FourNodeTetrahedron(osi, ele_nodes=ele_nodes, mat=mat, b1=1.0, b2=1.0, b3=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
         self.b1 = float(b1)

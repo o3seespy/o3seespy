@@ -40,6 +40,7 @@ class Straight(LayerBase):
         >>> rebar = o3.uniaxial_material.Steel01(osi, fy=60.0, e0=30000.0, b=0.02)
         >>> o3.layer.Straight(osi, rebar, num_fiber=1, area_fiber=1.0, start=start, end=end)
         """
+        self.osi = osi
         self.mat = mat
         self.num_fiber = int(num_fiber)
         self.area_fiber = float(area_fiber)
@@ -77,6 +78,7 @@ class Circ(LayerBase):
             Starting and ending angle (optional) [0.0, 360.0-360/num_fibres]
 
         """
+        self.osi = osi
         self.mat = mat
         self.num_fiber = int(num_fiber)
         self.area_fiber = float(area_fiber)

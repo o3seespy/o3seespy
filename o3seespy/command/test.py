@@ -40,6 +40,7 @@ class NormUnbalance(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.NormUnbalance(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2, max_incr=None)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -95,6 +96,7 @@ class NormDispIncr(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.NormDispIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -136,6 +138,7 @@ class EnergyIncr(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.EnergyIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -177,6 +180,7 @@ class RelativeNormUnbalance(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.RelativeNormUnbalance(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -218,6 +222,7 @@ class RelativeNormDispIncr(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.RelativeNormDispIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -259,6 +264,7 @@ class RelativeTotalNormDispIncr(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.RelativeTotalNormDispIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -300,6 +306,7 @@ class RelativeEnergyIncr(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.RelativeEnergyIncr(osi, tol=1.0, max_iter=1, p_flag=0, n_type=2)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -338,6 +345,7 @@ class FixedNumIter(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.FixedNumIter(osi, max_iter=1, p_flag=0, n_type=2)
         """
+        self.osi = osi
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
         self.n_type = int(n_type)
@@ -381,6 +389,7 @@ class NormDispAndUnbalance(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.NormDispAndUnbalance(osi, tol_incr=1.0, tol_r=1, max_iter=1, p_flag=0, n_type=2, maxincr=-1)
         """
+        self.osi = osi
         self.tol_incr = float(tol_incr)
         self.tol_r = tol_r
         self.max_iter = int(max_iter)
@@ -427,6 +436,7 @@ class NormDispOrUnbalance(TestBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.test.NormDispOrUnbalance(osi, tol_incr=1.0, tol_r=1, max_iter=1, p_flag=0, n_type=2, maxincr=-1)
         """
+        self.osi = osi
         self.tol_incr = float(tol_incr)
         self.tol_r = tol_r
         self.max_iter = int(max_iter)

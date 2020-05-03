@@ -37,6 +37,7 @@ class PySimple1(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.PySimple1(osi, soil_type=1, pult=1.0, y50=1.0, cd=1.0, c=0.0)
         """
+        self.osi = osi
         self.soil_type = int(soil_type)
         self.pult = float(pult)
         self.y50 = float(y50)
@@ -79,6 +80,7 @@ class TzSimple1(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.TzSimple1(osi, soil_type=1, tult=1.0, z50=1.0, c=0.0)
         """
+        self.osi = osi
         self.soil_type = int(soil_type)
         self.tult = float(tult)
         self.z50 = float(z50)
@@ -122,6 +124,7 @@ class QzSimple1(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.QzSimple1(osi, qz_type=1, qult=1.0, z50=1.0, suction=0.0, c=0.0)
         """
+        self.osi = osi
         self.qz_type = int(qz_type)
         self.qult = float(qult)
         self.z50 = float(z50)
@@ -180,6 +183,7 @@ class PyLiq1(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.PyLiq1(osi, soil_type=1, pult=1.0, y50=1.0, cd=1.0, c=1.0, p_res=1.0, ele1=1.0, ele2=1.0)
         """
+        self.osi = osi
         self.soil_type = int(soil_type)
         self.pult = float(pult)
         self.y50 = float(y50)
@@ -196,8 +200,8 @@ class PyLiq1(UniaxialMaterialBase):
             self._parameters += ['-timeSeries', self.time_series.tag]
         self.to_process(osi)
 
-    def set_update_material_stage(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
 
 
 class TzLiq1(UniaxialMaterialBase):
@@ -239,6 +243,7 @@ class TzLiq1(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.TzLiq1(osi, tz_type=1, tult=1.0, z50=1.0, c=1.0, ele1=1.0, ele2=1.0)
         """
+        self.osi = osi
         self.tz_type = int(tz_type)
         self.tult = float(tult)
         self.z50 = float(z50)
@@ -253,5 +258,5 @@ class TzLiq1(UniaxialMaterialBase):
             self._parameters += ['-timeSeries', self.time_series.tag]
         self.to_process(osi)
 
-    def set_update_material_stage(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'updateMaterialStage', value, ele, eles)
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)

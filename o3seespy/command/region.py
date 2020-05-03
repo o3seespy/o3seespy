@@ -19,6 +19,7 @@ class NodeRegion(OpenSeesObject):
         rayleigh: dict
             Dictionary of Rayleigh parameters
         """
+        self.osi = osi
         osi.n_region += 1
         self._tag = osi.n_region
         self._parameters = [self._tag, "-node"]
@@ -58,6 +59,7 @@ class ElementRegion(OpenSeesObject):
         rayleigh: dict
             Dictionary of Rayleigh parameters
         """
+        self.osi = osi
         osi.n_region += 1
         self._tag = osi.n_region
         self._parameters = [self._tag, "-ele"]

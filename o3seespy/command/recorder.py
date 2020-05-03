@@ -47,6 +47,7 @@ class NodeToFile(RecorderBase):
         dt: float
             Time step
         """
+        self.osi = osi
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', node.tag]
         if dt is not None:
             self._parameters.insert(5, '-dT')
@@ -78,6 +79,7 @@ class NodesToFile(RecorderBase):
         dt: float
             Time step
         """
+        self.osi = osi
         if nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
@@ -109,6 +111,7 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
         dt: float
             Time step
         """
+        self.osi = osi
         self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
         self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', node.tag]
         if dt is not None:
@@ -123,22 +126,23 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
 
     def __init__(self, osi, nodes, dofs, res_type, nsd=8, dt=None, ffp=None):
         """
-       Records properties of several nodes and saves results to a numpy array
+        Records properties of several nodes and saves results to a numpy array
 
-       Parameters
-       ----------
-       osi: o3seespy.OpenSeesInstance
-       nodes: list
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        nodes: list
             A list of o3seespy.node.Node objects
-       dofs: list
+        dofs: list
            A list of integers representing the degrees-of-freedom
-       res_type: str
+        res_type: str
            Response type
-       nsd: int
+        nsd: int
            Number of significant figures
-       dt: float
+        dt: float
            Time step
-       """
+        """
+        self.osi = osi
         if isinstance(nodes, str) and nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
@@ -176,6 +180,7 @@ class ElementToFile(RecorderBase):
         dt: float
             Time step
         """
+        self.osi = osi
         if arg_vals is None:
             arg_vals = []
         extra_pms = []
@@ -192,6 +197,7 @@ class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementT
     op_type = "Element"
 
     def __init__(self, osi, ele, material=None, arg_vals=None, nsd=8, fname=None, dt=None):
+        self.osi = osi
         if arg_vals is None:
             arg_vals = []
         self.arg_vals = [str(x) for x in arg_vals]
@@ -209,24 +215,12 @@ class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementT
             self._parameters.insert(6, dt)
         self.to_process(osi)
 
-    # def collect(self):
-    #     from numpy import loadtxt
-    #     try:
-    #         a = loadtxt(self.tmpfname, dtype=float)
-    #     except ValueError as e:
-    #         print('Warning: Need to run opy.wipe() before collecting arrays')
-    #         raise ValueError(e)
-    #     try:
-    #         os.unlink(self.tmpfname)
-    #     except PermissionError:
-    #         print('Warning: Need to run opy.wipe() before collecting arrays')
-    #     return a
-
 
 class ElementsToArrayCache(RecorderToArrayCacheBase):
     op_type = "Element"
 
     def __init__(self, osi, eles, material=None, arg_vals=None, nsd=8, fname=None, dt=None):
+        self.osi = osi
         if arg_vals is None:
             arg_vals = []
         extra_pms = []
@@ -244,18 +238,6 @@ class ElementsToArrayCache(RecorderToArrayCacheBase):
             self._parameters.insert(6, dt)
         self.to_process(osi)
 
-    # def collect(self):
-    #     from numpy import loadtxt
-    #     try:
-    #         a = loadtxt(self.tmpfname, dtype=float)
-    #     except ValueError as e:
-    #         print('Warning: Need to run opy.wipe() before collecting arrays')
-    #         raise ValueError(e)
-    #     try:
-    #         os.unlink(self.tmpfname)
-    #     except PermissionError:
-    #         print('Warning: Need to run opy.wipe() before collecting arrays')
-    #     return a
 
 
 def load_recorder_options():

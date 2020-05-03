@@ -52,6 +52,7 @@ class CatenaryCable(ElementBase):
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
         >>> o3.element.CatenaryCable(osi, i_node=i_node, j_node=j_node, weight=1.0, big_e=1.0, big_a=1.0, l0=1.0, alpha=1.0, temperature_change=1.0, rho=1.0, error_tol=1.0, nsubsteps=1, mass_type=1)
         """
+        self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
         self.weight = float(weight)

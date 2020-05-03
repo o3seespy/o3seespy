@@ -29,6 +29,7 @@ class Elastic(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         self.eta = float(eta)
         if eneg is None:
@@ -50,17 +51,17 @@ class Elastic(UniaxialMaterialBase):
                 break
         self.to_process(osi)
 
-    def set_e_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'E', value, ele, eles)
+    def set_e_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'E', value, ele, eles)
 
-    def set_epos(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Epos', value, ele, eles)
+    def set_epos(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Epos', value, ele, eles)
 
-    def set_eneg(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Eneg', value, ele, eles)
+    def set_eneg(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Eneg', value, ele, eles)
 
-    def set_eta(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'eta', value, ele, eles)
+    def set_eta(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'eta', value, ele, eles)
 
 
 class ElasticPP(UniaxialMaterialBase):
@@ -93,6 +94,7 @@ class ElasticPP(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ElasticPP(osi, e_mod=1.0, epsy_p=1.0, epsy_n=None, eps0=0.0)
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         self.epsy_p = float(epsy_p)
         if epsy_n is None:
@@ -115,14 +117,14 @@ class ElasticPP(UniaxialMaterialBase):
                 break
         self.to_process(osi)
 
-    def set_fy(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'Fy', value, ele, eles)
+    def set_fy(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Fy', value, ele, eles)
 
-    def set_e_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'E', value, ele, eles)
+    def set_e_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'E', value, ele, eles)
 
-    def set_ep(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'ep', value, ele, eles)
+    def set_ep(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'ep', value, ele, eles)
 
 
 class ElasticPPGap(UniaxialMaterialBase):
@@ -157,6 +159,7 @@ class ElasticPPGap(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ElasticPPGap(osi, e_mod=1.0, fy=1.0, gap=1.0, eta=0.0, damage='noDamage')
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         self.fy = float(fy)
         self.gap = float(gap)
@@ -191,14 +194,15 @@ class ENT(UniaxialMaterialBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ENT(osi, e_mod=1.0)
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         osi.n_mat += 1
         self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod]
         self.to_process(osi)
 
-    def set_e_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'E', value, ele, eles)
+    def set_e_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'E', value, ele, eles)
 
 
 class Parallel(UniaxialMaterialBase):
@@ -231,6 +235,7 @@ class Parallel(UniaxialMaterialBase):
         >>> factor_args = [1.0, 1.0]
         >>> o3.uniaxial_material.Parallel(osi, mats=mats, factor_args=factor_args)
         """
+        self.osi = osi
         self.mats = [x.tag for x in mats]
         self.factor_args = factor_args
         osi.n_mat += 1
@@ -267,6 +272,7 @@ class Series(UniaxialMaterialBase):
         >>>         o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)]
         >>> o3.uniaxial_material.Series(osi, mats=mats)
         """
+        self.osi = osi
         self.mats = [x.tag for x in mats]
         osi.n_mat += 1
         self._tag = osi.n_mat

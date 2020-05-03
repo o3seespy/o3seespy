@@ -43,6 +43,7 @@ class Elastic2D(SectionBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0, g_mod=0.0, alpha_y=0.0)
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         self.area = float(area)
         self.iz = float(iz)
@@ -69,14 +70,14 @@ class Elastic2D(SectionBase):
                 break
         self.to_process(osi)
 
-    def set_e_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'E', value, ele, eles)
+    def set_e_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'E', value, ele, eles)
 
-    def set_a(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'A', value, ele, eles)
+    def set_a(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'A', value, ele, eles)
 
-    def set_i(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'I', value, ele, eles)
+    def set_i(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'I', value, ele, eles)
 
 
 class Elastic3D(SectionBase):
@@ -117,6 +118,7 @@ class Elastic3D(SectionBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.section.Elastic3D(osi, e_mod=1.0, area=1.0, iz=1.0, iy=1.0, g_mod=1.0, jxx=1.0, alpha_y=0.0, alpha_z=0.0)
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         self.area = float(area)
         self.iz = float(iz)
@@ -146,14 +148,14 @@ class Elastic3D(SectionBase):
                 break
         self.to_process(osi)
 
-    def set_e_mod(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'E', value, ele, eles)
+    def set_e_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'E', value, ele, eles)
 
-    def set_a(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'A', value, ele, eles)
+    def set_a(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'A', value, ele, eles)
 
-    def set_i(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'I', value, ele, eles)
+    def set_i(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'I', value, ele, eles)
 
 
 class Fiber(SectionBase):
@@ -177,6 +179,7 @@ class Fiber(SectionBase):
         torsion_mat: obj
             Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
         """
+        self.osi = osi
         if gj is None:
             self.gj = None
         else:
@@ -213,6 +216,7 @@ class Fiber(SectionBase):
         torsion_mat: obj
             Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
         """
+        self.osi = osi
         if gj is None:
             self.gj = None
         else:
@@ -249,6 +253,7 @@ class Fiber(SectionBase):
         torsion_mat: obj
             Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
         """
+        self.osi = osi
         if gj is None:
             self.gj = None
         else:
@@ -291,6 +296,7 @@ class FiberThermal(SectionBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.section.FiberThermal(osi, gj=0.0)
         """
+        self.osi = osi
         self.gj = gj
         osi.n_sect += 1
         self._tag = osi.n_sect
@@ -328,6 +334,7 @@ class NDFiber(SectionBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.section.NDFiber(osi)
         """
+        self.osi = osi
         osi.n_sect += 1
         self._tag = osi.n_sect
         self._parameters = [self.op_type, self._tag]
@@ -371,6 +378,7 @@ class WFSection2D(SectionBase):
         >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
         >>> o3.section.WFSection2D(osi, mat=mat, d=1.0, tw=1.0, bf=1.0, tf=1.0, nfw=1.0, nff=1.0)
         """
+        self.osi = osi
         self.mat = mat
         self.d = float(d)
         self.tw = float(tw)
@@ -434,6 +442,7 @@ class RCSection2D(SectionBase):
         >>> steel_mat = o3.uniaxial_material.Steel01(osi, 60.0, 30000.0, 0.01)
         >>> o3.section.RCSection2D(osi, core_mat=core_mat, cover_mat=cover_mat, steel_mat=steel_mat, d=1.0, b=1.0, cover_depth=1.0, atop=1.0, abot=1.0, aside=1.0, nfcore=1.0, nfcover=1.0, nfs=1.0)
         """
+        self.osi = osi
         self.core_mat = core_mat
         self.cover_mat = cover_mat
         self.steel_mat = steel_mat
@@ -500,6 +509,7 @@ class RCCircularSection(SectionBase):
         >>> o3.section.RCCircularSection(osi, core_mat=core_mat, cover_mat=cover_mat, steel_mat=steel_mat, d=1.0,
         >>>                              cover_depth=0.10, a_s=0.1, nrings_core=2, nrings_cover=2, newedges=2, nsteel=4, gj=0.0)
         """
+        self.osi = osi
         self.core_mat = core_mat
         self.cover_mat = cover_mat
         self.steel_mat = steel_mat
@@ -547,6 +557,7 @@ class Parallel(SectionBase):
         >>>          o3.section.Elastic2D(osi, e_mod=1.0, area=1.0, iz=1.0, g_mod=0.0, alpha_y=0.0)]
         >>> o3.section.Parallel(osi, secs)
         """
+        self.osi = osi
         self.secs = [x.tag for x in secs]
         osi.n_sect += 1
         self._tag = osi.n_sect
@@ -628,6 +639,7 @@ class Uniaxial(SectionBase):
         >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
         >>> o3.section.Uniaxial(osi, mat=mat, quantity='P')
         """
+        self.osi = osi
         self.mat = mat
         self.quantity = quantity
         osi.n_sect += 1
@@ -666,6 +678,7 @@ class ElasticMembranePlateSection(SectionBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.section.ElasticMembranePlateSection(osi, e_mod=1.0, nu=1.0, h=1.0, rho=1.0)
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         self.nu = float(nu)
         self.h = float(h)
@@ -704,6 +717,7 @@ class PlateFiber(SectionBase):
         >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
         >>> o3.section.PlateFiber(osi, mat=mat, h=1.0)
         """
+        self.osi = osi
         self.mat = mat
         self.h = float(h)
         osi.n_sect += 1
@@ -749,6 +763,7 @@ class Bidirectional(SectionBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.section.Bidirectional(osi, e_mod=1.0, fy=1.0, hiso=1.0, hkin=1.0, code1='Vy', code2='P')
         """
+        self.osi = osi
         self.e_mod = float(e_mod)
         self.fy = float(fy)
         self.hiso = float(hiso)
@@ -797,6 +812,7 @@ class Isolator2spring(SectionBase):
         po: float, optional
             Axial load at which nominal yield strength is achieved 
         """
+        self.osi = osi
         self.tol = float(tol)
         self.k1 = float(k1)
         self.fyo = float(fyo)

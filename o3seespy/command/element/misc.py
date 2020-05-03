@@ -30,6 +30,7 @@ class SurfaceLoad(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.SurfaceLoad(osi, ele_nodes=ele_nodes, p=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.p = float(p)
         osi.n_ele += 1
@@ -78,6 +79,7 @@ class VS3D4(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> o3.element.VS3D4(osi, ele_nodes=ele_nodes, big_e=1.0, big_g=1.0, rho=1.0, big_r=1.0, alpha_n=1.0, alpha_t=1.0)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.big_e = float(big_e)
         self.big_g = float(big_g)
@@ -123,6 +125,7 @@ class AC3D8(ElementBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> o3.element.AC3D8(osi, ele_nodes=ele_nodes, mat=mat)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
         osi.n_ele += 1
@@ -161,6 +164,7 @@ class ASI3D8(ElementBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.element.ASI3D8(osi, ele_nodes1=1, ele_nodes2=1)
         """
+        self.osi = osi
         self.ele_nodes1 = ele_nodes1
         self.ele_nodes2 = ele_nodes2
         osi.n_ele += 1
@@ -201,6 +205,7 @@ class AV3D4(ElementBase):
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> o3.element.AV3D4(osi, ele_nodes=ele_nodes, mat=mat)
         """
+        self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
         self.mat = mat
         osi.n_ele += 1

@@ -9,6 +9,7 @@ class EnergyIncr(TestBase):
     op_type = "EnergyIncr"
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)  # changed to avoid python function iter
         self.p_flag = int(p_flag)
@@ -21,6 +22,7 @@ class FixedNumIter(TestBase):
     op_type = "FixedNumIter"
 
     def __init__(self, osi, max_iter, p_flag=0, n_type=2):
+        self.osi = osi
         self.max_iter = int(max_iter)  # changed to avoid python function iter
         self.p_flag = int(p_flag)
         self.n_type = int(n_type)
@@ -32,6 +34,7 @@ class NormDispIncr(TestBase):
     op_type = "NormDispIncr"
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)  # changed to avoid python function iter
         self.p_flag = int(p_flag)
@@ -64,6 +67,7 @@ class RelativeNormDispIncr(TestBase):
         n_type: int
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)  # changed to avoid python function iter
         self.p_flag = int(p_flag)
@@ -101,6 +105,7 @@ class NormUnbalance(TestBase):
         max_incr: int (default=True)
             Maximum times of error increasing. (optional)
         """
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
@@ -127,6 +132,7 @@ class RelativeNormUnbalance(TestBase):
     op_type = "RelativeNormUnbalance"
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
+        self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)  # changed to avoid python function iter
         self.p_flag = int(p_flag)

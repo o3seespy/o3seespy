@@ -9,6 +9,7 @@ class Linear(AlgorithmBase):
     op_type = "Linear"
 
     def __init__(self, osi, secant=False, initial=False, factor_once=False):
+        self.osi = osi
         self.secant = secant
         self.initial = initial
         self.factor_once = factor_once
@@ -20,6 +21,7 @@ class Newton(AlgorithmBase):
     op_type = "Newton"
 
     def __init__(self, osi, secant=False, initial=False, initial_then_current=False):
+        self.osi = osi
         self.secant = secant
         self.initial = initial
         self.initial_then_current = initial_then_current

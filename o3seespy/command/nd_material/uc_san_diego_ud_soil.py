@@ -37,6 +37,7 @@ class FluidSolidPorousMaterial(NDMaterialBase):
         >>> soil_mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, v=1.0, rho=0.0)
         >>> o3.nd_material.FluidSolidPorousMaterial(osi, nd=1.0, soil_mat=soil_mat, combined_bulk_modul=1.0, pa=101.0)
         """
+        self.osi = osi
         self.nd = float(nd)
         self.soil_mat = soil_mat
         self.combined_bulk_modul = float(combined_bulk_modul)

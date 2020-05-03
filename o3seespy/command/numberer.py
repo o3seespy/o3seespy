@@ -4,6 +4,7 @@ from o3seespy.base_model import OpenSeesObject
 class NumbererBase(OpenSeesObject):
     op_base_type = "numberer"
 
+
 class Plain(NumbererBase):
     op_type = "Plain"
 
@@ -16,9 +17,9 @@ class Plain(NumbererBase):
 
         Parameters
         ----------
-        osi
+        osi: o3seespy.OpenSeesInstance
         """
-
+        self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)
 
@@ -34,9 +35,9 @@ class RCM(NumbererBase):
 
         Parameters
         ----------
-        osi
+        osi: o3seespy.OpenSeesInstance
         """
-
+        self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)
 
@@ -52,9 +53,9 @@ class AMD(NumbererBase):
 
         Parameters
         ----------
-        osi
+        osi: o3seespy.OpenSeesInstance
         """
-
+        self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)
 
@@ -73,9 +74,9 @@ class ParallelPlain(NumbererBase):
 
         Parameters
         ----------
-        osi
+        osi: o3seespy.OpenSeesInstance
         """
-
+        self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)
 
@@ -94,8 +95,8 @@ class ParallelRCM(NumbererBase):
 
         Parameters
         ----------
-        osi
+        osi: o3seespy.OpenSeesInstance
         """
-
+        self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)

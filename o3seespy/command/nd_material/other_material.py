@@ -11,42 +11,60 @@ class PM4Sand(NDMaterialBase):
         """
         This command is used to construct a 2-dimensional PM4Sand material.
 
-        ================================   ===========================================================================
-        ``matTag`` |int|                   integer tag identifying material
-        ``d_r`` |float|                     Relative density, in fraction
-        ``g0`` |float|                     Shear modulus constant
-        ``h_po`` |float|                    Contraction rate parameter
-        ``Den`` |float|                    Mass density of the material
-        ``P_atm`` |float|                  Optional, Atmospheric pressure
-        ``h0`` |float|                     Optional, Variable that adjusts the ratio of plastic modulus
-                                          to elastic modulus
-        ``emax`` |float|                   Optional, Maximum and minimum void ratios
-        ``emin`` |float|                   Optional, Maximum and minimum void ratios
-        ``nb`` |float|                     Optional, Bounding surface parameter, :math:`nb \ge 0`
-        ``nd`` |float|                     Optional, Dilatancy surface parameter :math:`nd \ge 0`
-        ``ado`` |float|                    Optional, Dilatancy parameter, will be computed at the time
-                                          of initialization if input value is negative
-        ``z_max`` |float|                  Optional, Fabric-dilatancy tensor parameter
-        ``cz`` |float|                     Optional, Fabric-dilatancy tensor parameter
-        ``ce`` |float|                     Optional, Variable that adjusts the rate of strain accumulation
-                                          in cyclic loading
-        ``phic`` |float|                   Optional, Critical state effective friction angle
-        ``nu`` |float|                     Optional, Poisson's ratio
-        ``cgd`` |float|                    Optional, Variable that adjusts degradation of elastic modulus
-                                          with accumulation of fabric
-        ``cdr`` |float|                    Optional, Variable that controls the rotated dilatancy surface
-        ``ckaf`` |float|                   Optional, Variable that controls the effect that sustained
+        Parameters
+        ==========
+        d_r: float
+            Relative density, in fraction
+        g_o: float
+            Shear modulus constant
+        h_po: float
+            Contraction rate parameter
+        den: float
+            Mass density of the material
+        p_atm: float, optional
+            Atmospheric pressure
+        h_o: float, optional
+            Variable that adjusts the ratio of plastic modulus to elastic modulus
+        e_max: float, optional
+            Maximum and minimum void ratios
+        e_min: float, optional
+            Maximum and minimum void ratios
+        n_b: float, optional
+            Bounding surface parameter, :math:`nb \ge 0`
+        n_d: float, optional
+            Dilatancy surface parameter :math:`nd \ge 0`
+        a_do: float, optional
+            Dilatancy parameter, will be computed at the time of initialization if input value is negative
+        z_max: float, optional
+            Fabric-dilatancy tensor parameter
+        c_z: float, optional
+            Fabric-dilatancy tensor parameter
+        c_e: float, optional
+            Variable that adjusts the rate of strain accumulation in cyclic loading
+        phi_cv: float, optional
+            Critical state effective friction angle
+        nu: float, optional
+            Poisson's ratio
+        c_gd: float, optional
+            Variable that adjusts degradation of elastic modulus with accumulation of fabric
+        c_dr: float,   optional
+            Variable that controls the rotated dilatancy surface
+        c_kaf: float,  optional
+            Variable that controls the effect that sustained
                                           con shear stresses have on plastic modulus
-        ``big_q`` |float|                      Optional, Critical state line parameter
-        ``big_r`` |float|                      Optional, Critical state line parameter
-        ``m`` |float|                      Optional, Yield surface constant (radius of yield surface
-                                          in stress ratio space)
-        ``fsed_min`` |float|               Optional, Variable that controls the minimum value the
-                                          reduction factor of the elastic moduli can get during reconsolidation
-        ``p_sedo`` |float|                 Optional, Mean effective stress up to which reconsolidation
-                                          strains are enhanced
-        ================================   =======================================================================
+        q_bolt: float,     optional
+            Critical state line parameter
+        r_bolt: float,     optional
+            Critical state line parameter
+        m_par: float,     optional
+            Yield surface constant (radius of yield surface in stress ratio space)
+        f_sed: float, optional,
+            Variable that controls the minimum value the reduction factor of the elastic moduli
+            can get during reconsolidation
+        p_sed: float, optional
+            Mean effective stress up to which reconsolidation strains are enhanced
         """
+        self.osi = osi
         self.d_r = float(d_r)
         self.g_o = float(g_o)
         self.h_po = float(h_po)
@@ -111,22 +129,22 @@ class PM4Sand(NDMaterialBase):
         from o3seespy import update_material_stage
         update_material_stage(osi, self, 1)
 
-    def set_nu(self, osi, nu, ele=None, eles=None):
+    def set_nu(self, nu, ele=None, eles=None):
         from o3seespy import set_parameter
         if ele is not None:
-            set_parameter(osi, value=nu, eles=[ele], args=['poissonRatio', 1])
+            set_parameter(self.osi, value=nu, eles=[ele], args=['poissonRatio', 1])
         if eles is not None:
-            set_parameter(osi, value=nu, eles=eles, args=['poissonRatio', 1])
+            set_parameter(self.osi, value=nu, eles=eles, args=['poissonRatio', 1])
 
-    def set_material_state(self, osi, value, ele=None, eles=None):
+    def set_material_state(self, value, ele=None, eles=None):
         from o3seespy import set_parameter
         if ele is not None:
-            set_parameter(osi, value=value, eles=[ele], args=['materialState', 1])
+            set_parameter(self.osi, value=value, eles=[ele], args=['materialState', 1])
         if eles is not None:
-            set_parameter(osi, value=value, eles=eles, args=['materialState', 1])
+            set_parameter(self.osi, value=value, eles=eles, args=['materialState', 1])
 
-    def set_first_call(self, osi, value, ele=None, eles=None):
-        self.set_parameter(osi, 'FirstCall', value, ele, eles)
+    def set_first_call(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'FirstCall', value, ele, eles)
 
 
 
