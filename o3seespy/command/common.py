@@ -272,9 +272,11 @@ class SP(OpenSeesObject):
         self.to_process(osi)
 
 
-def analyze(osi, num_inc=1, dt=0.1, dt_min=None, dt_max=None, jd=None):
+def analyze(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None):
     op_type = 'analyze'
-    if dt_min is None:
+    if dt is None:
+        parameters = [int(num_inc)]
+    elif dt_min is None:
         parameters = [int(num_inc), float(dt)]
     else:
         parameters = [int(num_inc), float(dt), dt_min, dt_max, jd]

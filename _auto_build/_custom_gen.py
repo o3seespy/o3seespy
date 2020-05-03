@@ -191,6 +191,14 @@ class PressureIndependMultiYield(NDMaterialBase):
         from o3seespy import update_material_stage
         update_material_stage(osi, self, 1)
 
+    def set_nu(self, osi, nu, ele=None, eles=None, adj_g_mod=False):
+        if adj_g_mod:
+            g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
+            self.update_parameter(osi, 'shearModulus', g_mod, ele, eles)
+        else:
+            bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
+            self.update_parameter(osi, 'bulkModulus', bulk_mod, ele, eles)
+
 
 class PressureDependMultiYield(NDMaterialBase):
     """
@@ -325,6 +333,14 @@ class PressureDependMultiYield(NDMaterialBase):
     def update_to_nonlinear(self, osi):
         from o3seespy import update_material_stage
         update_material_stage(osi, self, 1)
+
+    def set_nu(self, osi, nu, ele=None, eles=None, adj_g_mod=False):
+        if adj_g_mod:
+            g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
+            self.update_parameter(osi, 'shearModulus', g_mod, ele, eles)
+        else:
+            bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
+            self.update_parameter(osi, 'bulkModulus', bulk_mod, ele, eles)
 
 
 class PressureDependMultiYield02(NDMaterialBase):
@@ -469,6 +485,14 @@ class PressureDependMultiYield02(NDMaterialBase):
     def update_to_nonlinear(self, osi):
         from o3seespy import update_material_stage
         update_material_stage(osi, self, 1)
+
+    def set_nu(self, osi, nu, ele=None, eles=None, adj_g_mod=False):
+        if adj_g_mod:
+            g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
+            self.update_parameter(osi, 'shearModulus', g_mod, ele, eles)
+        else:
+            bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
+            self.update_parameter(osi, 'bulkModulus', bulk_mod, ele, eles)
 
 
 class Steel01(UniaxialMaterialBase):

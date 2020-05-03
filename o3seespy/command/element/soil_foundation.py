@@ -6,6 +6,13 @@ from o3seespy.command.geom_transf import Linear2D as geom_trans_Linear2D
 from o3seespy import cc
 from o3seespy.command import common
 
+class BeamOnNonlinearWinklerFoundation(object):
+    def __init__(self, top_nodes, bot_nodes, sf_eles, fd_eles):
+        self.top_nodes = top_nodes
+        self.bot_nodes = bot_nodes
+        self.sf_eles = sf_eles
+        self.fd_eles = fd_eles
+
 
 def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_area, fd_e_mod, fd_iz, r_flag: float =None, orient: list =None):
         """
@@ -62,4 +69,5 @@ def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_are
             if i != 0:
                 fd_eles.append(ElasticBeamColumn2D(osi, [top_nodes[i-1], top_nodes[i]], fd_area, fd_e_mod, fd_iz, transf))
         common.EqualDOF(osi, top_node, top_nodes[ind], dofs=[cc.DOF2D_X, cc.DOF2D_Y, cc.DOF2D_ROTZ])
-        return top_nodes, bot_nodes, sf_eles, fd_eles
+        
+        return BeamOnNonlinearWinklerFoundation(top_nodes, bot_nodes, sf_eles, fd_eles)
