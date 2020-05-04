@@ -108,10 +108,10 @@ class PressureIndependMultiYield(NDMaterialBase):
     def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
             g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
-            self.update_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
+            self.set_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
         else:
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
-            self.update_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
+            self.set_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
 
 
 
@@ -253,10 +253,10 @@ class PressureDependMultiYield(NDMaterialBase):
     def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
             g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
-            self.update_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
+            self.set_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
         else:
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
-            self.update_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
+            self.set_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
 
 
 
@@ -407,8 +407,8 @@ class PressureDependMultiYield02(NDMaterialBase):
     def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
             g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))
-            self.update_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
+            self.set_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
         else:
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
-            self.update_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
+            self.set_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
 
