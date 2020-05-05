@@ -9,4 +9,5 @@ from o3seespy.command import integrator, analysis, recorder, pattern, time_serie
 import o3seespy.tools
 from o3seespy.command import test_check  # deprecated
 from o3seespy.__about__ import __version__
+from o3seespy import results
 
