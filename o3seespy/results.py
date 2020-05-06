@@ -34,9 +34,9 @@ class Results2D(object):
         if dt is not None:
             self._dt = dt
         if self.dynamic:
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', 'all', [o3.cc.DOF2D_X], 'disp', nsd=4)
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', 'all', [o3.cc.DOF2D_Y], 'disp', nsd=4)
-            o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', 'all', [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', 'all', [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt)
+            o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4, dt=dt)
 
     def wipe_old_files(self):
         try:

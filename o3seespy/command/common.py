@@ -333,6 +333,7 @@ def get_node_reaction(osi, node, dof):
     parameters = [node.tag, dof]
     return osi.to_process(op_type, parameters)
 
+
 def get_node_reactions(osi, node):
     op_type = 'nodeReaction'
     parameters = [node.tag]
@@ -401,6 +402,11 @@ def wipe_analysis(osi):
 
 def wipe(osi):
     osi.to_process('wipe', [])
+
+
+def record(osi):
+    """This command is used to cause all the recorders to do a record on the current state of the model."""
+    return osi.to_process('record', [])
 
 
 def load_constant(osi, time=None):
