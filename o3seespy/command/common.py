@@ -491,11 +491,11 @@ def get_all_ele_node_tags(osi):
 
 def get_all_ele_node_tags_as_dict(osi):
     ele_tags = get_ele_tags(osi)
-    node_tags = {}
-    for tag in ele_tags:
-        tags = osi.to_process('eleNodes', [tag])
-        if tags is not None:
-            if len(tags) not in node_tags:
-                node_tags[len(tags)] = []
-            node_tags[len(tags)].append(tags)
-    return node_tags
+    all_node_tags = {}
+    for ele_tag in ele_tags:
+        node_tags = osi.to_process('eleNodes', [ele_tag])
+        if node_tags is not None:
+            if len(node_tags) not in all_node_tags:
+                all_node_tags[len(node_tags)] = {}
+            all_node_tags[len(node_tags)][ele_tag] = node_tags
+    return all_node_tags

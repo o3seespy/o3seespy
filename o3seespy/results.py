@@ -57,7 +57,10 @@ class Results2D(object):
         self.wipe_old_files()
         self.savetxt(self.cache_path + 'coords.txt', self.coords)
         for node_len in self.ele2node_tags:
-            self.savetxt(self.cache_path + f'ele2node_tags_{node_len}.txt', self.ele2node_tags[node_len], fmt='%i')
+            oo = []
+            for ele_tag in self.ele2node_tags[node_len]:
+                oo.append([ele_tag] + self.ele2node_tags[node_len][ele_tag])
+            self.savetxt(self.cache_path + f'ele2node_tags_{node_len}.txt', oo, fmt='%i')
 
         for i, fname in enumerate(self.meta_files):
             vals = getattr(self, fname)
@@ -73,18 +76,22 @@ class Results2D(object):
         self.ele2node_tags = {}
         for node_len in self.n_nodes_per_ele:
             try:
-                self.ele2node_tags[node_len] = self.loadtxt(self.cache_path + f'ele2node_tags_{node_len}.txt', ndmin=2)
+                oo = self.loadtxt(self.cache_path + f'ele2node_tags_{node_len}.txt', ndmin=2)
+                self.ele2node_tags[node_len] = {}
+                for i in range(len(oo)):
+                    self.ele2node_tags[node_len][oo[i, 0]] = oo[i, 1:]
             except OSError:
                 continue
+        for fname in self.meta_files:
+            try:
+                data = self.loadtxt(self.cache_path + f'{fname}.txt')
+                if len(data) == 0:
+                    data = None
+                setattr(self, fname, data)
+            except OSError:
+                pass
 
         if self.dynamic:
             self.x_disp = self.loadtxt(self.cache_path + 'x_disp.txt')
             self.y_disp = self.loadtxt(self.cache_path + 'y_disp.txt')
-            for fname in self.meta_files:
-                try:
-                    data = self.loadtxt(self.cache_path + f'{fname}.txt')
-                    if len(data) == 0:
-                        data = None
-                    setattr(self, fname, data)
-                except OSError:
-                    pass
+
