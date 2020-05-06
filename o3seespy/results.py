@@ -3,53 +3,63 @@ import o3seespy as o3
 
 
 class Results2D(object):
-    cache_path = ''
     coords = None
-    ele2node_tags = {}
+    time = None
     x_disp = None
     y_disp = None
     node_c = None
-    dynamic = True
     used_r_starter = 0
     mat2ele_tags = None  # Assume 1-to-1 so if it uses a section then should be null
     sect2ele_tags = None  # Store position and tag - UNUSED
     mat2sect_tags = None  # UNUSED  # TODO: implement
     n_nodes_per_ele = [2, 4, 8]  # for 2D
 
-    def __init__(self):
+    def __init__(self, cache_path='', dt=None, dynamic=False):
+        self.cache_path = cache_path
+        self._dt = dt
+        self.dynamic = dynamic
         from numpy import savetxt, loadtxt
         self.savetxt = savetxt
         self.loadtxt = loadtxt
+        self.ele2node_tags = {}
         self.meta_files = ['node_c', 'mat2ele_tags', 'sect2ele_tags', 'mat2sect_tags']
         self.meta_fmt = [None, '%i', '%i', '%i']
 
-    def start_recorders(self, osi, dt=None):
+    def start_recorders(self, osi, dt=None):  # TODO: handle recorder time step
         self.used_r_starter = 1
-        self.coords = o3.get_all_node_coords(osi)
-        self.ele2node_tags = o3.get_all_ele_node_tags(osi)
-        self.dt = dt
+        if self.coords is None:
+            self.coords = o3.get_all_node_coords(osi)
+        if self.ele2node_tags is None:
+            self.ele2node_tags = o3.get_all_ele_node_tags(osi)
+        if dt is not None:
+            self._dt = dt
         if self.dynamic:
-            o3.recorder.NodesToFile(osi, self.cache_path + 'x_disp.txt', 'all', [o3.cc.DOF2D_X], 'disp', nsd=4)
-            o3.recorder.NodesToFile(osi, self.cache_path + 'y_disp.txt', 'all', [o3.cc.DOF2D_Y], 'disp', nsd=4)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', 'all', [o3.cc.DOF2D_X], 'disp', nsd=4)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', 'all', [o3.cc.DOF2D_Y], 'disp', nsd=4)
+            o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4)
 
     def wipe_old_files(self):
-        for node_len in self.n_nodes_per_ele:
-            ffp = self.cache_path + f'ele_node_tags_{node_len}.txt'
-            if os.path.exists(ffp):
-                os.remove(ffp)
+        try:
+            os.remove(f'{self.cache_path}ele2node_tags.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            os.remove(f'{self.cache_path}coords.txt')
+        except FileNotFoundError:
+            pass
         if not self.used_r_starter:
             try:
-                os.remove(self.cache_path + 'x_disp.txt')
+                os.remove(f'{self.cache_path}x_disp.txt')
             except FileNotFoundError:
                 pass
             try:
-                os.remove(self.cache_path + 'y_disp.txt')
+                os.remove(f'{self.cache_path}y_disp.txt')
             except FileNotFoundError:
                 pass
 
         for fname in self.meta_files:
             try:
-                os.remove(self.cache_path + f'{fname}.txt')
+                os.remove(f'{self.cache_path}{fname}.txt')
             except FileNotFoundError:
                 pass
 
@@ -85,6 +95,18 @@ class Results2D(object):
                 pass
 
         if self.dynamic:
-            self.x_disp = self.loadtxt(self.cache_path + 'x_disp.txt')
-            self.y_disp = self.loadtxt(self.cache_path + 'y_disp.txt')
+            self.x_disp = self.loadtxt(f'{self.cache_path}x_disp.txt')
+            self.y_disp = self.loadtxt(f'{self.cache_path}y_disp.txt')
+            self.time = self.loadtxt(f'{self.cache_path}timer.txt')[:, 0]
+
+    @property
+    def dt(self):
+        if self._dt is None:
+            if self.time is not None:
+                self._dt = (self.time[-1] - self.time[0]) / (len(self.time) - 1)
+        return self._dt
+
+    @dt.setter
+    def dt(self, dt):
+        self._dt = dt
 

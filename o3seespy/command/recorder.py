@@ -28,7 +28,7 @@ class RecorderToArrayCacheBase(RecorderBase):  # TODO: implement NodeToArray whe
 class NodeToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, node, dofs, res_type, nsd=8, dt=None):
+    def __init__(self, osi, fname, node, dofs, res_type, nsd=8, dt=None, time=False):
         """
         Records properties of a node and saves the results to a file
 
@@ -46,12 +46,16 @@ class NodeToFile(RecorderBase):
             Number of significant figures
         dt: float
             Time step
+        time: bool
+            If true the first column is the time
         """
         self.osi = osi
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', node.tag]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
+        if time:
+            self._parameters.insert(5, '-time')
         self._parameters += ['-dof', *dofs, res_type]
         self.to_process(osi)
 
@@ -59,7 +63,7 @@ class NodeToFile(RecorderBase):
 class NodesToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None):
+    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None, time=False):
         """
         Records properties of several nodes and saves the results to a file
 
@@ -78,9 +82,11 @@ class NodesToFile(RecorderBase):
             Number of significant figures
         dt: float
             Time step
+        time: bool
+            If true the first column is the time
         """
         self.osi = osi
-        if nodes == 'all':
+        if isinstance(nodes, str) and nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
             node_tags = [x.tag for x in nodes]
@@ -88,6 +94,8 @@ class NodesToFile(RecorderBase):
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
+        if time:
+            self._parameters.insert(5, '-time')
         self.to_process(osi)
 
 
@@ -124,7 +132,7 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
 class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
 
-    def __init__(self, osi, nodes, dofs, res_type, nsd=8, dt=None, ffp=None):
+    def __init__(self, osi, nodes, dofs, res_type, nsd=8, dt=None, temp_ffp=None):
         """
         Records properties of several nodes and saves results to a numpy array
 
@@ -147,10 +155,10 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
             node_tags = osi.to_process('getNodeTags', [])
         else:
             node_tags = [x.tag for x in nodes]
-        if ffp is None:
+        if temp_ffp is None:
             self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
         else:
-            self.tmpfname = ffp
+            self.tmpfname = temp_ffp
         self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
         if dt is not None:
             self._parameters.insert(5,'-dT')
@@ -158,10 +166,74 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
         self.to_process(osi)
 
 
+class TimeToArrayCache(RecorderBase):
+    op_type = "Node"
+
+    def __init__(self, osi, nsd=8, dt=None):
+        """
+        Records the recorder time and saves to a numpy array
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        nsd: int
+            Number of significant figures
+        dt: float
+            Time step
+        """
+        self.osi = osi
+        self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-time', '-node', 1]
+        if dt is not None:
+            self._parameters.insert(5, '-dT')
+            self._parameters.insert(6, dt)
+        self._parameters += ['-dof', 0, 'accel']
+        self.to_process(osi)
+
+    def collect(self, unlink=True):
+        from numpy import loadtxt
+        try:
+            a = loadtxt(self.tmpfname, dtype=float)
+        except ValueError as e:
+            print('Warning: Need to run opy.wipe() before collecting arrays')
+            raise ValueError(e)
+        if unlink:
+            try:
+                os.unlink(self.tmpfname)
+            except PermissionError:
+                print('Warning: Need to run opy.wipe() before collecting arrays')
+        return a[:, 0]
+
+
+class TimeToFile(RecorderBase):
+    op_type = "Node"
+
+    def __init__(self, osi, fname, nsd=8, dt=None):
+        """
+        Records the recorder time and saves to a numpy array
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        nsd: int
+            Number of significant figures
+        dt: float
+            Time step
+        """
+        self.osi = osi
+        self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-time', '-node', 1]
+        if dt is not None:
+            self._parameters.insert(5, '-dT')
+            self._parameters.insert(6, dt)
+        self._parameters += ['-dof', 1, 'disp']
+        self.to_process(osi)
+
+
 class ElementToFile(RecorderBase):
     op_type = "Element"
 
-    def __init__(self, osi, fname, ele, material=None, arg_vals=None, nsd=8, dt=None):
+    def __init__(self, osi, fname, ele, material=None, arg_vals=None, nsd=8, dt=None, time=False):
         """
         Records properties of an element and saves the results to a file
 
@@ -179,6 +251,8 @@ class ElementToFile(RecorderBase):
             Number of significant figures
         dt: float
             Time step
+        time: bool
+            If true the first column is the time
         """
         self.osi = osi
         if arg_vals is None:
@@ -190,6 +264,48 @@ class ElementToFile(RecorderBase):
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
+        if time:
+            self._parameters.insert(5, '-time')
+        self.to_process(osi)
+
+
+class ElementsToFile(RecorderBase):
+    op_type = "Element"
+
+    def __init__(self, osi, fname, eles, material=None, arg_vals=None, nsd=8, dt=None, time=False):
+        """
+        Records properties of an element and saves the results to a file
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        fname: str
+            Full file name
+        eles: list of o3seespy.element.BaseElement
+            List of o3seespy elements
+        material: -
+        arg_vals: list
+            Extra arguments passed to element recorder method
+        nsd: int
+            Number of significant figures
+        dt: float
+            Time step
+        time: bool
+            If true the first column is the time
+        """
+        self.osi = osi
+        if arg_vals is None:
+            arg_vals = []
+        extra_pms = []
+        if material is not None:
+            extra_pms += ['material', material]
+        self.ele_tags = [x.tag for x in eles]
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-ele', *self.ele_tags, *extra_pms, *arg_vals]
+        if dt is not None:
+            self._parameters.insert(5, '-dT')
+            self._parameters.insert(6, dt)
+        if time:
+            self._parameters.insert(5, '-time')
         self.to_process(osi)
 
 
