@@ -482,7 +482,7 @@ def get_all_node_coords(osi, ndm=None):
 
 
 def get_all_ele_node_tags(osi):
-    ele_tags = get_node_tags(osi)
+    ele_tags = get_ele_tags(osi)
     node_tags = []
     for tag in ele_tags:
         node_tags.append(osi.to_process('eleNodes', [tag]))
@@ -490,6 +490,14 @@ def get_all_ele_node_tags(osi):
 
 
 def get_all_ele_node_tags_as_dict(osi):
+    ele_tags = get_ele_tags(osi)
+    node_tags = {}
+    for ele_tag in ele_tags:
+        node_tags[ele_tag] = osi.to_process('eleNodes', [ele_tag])
+    return node_tags
+
+
+def get_all_ele_node_tags_by_n_nodes(osi):
     ele_tags = get_ele_tags(osi)
     all_node_tags = {}
     for ele_tag in ele_tags:

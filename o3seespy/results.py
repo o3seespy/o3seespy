@@ -5,7 +5,7 @@ import o3seespy as o3
 class Results2D(object):
     cache_path = ''
     coords = None
-    ele2node_tags = None
+    ele2node_tags = {}
     x_disp = None
     y_disp = None
     node_c = None
@@ -26,7 +26,7 @@ class Results2D(object):
     def start_recorders(self, osi, dt=None):
         self.used_r_starter = 1
         self.coords = o3.get_all_node_coords(osi)
-        self.ele2node_tags = o3.get_all_ele_node_tags_as_dict(osi)
+        self.ele2node_tags = o3.get_all_ele_node_tags(osi)
         self.dt = dt
         if self.dynamic:
             o3.recorder.NodesToFile(osi, self.cache_path + 'x_disp.txt', 'all', [o3.cc.DOF2D_X], 'disp', nsd=4)
@@ -56,11 +56,14 @@ class Results2D(object):
     def save_to_cache(self):
         self.wipe_old_files()
         self.savetxt(self.cache_path + 'coords.txt', self.coords)
-        for node_len in self.ele2node_tags:
-            oo = []
-            for ele_tag in self.ele2node_tags[node_len]:
-                oo.append([ele_tag] + self.ele2node_tags[node_len][ele_tag])
-            self.savetxt(self.cache_path + f'ele2node_tags_{node_len}.txt', oo, fmt='%i')
+        # TODO: Assumes elements are sequentially numbered
+        ostr = [f'{ele_tag} ' + ' '.join([str(x) for x in self.ele2node_tags[ele_tag]]) + '\n' for ele_tag in self.ele2node_tags]
+        open(self.cache_path + 'ele2node_tags.txt', 'w').writelines(ostr)
+        # for node_len in self.ele2node_tags:
+        #     oo = []
+        #     for ele_tag in self.ele2node_tags[node_len]:
+        #         oo.append([ele_tag] + self.ele2node_tags[node_len][ele_tag])
+        #     self.savetxt(self.cache_path + f'ele2node_tags_{node_len}.txt', oo, fmt='%i')
 
         for i, fname in enumerate(self.meta_files):
             vals = getattr(self, fname)
@@ -74,14 +77,18 @@ class Results2D(object):
     def load_from_cache(self):
         self.coords = self.loadtxt(self.cache_path + 'coords.txt')
         self.ele2node_tags = {}
-        for node_len in self.n_nodes_per_ele:
-            try:
-                oo = self.loadtxt(self.cache_path + f'ele2node_tags_{node_len}.txt', ndmin=2)
-                self.ele2node_tags[node_len] = {}
-                for i in range(len(oo)):
-                    self.ele2node_tags[node_len][oo[i, 0]] = oo[i, 1:]
-            except OSError:
-                continue
+        lines = open(self.cache_path + 'ele2node_tags.txt').read().splitlines()
+        for line in lines:
+            parts = [int(x) for x in line.split()]
+            self.ele2node_tags[parts[0]] = parts[1:]
+        # for node_len in self.n_nodes_per_ele:
+        #     try:
+        #         oo = self.loadtxt(self.cache_path + f'ele2node_tags_{node_len}.txt', ndmin=2)
+        #         self.ele2node_tags[node_len] = {}
+        #         for i in range(len(oo)):
+        #             self.ele2node_tags[node_len][oo[i, 0]] = oo[i, 1:]
+        #     except OSError:
+        #         continue
         for fname in self.meta_files:
             try:
                 data = self.loadtxt(self.cache_path + f'{fname}.txt')
