@@ -56,14 +56,8 @@ class Results2D(object):
     def save_to_cache(self):
         self.wipe_old_files()
         self.savetxt(self.cache_path + 'coords.txt', self.coords)
-        # TODO: Assumes elements are sequentially numbered
         ostr = [f'{ele_tag} ' + ' '.join([str(x) for x in self.ele2node_tags[ele_tag]]) + '\n' for ele_tag in self.ele2node_tags]
         open(self.cache_path + 'ele2node_tags.txt', 'w').writelines(ostr)
-        # for node_len in self.ele2node_tags:
-        #     oo = []
-        #     for ele_tag in self.ele2node_tags[node_len]:
-        #         oo.append([ele_tag] + self.ele2node_tags[node_len][ele_tag])
-        #     self.savetxt(self.cache_path + f'ele2node_tags_{node_len}.txt', oo, fmt='%i')
 
         for i, fname in enumerate(self.meta_files):
             vals = getattr(self, fname)
@@ -81,14 +75,6 @@ class Results2D(object):
         for line in lines:
             parts = [int(x) for x in line.split()]
             self.ele2node_tags[parts[0]] = parts[1:]
-        # for node_len in self.n_nodes_per_ele:
-        #     try:
-        #         oo = self.loadtxt(self.cache_path + f'ele2node_tags_{node_len}.txt', ndmin=2)
-        #         self.ele2node_tags[node_len] = {}
-        #         for i in range(len(oo)):
-        #             self.ele2node_tags[node_len][oo[i, 0]] = oo[i, 1:]
-        #     except OSError:
-        #         continue
         for fname in self.meta_files:
             try:
                 data = self.loadtxt(self.cache_path + f'{fname}.txt')
