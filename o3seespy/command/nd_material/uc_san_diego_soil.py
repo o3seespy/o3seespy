@@ -388,12 +388,13 @@ class PressureDependMultiYield02(NDMaterialBase):
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.g_mod_ref, self.bulk_mod_ref,
                             self.phi, self.peak_strain, self.p_ref, self.d, self.pt_ang,
-                            contrac1, contrac3, dilat1, dilat3, *self.liquefac, self.n_surf]
+                            contrac1, contrac3, dilat1, dilat3, self.n_surf]
         if self.yield_surf is not None:
             self._parameters += list(self.yield_surf)
+
         self._parameters += [contrac2, dilat2]
-        special_pms = ['e_init', 'cs_params', 'c']
-        packets = [False, True, False]
+        special_pms = ['liquefac', 'e_init', 'cs_params', 'c']
+        packets = [True, False, True, False]
         for i, pm in enumerate(special_pms):
             if getattr(self, pm) is not None:
                 if packets[i]:

@@ -13,6 +13,7 @@ class NDMaterialBase(OpenSeesObject):
             set_parameter(osi, value=value, eles=eles, args=[pstr, 1])
 
     def build(self, osi):
+        self.osi = osi
         osi.n_mat += 1
         self._tag = osi.n_mat
         ind = self.parameters.index(None)

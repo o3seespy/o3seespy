@@ -29,3 +29,5 @@ PressureDependMultiYield03,PlaneStress,strain,exx-eyy-gxy
 PressureDependMultiYield03,3D,strain,exx-eyy-ezz-gxy-gyz-gzx
 stressDensity,PlaneStrain,stress,sxx-syy-sxy
 stressDensity,PlaneStrain,strain,exx-eyy-gxy
+PM4Sand,PlaneStrain,stress,sxx-syy-sxy
+PM4Sand,PlaneStrain,strain,exx-eyy-gxy
