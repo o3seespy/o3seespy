@@ -36,8 +36,9 @@ class Elastic(UniaxialMaterialBase):
             self.eneg = None
         else:
             self.eneg = float(eneg)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod, self.eta]
         special_pms = ['eneg']
         packets = [False]
@@ -49,7 +50,8 @@ class Elastic(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_e_mod(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'E', value, ele, eles)
@@ -102,8 +104,9 @@ class ElasticPP(UniaxialMaterialBase):
         else:
             self.epsy_n = float(epsy_n)
         self.eps0 = float(eps0)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod, self.epsy_p]
         special_pms = ['epsy_n', 'eps0']
         packets = [False, False]
@@ -115,7 +118,8 @@ class ElasticPP(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_fy(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'Fy', value, ele, eles)
@@ -165,10 +169,12 @@ class ElasticPPGap(UniaxialMaterialBase):
         self.gap = float(gap)
         self.eta = float(eta)
         self.damage = damage
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod, self.fy, self.gap, self.eta, self.damage]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ENT(UniaxialMaterialBase):
@@ -196,10 +202,12 @@ class ENT(UniaxialMaterialBase):
         """
         self.osi = osi
         self.e_mod = float(e_mod)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_e_mod(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'E', value, ele, eles)
@@ -238,12 +246,14 @@ class Parallel(UniaxialMaterialBase):
         self.osi = osi
         self.mats = [x.tag for x in mats]
         self.factor_args = factor_args
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.mats]
         if getattr(self, 'factor_args') is not None:
             self._parameters += ['-factors', *self.factor_args]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class Series(UniaxialMaterialBase):
@@ -274,7 +284,9 @@ class Series(UniaxialMaterialBase):
         """
         self.osi = osi
         self.mats = [x.tag for x in mats]
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.mats]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)

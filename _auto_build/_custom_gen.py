@@ -172,9 +172,9 @@ class PressureIndependMultiYield(NDMaterialBase):
             self.yield_surf = yield_surf
         else:
             self.yield_surf = None
-
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
 
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.g_mod_ref, self.bulk_mod_ref,
                             self.cohesion, self.peak_strain, self.phi, self.p_ref, self.d]
@@ -186,7 +186,8 @@ class PressureIndependMultiYield(NDMaterialBase):
         else:
             # self._keyword_args['noYieldSurf'] = self.no_yield_surf
             self._parameters.append(self.n_surf)
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def update_to_nonlinear(self, osi):
         from o3seespy import update_material_stage
@@ -313,8 +314,9 @@ class PressureDependMultiYield(NDMaterialBase):
         self.e_init = float(e_init)
         self.cs_params = cs_params
         self.c = float(c)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.g_mod_ref, self.bulk_mod_ref,
                             self.phi, self.peak_strain, self.p_ref, self.d, self.pt_ang,
                             self.con_rate, *self.dil_rates, *self.liquefac, self.n_surf]
@@ -330,7 +332,8 @@ class PressureDependMultiYield(NDMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def update_to_nonlinear(self, osi):
         from o3seespy import update_material_stage
@@ -465,8 +468,9 @@ class PressureDependMultiYield02(NDMaterialBase):
         self.e_init = float(e_init)
         self.cs_params = cs_params
         self.c = float(c)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.g_mod_ref, self.bulk_mod_ref,
                             self.phi, self.peak_strain, self.p_ref, self.d, self.pt_ang,
                             contrac1, contrac3, dilat1, dilat3, *self.liquefac, self.n_surf]
@@ -483,7 +487,8 @@ class PressureDependMultiYield02(NDMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def update_to_nonlinear(self, osi):
         from o3seespy import update_material_stage
@@ -539,14 +544,16 @@ class Steel01(UniaxialMaterialBase):
         self.a2 = a2
         self.a3 = a3
         self.a4 = a4
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self.tag, self.fy, self.e0, self.b]
         for a in self.a_values:
             if a is None:
                 break
             self._parameters.append(a)
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_fy(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'Fy', value, ele, eles)
@@ -584,6 +591,8 @@ class Fiber(SectionBase):
         """
         Initial method for Fiber
 
+        Supports pre-building
+
         Parameters
         ----------
         gj: float
@@ -604,7 +613,8 @@ class Fiber(SectionBase):
             self._parameters += ['-GJ', self.gj]
         if getattr(self, 'torsion_mat') is not None:
             self._parameters += ['-torsion', self.torsion_mat.tag]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class Circ(LayerBase):
@@ -618,6 +628,8 @@ class Circ(LayerBase):
     def __init__(self, osi, mat, num_fiber, area_fiber, center, radius, ang=None):
         """
         Initial method for Circ
+
+        Supports pre-building
 
         Parameters
         ----------
@@ -646,7 +658,8 @@ class Circ(LayerBase):
         self._parameters = [self.op_type, self.mat.tag, self.num_fiber, self.area_fiber, *self.center, self.radius]
         if self.ang is not None:
             self._parameters += self.ang
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 #
 # class PySimple1(UniaxialMaterialBase):
 #     op_type = "PySimple1"
@@ -809,9 +822,9 @@ class StressDensity(NDMaterialBase):
         self.sc = float(sc)
         self.big_m = float(big_m)
         self.p_atm = float(p_atm)
-
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
 
         self._parameters = [self.op_type, self._tag, self.den, self.e_init, self.big_a, self.n, self.nu, self.a1, self.b1, self.a2,
                             self.b2, self.a3, self.b3, self.fd, self.mu_0, self.mu_cyc, self.sc, self.big_m,
@@ -828,4 +841,5 @@ class StressDensity(NDMaterialBase):
             self.ps = [float(x) for x in ps]
             self._parameters += [*self.ps]
 
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)

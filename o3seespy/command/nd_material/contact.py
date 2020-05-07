@@ -35,10 +35,12 @@ class ContactMaterial2D(NDMaterialBase):
         self.g_mod = float(g_mod)
         self.c = float(c)
         self.t = float(t)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mu, self.g_mod, self.c, self.t]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ContactMaterial3D(NDMaterialBase):
@@ -75,7 +77,9 @@ class ContactMaterial3D(NDMaterialBase):
         self.g_mod = float(g_mod)
         self.c = float(c)
         self.t = float(t)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mu, self.g_mod, self.c, self.t]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)

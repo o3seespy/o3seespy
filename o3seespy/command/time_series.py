@@ -355,7 +355,7 @@ class Path(TimeSeriesBase):
             A factor to multiply load factors by. 
         start_time: float, optional
             Provide a start time for provided load factors. 
-        use_last: bool
+        use_last: str
             Use last value after the end of the series. 
         prepend_zero: str
             Prepend a zero value to the series of load factors. 

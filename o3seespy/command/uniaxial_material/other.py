@@ -40,10 +40,12 @@ class Hardening(UniaxialMaterialBase):
         self.h_iso = float(h_iso)
         self.h_kin = float(h_kin)
         self.eta = float(eta)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod, self.sigma_y, self.h_iso, self.h_kin, self.eta]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_fy(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'Fy', value, ele, eles)
@@ -132,8 +134,9 @@ class Cast(UniaxialMaterialBase):
         else:
             self.a3 = float(a3)
         self.a4 = float(a4)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.n, self.bo, self.h, self.fy, self.e_mod, self.big_l, self.b, self.ro, self.c_r1, self.c_r2]
         special_pms = ['a1', 'a2', 'a3', 'a4']
         packets = [False, False, False, False]
@@ -145,7 +148,8 @@ class Cast(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ViscousDamper(UniaxialMaterialBase):
@@ -199,10 +203,12 @@ class ViscousDamper(UniaxialMaterialBase):
         self.rel_tol = float(rel_tol)
         self.abs_tol = float(abs_tol)
         self.max_half = int(max_half)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k_el, self.cd, self.alpha, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_e_mod(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'E', value, ele, eles)
@@ -264,10 +270,12 @@ class BilinearOilDamper(UniaxialMaterialBase):
         self.rel_tol = float(rel_tol)
         self.abs_tol = float(abs_tol)
         self.max_half = int(max_half)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k_el, self.cd, self.fr, self.p, self.l_gap, self.nm, self.rel_tol, self.abs_tol, self.max_half]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_k(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'K', value, ele, eles)
@@ -394,10 +402,12 @@ class Bilin(UniaxialMaterialBase):
         self.d__plus = float(d__plus)
         self.d__neg = float(d__neg)
         self.n_factor = float(n_factor)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k0, self.as__plus, self.as__neg, self.my__plus, self.my__neg, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p__plus, self.theta_p__neg, self.theta_pc__plus, self.theta_pc__neg, self.res__pos, self.res__neg, self.theta_u__plus, self.theta_u__neg, self.d__plus, self.d__neg, self.n_factor]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ModIMKPeakOriented(UniaxialMaterialBase):
@@ -504,10 +514,12 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
         self.theta_u__neg = float(theta_u__neg)
         self.d__plus = float(d__plus)
         self.d__neg = float(d__neg)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k0, self.as__plus, self.as__neg, self.my__plus, self.my__neg, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p__plus, self.theta_p__neg, self.theta_pc__plus, self.theta_pc__neg, self.res__pos, self.res__neg, self.theta_u__plus, self.theta_u__neg, self.d__plus, self.d__neg]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ModIMKPinching(UniaxialMaterialBase):
@@ -623,10 +635,12 @@ class ModIMKPinching(UniaxialMaterialBase):
         self.theta_u__neg = float(theta_u__neg)
         self.d__plus = float(d__plus)
         self.d__neg = float(d__neg)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k0, self.as__plus, self.as__neg, self.my__plus, self.my__neg, self.fpr_pos, self.fpr_neg, self.a_pinch, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p__plus, self.theta_p__neg, self.theta_pc__plus, self.theta_pc__neg, self.res__pos, self.res__neg, self.theta_u__plus, self.theta_u__neg, self.d__plus, self.d__neg]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class SAWS(UniaxialMaterialBase):
@@ -685,10 +699,12 @@ class SAWS(UniaxialMaterialBase):
         self.r4 = float(r4)
         self.alpha = float(alpha)
         self.beta = float(beta)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.f0, self.fi, self.du, self.s0, self.r1, self.r2, self.r3, self.r4, self.alpha, self.beta]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class BarSlip(UniaxialMaterialBase):
@@ -770,10 +786,12 @@ class BarSlip(UniaxialMaterialBase):
         self.otype = otype
         self.damage = damage
         self.unit = unit
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.fy, self.es, self.fu, self.eh, self.db, self.ld, self.nb, self.depth, self.height, self.anc_lratio, self.bs_flag, self.otype, self.damage, self.unit]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class BondSP01(UniaxialMaterialBase):
@@ -823,10 +841,12 @@ class BondSP01(UniaxialMaterialBase):
         self.su = float(su)
         self.b = float(b)
         self.big_r = float(big_r)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.sy, self.fu, self.su, self.b, self.big_r]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class Fatigue(UniaxialMaterialBase):
@@ -880,8 +900,9 @@ class Fatigue(UniaxialMaterialBase):
             self.max = None
         else:
             self.max = float(max)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag]
         if getattr(self, 'e0') is not None:
             self._parameters += ['-E0', self.e0]
@@ -891,7 +912,8 @@ class Fatigue(UniaxialMaterialBase):
             self._parameters += ['-min', self.min]
         if getattr(self, 'max') is not None:
             self._parameters += ['-max', self.max]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ImpactMaterial(UniaxialMaterialBase):
@@ -929,10 +951,12 @@ class ImpactMaterial(UniaxialMaterialBase):
         self.k2 = float(k2)
         self.sigy = float(sigy)
         self.gap = float(gap)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k1, self.k2, self.sigy, self.gap]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class HyperbolicGapMaterial(UniaxialMaterialBase):
@@ -973,10 +997,12 @@ class HyperbolicGapMaterial(UniaxialMaterialBase):
         self.rf = float(rf)
         self.fult = float(fult)
         self.gap = float(gap)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.kmax, self.kur, self.rf, self.fult, self.gap]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class LimitState(UniaxialMaterialBase):
@@ -1063,10 +1089,12 @@ class LimitState(UniaxialMaterialBase):
         self.beta = float(beta)
         self.curve = curve
         self.curve_type = int(curve_type)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.s1p, self.e1p, self.s2p, self.e2p, self.s3p, self.e3p, self.s1n, self.e1n, self.s2n, self.e2n, self.s3n, self.e3n, self.pinch_x, self.pinch_y, self.damage1, self.damage2, self.beta, self.curve.tag, self.curve_type]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_state_flag(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'stateFlag', value, ele, eles)
@@ -1112,14 +1140,16 @@ class MinMax(UniaxialMaterialBase):
             self.max_strain = None
         else:
             self.max_strain = float(max_strain)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag]
         if getattr(self, 'min_strain') is not None:
             self._parameters += ['-min', self.min_strain]
         if getattr(self, 'max_strain') is not None:
             self._parameters += ['-max', self.max_strain]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ElasticBilin(UniaxialMaterialBase):
@@ -1172,8 +1202,9 @@ class ElasticBilin(UniaxialMaterialBase):
             self.eps_n2 = None
         else:
             self.eps_n2 = float(eps_n2)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.ep1, self.ep2, self.eps_p2]
         special_pms = ['en1', 'en2', 'eps_n2']
         packets = [False, False, False]
@@ -1185,7 +1216,8 @@ class ElasticBilin(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ElasticMultiLinear(UniaxialMaterialBase):
@@ -1227,14 +1259,16 @@ class ElasticMultiLinear(UniaxialMaterialBase):
         self.eta = float(eta)
         self.strain = strain
         self.stress = stress
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.eta]
         if getattr(self, 'strain') is not None:
             self._parameters += ['-strain', *self.strain]
         if getattr(self, 'stress') is not None:
             self._parameters += ['-stress', *self.stress]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class MultiLinear(UniaxialMaterialBase):
@@ -1263,10 +1297,12 @@ class MultiLinear(UniaxialMaterialBase):
         """
         self.osi = osi
         self.pts = pts
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.pts]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class InitStrainMaterial(UniaxialMaterialBase):
@@ -1300,10 +1336,12 @@ class InitStrainMaterial(UniaxialMaterialBase):
         self.osi = osi
         self.other = other
         self.init_strain = float(init_strain)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_strain]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class InitStressMaterial(UniaxialMaterialBase):
@@ -1342,10 +1380,12 @@ class InitStressMaterial(UniaxialMaterialBase):
         self.osi = osi
         self.other = other
         self.init_stress = float(init_stress)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_stress]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_f0(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'F0', value, ele, eles)
@@ -1377,10 +1417,12 @@ class PathIndependent(UniaxialMaterialBase):
         """
         self.osi = osi
         self.other = other
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ECC01(UniaxialMaterialBase):
@@ -1448,10 +1490,12 @@ class ECC01(UniaxialMaterialBase):
         self.alpha_cu = float(alpha_cu)
         self.beta_t = float(beta_t)
         self.beta_c = float(beta_c)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.sigt0, self.epst0, self.sigt1, self.epst1, self.epst2, self.sigc0, self.epsc0, self.epsc1, self.alpha_t1, self.alpha_t2, self.alpha_c, self.alpha_cu, self.beta_t, self.beta_c]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class SelfCentering(UniaxialMaterialBase):
@@ -1501,8 +1545,9 @@ class SelfCentering(UniaxialMaterialBase):
             self.r_bear = None
         else:
             self.r_bear = float(r_bear)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k1, self.k2, self.sig_act, self.beta, self.eps_slip, self.eps_bear]
         special_pms = ['r_bear']
         packets = [False]
@@ -1514,7 +1559,8 @@ class SelfCentering(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class Viscous(UniaxialMaterialBase):
@@ -1545,10 +1591,12 @@ class Viscous(UniaxialMaterialBase):
         self.osi = osi
         self.big_c = float(big_c)
         self.alpha = float(alpha)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.big_c, self.alpha]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_c(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'C', value, ele, eles)
@@ -1613,10 +1661,12 @@ class BoucWen(UniaxialMaterialBase):
         self.delta_a = float(delta_a)
         self.delta_nu = float(delta_nu)
         self.delta_eta = float(delta_eta)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.alpha, self.ko, self.n, self.gamma, self.beta, self.ao, self.delta_a, self.delta_nu, self.delta_eta]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_alpha(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'alpha', value, ele, eles)
@@ -1714,10 +1764,12 @@ class BWBN(UniaxialMaterialBase):
         self.lamb = float(lamb)
         self.tol = float(tol)
         self.max_iter = float(max_iter)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.alpha, self.ko, self.n, self.gamma, self.beta, self.ao, self.q, self.zetas, self.p, self.shi, self.delta_shi, self.lamb, self.tol, self.max_iter]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class AxialSp(UniaxialMaterialBase):
@@ -1767,10 +1819,12 @@ class AxialSp(UniaxialMaterialBase):
         self.bty = float(bty)
         self.bcy = float(bcy)
         self.fcr = float(fcr)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.sce, self.fty, self.fcy, self.bte, self.bty, self.bcy, self.fcr]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class AxialSpHD(UniaxialMaterialBase):
@@ -1827,10 +1881,12 @@ class AxialSpHD(UniaxialMaterialBase):
         self.bcy = float(bcy)
         self.fcr = float(fcr)
         self.ath = float(ath)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.sce, self.fty, self.fcy, self.bte, self.bty, self.bth, self.bcy, self.fcr, self.ath]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class CFSWSWP(UniaxialMaterialBase):
@@ -1904,10 +1960,12 @@ class CFSWSWP(UniaxialMaterialBase):
         self.otype = int(otype)
         self.opening_area = float(opening_area)
         self.opening_length = float(opening_length)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.height, self.width, self.fut, self.tf, self.ife, self.ifi, self.ts, self.np, self.ds, self.vs, self.sc, self.nc, self.otype, self.opening_area, self.opening_length]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class CFSSSWP(UniaxialMaterialBase):
@@ -1984,7 +2042,9 @@ class CFSSSWP(UniaxialMaterialBase):
         self.dt = float(dt)
         self.opening_area = float(opening_area)
         self.opening_length = float(opening_length)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.height, self.width, self.fuf, self.fyf, self.tf, self.af, self.fus, self.fys, self.ts, self.np, self.ds, self.vs, self.sc, self.dt, self.opening_area, self.opening_length]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)

@@ -61,6 +61,8 @@ class Circ(LayerBase):
         """
         Initial method for Circ
 
+        Supports pre-building
+
         Parameters
         ----------
         mat: obj
@@ -88,5 +90,6 @@ class Circ(LayerBase):
         self._parameters = [self.op_type, self.mat.tag, self.num_fiber, self.area_fiber, *self.center, self.radius]
         if self.ang is not None:
             self._parameters += self.ang
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 

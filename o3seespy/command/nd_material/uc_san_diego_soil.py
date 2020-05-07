@@ -85,9 +85,9 @@ class PressureIndependMultiYield(NDMaterialBase):
             self.yield_surf = yield_surf
         else:
             self.yield_surf = None
-
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
 
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.g_mod_ref, self.bulk_mod_ref,
                             self.cohesion, self.peak_strain, self.phi, self.p_ref, self.d]
@@ -99,7 +99,8 @@ class PressureIndependMultiYield(NDMaterialBase):
         else:
             # self._keyword_args['noYieldSurf'] = self.no_yield_surf
             self._parameters.append(self.n_surf)
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def update_to_nonlinear(self, osi):
         from o3seespy import update_material_stage
@@ -227,8 +228,9 @@ class PressureDependMultiYield(NDMaterialBase):
         self.e_init = float(e_init)
         self.cs_params = cs_params
         self.c = float(c)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.g_mod_ref, self.bulk_mod_ref,
                             self.phi, self.peak_strain, self.p_ref, self.d, self.pt_ang,
                             self.con_rate, *self.dil_rates, *self.liquefac, self.n_surf]
@@ -244,7 +246,8 @@ class PressureDependMultiYield(NDMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def update_to_nonlinear(self, osi):
         from o3seespy import update_material_stage
@@ -380,8 +383,9 @@ class PressureDependMultiYield02(NDMaterialBase):
         self.e_init = float(e_init)
         self.cs_params = cs_params
         self.c = float(c)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.g_mod_ref, self.bulk_mod_ref,
                             self.phi, self.peak_strain, self.p_ref, self.d, self.pt_ang,
                             contrac1, contrac3, dilat1, dilat3, *self.liquefac, self.n_surf]
@@ -398,7 +402,8 @@ class PressureDependMultiYield02(NDMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def update_to_nonlinear(self, osi):
         from o3seespy import update_material_stage

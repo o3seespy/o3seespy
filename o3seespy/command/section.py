@@ -172,6 +172,8 @@ class Fiber(SectionBase):
         """
         Initial method for Fiber
 
+        Supports pre-building
+
         Parameters
         ----------
         gj: float
@@ -192,7 +194,8 @@ class Fiber(SectionBase):
             self._parameters += ['-GJ', self.gj]
         if getattr(self, 'torsion_mat') is not None:
             self._parameters += ['-torsion', self.torsion_mat.tag]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class Fiber(SectionBase):
@@ -209,6 +212,8 @@ class Fiber(SectionBase):
         """
         Initial method for Fiber
 
+        Supports pre-building
+
         Parameters
         ----------
         gj: float
@@ -229,7 +234,8 @@ class Fiber(SectionBase):
             self._parameters += ['-GJ', self.gj]
         if getattr(self, 'torsion_mat') is not None:
             self._parameters += ['-torsion', self.torsion_mat.tag]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class Fiber(SectionBase):
@@ -246,6 +252,8 @@ class Fiber(SectionBase):
         """
         Initial method for Fiber
 
+        Supports pre-building
+
         Parameters
         ----------
         gj: float
@@ -266,7 +274,8 @@ class Fiber(SectionBase):
             self._parameters += ['-GJ', self.gj]
         if getattr(self, 'torsion_mat') is not None:
             self._parameters += ['-torsion', self.torsion_mat.tag]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 

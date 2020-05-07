@@ -333,8 +333,13 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         if op_type is not None:
             pjoins.append('self.op_type')
         if osi_type is not None:
-            para.append(w8 + f'osi.n_{osi_type} += 1')
-            para.append(w8 + f'self._tag = osi.n_{osi_type}')
+            if osi_type == 'mat':
+                para.append(w8 + 'if osi is not None:')
+                para.append(w12 + f'osi.n_{osi_type} += 1')
+                para.append(w12 + f'self._tag = osi.n_{osi_type}')
+            else:
+                para.append(w8 + f'osi.n_{osi_type} += 1')
+                para.append(w8 + f'self._tag = osi.n_{osi_type}')
             pjoins += ['self._tag']
         need_special_logic = False
         applied_op_warg = False
@@ -402,7 +407,11 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             para.append(w8 + w8 + w4 + 'self._parameters += [getattr(self, pm)]')
             para.append(w8 + w4 + 'else:')
             para.append(w8 + w8 + 'break')
-        para.append(w8 + 'self.to_process(osi)')
+        if osi_type == 'mat':
+            para.append(w8 + 'if osi is not None:')
+            para.append(w12 + 'self.to_process(osi)')
+        else:
+            para.append(w8 + 'self.to_process(osi)')
         para.append('')
 
         para += build_additional_methods(base_type, op_type)

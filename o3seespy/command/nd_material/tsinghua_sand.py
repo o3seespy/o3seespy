@@ -72,10 +72,12 @@ class CycLiqCP(NDMaterialBase):
         self.dir = float(dir)
         self.ein = float(ein)
         self.rho = float(rho)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.g0, self.kappa, self.h, self.mfc, self.dre1, self.mdc, self.dre2, self.rdr, self.alpha, self.dir, self.ein, self.rho]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_update_material_stage(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
@@ -164,10 +166,12 @@ class CycLiqCPSP(NDMaterialBase):
         self.nd = float(nd)
         self.ein = float(ein)
         self.rho = float(rho)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.g0, self.kappa, self.h, self.big_m, self.dre1, self.dre2, self.rdr, self.alpha, self.dir, self.lambdac, self.ksi, self.e0, self.np, self.nd, self.ein, self.rho]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_update_material_stage(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)

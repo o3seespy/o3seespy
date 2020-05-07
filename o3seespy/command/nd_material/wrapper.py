@@ -33,10 +33,12 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
         self.osi = osi
         self.n_d_mat = n_d_mat
         self.n_dim = int(n_dim)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.n_d_mat.tag, self.n_dim]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_update_material_stage(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
@@ -82,10 +84,12 @@ class InitStressNDMaterial(NDMaterialBase):
         self.other = other
         self.init_stress = float(init_stress)
         self.n_dim = int(n_dim)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_stress, self.n_dim]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class InitStrainNDMaterial(NDMaterialBase):
@@ -116,7 +120,9 @@ class InitStrainNDMaterial(NDMaterialBase):
         self.other = other
         self.init_strain = float(init_strain)
         self.n_dim = float(n_dim)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_strain, self.n_dim]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)

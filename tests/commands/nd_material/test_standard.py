@@ -6,6 +6,12 @@ def test_elastic_isotropic():
     o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
 
 
+def test_elastic_isotropic_prebuild():
+    mat = o3.nd_material.ElasticIsotropic(None, e_mod=1.0, nu=1.0, rho=0.0)
+    osi = o3.OpenSeesInstance(ndm=2)
+    mat.build(osi)
+
+
 def test_elastic_orthotropic():
     osi = o3.OpenSeesInstance(ndm=2)
     o3.nd_material.ElasticOrthotropic(osi, ex=1.0, ey=1.0, ez=1.0, nu_xy=1.0, nu_yz=1.0, nu_zx=1.0, gxy=1.0, gyz=1.0, gzx=1.0, rho=0.0)

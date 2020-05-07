@@ -43,14 +43,16 @@ class Steel01(UniaxialMaterialBase):
         self.a2 = a2
         self.a3 = a3
         self.a4 = a4
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self.tag, self.fy, self.e0, self.b]
         for a in self.a_values:
             if a is None:
                 break
             self._parameters.append(a)
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_fy(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'Fy', value, ele, eles)
@@ -135,8 +137,9 @@ class Steel02(UniaxialMaterialBase):
             self.a3 = float(a3)
         self.a4 = float(a4)
         self.sig_init = float(sig_init)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.e0, self.b, *self.params]
         special_pms = ['a1', 'a2', 'a3', 'a4', 'sig_init']
         packets = [False, False, False, False, False]
@@ -148,7 +151,8 @@ class Steel02(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_fy(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'Fy', value, ele, eles)
@@ -240,8 +244,9 @@ class Hysteretic(UniaxialMaterialBase):
         self.damage1 = float(damage1)
         self.damage2 = float(damage2)
         self.beta = float(beta)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.p1, *self.p2]
         special_pms = ['p3', 'n1', 'n2', 'n3', 'pinch_x', 'pinch_y', 'damage1', 'damage2', 'beta']
         packets = [True, True, True, True, False, False, False, False, False]
@@ -253,7 +258,8 @@ class Hysteretic(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class ReinforcingSteelGABuck(UniaxialMaterialBase):
@@ -310,10 +316,12 @@ class ReinforcingSteelGABuck(UniaxialMaterialBase):
         self.beta = float(beta)
         self.r = float(r)
         self.gamma = float(gamma)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-GABuck', self.lsr, self.beta, self.r, self.gamma]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 class ReinforcingSteelDMBuck(UniaxialMaterialBase):
     """
@@ -362,10 +370,12 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
         self.eps_ult = float(eps_ult)
         self.lsr_2 = lsr_2
         self.alpha = float(alpha)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-DMBuck', self.lsr_2, self.alpha]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
     """
@@ -417,10 +427,12 @@ class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
         self.cf = float(cf)
         self.alpha_2 = alpha_2
         self.cd = float(cd)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-CMFatigue', self.cf, self.alpha_2, self.cd]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 class ReinforcingSteelIsoHard(UniaxialMaterialBase):
     """
@@ -470,10 +482,12 @@ class ReinforcingSteelIsoHard(UniaxialMaterialBase):
         self.eps_ult = float(eps_ult)
         self.a1 = float(a1)
         self.limit = float(limit)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-IsoHard', self.a1, self.limit]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
     """
@@ -525,10 +539,12 @@ class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
         self.r1 = float(r1)
         self.r2 = float(r2)
         self.r3 = float(r3)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-MPCurveParams', self.r1, self.r2, self.r3]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class DoddRestrepo(UniaxialMaterialBase):
@@ -580,10 +596,12 @@ class DoddRestrepo(UniaxialMaterialBase):
         self.eshi = float(eshi)
         self.fshi = float(fshi)
         self.omega_fac = float(omega_fac)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fsu, self.esh, self.esu, self.youngs, self.eshi, self.fshi, self.omega_fac]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class RambergOsgoodSteel(UniaxialMaterialBase):
@@ -621,10 +639,12 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
         self.e0 = float(e0)
         self.a = float(a)
         self.n = float(n)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.e0, self.a, self.n]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class SteelMPF(UniaxialMaterialBase):
@@ -689,10 +709,12 @@ class SteelMPF(UniaxialMaterialBase):
         self.a2 = float(a2)
         self.a3 = float(a3)
         self.a4 = float(a4)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fyp, self.fyn, self.e0, self.bp, self.bn, self.r0, self.c_r1, self.c_r2, self.a1, self.a2, self.a3, self.a4]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
 
 class Steel01Thermal(UniaxialMaterialBase):
@@ -740,10 +762,12 @@ class Steel01Thermal(UniaxialMaterialBase):
         self.a2 = float(a2)
         self.a3 = float(a3)
         self.a4 = float(a4)
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.e0, self.b, self.a1, self.a2, self.a3, self.a4]
-        self.to_process(osi)
+        if osi is not None:
+            self.to_process(osi)
 
     def set_fy(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'fy', value, ele, eles)
