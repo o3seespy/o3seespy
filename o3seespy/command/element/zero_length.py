@@ -29,6 +29,7 @@ class ZeroLength(ElementBase):
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default)
         orient: list, optional
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -89,6 +90,7 @@ class ZeroLengthND(ElementBase):
             behavior orthogonal to the plane of the ndmaterial response. see notes 2 and 3.
         orient: list, optional
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -137,6 +139,7 @@ class ZeroLengthSection(ElementBase):
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default) * ``rflag`` = 1 include rayleigh damping
         orient: list, optional
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -189,6 +192,7 @@ class CoupledZeroLength(ElementBase):
             Objects associated with previously-defined uniaxialmaterial
         r_flag: float, optional
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default) * ``rflag`` = 1 include rayleigh damping
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -238,6 +242,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
             
         ny: None
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -289,6 +294,7 @@ class ZeroLengthContact3D(ElementBase):
             Direction flag of the contact plane (3d), it can be: * 1 out normal of the master plane pointing to +x
             direction * 2 out normal of the master plane pointing to +y direction * 3 out normal of the master plane pointing
             to +z direction
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -337,6 +343,7 @@ class ZeroLengthContactNTS2D(ElementBase):
             Number of master nodes
         nodes: list, optional
             Slave and master node objects respectively
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -405,6 +412,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
             Number of master nodes
         nodes: list, optional
             Slave and master node objects respectively
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -479,6 +487,7 @@ class ZeroLengthImpact3D(ElementBase):
             Yield deformation based on hertz impact model
         cohesion: float
             Cohesion, if no cohesion, it is zero
+
         Examples
         --------
         >>> import o3seespy as o3

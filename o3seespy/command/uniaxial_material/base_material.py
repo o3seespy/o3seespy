@@ -17,3 +17,4 @@ class UniaxialMaterialBase(OpenSeesObject):
         osi.n_mat += 1
         self._tag = osi.n_mat
         self.to_process(osi)
+        self.built = 1

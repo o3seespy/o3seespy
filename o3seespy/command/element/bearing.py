@@ -53,6 +53,7 @@ class ElastomericBearingPlasticity2D(ElementBase):
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -159,6 +160,7 @@ class ElastomericBearingPlasticity3D(ElementBase):
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -274,6 +276,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         mass: float, optional
             Element mass (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -389,6 +392,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         mass: float, optional
             Element mass (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -506,6 +510,7 @@ class FlatSliderBearing2D(ElementBase):
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -626,6 +631,7 @@ class FlatSliderBearing3D(ElementBase):
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -746,6 +752,7 @@ class SingleFPBearing2D(ElementBase):
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -866,6 +873,7 @@ class SingleFPBearing3D(ElementBase):
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1010,6 +1018,7 @@ class TFP(ElementBase):
             Initial axial load on bearing (only used for first time step then load come from model)
         big_k: float
             Optional, stiffness of spring in vertical dirn (dof 2 if ndm= 2, dof 3 if ndm = 3) (default=1.0e15)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1109,6 +1118,7 @@ class TripleFrictionPendulum(ElementBase):
             
         tol: float
             = relative tolerance for checking the convergence of the element. recommended value = 1.e-10 to 1.e-3.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1179,6 +1189,7 @@ class MultipleShearSpring(ElementBase):
             Element mass
         orient: None, optional
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1268,6 +1279,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
             
         mass: float, optional
             Element mass
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1409,6 +1421,7 @@ class KikuchiBearingdoBalance(ElementBase):
             
         mass: float, optional
             Element mass
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1531,6 +1544,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
             
         mass: float, optional
             Element mass [kg]
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1641,6 +1655,7 @@ class ElastomericX(ElementBase):
             Object to include horizontal stiffness variation (optional, default = 0)
         tag4: float
             Object to include vertical stiffness variation (optional, default = 0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1771,6 +1786,7 @@ class LeadRubberX(ElementBase):
             Object to include vertical stiffness variation (optional, default = 0)
         tag5: int
             Object to include strength degradation in shear due to heating of lead core (optional, default = 0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -1894,6 +1910,7 @@ class HDR(ElementBase):
             Element mass (optional, default = 0.0)
         tc: float
             Cover thickness (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -2018,6 +2035,7 @@ class FPBearingPTV(ElementBase):
         unit: int
             Object to identify the unit from the list below. * ``1``: n, m, s, c * ``2``: kn, m, s, c * ``3``: n, mm, s,
             c * ``4``: kn, mm, s, c * ``5``: lb, in, s, c * ``6``: kip, in, s, c * ``7``: lb, ft, s, c * ``8``: kip, ft, s, c
+
         Examples
         --------
         >>> import o3seespy as o3

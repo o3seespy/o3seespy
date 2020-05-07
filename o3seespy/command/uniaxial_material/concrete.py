@@ -26,6 +26,7 @@ class Concrete01(UniaxialMaterialBase):
             Concrete crushing strength
         eps_u: float
             Concrete strain at crushing strength
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -41,6 +42,8 @@ class Concrete01(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_u]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -87,6 +90,7 @@ class Concrete02(UniaxialMaterialBase):
             Tensile strength
         ets: float
             Tension softening stiffness (absolute value) (slope of the linear tension softening branch)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -105,6 +109,8 @@ class Concrete02(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_u, self.lamb, self.ft, self.ets]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -140,6 +146,7 @@ class Concrete04(UniaxialMaterialBase):
         beta: float
             Loating point value defining the exponential curve parameter to define the residual stress (as a factor of
             ft) at etu
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -158,6 +165,8 @@ class Concrete04(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.epsc, self.epscu, self.ec, self.fct, self.et, self.beta]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -196,6 +205,7 @@ class Concrete06(UniaxialMaterialBase):
             Exponent of the tension stiffening curve
         alpha2: float
             :math:`\alpha_2` parameter for tensile plastic strain definition
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -216,6 +226,8 @@ class Concrete06(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.e0, self.n, self.k, self.alpha1, self.fcr, self.ecr, self.b, self.alpha2]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -254,6 +266,7 @@ class Concrete07(UniaxialMaterialBase):
             Non-dimensional term that defines the strain at which the straight line descent begins in compression
         r: float
             Parameter that controls the nonlinear descending branch
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -273,6 +286,8 @@ class Concrete07(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.epsc, self.ec, self.ft, self.et, self.xp, self.xn, self.r]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -304,6 +319,7 @@ class Concrete01WithSITC(UniaxialMaterialBase):
             Concrete strain at crushing strength
         end_strain_sitc: float, optional
             Optional, default = 0.03
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -320,6 +336,8 @@ class Concrete01WithSITC(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc, self.epsc0, self.fpcu, self.eps_u, self.end_strain_sitc]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -405,6 +423,7 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             Unknown
         st_ratio: unk, optional
             Unknown
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -465,6 +484,8 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             self._parameters += ['-epscuLimit', self.epscu_limit]
         if getattr(self, 'st_ratio') is not None:
             self._parameters += ['-stRatio', self.st_ratio]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -514,6 +535,7 @@ class ConcreteD(UniaxialMaterialBase):
             Plastic parameter, recommended values: 0.2~0.3
         etap: float, optional
             Plastic parameter, recommended values: 1.0~1.3
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -534,6 +556,8 @@ class ConcreteD(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.epsc, self.ft, self.epst, self.ec, self.alphac, self.alphat, self.cesp, self.etap]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -591,6 +615,7 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
         use_buck: float
             Frp jacket failure criterion due to buckling of longitudinal compressive steel bars (0 = not                
                                        include it, 1= to include it).
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -620,6 +645,8 @@ class FRPConfinedConcrete(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fpc1, self.fpc2, self.epsc0, self.big_d, self.c, self.ej, self.sj, self.tj, self.eju, self.big_s, self.fyl, self.fyh, self.dlong, self.dtrans, self.es, self.nu0, self.k, self.use_buck]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -731,6 +758,8 @@ class FRPConfinedConcrete02JacketC(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc0, self.ec, self.ec0, '-JacketC', self.tfrp, self.efrp, self.erup, self.big_r]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -790,6 +819,8 @@ class FRPConfinedConcrete02Ultimate(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc0, self.ec, self.ec0, '-Ultimate', self.fcu, self.ecu, self.ft, self.ets, self.unit]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -832,6 +863,7 @@ class ConcreteCM(UniaxialMaterialBase):
             starts following a straight line - large value [e.g., 10000] recommended when tension stiffening is considered)
         gap_close: float, optional
             Gapclose = 0, less gradual gap closure (default); gapclose = 1, more gradual gap closure
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -858,6 +890,8 @@ class ConcreteCM(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.fpcc, self.epcc, self.ec, self.rc, self.xcrn, self.ft, self.et, self.rt, self.xcrp]
         if getattr(self, 'gap_close') is not None:
             self._parameters += ['-GapClose', self.gap_close]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -920,6 +954,8 @@ class TDConcrete(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.fct, self.ec, self.beta, self.t_d, self.epsshu, self.psish, self.tcr, self.phiu, self.psicr1, self.psicr2, self.tcast]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -985,6 +1021,8 @@ class TDConcreteEXP(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.fct, self.ec, self.beta, self.t_d, self.epsshu, self.psish, self.tcr, self.epscru, self.sig_cr, self.psicr1, self.psicr2, self.tcast]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -1061,6 +1099,8 @@ class TDConcreteMC10(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.fct, self.ec, self.ecm, self.beta, self.t_d, self.epsba, self.epsbb, self.epsda, self.epsdb, self.phiba, self.phibb, self.phida, self.phidb, self.tcast, self.cem]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -1143,5 +1183,7 @@ class TDConcreteMC10NL(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fc, self.fcu, self.epscu, self.fct, self.ec, self.ecm, self.beta, self.t_d, self.epsba, self.epsbb, self.epsda, self.epsdb, self.phiba, self.phibb, self.phida, self.phidb, self.tcast, self.cem]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)

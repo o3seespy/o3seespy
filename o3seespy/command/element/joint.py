@@ -54,6 +54,7 @@ class BeamColumnJoint(ElementBase):
         ele_width_fac: float, optional
             Floating point value (as a ratio to the total width of the element) to be considered for determination of
             the distance in between the tension-compression couples (optional, default: 1.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -118,6 +119,7 @@ class ElasticTubularJoint(ElementBase):
             Thickness of chord
         chord__angle: float
             Angle between chord axis and global x-axis 0 < chord_angle < 180
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -186,6 +188,7 @@ class Joint2D(ElementBase):
             Damage model object
         dmg1dmg2dmg3dmg4dmg_c: None, optional
             
+
         Examples
         --------
         >>> import o3seespy as o3

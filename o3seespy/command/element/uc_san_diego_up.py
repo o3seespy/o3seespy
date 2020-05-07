@@ -45,6 +45,7 @@ class QuadUP(ElementBase):
             0.0)
         t: float, optional
             Optional uniform element normal traction, positive in tension (default is 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -115,6 +116,7 @@ class BrickUP(ElementBase):
         b_z: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -186,6 +188,7 @@ class BbarQuadUP(ElementBase):
             0.0)
         t: float, optional
             Optional uniform element normal traction, positive in tension (default is 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -257,6 +260,7 @@ class BbarBrickUP(ElementBase):
         b_z: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -326,6 +330,7 @@ class N94QuadUP(ElementBase):
         b2: float, optional
             Optional gravity acceleration components in horizontal and vertical directions respectively (defaults are
             0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -397,6 +402,7 @@ class N208BrickUP(ElementBase):
         b_z: float, optional
             Optional gravity acceleration components in x, y, and z directions directions respectively (defaults are
             0.0)
+
         Examples
         --------
         >>> import o3seespy as o3

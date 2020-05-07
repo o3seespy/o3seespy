@@ -294,6 +294,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     pass
             if source is not None:
                 para = para[:-1]  # remove triple quote at end of docstring
+                para.append('')  # blank line
                 para.append(w8 + 'Examples')
                 para.append(w8 + '--------')
                 para.append(w8 + '>>> import o3seespy as o3')
@@ -408,6 +409,8 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             para.append(w8 + w4 + 'else:')
             para.append(w8 + w8 + 'break')
         if osi_type == 'mat':
+            para.append(w8 + 'if osi is None:')
+            para.append(w12 + 'self.built = 0')
             para.append(w8 + 'if osi is not None:')
             para.append(w12 + 'self.to_process(osi)')
         else:

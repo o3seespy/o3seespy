@@ -27,6 +27,7 @@ class Plain(PatternBase):
             The object of the time series to be used in the load pattern
         fact: float, optional
             Constant factor. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -79,6 +80,7 @@ class UniformExcitation(PatternBase):
             The initial velocity (optional, default=0.0)
         fact: float, optional
             Constant factor (optional, default=1.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -132,6 +134,7 @@ class MultipleSupport(PatternBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
         Examples
         --------
         >>> import o3seespy as o3

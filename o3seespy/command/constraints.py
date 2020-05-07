@@ -25,6 +25,7 @@ class Plain(ConstraintsBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -57,6 +58,7 @@ class Lagrange(ConstraintsBase):
             :math:`\alpha_s` factor on single points.
         alpha_m: float, optional
             :math:`\alpha_m` factor on multi-points.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -90,6 +92,7 @@ class Penalty(ConstraintsBase):
             :math:`\alpha_s` factor on single points.
         alpha_m: float, optional
             :math:`\alpha_m` factor on multi-points.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -126,6 +129,7 @@ class Transformation(ConstraintsBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
         Examples
         --------
         >>> import o3seespy as o3

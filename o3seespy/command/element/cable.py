@@ -44,6 +44,7 @@ class CatenaryCable(ElementBase):
         mass_type: int
             Mass matrix model to use (``masstype`` = 0 lumped mass matrix,    ``masstype`` = 1 rigid-body mass matrix
             (in development))
+
         Examples
         --------
         >>> import o3seespy as o3

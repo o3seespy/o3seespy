@@ -99,6 +99,8 @@ class PressureIndependMultiYield(NDMaterialBase):
         else:
             # self._keyword_args['noYieldSurf'] = self.no_yield_surf
             self._parameters.append(self.n_surf)
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -246,6 +248,8 @@ class PressureDependMultiYield(NDMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -277,7 +281,7 @@ class PressureDependMultiYield02(NDMaterialBase):
 
     def __init__(self, osi, nd, rho, g_mod_ref, bulk_mod_ref, phi, peak_strain, p_ref,
                  d, pt_ang, con_rates, dil_rates, liquefac=(1., 0.), n_surf=20.0, strains=None, ratios=None,
-                  e_init=0.6, cs_params=None, c=0.1):
+                 e_init=0.6, cs_params=None, c=0.1):
         """
         Initial method for PressureDependMultiYield02
 
@@ -403,6 +407,8 @@ class PressureDependMultiYield02(NDMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 

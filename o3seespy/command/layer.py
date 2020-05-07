@@ -31,6 +31,7 @@ class Straight(LayerBase):
             Y & z-coordinates of first fiber in line (local coordinate system)
         end: list
             Y & z-coordinates of last fiber in line (local coordinate system)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -90,6 +91,8 @@ class Circ(LayerBase):
         self._parameters = [self.op_type, self.mat.tag, self.num_fiber, self.area_fiber, *self.center, self.radius]
         if self.ang is not None:
             self._parameters += self.ang
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 

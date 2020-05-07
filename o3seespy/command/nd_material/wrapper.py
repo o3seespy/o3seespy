@@ -23,6 +23,7 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
             The object of the associated ndmaterial object
         n_dim: int
             Number of dimensions (2 for 2d, 3 for 3d)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -37,6 +38,8 @@ class InitialStateAnalysisWrapper(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.n_d_mat.tag, self.n_dim]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -88,6 +91,8 @@ class InitStressNDMaterial(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_stress, self.n_dim]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -124,5 +129,7 @@ class InitStrainNDMaterial(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.other.tag, self.init_strain, self.n_dim]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)

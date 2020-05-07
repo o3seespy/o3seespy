@@ -37,6 +37,7 @@ class Quad(ElementBase):
             Constant body forces defined in the isoparametric domain (optional, default=0.0)
         b2: float, optional
             Constant body forces defined in the isoparametric domain (optional, default=0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -282,6 +283,7 @@ class BbarQuad(ElementBase):
             Element thickness
         mat: obj
             Object of ndmaterial
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -329,6 +331,7 @@ class EnhancedQuad(ElementBase):
             material formulations. the type parameter can be either ``'planestrain'`` or ``'planestress'``
         mat: obj
             Object of ndmaterial
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -379,6 +382,7 @@ class SSPquad(ElementBase):
             Constant body forces in global x- and y-directions, respectively (optional, default = 0.0)
         b2: float
             Constant body forces in global x- and y-directions, respectively (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3

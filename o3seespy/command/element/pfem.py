@@ -32,6 +32,7 @@ class PFEMElementBubble(ElementBase):
             Element thickness (required for 2d)
         kappa: float
             Fluid bulk modulus 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -85,6 +86,7 @@ class PFEMElementCompressible(ElementBase):
             Element thickness 
         kappa: float
             Fluid bulk modulus 
+
         Examples
         --------
         >>> import o3seespy as o3

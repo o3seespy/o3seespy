@@ -29,6 +29,7 @@ class FluidSolidPorousMaterial(NDMaterialBase):
         pa: float, optional
             Optional atmospheric pressure for normalization (typically 101 kpa in si units, or 14.65 psi in english
             units)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -46,5 +47,7 @@ class FluidSolidPorousMaterial(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.nd, self.soil_mat.tag, self.combined_bulk_modul, self.pa]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)

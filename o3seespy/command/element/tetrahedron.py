@@ -29,6 +29,7 @@ class FourNodeTetrahedron(ElementBase):
             Body forces in global x,y,z directions
         b3: float
             Body forces in global x,y,z directions
+
         Examples
         --------
         >>> import o3seespy as o3

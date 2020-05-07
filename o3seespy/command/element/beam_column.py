@@ -33,6 +33,7 @@ class ElasticBeamColumn2D(ElementBase):
             
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -98,6 +99,7 @@ class ElasticBeamColumn3D(ElementBase):
             
         c_mass: str
             To form consistent mass matrix (optional, default = lumped mass matrix)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -234,6 +236,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
             To form consistent mass matrix (optional, default = lumped mass matrix)
         mass: float, optional
             Element mass per unit length (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -311,6 +314,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
             To form consistent mass matrix (optional, default = lumped mass matrix)
         mass: float, optional
             Element mass per unit length (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -373,6 +377,7 @@ class DispBeamColumn(ElementBase):
             
         mass: float, optional
             Element mass density (per unit length), from which a lumped-mass matrix is formed 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -430,6 +435,7 @@ class ForceBeamColumn(ElementBase):
             Tolerance for satisfaction of element compatibility 
         mass: float, optional
             Element mass density (per unit length), from which a lumped-mass matrix is formed 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -503,6 +509,7 @@ class NonlinearBeamColumn(ElementBase):
         int_type: str, optional
             Integration type (optional, default is ``'lobatto'``) * ``'lobatto'`` * ``'legendre'`` * ``'radau'`` *
             ``'newtoncotes'`` * ``'trapezoidal'``
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -580,6 +587,7 @@ class DispBeamColumnInt(ElementBase):
             distance from bottom to the center of rotation (0 to 1)
         mass: float, optional
             Element mass density (per unit length), from which a lumped-mass matrix is formed (optional, default=0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -659,6 +667,7 @@ class MVLEM(ElementBase):
             A list of ``m`` uniaxialmaterial objects for steel
         mat_shear: obj, optional
             Object of uniaxialmaterial for shear material
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -744,6 +753,7 @@ class SFIMVLEM(ElementBase):
             
         mats: None, optional
             
+
         Examples
         --------
         >>> import o3seespy as o3

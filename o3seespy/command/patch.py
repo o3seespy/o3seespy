@@ -36,6 +36,7 @@ class Quad(PatchBase):
             Y & z-coordinates of vertex k (local coordinate system)
         crds_l: list
             Y & z-coordinates of vertex l (local coordinate system)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -86,6 +87,7 @@ class Rect(PatchBase):
             Y & z-coordinates of vertex i (local coordinate system)
         crds_j: list
             Y & z-coordinates of vertex j (local coordinate system)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -132,6 +134,7 @@ class Circ(PatchBase):
             Internal & external radius
         ang: list
             Starting & ending-coordinates angles (degrees)
+
         Examples
         --------
         >>> import o3seespy as o3

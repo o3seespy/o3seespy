@@ -37,6 +37,7 @@ class Tri31(ElementBase):
             Constant body forces defined in the domain (optional, default=0.0)
         b2: float
             Constant body forces defined in the domain (optional, default=0.0)
+
         Examples
         --------
         >>> import o3seespy as o3

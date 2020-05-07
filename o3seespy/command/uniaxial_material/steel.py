@@ -51,6 +51,8 @@ class Steel01(UniaxialMaterialBase):
             if a is None:
                 break
             self._parameters.append(a)
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -115,6 +117,7 @@ class Steel02(UniaxialMaterialBase):
         sig_init: float, optional
             Initial stress value (optional, default: 0.0) the strain is calculated from ``epsp=siginit/e`` :: if
             (siginit!= 0.0) { double epsinit = siginit/e; eps = trialstrain+epsinit; } else { eps = trialstrain; }
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -151,6 +154,8 @@ class Steel02(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -220,6 +225,7 @@ class Hysteretic(UniaxialMaterialBase):
             Damage due to energy: d2(eii/eult)
         beta: float, optional
             Power used to determine the degraded unloading stiffness based on ductility, mu-beta (optional, default=0.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -258,6 +264,8 @@ class Hysteretic(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -299,6 +307,7 @@ class ReinforcingSteelGABuck(UniaxialMaterialBase):
             r=0.0 no reduction 0.0<r<1.0 linear interpolation between buckled and unbuckled curves
         gamma: float
             Buckling constant
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -320,6 +329,8 @@ class ReinforcingSteelGABuck(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-GABuck', self.lsr, self.beta, self.r, self.gamma]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -355,6 +366,7 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
             
         alpha: float, optional
             Coffin-manson constant a
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -374,6 +386,8 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-DMBuck', self.lsr_2, self.alpha]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -411,6 +425,7 @@ class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
             
         cd: float
             Cyclic strength reduction constant
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -431,6 +446,8 @@ class ReinforcingSteelCMFatigue(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-CMFatigue', self.cf, self.alpha_2, self.cd]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -467,6 +484,7 @@ class ReinforcingSteelIsoHard(UniaxialMaterialBase):
         limit: float, optional
             Limit for the reduction of the yield plateau. % of original plateau length to remain (0.01 < limit < 1.0 )
             limit =1.0, then no reduction takes place (default =0.01)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -486,6 +504,8 @@ class ReinforcingSteelIsoHard(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-IsoHard', self.a1, self.limit]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -523,6 +543,7 @@ class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
             (default = 18)
         r3: float, optional
             (default = 4)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -543,6 +564,8 @@ class ReinforcingSteelMPCurveParams(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-MPCurveParams', self.r1, self.r2, self.r3]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -580,6 +603,7 @@ class DoddRestrepo(UniaxialMaterialBase):
         omega_fac: float, optional
             Roundedness factor for bauschinger curve in cycle reversals from the strain hardening curve. range: [0.75,
             1.15]. largest value tends to near a bilinear bauschinger curve. default = 1.0.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -600,6 +624,8 @@ class DoddRestrepo(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.fsu, self.esh, self.esu, self.youngs, self.eshi, self.fshi, self.omega_fac]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -628,6 +654,7 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
         n: float
             Parameters to control the transition from elastic to plastic branches. and controls the hardening of the
             material by increasing the "n" hardening ratio will be decreased. commonly used values for n are ~5 or greater.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -643,6 +670,8 @@ class RambergOsgoodSteel(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.e0, self.a, self.n]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -690,6 +719,7 @@ class SteelMPF(UniaxialMaterialBase):
             proportion of tensile yield strength after a maximum plastic compressive strain of a3(fyn/e0).
         a4: float, optional
             Isotropic hardening in tension parameter (optional, default = 1.0). see explanation of a3.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -713,6 +743,8 @@ class SteelMPF(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fyp, self.fyn, self.e0, self.bp, self.bn, self.r0, self.c_r1, self.c_r2, self.a1, self.a2, self.a3, self.a4]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -748,6 +780,7 @@ class Steel01Thermal(UniaxialMaterialBase):
             plastic strain of :math:`a_4*(f_y/e_0)`. 
         a4: float
             Isotropic hardening parameter (see explanation
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -766,6 +799,8 @@ class Steel01Thermal(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.fy, self.e0, self.b, self.a1, self.a2, self.a3, self.a4]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 

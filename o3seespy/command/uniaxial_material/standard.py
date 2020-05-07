@@ -23,6 +23,7 @@ class Elastic(UniaxialMaterialBase):
             Damping tangent (optional, default=0.0)
         eneg: float (default=True), optional
             Tangent in compression (optional, default=e)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -50,6 +51,8 @@ class Elastic(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -90,6 +93,7 @@ class ElasticPP(UniaxialMaterialBase):
             value)
         eps0: float, optional
             Initial strain (optional, default: zero)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -118,6 +122,8 @@ class ElasticPP(UniaxialMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -157,6 +163,7 @@ class ElasticPPGap(UniaxialMaterialBase):
         damage: str, optional
             An optional string to specify whether to accumulate damage or not in the material. with the default
             re-center on load reversal. is provided this recentering will not occur and gap will grow.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -173,6 +180,8 @@ class ElasticPPGap(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod, self.fy, self.gap, self.eta, self.damage]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -194,6 +203,7 @@ class ENT(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         e_mod: float
             Tangent
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -206,6 +216,8 @@ class ENT(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -234,6 +246,7 @@ class Parallel(UniaxialMaterialBase):
         factor_args: list, optional
             Factors to create a linear combination of the specified materials. factors can be negative to subtract one
             material from an other. (optional, default = 1.0)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -252,6 +265,8 @@ class Parallel(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, *self.mats]
         if getattr(self, 'factor_args') is not None:
             self._parameters += ['-factors', *self.factor_args]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -274,6 +289,7 @@ class Series(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         mats: list
             Identification objects of materials making up the material model
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -288,5 +304,7 @@ class Series(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, *self.mats]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)

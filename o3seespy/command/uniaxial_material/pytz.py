@@ -31,6 +31,7 @@ class PySimple1(UniaxialMaterialBase):
         c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             (optional default = 0.0). nonzero c values are used to represent radiation damping effects
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -47,6 +48,8 @@ class PySimple1(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.soil_type, self.pult, self.y50, self.cd, self.c]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -76,6 +79,7 @@ class TzSimple1(UniaxialMaterialBase):
         c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             (optional default = 0.0). see note 2.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -91,6 +95,8 @@ class TzSimple1(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.soil_type, self.tult, self.z50, self.c]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -122,6 +128,7 @@ class QzSimple1(UniaxialMaterialBase):
         c: float, optional
             The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity).
             default = 0.0. nonzero c values are used to represent radiation damping effects.*
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -138,6 +145,8 @@ class QzSimple1(UniaxialMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.qz_type, self.qult, self.z50, self.suction, self.c]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -183,6 +192,7 @@ class PyLiq1(UniaxialMaterialBase):
         time_series: obj, optional
             Alternatively, mean effective stress can be supplied by a time series by specifying the text string
             ``'-timeseries'`` and the object of the series    ``seriesobject``.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -205,6 +215,8 @@ class PyLiq1(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.soil_type, self.pult, self.y50, self.cd, self.c, self.p_res, self.ele1, self.ele2]
         if getattr(self, 'time_series') is not None:
             self._parameters += ['-timeSeries', self.time_series.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -245,6 +257,7 @@ class TzLiq1(UniaxialMaterialBase):
         time_series: obj, optional
             Alternatively, mean effective stress can be supplied by a time series by specifying the text string
             ``'-timeseries'`` and the object of the seriesm    ``seriesobject``.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -265,6 +278,8 @@ class TzLiq1(UniaxialMaterialBase):
         self._parameters = [self.op_type, self._tag, self.tz_type, self.tult, self.z50, self.c, self.ele1, self.ele2]
         if getattr(self, 'time_series') is not None:
             self._parameters += ['-timeSeries', self.time_series.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 

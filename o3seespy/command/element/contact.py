@@ -32,6 +32,7 @@ class SimpleContact2D(ElementBase):
             Gap tolerance
         f_tol: float
             Force tolerance
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -91,6 +92,7 @@ class SimpleContact3D(ElementBase):
             Gap tolerance
         f_tol: float
             Force tolerance
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -152,6 +154,7 @@ class BeamContact2D(ElementBase):
             Force  tolerance
         c_flag: int
             Optional initial contact flag
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -215,6 +218,7 @@ class BeamContact3D(ElementBase):
             Force tolerance
         c_flag: int
             Optional initial contact flag
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -275,6 +279,7 @@ class BeamEndContact3D(ElementBase):
             Force tolerance
         c_flag: float
             Optional initial contact flag
+
         Examples
         --------
         >>> import o3seespy as o3

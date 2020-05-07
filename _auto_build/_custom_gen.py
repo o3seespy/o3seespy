@@ -186,6 +186,8 @@ class PressureIndependMultiYield(NDMaterialBase):
         else:
             # self._keyword_args['noYieldSurf'] = self.no_yield_surf
             self._parameters.append(self.n_surf)
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -332,6 +334,8 @@ class PressureDependMultiYield(NDMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -488,6 +492,8 @@ class PressureDependMultiYield02(NDMaterialBase):
                     self._parameters += [getattr(self, pm)]
             else:
                 break
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -553,6 +559,8 @@ class Steel01(UniaxialMaterialBase):
             if a is None:
                 break
             self._parameters.append(a)
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -614,6 +622,8 @@ class Fiber(SectionBase):
             self._parameters += ['-GJ', self.gj]
         if getattr(self, 'torsion_mat') is not None:
             self._parameters += ['-torsion', self.torsion_mat.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -659,6 +669,8 @@ class Circ(LayerBase):
         self._parameters = [self.op_type, self.mat.tag, self.num_fiber, self.area_fiber, *self.center, self.radius]
         if self.ang is not None:
             self._parameters += self.ang
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 #
@@ -842,5 +854,7 @@ class StressDensity(NDMaterialBase):
             self.ps = [float(x) for x in ps]
             self._parameters += [*self.ps]
 
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)

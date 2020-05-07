@@ -26,6 +26,7 @@ class Linear2D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -78,6 +79,7 @@ class Linear3D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -124,6 +126,7 @@ class PDelta2D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -176,6 +179,7 @@ class PDelta3D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -222,6 +226,7 @@ class Corotational2D(GeomTransfBase):
         d_j: list, optional
             Joint offset values -- offsets specified with respect to the global coordinate system for element-end node j
             (the number of arguments depends on the dimensions of the current model).
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -267,6 +272,7 @@ class Corotational3D(GeomTransfBase):
             components are specified in the global-coordinate system x,y,z and define a vector that is in a plane
             parallel to the x-z plane of the local-coordinate system. these items need to be specified for the
             three-dimensional problem.
+
         Examples
         --------
         >>> import o3seespy as o3

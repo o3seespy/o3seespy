@@ -22,6 +22,7 @@ class SurfaceLoad(ElementBase):
             The four nodes defining the element, input in counterclockwise order (-ndm 3 -ndf 3)
         p: float
             Applied pressure loading normal to the surface, outward is positive, inward is negative
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -71,6 +72,7 @@ class VS3D4(ElementBase):
             Correction parameter in the normal direction
         alpha_t: float
             Correction parameter in the tangential direction
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -115,6 +117,7 @@ class AC3D8(ElementBase):
             8 end nodes
         mat: obj
             Material object of previously defined nd material
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -157,6 +160,7 @@ class ASI3D8(ElementBase):
             
         ele_nodes2: None
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -195,6 +199,7 @@ class AV3D4(ElementBase):
             4 end nodes
         mat: obj
             Material object of previously defined nd material
+
         Examples
         --------
         >>> import o3seespy as o3

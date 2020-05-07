@@ -67,10 +67,10 @@ class OpenSeesInstance(object):  # TODO: allow custom (self compiled opensees)
     def to_commands(self, os_command):
         self.commands.append(os_command)
 
-    def to_dict(self, os_model):
+    def to_dict(self, os_model, export_none=False):
         if os_model.op_type not in self.dict:
             self.dict[os_model.op_type] = OrderedDict()
-        self.dict[os_model.op_type][os_model.tag] = os_model.to_dict()
+        self.dict[os_model.op_type][os_model.tag] = os_model.to_dict(export_none=export_none)
 
     def to_process(self, op_base_type, parameters):
         if self.state == 0:

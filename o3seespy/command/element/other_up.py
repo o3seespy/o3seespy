@@ -40,6 +40,7 @@ class SSPquadUP(ElementBase):
             Constant body forces in global x- and y-directions, respectively (optional, default = 0.0) - see note 3
         b2: float, optional
             Constant body forces in global x- and y-directions, respectively (optional, default = 0.0) - see note 3
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -107,6 +108,7 @@ class SSPbrickUP(ElementBase):
             Constant body forces in global x-, y-, and z-directions, respectively (optional, default = 0.0) - see note 3
         b3: float
             Constant body forces in global x-, y-, and z-directions, respectively (optional, default = 0.0) - see note 3
+
         Examples
         --------
         >>> import o3seespy as o3

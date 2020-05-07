@@ -47,6 +47,7 @@ class TwoNodeLink(ElementBase):
             
         mass: float, optional
             Element mass (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3

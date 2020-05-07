@@ -4,6 +4,7 @@ from o3seespy.base_model import OpenSeesObject
 class NDMaterialBase(OpenSeesObject):
     op_base_type = "nDMaterial"
     op_type = None
+    built = 1
 
     def set_parameter(self, osi, pstr, value, ele, eles):
         from o3seespy import set_parameter
@@ -19,3 +20,4 @@ class NDMaterialBase(OpenSeesObject):
         ind = self.parameters.index(None)
         self.parameters[ind] = self._tag
         self.to_process(osi)
+        self.built = 1

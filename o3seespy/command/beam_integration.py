@@ -26,6 +26,7 @@ class Lobatto(BeamIntegrationBase):
             A previous-defined section object.
         big_n: int
             Number of integration points along the element.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -65,6 +66,7 @@ class Legendre(BeamIntegrationBase):
             
         big_n: None
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -103,6 +105,7 @@ class NewtonCotes(BeamIntegrationBase):
             
         big_n: None
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -142,6 +145,7 @@ class Radau(BeamIntegrationBase):
             
         big_n: None
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -177,6 +181,7 @@ class Trapezoidal(BeamIntegrationBase):
             
         big_n: None
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -212,6 +217,7 @@ class CompositeSimpson(BeamIntegrationBase):
             
         big_n: None
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -252,6 +258,7 @@ class UserDefined(BeamIntegrationBase):
             Locations of integration points along the element.
         wts: list
             Weights of integration points.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -295,6 +302,7 @@ class FixedLocation(BeamIntegrationBase):
             A list previous-defined section objects.
         locs: list
             Locations of integration points along the element.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -340,6 +348,7 @@ class LowOrder(BeamIntegrationBase):
             Locations of integration points along the element.
         wts: list
             Weights of integration points.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -383,6 +392,7 @@ class MidDistance(BeamIntegrationBase):
             A list previous-defined section objects.
         locs: list
             Locations of integration points along the element.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -434,6 +444,7 @@ class UserHinge(BeamIntegrationBase):
             A list of locations of integration points for right hinge area.
         wts_r: list
             A list of weights of integration points for right hinge area.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -487,6 +498,7 @@ class HingeMidpoint(BeamIntegrationBase):
             The plastic hinge length at j.
         sec_e: obj
             A previous-defined section object for the element interior.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -537,6 +549,7 @@ class HingeRadau(BeamIntegrationBase):
             
         sec_e: obj
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -587,6 +600,7 @@ class HingeRadauTwo(BeamIntegrationBase):
             
         sec_e: obj
             
+
         Examples
         --------
         >>> import o3seespy as o3

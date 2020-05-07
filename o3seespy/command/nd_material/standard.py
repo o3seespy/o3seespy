@@ -22,6 +22,7 @@ class ElasticIsotropic(NDMaterialBase):
             Poisson's ratio
         rho: float, optional
             Mass density 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -36,6 +37,8 @@ class ElasticIsotropic(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.e_mod, self.nu, self.rho]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -84,6 +87,7 @@ class ElasticOrthotropic(NDMaterialBase):
             Shear modulii in z and x plane
         rho: float, optional
             Mass density 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -105,6 +109,8 @@ class ElasticOrthotropic(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.ex, self.ey, self.ez, self.nu_xy, self.nu_yz, self.nu_zx, self.gxy, self.gyz, self.gzx, self.rho]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -167,6 +173,7 @@ class J2Plasticity(NDMaterialBase):
             Exponential hardening parameter
         big_h: float
             Linear hardening parameter
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -184,6 +191,8 @@ class J2Plasticity(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sig0, self.sig_inf, self.delta, self.big_h]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -238,6 +247,7 @@ class DrukerPrager(NDMaterialBase):
             Mass density of the material
         atm_pressure: float, optional
             Optional atmospheric pressure for update of elastic bulk and shear moduli
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -263,6 +273,8 @@ class DrukerPrager(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sigma_y, self.rho, self.rho_bar, self.kinf, self.ko, self.delta1, self.delta2, self.big_h, self.theta, self.density, self.atm_pressure]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -313,6 +325,7 @@ class Damage2p(NDMaterialBase):
         tangent: float, optional
             Optional integer to choose the computational stiffness matrix, 0: computational tangent; 1: damaged secant
             stiffness (hint: in case of strong nonlinearities use it with krylov-newton algorithm)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -380,6 +393,8 @@ class Damage2p(NDMaterialBase):
             self._parameters += ['-theta', self.theta]
         if getattr(self, 'tangent') is not None:
             self._parameters += ['-tangent', self.tangent]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -402,6 +417,7 @@ class PlaneStress(NDMaterialBase):
         osi: o3seespy.OpenSeesInstance
         mat3d: obj
             Object of perviously defined 3d ndmaterial material
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -415,6 +431,8 @@ class PlaneStress(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mat3d.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -452,6 +470,7 @@ class PlaneStrain(NDMaterialBase):
         osi: o3seespy.OpenSeesInstance
         mat3d: obj
             Integer object of previously defined 3d ndmaterial material
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -465,6 +484,8 @@ class PlaneStrain(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mat3d.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -517,6 +538,7 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
             Integration parameter, usually beta=0.5
         k_coeff: float
             Coefficient of earth pressure, k0
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -537,6 +559,8 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.rho, self.k_mod, self.g_mod, self.su, self.ho, self.h, self.m, self.beta, self.k_coeff]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -576,6 +600,7 @@ class BoundingCamClay(NDMaterialBase):
         m: float
             Hardening parameter (exponent) for plastic response inside of bounding surface (if m = 0, only linear
             hardening)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -596,6 +621,8 @@ class BoundingCamClay(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.mass_density, self.big_c, self.bulk_mod, self.ocr, self.mu_o, self.alpha, self.lamb, self.h, self.m]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -621,6 +648,7 @@ class PlateFiber(NDMaterialBase):
         osi: o3seespy.OpenSeesInstance
         three_d: obj
             Material object for a previously-defined three-dimensional material
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -634,6 +662,8 @@ class PlateFiber(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.three_d.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -704,6 +734,7 @@ class FSAM(NDMaterialBase):
             Concrete friction coefficient (:math:`0.0 < \nu < 1.5`)
         alfadow: float
             Stiffness coefficient of reinforcement dowel action (:math:`0.0 < alfadow < 0.05`)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -727,6 +758,8 @@ class FSAM(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.rho, self.s_x.tag, self.s_y.tag, self.conc.tag, self.rou_x, self.rou_y, self.nu, self.alfadow]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -782,6 +815,7 @@ class ManzariDafalias(NDMaterialBase):
             Fabric-dilatancy tensor parameter
         den: float
             Mass density of the material
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -811,6 +845,8 @@ class ManzariDafalias(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.mc, self.c, self.lambda_c, self.e0, self.ksi, self.p_atm, self.m, self.h0, self.ch, self.nb, self.a0, self.nd, self.z_max, self.cz, self.den]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -931,6 +967,8 @@ class StressDensity(NDMaterialBase):
             self.ps = [float(x) for x in ps]
             self._parameters += [*self.ps]
 
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -955,6 +993,7 @@ class AcousticMedium(NDMaterialBase):
             Bulk module of the acoustic medium
         rho: float
             Mass density of the acoustic medium
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -968,6 +1007,8 @@ class AcousticMedium(NDMaterialBase):
             osi.n_mat += 1
             self._tag = osi.n_mat
         self._parameters = [self.op_type, self._tag, self.k_mod, self.rho]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 

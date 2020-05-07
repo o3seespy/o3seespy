@@ -71,13 +71,13 @@ class OpenSeesObject(object):
     def base_type(self):
         return self.op_base_type
 
-    def to_dict(self):
+    def to_dict(self, export_none=False):
         outputs = OrderedDict()
         for item in self.__dict__:
             if '_' == item[0]:  # do not export private variables
                 continue
             value = self.__getattribute__(item)
-            if value is None:
+            if not export_none and value is None:
                 continue
             outputs[item] = collect_serial_value(value)
         return outputs

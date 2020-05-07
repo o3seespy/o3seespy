@@ -37,6 +37,7 @@ class Elastic2D(SectionBase):
             Shear modulus (optional for 2d analysis, required for 3d analysis)
         alpha_y: float (default=True), optional
             Shear shape factor along the local y-axis 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -112,6 +113,7 @@ class Elastic3D(SectionBase):
             Shear shape factor along the local y-axis 
         alpha_z: float (default=True), optional
             Shear shape factor along the local z-axis 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -194,6 +196,8 @@ class Fiber(SectionBase):
             self._parameters += ['-GJ', self.gj]
         if getattr(self, 'torsion_mat') is not None:
             self._parameters += ['-torsion', self.torsion_mat.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -234,6 +238,8 @@ class Fiber(SectionBase):
             self._parameters += ['-GJ', self.gj]
         if getattr(self, 'torsion_mat') is not None:
             self._parameters += ['-torsion', self.torsion_mat.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -274,6 +280,8 @@ class Fiber(SectionBase):
             self._parameters += ['-GJ', self.gj]
         if getattr(self, 'torsion_mat') is not None:
             self._parameters += ['-torsion', self.torsion_mat.tag]
+        if osi is None:
+            self.built = 0
         if osi is not None:
             self.to_process(osi)
 
@@ -299,6 +307,7 @@ class FiberThermal(SectionBase):
         osi: o3seespy.OpenSeesInstance
         gj: None, optional
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -337,6 +346,7 @@ class NDFiber(SectionBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -380,6 +390,7 @@ class WFSection2D(SectionBase):
             Number of fibers in the web
         nff: float
             Number of fibers in each flange
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -442,6 +453,7 @@ class RCSection2D(SectionBase):
             Number of fibers through the cover depth
         nfs: float
             Number of bars on the top and bottom rows of reinforcement (nfs-2 bars will be placed on the side rows)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -508,6 +520,7 @@ class RCCircularSection(SectionBase):
             Number of fibers through the steels
         gj: float, optional
             Gj stiffness
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -558,6 +571,7 @@ class Parallel(SectionBase):
         osi: o3seespy.OpenSeesInstance
         secs: list
             Objects of of predefined sections.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -641,6 +655,7 @@ class Uniaxial(SectionBase):
             used: * ``'p'`` axial force-deformation * ``'mz'`` moment-curvature about section local z-axis * ``'vy'`` shear
             force-deformation along section local y-axis * ``'my'`` moment-curvature about section local y-axis * ``'vz'``
             shear force-deformation along section local z-axis * ``'t'`` torsion force-deformation
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -681,6 +696,7 @@ class ElasticMembranePlateSection(SectionBase):
             Depth of section
         rho: float
             Mass density
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -718,6 +734,7 @@ class PlateFiber(SectionBase):
             Ndmaterial object to be assigned to each fiber
         h: float
             Plate thickness
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -766,6 +783,7 @@ class Bidirectional(SectionBase):
             force-deformation * ``'mz'`` moment-curvature about section local z-axis * ``'vy'`` shear force-deformation
             along section local y-axis * ``'my'`` moment-curvature about section local y-axis * ``'vz'`` shear
             force-deformation along section local z-axis * ``'t'`` torsion force-deformation
+
         Examples
         --------
         >>> import o3seespy as o3

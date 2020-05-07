@@ -28,6 +28,7 @@ class LoadControl(IntegratorBase):
             Min stepsize the user will allow :math:`\\lambda_{min}`. 
         max_incr: float (default=True), optional
             Max stepsize the user will allow :math:`\\lambda_{max}`. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -88,6 +89,7 @@ class DisplacementControl(IntegratorBase):
             
         d_umax: None (default=True), optional
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -145,6 +147,7 @@ class ParallelDisplacementControl(IntegratorBase):
             
         d_umax: None (default=True), optional
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -199,6 +202,7 @@ class MinUnbalDispNorm(IntegratorBase):
             Max load increment. 
         det: None (default=True), optional
             
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -251,6 +255,7 @@ class ArcLength(IntegratorBase):
             The arclength.
         alpha: float
             :math:`\alpha` a scaling factor on the reference loads.
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -282,6 +287,7 @@ class CentralDifference(IntegratorBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -315,6 +321,7 @@ class Newmark(IntegratorBase):
         form: str, optional
             Flag to indicate which variable to be used as primary variable  * ``'d'`` -- displacement (default) *
             ``'v'`` -- velocity * ``'a'`` -- acceleration
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -354,6 +361,7 @@ class HHT(IntegratorBase):
             :math:`\gamma` factor. 
         beta: float (default=True), optional
             :math:`\beta` factor. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -409,6 +417,7 @@ class GeneralizedAlpha(IntegratorBase):
             :math:`\gamma` factor. 
         beta: float (default=True), optional
             :math:`\beta` factor. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -459,6 +468,7 @@ class TRBDF2(IntegratorBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -489,6 +499,7 @@ class ExplicitDifference(IntegratorBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
         Examples
         --------
         >>> import o3seespy as o3

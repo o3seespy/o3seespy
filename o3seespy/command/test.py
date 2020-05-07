@@ -34,6 +34,7 @@ class NormUnbalance(TestBase):
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         max_incr: int (default=True), optional
             Maximum times of error increasing. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -90,6 +91,7 @@ class NormDispIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -132,6 +134,7 @@ class EnergyIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -174,6 +177,7 @@ class RelativeNormUnbalance(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -216,6 +220,7 @@ class RelativeNormDispIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -258,6 +263,7 @@ class RelativeTotalNormDispIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -300,6 +306,7 @@ class RelativeEnergyIncr(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -339,6 +346,7 @@ class FixedNumIter(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -383,6 +391,7 @@ class NormDispAndUnbalance(TestBase):
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         maxincr: int, optional
             Maximum times of error increasing. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -430,6 +439,7 @@ class NormDispOrUnbalance(TestBase):
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
         maxincr: int, optional
             Maximum times of error increasing. 
+
         Examples
         --------
         >>> import o3seespy as o3

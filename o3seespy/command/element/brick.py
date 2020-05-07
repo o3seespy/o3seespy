@@ -29,6 +29,7 @@ class StdBrick(ElementBase):
             Body forces in global x,y,z directions
         b3: float
             Body forces in global x,y,z directions
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -78,6 +79,7 @@ class BbarBrick(ElementBase):
             Body forces in global x,y,z directions
         b3: float
             Body forces in global x,y,z directions
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -128,6 +130,7 @@ class Brick20N(ElementBase):
             Body force in the direction of global coordinates x, y and z
         mass_den: float
             Mass density (mass/volume)
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -178,6 +181,7 @@ class SSPbrick(ElementBase):
             Constant body forces in global x-, y-, and z-directions, respectively (optional, default = 0.0)
         b3: float
             Constant body forces in global x-, y-, and z-directions, respectively (optional, default = 0.0)
+
         Examples
         --------
         >>> import o3seespy as o3

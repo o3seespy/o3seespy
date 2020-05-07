@@ -111,15 +111,19 @@ class PM4Sand(NDMaterialBase):
         else:
             self.p_sed = float(p_sed)
 
-        osi.n_mat += 1
-        self._tag = osi.n_mat
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
 
         self._parameters = [self.op_type, self._tag, self.d_r, self.g_o, self.h_po, self.den, self.p_atm, self.h_o,
                             self.e_max, self.e_min, self.n_b, self.n_d, self.a_do, self.z_max, self.c_z, self.c_e, self.phi_cv,
                             self.nu, self.g_degr, self.c_dr, self.c_kaf, self.q_bolt, self.r_bolt, self.m_par, self.f_sed,
                             self.p_sed]
 
-        self.to_process(osi)
+        if osi is None:
+            self.built = 0
+        if osi is not None:
+            self.to_process(osi)
 
     def pre_dynamic(self, osi):  # deprecated
         update_material_stage(osi, self, stage=1)

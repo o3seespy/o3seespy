@@ -23,6 +23,7 @@ class Constant(TimeSeriesBase):
         osi: o3seespy.OpenSeesInstance
         factor: float, optional
             The load factor applied 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -60,6 +61,7 @@ class Linear(TimeSeriesBase):
         osi: o3seespy.OpenSeesInstance
         factor: float, optional
             Linear factor. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -108,6 +110,7 @@ class Trig(TimeSeriesBase):
             Phase shift in radians. 
         zero_shift: float, optional
             Zero shift. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -175,6 +178,7 @@ class Triangle(TimeSeriesBase):
             Phase shift in radians. 
         zero_shift: float, optional
             Zero shift. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -231,6 +235,7 @@ class Rectangular(TimeSeriesBase):
             Ending time of non-zero load factor.
         factor: float, optional
             Load factor. 
+
         Examples
         --------
         >>> import o3seespy as o3
@@ -283,6 +288,7 @@ class Pulse(TimeSeriesBase):
             Load factor. 
         zero_shift: float, optional
             Zero shift. 
+
         Examples
         --------
         >>> import o3seespy as o3
