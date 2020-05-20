@@ -24,19 +24,21 @@ class Results2D(object):
         self.ele2node_tags = {}
         self.meta_files = ['node_c', 'mat2ele_tags', 'sect2ele_tags', 'mat2sect_tags']
         self.meta_fmt = [None, '%i', '%i', '%i']
+        self.pseudo_dt = None  # use if recording steps of a static analysis
 
     def start_recorders(self, osi, dt=None):  # TODO: handle recorder time step
         self.used_r_starter = 1
         if self.coords is None:
             self.coords = o3.get_all_node_coords(osi)
-        if self.ele2node_tags is None:
-            self.ele2node_tags = o3.get_all_ele_node_tags(osi)
+        if not self.ele2node_tags:
+            self.ele2node_tags = o3.get_all_ele_node_tags_as_dict(osi)
         if dt is not None:
             self._dt = dt
         if self.dynamic:
             o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', 'all', [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt)
             o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', 'all', [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt)
-            o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4, dt=dt)
+            if not self.pseudo_dt:
+                o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4, dt=dt)
 
     def wipe_old_files(self):
         try:
@@ -77,6 +79,12 @@ class Results2D(object):
             if not self.used_r_starter:
                 self.savetxt(self.cache_path + 'x_disp.txt', self.x_disp)
                 self.savetxt(self.cache_path + 'y_disp.txt', self.y_disp)
+                self.savetxt(self.cache_path + 'timer.txt', self.time)
+            elif self.pseudo_dt:
+                from numpy import arange
+                x_disp = self.loadtxt(f'{self.cache_path}x_disp.txt')
+                self.time = arange(len(x_disp[:, 0])) * self.pseudo_dt
+                self.savetxt(self.cache_path + 'timer.txt', self.time)
 
     def load_from_cache(self):
         self.coords = self.loadtxt(self.cache_path + 'coords.txt')
@@ -97,7 +105,7 @@ class Results2D(object):
         if self.dynamic:
             self.x_disp = self.loadtxt(f'{self.cache_path}x_disp.txt')
             self.y_disp = self.loadtxt(f'{self.cache_path}y_disp.txt')
-            self.time = self.loadtxt(f'{self.cache_path}timer.txt')[:, 0]
+            self.time = self.loadtxt(f'{self.cache_path}timer.txt', ndmin=2)[:, 0]
 
     @property
     def dt(self):
