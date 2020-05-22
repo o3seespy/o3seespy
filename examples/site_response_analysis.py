@@ -123,7 +123,6 @@ def site_response(sp, asig, linear=0):
     o3.set_time(osi, 0.0)
     o3.wipe_analysis(osi)
 
-    # o3.recorder.NodeToFile(osi, 'sample_out.txt', node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
     na = o3.recorder.NodeToArrayCache(osi, node=nd["R0L"], dofs=[o3.cc.X], res_type='accel')
     es = o3.recorder.ElementsToArrayCache(osi, eles=eles, arg_vals=['stress'])
 
