@@ -247,7 +247,7 @@ class EleLoad2DUniform(OpenSeesObject):
 
     def __init__(self, osi, ele, w_y, w_x=None):
         """
-        ltype: 'beamUniform'
+        Type of load is 'beamUniform'
         """
         self.ele_tag = ele.tag
         self.w_y = float(w_y)
@@ -370,6 +370,7 @@ def remove(osi, o3_obj):
 
 
 def set_parameter(osi, value, eles=None, ele_range=None, args=None):
+    """Set a parameter on an element"""
     op_type = 'setParameter'
     parameters = ['-val', value]
     if eles is not None:
@@ -389,10 +390,12 @@ def set_parameter(osi, value, eles=None, ele_range=None, args=None):
 
 
 def set_time(osi, time):
+    """Reset the analysis time to a new value"""
     osi.to_process('setTime', [time])
 
 
 def get_time(osi):
+    """Get the analysis time"""
     return osi.to_process('getTime', [])
 
 
@@ -401,6 +404,7 @@ def wipe_analysis(osi):
 
 
 def wipe(osi):
+    """Wipe the current analysis and save the results to file"""
     osi.to_process('wipe', [])
 
 
