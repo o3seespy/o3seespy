@@ -45,7 +45,7 @@ class ElastomericBearingPlasticity2D(ElementBase):
             Object associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         orient: None, optional
             
@@ -152,7 +152,7 @@ class ElastomericBearingPlasticity3D(ElementBase):
             Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
         mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         orient: None, optional
             
@@ -272,7 +272,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
             defining local y-axis 
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         mass: float, optional
             Element mass (optional, default = 0.0)
@@ -388,7 +388,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
             defining local y-axis 
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         mass: float, optional
             Element mass (optional, default = 0.0)
@@ -498,7 +498,7 @@ class FlatSliderBearing2D(ElementBase):
             Object associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int, optional
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
@@ -619,7 +619,7 @@ class FlatSliderBearing3D(ElementBase):
             Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
         mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: None, optional
             
@@ -740,7 +740,7 @@ class SingleFPBearing2D(ElementBase):
             Object associated with previously-defined uniaxialmaterial in axial direction
         mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int, optional
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
@@ -861,7 +861,7 @@ class SingleFPBearing3D(ElementBase):
             Object associated with previously-defined uniaxialmaterial in moment direction around local y axis
         mz_mat: obj, optional
             Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int, optional
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
@@ -1271,9 +1271,9 @@ class KikuchiBearingadjustPDOutput(ElementBase):
             Matobject for mns
         lamb: float, optional
             Parameter to calculate compression modulus distribution on mns (see note 2)
-        no_pd_input: str
+        no_pd_input: bool
             Not consider p-delta moment
-        no_tilt: str
+        no_tilt: bool
             Not consider tilt of rigid link
         orient: None, optional
             
@@ -1413,9 +1413,9 @@ class KikuchiBearingdoBalance(ElementBase):
             Matobject for mns
         lamb: float, optional
             Parameter to calculate compression modulus distribution on mns (see note 2)
-        no_pd_input: str
+        no_pd_input: bool
             Not consider p-delta moment
-        no_tilt: str
+        no_tilt: bool
             Not consider tilt of rigid link
         orient: None, optional
             

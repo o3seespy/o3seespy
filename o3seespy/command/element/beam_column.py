@@ -31,7 +31,7 @@ class ElasticBeamColumn2D(ElementBase):
             Identifier for previously-defined coordinate-transformation (crdtransf) object
         mass: None, optional
             
-        c_mass: str
+        c_mass: bool
             To form consistent mass matrix (optional, default = lumped mass matrix)
 
         Examples
@@ -97,7 +97,7 @@ class ElasticBeamColumn3D(ElementBase):
             Identifier for previously-defined coordinate-transformation (crdtransf) object
         mass: None, optional
             
-        c_mass: str
+        c_mass: bool
             To form consistent mass matrix (optional, default = lumped mass matrix)
 
         Examples
@@ -170,7 +170,7 @@ class ModElasticBeam2D(ElementBase):
             Stiffness modifier for rotation
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        c_mass: str
+        c_mass: bool
             To form consistent mass matrix (optional, default = lumped mass matrix)
         mass: float, optional
             Element mass per unit length (optional, default = 0.0)
@@ -232,7 +232,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
             Shear area for the local y-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        c_mass: str
+        c_mass: bool
             To form consistent mass matrix (optional, default = lumped mass matrix)
         mass: float, optional
             Element mass per unit length (optional, default = 0.0)
@@ -310,7 +310,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
             Shear area for the local z-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        c_mass: str
+        c_mass: bool
             To form consistent mass matrix (optional, default = lumped mass matrix)
         mass: float, optional
             Element mass per unit length (optional, default = 0.0)

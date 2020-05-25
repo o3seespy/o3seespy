@@ -41,7 +41,7 @@ class TwoNodeLink(ElementBase):
             1.0. remaining p-delta moments are resisted by shear couples. 
         shear_dist: None, optional
             
-        do_rayleigh: str
+        do_rayleigh: bool
             To include rayleigh damping from the element (optional, default = no rayleigh damping contribution)
         orient: list, optional
             

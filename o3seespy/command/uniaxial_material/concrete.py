@@ -411,9 +411,9 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             wraps. * ``cover`` cover thickness measured from the outer line of hoop. * ``am`` total area of frp wraps (number of
             layers x wrap thickness x wrap width). * ``sw`` spacing of frp wraps (if continuous wraps are used the spacing is
             equal to the wrap width). * ``ful`` ultimate strength of frp wraps. * ``es0w`` elastic modulus of frp wraps.
-        gravel: str
+        gravel: bool
             Unknown
-        silica: str
+        silica: bool
             Unknown
         tol: float, optional
             Unknown

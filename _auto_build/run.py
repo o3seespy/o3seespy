@@ -931,7 +931,7 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
             continue
         if defaults[pm].is_flag:
             defaults[pm].dtype = 'bool'
-        if defaults[pm].org_name.endswith('Tag'):
+        elif defaults[pm].org_name.endswith('Tag'):
             defaults[pm].dtype = 'obj'
         elif defaults[pm].org_name.endswith('Tags'):
             defaults[pm].list_items_dtype = 'obj'
@@ -1313,7 +1313,7 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PressureDependMultiYield.rst', 'mat')
+        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
         print(pstr)
         # test_clean_fn_line()
         # parse_generic_single_file(obj_type='section', osi_type='sect')

@@ -363,7 +363,7 @@ class Path(TimeSeriesBase):
             Provide a start time for provided load factors. 
         use_last: bool
             Use last value after the end of the series. 
-        prepend_zero: str
+        prepend_zero: bool
             Prepend a zero value to the series of load factors. 
         """
         self.osi = osi
