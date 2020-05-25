@@ -283,9 +283,15 @@ class FixedLocation(BeamIntegrationBase):
     The FixedLocation BeamIntegration Class
     
     Create a FixedLocation beamIntegration object.This option allows user-specified locations of the integration points.
-    The associated integrationweights are computed by the method of undetermined coefficients (Vandermondesystem)..
-    math::\sum^N_{i=1}x_i^{j-1}w_i = \int_0^1x^{j-1}dx = \frac{1}{j},\qquad (j=1,...,N)Note that
-    `NewtonCotes-BeamIntegration` integration is recovered when the integration point locations are equally spaced.
+    The associated integrationweights are computed by the method of undetermined coefficients (Vandermondesystem)
+
+    .. math::
+
+      \sum^N_{i=1}x_i^{j-1}w_i = \int_0^1x^{j-1}dx = \frac{1}{j},\qquad (j=1,...,N)
+
+
+    Note that `NewtonCotes-BeamIntegration` integration is recovered when the integration point locations are equally
+    spaced.
     """
     op_type = 'FixedLocation'
 
@@ -328,8 +334,11 @@ class LowOrder(BeamIntegrationBase):
     Create a LowOrder beamIntegration object.This option is a generalization of the `FixedLocation-BeamIntegration` and
     `UserDefined-BeamIntegration` integration approaches and is useful for moving load analysis (`Kidarsa, Scott and
     Higgins 2008`_). The locations of the integration points are user defined,while a selected number of weights
-    are specified and the remaining weights arecomputed by the method of undetermined coefficients...
-    math::\sum_{i=1}^{N_f}x_{fi}^{j-1}w_{fi}=\frac{1}{j}-\sum_{i=1}^{N_c}x_{ci}^{j-1}w_{ci}
+    are specified and the remaining weights arecomputed by the method of undetermined coefficients.
+
+    .. math::
+
+      \sum_{i=1}^{N_f}x_{fi}^{j-1}w_{fi}=\frac{1}{j}-\sum_{i=1}^{N_c}x_{ci}^{j-1}w_{ci}
     """
     op_type = 'LowOrder'
 

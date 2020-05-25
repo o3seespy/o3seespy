@@ -148,7 +148,7 @@ def build_additional_methods(obj_type, obj_name):
     return para
 
 
-def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="", obj_blurb=""):
+def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="", obj_blurb=[]):
     df_ip = pd.read_csv('markup_lists/force_in_place.csv')
     df_ip = df_ip[(df_ip['base_type'] == base_type) & (df_ip['op_type'] == op_type)]
     if len(op_kwargs) == 1:
@@ -502,8 +502,10 @@ def build_test_for_generic(names, pms, cl_pms):
 
 def build_obj_docstring(op_class_name, base_class_name, obj_blurb):
     use_raw = 0
-    if 'math:' in obj_blurb:
+    joined_obj_blurb = ''.join(obj_blurb)
+    if 'math:' in joined_obj_blurb:
         use_raw = 1
+
     para = []
     if use_raw:
         para.append(w4 + 'r"""')
@@ -511,7 +513,31 @@ def build_obj_docstring(op_class_name, base_class_name, obj_blurb):
         para.append(w4 + '"""')
     para.append(w4 + f'The {op_class_name} {base_class_name} Class')
     para.append(w4 + '')
-    para.append(force_line_char_limit(w4 + f'{obj_blurb}', w4))
+    if '.. math::' in joined_obj_blurb:
+        lines = []
+        mline = False
+        for i, line in enumerate(obj_blurb):
+            line = line.replace('\t', '    ')
+            if '.. math::' in line:
+                para.append(force_line_char_limit(w4 + f'{"".join(lines)}', w4))  # parse all text above math.
+                para.append('\n    .. math::\n')
+                mline = True  # define a new line for math
+                lines = []
+            elif mline and w4 + ' ' == line[:5]:  # copy verbose if line is indented
+                para.append(line)
+            else:
+                if mline:
+                    para.append('\n')
+                    mline = False
+                lines.append(trim_leading_whitespace(line))
+        if len(lines):
+            para.append(force_line_char_limit(w4 + f'{"".join(lines)}', w4))  # parse all remaining text.
+    else:
+        lines = []
+        for line in obj_blurb:
+            lines.append(trim_leading_whitespace(line))
+
+        para.append(force_line_char_limit(w4 + f'{"".join(lines)}', w4))
     para.append(w4 + '"""')
     return para
 
@@ -743,8 +769,8 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
     pstr = ''
     tstr = ''
     cur_res = []
-    obj_blurb = ''
-    sub_obj_blurbs = ['']
+    obj_blurb = []
+    sub_obj_blurbs = [[]]
     ipara = []
     if osi_type is None:
         has_tag = False
@@ -768,7 +794,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                 if two_defs == '2Dand3D':
                     cl_name_suf = '2D'
                 if len(obj_blurb):
-                    cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[0]
+                    cur_obj_blurb = obj_blurb + ['\n\n' + w4] + sub_obj_blurbs[0]
                 else:
                     cur_obj_blurb = sub_obj_blurbs[0]
                 if two_defs != 'doubleUp' or optype1 is not None:
@@ -783,7 +809,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                 if two_defs == '2Dand3D':
                     cl_name_suf = '3D'
                     if len(obj_blurb):
-                        cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[1]
+                        cur_obj_blurb = obj_blurb + ['\n\n' + w4] + sub_obj_blurbs[1]
                     else:
                         cur_obj_blurb = sub_obj_blurbs[1]
                     if defaults1 is None:
@@ -843,7 +869,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
             cur_res = list(res)
         elif '.. function:: ' in line:
             fn_line_counter += 1
-            sub_obj_blurbs.append('')
+            sub_obj_blurbs.append([])
             if base_type is None:
                 base_type, optype, defaults, op_kwargs = clean_fn_line(line, has_tag)
                 base_class_name = convert_name_to_class_name(base_type)
@@ -894,20 +920,14 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
         elif not doc_string_open:
             line = line.replace(':ref:', '')
             if fn_line_counter:
-                line = trim_leading_whitespace(line)
-                # if '.. math::' in line:
-                #
-                sub_obj_blurbs[fn_line_counter - 1] += line
+                sub_obj_blurbs[fn_line_counter - 1].append(line)
             elif title_marker == 2:
-                line = trim_leading_whitespace(line)
-                # if 'math::' in line:
-                #     raise ValueError(line)
-                obj_blurb += line
+                obj_blurb.append(line)
 
     if base_type is not None:  # when there are no inputs
         cl_name_suf = ""
         if len(obj_blurb):
-            cur_obj_blurb = obj_blurb + '\n\n' + w4 + sub_obj_blurbs[fn_line_counter - 1]
+            cur_obj_blurb = obj_blurb + ['\n\n' + w4] + sub_obj_blurbs[fn_line_counter - 1]
         else:
             cur_obj_blurb = sub_obj_blurbs[fn_line_counter - 1]
         pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type,
@@ -918,7 +938,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
     return pstr, tstr, istr
 
 
-def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=''):
+def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=[]):
     from _auto_build import _custom_gen as cust_file
 
     cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
@@ -1316,7 +1336,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 0
+    all = 1
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)

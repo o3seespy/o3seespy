@@ -82,12 +82,20 @@ class Linear(TimeSeriesBase):
 
 
 class Trig(TimeSeriesBase):
-    """
+    r"""
     The Trig TimeSeries Class
     
     This command is used to construct a TimeSeries object in which the load factor is some trigonemtric function of the
-    time in the domain.. math::\lambda = f(t) = \begin{cases}cFactor * sin(\frac{2.0\pi(t-tStart)}{period}+\phi), & 
-    tStart<=t<=tEnd\\0.0, & otherwise\end{cases}\phi = shift - \frac{period}{2.0\pi} * \arcsin(\frac{zeroShift}{cFactor})
+    time in the domain
+
+    .. math::
+
+      \lambda = f(t) = 
+      \begin{cases}
+          cFactor * sin(\frac{2.0\pi(t-tStart)}{period}+\phi), &  tStart<=t<=tEnd\\
+          0.0, & otherwise
+      \end{cases}
+      \phi = shift - \frac{period}{2.0\pi} * \arcsin(\frac{zeroShift}{cFactor})
     """
     op_type = 'Trig'
 
@@ -146,16 +154,28 @@ class Trig(TimeSeriesBase):
 
 
 class Triangle(TimeSeriesBase):
-    """
+    r"""
     The Triangle TimeSeries Class
     
     This command is used to construct a TimeSeries object in which the load factor is some triangular function of the
-    time in the domain... math::\lambda = f(t) = \begin{cases}slope*k*period+zeroShift, & k <
-    0.25\\cFactor-slope*(k-0.25)*period+zeroShift, & k <
-    0.75\\-cFactor+slope*(k-0.75)*period+zeroShift, & k
-    < 1.0\\0.0, & otherwise\end{cases}.. math::slope =
-    \frac{cFactor}{period/4}k =
-    \frac{t+\phi-tStart}{period}-floor(\frac{t+\phi-tStart}{period})\phi = shift - \frac{zeroShift}{slope}
+    time in the domain.
+
+    .. math::
+
+      \lambda = f(t) = 
+      \begin{cases}
+          slope*k*period+zeroShift, & k < 0.25\\
+      cFactor-slope*(k-0.25)*period+zeroShift, & k < 0.75\\
+      -cFactor+slope*(k-0.75)*period+zeroShift, & k < 1.0\\
+      0.0, & otherwise
+      \end{cases}
+    
+
+    .. math::
+
+      slope = \frac{cFactor}{period/4}
+      k = \frac{t+\phi-tStart}{period}-floor(\frac{t+\phi-tStart}{period})
+      \phi = shift - \frac{zeroShift}{slope}
     """
     op_type = 'Triangle'
 
@@ -214,11 +234,19 @@ class Triangle(TimeSeriesBase):
 
 
 class Rectangular(TimeSeriesBase):
-    """
+    r"""
     The Rectangular TimeSeries Class
     
     This command is used to construct a TimeSeries object in which the load factor is constant for a specified period
-    and 0 otherwise, i.e... math::\lambda = f(t) = \begin{cases}cFactor, &  tStart<=t<=tEnd\\0.0, & otherwise\end{cases}
+    and 0 otherwise, i.e.
+
+    .. math::
+
+      \lambda = f(t) = 
+      \begin{cases}
+          cFactor, &  tStart<=t<=tEnd\\
+      0.0, & otherwise
+      \end{cases}
     """
     op_type = 'Rectangular'
 
@@ -258,12 +286,25 @@ class Rectangular(TimeSeriesBase):
 
 
 class Pulse(TimeSeriesBase):
-    """
+    r"""
     The Pulse TimeSeries Class
     
     This command is used to construct a TimeSeries object in which the load factor is some pulse function of the time in
-    the domain... math::\lambda = f(t) = \begin{cases}cFactor+zeroShift, &  k < width\\zeroshift, & k < 1\\0.0, &
-    otherwise\end{cases}.. math::k = \frac{t+shift-tStart}{period}-floor(\frac{t+shift-tStart}{period})
+    the domain.
+
+    .. math::
+
+      \lambda = f(t) = 
+      \begin{cases}
+          cFactor+zeroShift, &  k < width\\
+      zeroshift, & k < 1\\
+      0.0, & otherwise
+      \end{cases}
+    
+
+    .. math::
+
+      k = \frac{t+shift-tStart}{period}-floor(\frac{t+shift-tStart}{period})
     """
     op_type = 'Pulse'
 
