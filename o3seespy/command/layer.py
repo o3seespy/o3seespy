@@ -21,8 +21,8 @@ class Straight(LayerBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         mat: obj
-            Material object associated with this fiber (uniaxialmaterial object for a fibersection and ndmaterial object
-            for use in an ndfibersection).
+            Material object associated with this fiber (uniaxial_material object for a fibersection and ndmaterial
+            object for use in an ndfibersection).
         num_fiber: int
             Number of fibers along line
         area_fiber: float
@@ -67,8 +67,8 @@ class Circ(LayerBase):
         Parameters
         ----------
         mat: obj
-            Material tag associated with this fiber (uniaxialmaterial tag for a fibersection and ndmaterial tag for use
-            in an ndfibersection).
+            Material tag associated with this fiber (uniaxial_material for a fiber section and nd_material for use
+            in an nd fiber section).
         num_fiber: int
             Number of fibers along line
         area_fiber: float

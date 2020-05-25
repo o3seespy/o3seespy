@@ -93,7 +93,7 @@ class PressureIndependMultiYield(NDMaterialBase):
 
     def __init__(self, osi,  nd, rho, g_mod_ref, bulk_mod_ref, cohesion, peak_strain, phi=0.,
                  p_ref=100., d=0., n_surf=20, strains=None, ratios=None):
-        """
+        r"""
         PressureIndependMultiYield material
 
         Parameters
@@ -113,7 +113,7 @@ class PressureIndependMultiYield(NDMaterialBase):
        cohesion: float
             (:math:`c`) Apparent cohesion at zero effective confinement.
        peak_strain: float
-            (:math:`\\gamma_{max}`) An octahedral shear strain at
+            (:math:`\gamma_{max}`) An octahedral shear strain at
             which the maximum shear strength is reached,
             specified at a reference mean effective confining
             pressure refPress of p'r (see below).
@@ -218,7 +218,7 @@ class PressureDependMultiYield(NDMaterialBase):
     def __init__(self, osi, nd, rho, g_mod_ref, bulk_mod_ref, phi, peak_strain, p_ref,
                  d, pt_ang, con_rate, dil_rates, liquefac, n_surf=20.0, strains=None, ratios=None,
                  e_init=0.6, cs_params=None, c=0.3):
-        """
+        r"""
         Initial method for PressureDependMultiYield
 
         Parameters
@@ -353,7 +353,7 @@ class PressureDependMultiYield(NDMaterialBase):
 
 
 class PressureDependMultiYield02(NDMaterialBase):
-    """
+    r"""
     The PressureDependMultiYield02 NDMaterial Class
 
     PressureDependMultiYield02 material is modified from PressureDependMultiYield material, with:#. additional
@@ -367,7 +367,7 @@ class PressureDependMultiYield02(NDMaterialBase):
     def __init__(self, osi, nd, rho, g_mod_ref, bulk_mod_ref, phi, peak_strain, p_ref,
                  d, pt_ang, con_rates, dil_rates, liquefac=(1., 0.), n_surf=20.0, strains=None, ratios=None,
                  e_init=0.6, cs_params=None, c=0.1):
-        """
+        r"""
         Initial method for PressureDependMultiYield02
 
         Parameters
@@ -607,7 +607,7 @@ class Fiber(SectionBase):
         gj: float
             Linear-elastic torsional stiffness assigned to the section
         torsion_mat: obj
-            Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
+            uniaxial_material object assigned to the section for torsional response (can be nonlinear)
         """
         self.osi = osi
         if gj is None:
@@ -645,8 +645,8 @@ class Circ(LayerBase):
         Parameters
         ----------
         mat: obj
-            Material tag associated with this fiber (uniaxialmaterial tag for a fibersection and ndmaterial tag for use
-            in an ndfibersection).
+            Material tag associated with this fiber (uniaxial_material for a fiber section and nd_material for use
+            in an nd fiber section).
         num_fiber: int
             Number of fibers along line
         area_fiber: float

@@ -36,7 +36,7 @@ class SimpleContact2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_simple_contact2d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
@@ -96,7 +96,7 @@ class SimpleContact3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_simple_contact3d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
@@ -158,7 +158,7 @@ class BeamContact2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_beam_contact2d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
@@ -222,7 +222,7 @@ class BeamContact3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_beam_contact3d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
@@ -283,7 +283,7 @@ class BeamEndContact3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_beam_end_contact3d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)

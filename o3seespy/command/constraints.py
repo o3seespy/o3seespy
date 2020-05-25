@@ -48,7 +48,7 @@ class Lagrange(ConstraintsBase):
     op_type = 'Lagrange'
 
     def __init__(self, osi, alpha_s=1.0, alpha_m=1.0):
-        """
+        r"""
         Initial method for Lagrange
 
         Parameters
@@ -82,7 +82,7 @@ class Penalty(ConstraintsBase):
     op_type = 'Penalty'
 
     def __init__(self, osi, alpha_s=1.0, alpha_m=1.0):
-        """
+        r"""
         Initial method for Penalty
 
         Parameters

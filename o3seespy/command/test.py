@@ -15,7 +15,7 @@ class NormUnbalance(TestBase):
     op_type = 'NormUnbalance'
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2, max_incr: float=None):
-        """
+        r"""
         Initial method for NormUnbalance
 
         Parameters
@@ -28,7 +28,7 @@ class NormUnbalance(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -74,7 +74,7 @@ class NormDispIncr(TestBase):
     op_type = 'NormDispIncr'
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
-        """
+        r"""
         Initial method for NormDispIncr
 
         Parameters
@@ -87,7 +87,7 @@ class NormDispIncr(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -117,7 +117,7 @@ class EnergyIncr(TestBase):
     op_type = 'EnergyIncr'
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
-        """
+        r"""
         Initial method for EnergyIncr
 
         Parameters
@@ -130,7 +130,7 @@ class EnergyIncr(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -160,7 +160,7 @@ class RelativeNormUnbalance(TestBase):
     op_type = 'RelativeNormUnbalance'
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
-        """
+        r"""
         Initial method for RelativeNormUnbalance
 
         Parameters
@@ -173,7 +173,7 @@ class RelativeNormUnbalance(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -203,7 +203,7 @@ class RelativeNormDispIncr(TestBase):
     op_type = 'RelativeNormDispIncr'
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
-        """
+        r"""
         Initial method for RelativeNormDispIncr
 
         Parameters
@@ -216,7 +216,7 @@ class RelativeNormDispIncr(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -246,7 +246,7 @@ class RelativeTotalNormDispIncr(TestBase):
     op_type = 'RelativeTotalNormDispIncr'
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
-        """
+        r"""
         Initial method for RelativeTotalNormDispIncr
 
         Parameters
@@ -259,7 +259,7 @@ class RelativeTotalNormDispIncr(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -289,7 +289,7 @@ class RelativeEnergyIncr(TestBase):
     op_type = 'RelativeEnergyIncr'
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
-        """
+        r"""
         Initial method for RelativeEnergyIncr
 
         Parameters
@@ -302,7 +302,7 @@ class RelativeEnergyIncr(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -331,7 +331,7 @@ class FixedNumIter(TestBase):
     op_type = 'FixedNumIter'
 
     def __init__(self, osi, max_iter, p_flag=0, n_type=2):
-        """
+        r"""
         Initial method for FixedNumIter
 
         Parameters
@@ -342,7 +342,7 @@ class FixedNumIter(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -370,7 +370,7 @@ class NormDispAndUnbalance(TestBase):
     op_type = 'NormDispAndUnbalance'
 
     def __init__(self, osi, tol_incr, tol_r, max_iter, p_flag=0, n_type=2, maxincr=-1):
-        """
+        r"""
         Initial method for NormDispAndUnbalance
 
         Parameters
@@ -385,7 +385,7 @@ class NormDispAndUnbalance(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
@@ -418,7 +418,7 @@ class NormDispOrUnbalance(TestBase):
     op_type = 'NormDispOrUnbalance'
 
     def __init__(self, osi, tol_incr, tol_r, max_iter, p_flag=0, n_type=2, maxincr=-1):
-        """
+        r"""
         Initial method for NormDispOrUnbalance
 
         Parameters
@@ -433,7 +433,7 @@ class NormDispOrUnbalance(TestBase):
         p_flag: int, optional
             Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
             information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
+            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 

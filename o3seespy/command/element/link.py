@@ -32,7 +32,7 @@ class TwoNodeLink(ElementBase):
         ele_nodes: list
             A list of two element nodes
         mats: list, optional
-            A list of objects associated with previously-defined uniaxialmaterial objects
+            A list of objects associated with previously-defined uniaxial_material objects
         dir: None, optional
             
         p_delta_vals: list, optional
@@ -51,7 +51,7 @@ class TwoNodeLink(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_two_node_link():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]

@@ -35,7 +35,7 @@ class PlaneStressUserMaterial(NDMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_plane_stress_user_material():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.nd_material.PlaneStressUserMaterial(osi, fc=1.0, ft=1.0, fcu=1.0, epsc0=1.0, epscu=1.0, epstu=1.0, stc=1.0)
         """

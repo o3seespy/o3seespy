@@ -42,9 +42,9 @@ class ElastomericBearingPlasticity2D(ElementBase):
         mu: float
             Exponent of non-linear hardening component
         p_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxial_material in axial direction
         mz_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         orient: None, optional
@@ -145,13 +145,13 @@ class ElastomericBearingPlasticity3D(ElementBase):
         mu: float
             Exponent of non-linear hardening component
         p_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxial_material in axial direction
         t_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in torsional direction
+            Object associated with previously-defined uniaxial_material in torsional direction
         my_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local y-axis
         mz_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         orient: None, optional
@@ -164,7 +164,7 @@ class ElastomericBearingPlasticity3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_elastomeric_bearing_plasticity3d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -264,9 +264,9 @@ class ElastomericBearingBoucWen2D(ElementBase):
         gamma: float
             Second hysteretic shape parameter (default = 0.5)
         p_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxial_material in axial direction
         mz_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         orient_vals: list, optional
             Vector components in global coordinates defining local x-axis , vector components in global coordinates
             defining local y-axis 
@@ -280,7 +280,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_elastomeric_bearing_bouc_wen2d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -376,13 +376,13 @@ class ElastomericBearingBoucWen3D(ElementBase):
         gamma: float
             Second hysteretic shape parameter (default = 0.5)
         p_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxial_material in axial direction
         t_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in torsional direction
+            Object associated with previously-defined uniaxial_material in torsional direction
         my_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local y-axis
         mz_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         orient_vals: list, optional
             Vector components in global coordinates defining local x-axis , vector components in global coordinates
             defining local y-axis 
@@ -396,7 +396,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_elastomeric_bearing_bouc_wen3d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -495,9 +495,9 @@ class FlatSliderBearing2D(ElementBase):
         k_init: float
             Initial elastic stiffness in local shear direction
         p_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxial_material in axial direction
         mz_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int, optional
@@ -514,7 +514,7 @@ class FlatSliderBearing2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_flat_slider_bearing2d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -612,13 +612,13 @@ class FlatSliderBearing3D(ElementBase):
         k_init: float
             Initial elastic stiffness in local shear direction
         p_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxial_material in axial direction
         t_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in torsional direction
+            Object associated with previously-defined uniaxial_material in torsional direction
         my_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local y-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local y-axis
         mz_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: None, optional
@@ -635,7 +635,7 @@ class FlatSliderBearing3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_flat_slider_bearing3d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -737,9 +737,9 @@ class SingleFPBearing2D(ElementBase):
         k_init: float
             Initial elastic stiffness in local shear direction
         p_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxial_material in axial direction
         mz_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int, optional
@@ -756,7 +756,7 @@ class SingleFPBearing2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_single_fp_bearing2d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -854,13 +854,13 @@ class SingleFPBearing3D(ElementBase):
         k_init: float
             Initial elastic stiffness in local shear direction
         p_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in axial direction
+            Object associated with previously-defined uniaxial_material in axial direction
         t_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in torsional direction
+            Object associated with previously-defined uniaxial_material in torsional direction
         my_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local y axis
+            Object associated with previously-defined uniaxial_material in moment direction around local y axis
         mz_mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial in moment direction around local z-axis
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int, optional
@@ -877,7 +877,7 @@ class SingleFPBearing3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_single_fp_bearing3d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1022,7 +1022,7 @@ class TFP(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_tfp():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1122,7 +1122,7 @@ class TripleFrictionPendulum(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_triple_friction_pendulum():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1182,7 +1182,7 @@ class MultipleShearSpring(ElementBase):
         n_spring: int
             Number of springs
         mat: obj, optional
-            Object associated with previously-defined uniaxialmaterial object
+            Object associated with previously-defined uniaxial_material object
         lim: float, optional
             Minimum deformation to calculate equivalent coefficient (see note 1)
         mass: float, optional
@@ -1193,7 +1193,7 @@ class MultipleShearSpring(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_multiple_shear_spring():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1283,7 +1283,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_kikuchi_bearingadjust_pd_output():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1425,7 +1425,7 @@ class KikuchiBearingdoBalance(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_kikuchi_bearingdo_balance():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1548,7 +1548,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_yamamoto_biaxial_hd_rco_rs():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1659,7 +1659,7 @@ class ElastomericX(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_elastomeric_x():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1790,7 +1790,7 @@ class LeadRubberX(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_lead_rubber_x():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -1914,7 +1914,7 @@ class HDR(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_hdr():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -2039,7 +2039,7 @@ class FPBearingPTV(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_fp_bearing_ptv():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]

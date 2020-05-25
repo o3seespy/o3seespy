@@ -215,7 +215,7 @@ class DrukerPrager(NDMaterialBase):
     op_type = 'DrukerPrager'
 
     def __init__(self, osi, k_mod, g_mod, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, atm_pressure=101e3):
-        """
+        r"""
         Initial method for DrukerPrager
 
         Parameters
@@ -230,7 +230,7 @@ class DrukerPrager(NDMaterialBase):
         rho: float
             Frictional strength parameter
         rho_bar: float
-            Controls evolution of plastic volume change, :math:`0\\le rhobar \\le rho`.
+            Controls evolution of plastic volume change, :math:`0\le rhobar \le rho`.
         kinf: float
             Nonlinear isotropic strain hardening parameter, :math:`kinf \ge 0`.
         ko: float
@@ -242,7 +242,7 @@ class DrukerPrager(NDMaterialBase):
         big_h: float
             Linear hardening parameter, :math:`h \ge 0`.
         theta: float
-            Controls relative proportions of isotropic and kinematic hardening, :math:`0 \\le theta \\le 1`.
+            Controls relative proportions of isotropic and kinematic hardening, :math:`0 \le theta \le 1`.
         density: float
             Mass density of the material
         atm_pressure: float, optional
@@ -251,7 +251,7 @@ class DrukerPrager(NDMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_druker_prager():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.nd_material.DrukerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, atm_pressure=101e3)
         """
@@ -289,7 +289,7 @@ class Damage2p(NDMaterialBase):
     op_type = 'Damage2p'
 
     def __init__(self, osi, fcc, fct: float=None, e_mod: float=None, ni: float=None, gt: float=None, gc: float=None, rho_bar: float=None, big_h: float=None, theta: float=None, tangent: float=None):
-        """
+        r"""
         Initial method for Damage2p
 
         Parameters
@@ -329,7 +329,7 @@ class Damage2p(NDMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_damage2p():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.nd_material.Damage2p(osi, fcc=1.0, fct=1.0, e_mod=1.0, ni=1.0, gt=1.0, gc=1.0, rho_bar=1.0, big_h=1.0, theta=1.0, tangent=1.0)
         """
@@ -514,7 +514,7 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
     op_type = 'MultiaxialCyclicPlasticity'
 
     def __init__(self, osi, rho, k_mod, g_mod, su, ho, h, m, beta, k_coeff):
-        """
+        r"""
         Initial method for MultiaxialCyclicPlasticity
 
         Parameters
@@ -527,7 +527,7 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
         g_mod: float
             Maximum (small strain) shear modulus
         su: float
-            Undrained shear strength, size of bounding surface :math:`r=\\sqrt{8/3}*su`
+            Undrained shear strength, size of bounding surface :math:`r=\sqrt{8/3}*su`
         ho: float
             Linear kinematic hardening modulus of bounding surface
         h: float
@@ -712,7 +712,7 @@ class FSAM(NDMaterialBase):
     op_type = 'FSAM'
 
     def __init__(self, osi, rho, s_x, s_y, conc, rou_x, rou_y, nu, alfadow):
-        """
+        r"""
         Initial method for FSAM
 
         Parameters
@@ -721,11 +721,11 @@ class FSAM(NDMaterialBase):
         rho: float
             Material density
         s_x: obj
-            Object of uniaxialmaterial simulating horizontal (x) reinforcement
+            Object of uniaxial_material simulating horizontal (x) reinforcement
         s_y: obj
-            Object of uniaxialmaterial simulating vertical (y) reinforcement
+            Object of uniaxial_material simulating vertical (y) reinforcement
         conc: obj
-            Object of uniaxialmaterial simulating concrete, shall be used with uniaxialmaterial concretecm
+            Object of uniaxial_material simulating concrete, shall be used with uniaxial_material concretecm
         rou_x: float
             Reinforcing ratio in horizontal (x) direction (:math:`roux = _{s,x}/a_{gross,x}`)
         rou_y: float
@@ -773,7 +773,7 @@ class ManzariDafalias(NDMaterialBase):
     op_type = 'ManzariDafalias'
 
     def __init__(self, osi, g0, nu, e_init, mc, c, lambda_c, e0, ksi, p_atm, m, h0, ch, nb, a0, nd, z_max, cz, den):
-        """
+        r"""
         Initial method for ManzariDafalias
 
         Parameters

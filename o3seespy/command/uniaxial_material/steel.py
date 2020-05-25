@@ -89,7 +89,7 @@ class Steel02(UniaxialMaterialBase):
     op_type = 'Steel02'
 
     def __init__(self, osi, fy, e0, b, params, a1: float=None, a2=1.0, a3: float=None, a4=1.0, sig_init=0.0):
-        """
+        r"""
         Initial method for Steel02
 
         Parameters
@@ -607,7 +607,7 @@ class DoddRestrepo(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_dodd_restrepo():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.DoddRestrepo(osi, fy=1.0, fsu=1.0, esh=1.0, esu=1.0, youngs=1.0, eshi=1.0, fshi=1.0, omega_fac=1.0)
         """
@@ -758,7 +758,7 @@ class Steel01Thermal(UniaxialMaterialBase):
     op_type = 'Steel01Thermal'
 
     def __init__(self, osi, fy, e0, b, a1, a2, a3, a4):
-        """
+        r"""
         Initial method for Steel01Thermal
 
         Parameters

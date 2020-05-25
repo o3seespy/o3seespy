@@ -21,7 +21,7 @@ class ZeroLength(ElementBase):
         ele_nodes: list
             A list of two element nodes
         mats: list, optional
-            A list of objects associated with previously-defined uniaxialmaterials
+            A list of objects associated with previously-defined uniaxial_materials
         dirs: list, optional
             A list of material directions: * 1,2,3 - translation along local x,y,z axes, respectively; * 4,5,6 -
             rotation about local x,y,z axes, respectively
@@ -86,7 +86,7 @@ class ZeroLengthND(ElementBase):
         mat: obj
             Object associated with previously-defined ndmaterial object
         uni: obj
-            Object associated with previously-defined uniaxialmaterial object which may be used to represent uncoupled
+            Object associated with previously-defined uniaxial_material object which may be used to represent uncoupled
             behavior orthogonal to the plane of the ndmaterial response. see notes 2 and 3.
         orient: list, optional
             
@@ -94,7 +94,7 @@ class ZeroLengthND(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_zero_length_nd():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [0, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
@@ -189,7 +189,7 @@ class CoupledZeroLength(ElementBase):
         dirn2: int
             The two directions, 1 through ndof.
         mat: obj
-            Objects associated with previously-defined uniaxialmaterial
+            Objects associated with previously-defined uniaxial_material
         r_flag: float, optional
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default) * ``rflag`` = 1 include rayleigh damping
 
@@ -246,7 +246,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_zero_length_contact2dnormal():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [0, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
@@ -347,7 +347,7 @@ class ZeroLengthContactNTS2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_zero_length_contact_nts2d():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [0, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
@@ -416,7 +416,7 @@ class ZeroLengthInterface2Ddof(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_zero_length_interface2ddof():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> nodes = [1, 1]
         >>> o3.element.ZeroLengthInterface2Ddof(osi, s_nd_num=1, m_nd_num=1, sdof=1, mdof=1, nodes=nodes, kn=1.0, kt=1.0, phi=1.0)

@@ -41,7 +41,7 @@ class Quad(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_quad():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> obj = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
@@ -287,7 +287,7 @@ class BbarQuad(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_bbar_quad():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
@@ -335,7 +335,7 @@ class EnhancedQuad(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_enhanced_quad():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> obj = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]

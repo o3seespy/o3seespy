@@ -6,7 +6,7 @@ class TimeSeriesBase(OpenSeesObject):
 
 
 class Constant(TimeSeriesBase):
-    """
+    r"""
     The Constant TimeSeries Class
     
     This command is used to construct a TimeSeries object in which the load factor applied remains constant and is
@@ -44,7 +44,7 @@ class Constant(TimeSeriesBase):
 
 
 class Linear(TimeSeriesBase):
-    """
+    r"""
     The Linear TimeSeries Class
     
     This command is used to construct a TimeSeries object in which the load factor applied is linearly proportional to

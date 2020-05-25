@@ -121,7 +121,7 @@ class AC3D8(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_ac3d8():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
@@ -164,7 +164,7 @@ class ASI3D8(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_asi3d8():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.element.ASI3D8(osi, ele_nodes1=1, ele_nodes2=1)
         """
@@ -203,7 +203,7 @@ class AV3D4(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_av3d4():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]

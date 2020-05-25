@@ -113,7 +113,7 @@ class Cast(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_cast():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.Cast(osi, n=1, bo=1.0, h=1.0, fy=1.0, e_mod=1.0, big_l=1.0, b=1.0, ro=1.0, c_r1=1.0, c_r2=1.0, a1=None, a2=1.0, a3=None, a4=1.0)
         """
@@ -791,7 +791,7 @@ class BarSlip(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_bar_slip():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.BarSlip(osi, fc=1.0, fy=1.0, es=1.0, fu=1.0, eh=1.0, db=1.0, ld=1.0, nb=1, depth=1.0, height=1.0, anc_lratio=1.0, bs_flag="Strong", otype="beamtop", damage='Damage', unit='psi')
         """
@@ -976,7 +976,7 @@ class ImpactMaterial(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_impact_material():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.ImpactMaterial(osi, k1=1.0, k2=1.0, sigy=1.0, gap=1.0)
         """
@@ -1024,7 +1024,7 @@ class HyperbolicGapMaterial(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_hyperbolic_gap_material():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.HyperbolicGapMaterial(osi, kmax=1.0, kur=1.0, rf=1.0, fult=1.0, gap=1.0)
         """
@@ -1104,7 +1104,7 @@ class LimitState(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_limit_state():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> curve = 1
         >>> o3.uniaxial_material.LimitState(osi, s1p=1.0, e1p=1.0, s2p=1.0, e2p=1.0, s3p=1.0, e3p=1.0, s1n=1.0, e1n=1.0, s2n=1.0, e2n=1.0, s3n=1.0, e3n=1.0, pinch_x=1.0, pinch_y=1.0, damage1=1.0, damage2=1.0, beta=1.0, curve=curve, curve_type=1)

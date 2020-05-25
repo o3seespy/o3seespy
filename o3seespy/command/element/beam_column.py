@@ -513,7 +513,7 @@ class NonlinearBeamColumn(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_nonlinear_beam_column():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
@@ -591,7 +591,7 @@ class DispBeamColumnInt(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_disp_beam_column_int():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
@@ -640,7 +640,7 @@ class MVLEM(ElementBase):
     op_type = 'MVLEM'
 
     def __init__(self, osi, dens, ele_nodes, m, c, thick: list=None, widths: list=None, rho: list=None, mat_concretes: list=None, mat_steels: list=None, mat_shear=None):
-        """
+        r"""
         Initial method for MVLEM
 
         Parameters
@@ -662,16 +662,16 @@ class MVLEM(ElementBase):
             A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
             a_{s,i}/a_{gross,i} (1 < i < m)`
         mat_concretes: list, optional
-            A list of ``m`` uniaxialmaterial objects for concrete
+            A list of ``m`` uniaxial_material objects for concrete
         mat_steels: list, optional
-            A list of ``m`` uniaxialmaterial objects for steel
+            A list of ``m`` uniaxial_material objects for steel
         mat_shear: obj, optional
-            Object of uniaxialmaterial for shear material
+            Object of uniaxial_material for shear material
 
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_mvlem():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
@@ -757,7 +757,7 @@ class SFIMVLEM(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_sfimvlem():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]

@@ -181,7 +181,7 @@ class Fiber(SectionBase):
         gj: float
             Linear-elastic torsional stiffness assigned to the section
         torsion_mat: obj
-            Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
+            uniaxial_material object assigned to the section for torsional response (can be nonlinear)
         """
         self.osi = osi
         if gj is None:
@@ -223,7 +223,7 @@ class Fiber(SectionBase):
         gj: float
             Linear-elastic torsional stiffness assigned to the section
         torsion_mat: obj
-            Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
+            uniaxial_material object assigned to the section for torsional response (can be nonlinear)
         """
         self.osi = osi
         if gj is None:
@@ -265,7 +265,7 @@ class Fiber(SectionBase):
         gj: float
             Linear-elastic torsional stiffness assigned to the section
         torsion_mat: obj
-            Uniaxialmaterial tag assigned to the section for torsional response (can be nonlinear)
+            uniaxial_material object assigned to the section for torsional response (can be nonlinear)
         """
         self.osi = osi
         if gj is None:
@@ -377,7 +377,7 @@ class WFSection2D(SectionBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         mat: obj
-            Object of uniaxialmaterial assigned to each fiber
+            Object of uniaxial_material assigned to each fiber
         d: float
             Section depth
         tw: float
@@ -430,11 +430,11 @@ class RCSection2D(SectionBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         core_mat: obj
-            Object of uniaxialmaterial assigned to each fiber in the core region
+            Object of uniaxial_material assigned to each fiber in the core region
         cover_mat: obj
-            Object of uniaxialmaterial assigned to each fiber in the cover region
+            Object of uniaxial_material assigned to each fiber in the cover region
         steel_mat: obj
-            Object of uniaxialmaterial assigned to each reinforcing bar
+            Object of uniaxial_material assigned to each reinforcing bar
         d: float
             Section depth
         b: float
@@ -499,11 +499,11 @@ class RCCircularSection(SectionBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         core_mat: obj
-            Object of uniaxialmaterial assigned to each fiber in the core region
+            Object of uniaxial_material assigned to each fiber in the core region
         cover_mat: obj
-            Object of uniaxialmaterial assigned to each fiber in the cover region
+            Object of uniaxial_material assigned to each fiber in the cover region
         steel_mat: obj
-            Object of uniaxialmaterial assigned to each reinforcing bar
+            Object of uniaxial_material assigned to each reinforcing bar
         d: float
             Section radius
         cover_depth: float
@@ -738,7 +738,7 @@ class PlateFiber(SectionBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_plate_fiber():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
         >>> o3.section.PlateFiber(osi, mat=mat, h=1.0)

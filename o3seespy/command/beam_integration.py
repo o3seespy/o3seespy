@@ -279,7 +279,7 @@ class UserDefined(BeamIntegrationBase):
 
 
 class FixedLocation(BeamIntegrationBase):
-    """
+    r"""
     The FixedLocation BeamIntegration Class
     
     Create a FixedLocation beamIntegration object.This option allows user-specified locations of the integration points.
@@ -322,7 +322,7 @@ class FixedLocation(BeamIntegrationBase):
 
 
 class LowOrder(BeamIntegrationBase):
-    """
+    r"""
     The LowOrder BeamIntegration Class
     
     Create a LowOrder beamIntegration object.This option is a generalization of the `FixedLocation-BeamIntegration` and
@@ -369,7 +369,7 @@ class LowOrder(BeamIntegrationBase):
 
 
 class MidDistance(BeamIntegrationBase):
-    """
+    r"""
     The MidDistance BeamIntegration Class
     
     Create a MidDistance beamIntegration object.This option allows user-specified locations of the integration points.

@@ -181,7 +181,7 @@ class Concrete06(UniaxialMaterialBase):
     op_type = 'Concrete06'
 
     def __init__(self, osi, fc, e0, n, k, alpha1, fcr, ecr, b, alpha2):
-        """
+        r"""
         Initial method for Concrete06
 
         Parameters
@@ -835,7 +835,7 @@ class ConcreteCM(UniaxialMaterialBase):
     op_type = 'ConcreteCM'
 
     def __init__(self, osi, fpcc, epcc, ec, rc, xcrn, ft, et, rt, xcrp, gap_close: float=None):
-        """
+        r"""
         Initial method for ConcreteCM
 
         Parameters
@@ -844,22 +844,22 @@ class ConcreteCM(UniaxialMaterialBase):
         fpcc: float
             Compressive strength (:math:`f'_c`)
         epcc: float
-            Strain at compressive strength (:math:`\\epsilon'_c`)
+            Strain at compressive strength (:math:`\epsilon'_c`)
         ec: float
             Initial tangent modulus (:math:`e_c`)
         rc: float
             Shape parameter in tsai's equation defined for compression (:math:`r_c`)
         xcrn: float
-            Non-dimensional critical strain on compression envelope (:math:`\\epsilon^{-}_{cr}`, where the envelope
-            curve starts following a straight line)
+            Non-dimensional critical strain on compression envelope (:math:`\epsilon^{-}_{cr}`, where the envelope curve
+            starts following a straight line)
         ft: float
             Tensile strength (:math:`f_t`)
         et: float
-            Strain at tensile strength (:math:`\\epsilon_t`)
+            Strain at tensile strength (:math:`\epsilon_t`)
         rt: float
             Shape parameter in tsai's equation defined for tension (:math:`r_t`)
         xcrp: float
-            Non-dimensional critical strain on tension envelope (:math:`\\epsilon^{+}_{cr}`, where the envelope curve
+            Non-dimensional critical strain on tension envelope (:math:`\epsilon^{+}_{cr}`, where the envelope curve
             starts following a straight line - large value [e.g., 10000] recommended when tension stiffening is considered)
         gap_close: float, optional
             Gapclose = 0, less gradual gap closure (default); gapclose = 1, more gradual gap closure

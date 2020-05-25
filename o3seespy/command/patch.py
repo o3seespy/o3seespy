@@ -22,8 +22,8 @@ class Quad(PatchBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         mat: obj
-            Material object associated with this fiber (uniaxialmaterial object for a fibersection and ndmaterial object
-            for use in an ndfibersection).
+            Material object associated with this fiber (uniaxial_material object for a fibersection and ndmaterial
+            object for use in an ndfibersection).
         num_subdiv_ij: int
             Number of subdivisions (fibers) in the ij direction.
         num_subdiv_jk: int
@@ -77,8 +77,8 @@ class Rect(PatchBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         mat: obj
-            Material object associated with this fiber (uniaxialmaterial object for a fibersection and ndmaterial object
-            for use in an ndfibersection).
+            Material object associated with this fiber (uniaxial_material object for a fibersection and ndmaterial
+            object for use in an ndfibersection).
         num_subdiv_y: int
             Number of subdivisions (fibers) in local y direction.
         num_subdiv_z: int
@@ -122,8 +122,8 @@ class Circ(PatchBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         mat: obj
-            Material object associated with this fiber (uniaxialmaterial object for a fibersection and ndmaterial object
-            for use in an ndfibersection).
+            Material object associated with this fiber (uniaxial_material object for a fibersection and ndmaterial
+            object for use in an ndfibersection).
         num_subdiv_circ: int
             Number of subdivisions (fibers) in the circumferential direction (number of wedges)
         num_subdiv_rad: int

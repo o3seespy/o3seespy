@@ -22,7 +22,7 @@ class PySimple1(UniaxialMaterialBase):
             p-y curve approximates api (1993) sand relation.
         pult: float
             Ultimate capacity of the p-y material. note that "p" or "pult" are distributed loads [force per length of
-            pile] in common design equations, but are both loads for this uniaxialmaterial [i.e., distributed load times the
+            pile] in common design equations, but are both loads for this uniaxial_material [i.e., distributed load times the
             tributary length of the pile].
         y50: float
             Displacement at which 50% of pult is mobilized in monotonic loading.
@@ -171,7 +171,7 @@ class PyLiq1(UniaxialMaterialBase):
             p-y curve approximates api (1993) sand relation.
         pult: float
             Ultimate capacity of the p-y material. note that "p" or "pult" are distributed loads [force per length of
-            pile] in common design equations, but are both loads for this uniaxialmaterial [i.e., distributed load times the
+            pile] in common design equations, but are both loads for this uniaxial_material [i.e., distributed load times the
             tributary length of the pile].
         y50: float
             Displacement at which 50% of pult is mobilized in monotonic loading.

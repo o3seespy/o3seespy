@@ -300,6 +300,10 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                 para.append(w8 + '>>> import o3seespy as o3')
 
                 for line in source[1:]:  # skip first line which says 'test_'
+                    if 'def ' in line:
+                        nline = w8 + '>>> ' + '# Example is currently not working'
+                        para.append(nline)
+                        continue
                     nline = w8 + '>>> ' + line[4:]
                     para.append(nline)
                 para.append(w8 + '"""')
@@ -497,8 +501,14 @@ def build_test_for_generic(names, pms, cl_pms):
 
 
 def build_obj_docstring(op_class_name, base_class_name, obj_blurb):
+    use_raw = 0
+    if 'math:' in obj_blurb:
+        use_raw = 1
     para = []
-    para.append(w4 + '"""')
+    if use_raw:
+        para.append(w4 + 'r"""')
+    else:
+        para.append(w4 + '"""')
     para.append(w4 + f'The {op_class_name} {base_class_name} Class')
     para.append(w4 + '')
     para.append(force_line_char_limit(w4 + f'{obj_blurb}', w4))
@@ -529,14 +539,15 @@ def force_line_char_limit(line, indent):
 
 
 def clean_docstring_content(doc_str):
-    doc_str = doc_str.replace('\\l', '\\\\l')
-    doc_str = doc_str.replace('\\s', '\\\\s')
-    doc_str = doc_str.replace('\\e', '\\\\e')
-    doc_str = doc_str.replace('\\d', '\\\\d')
-    doc_str = doc_str.replace('\\D', '\\\\D')
+    # doc_str = doc_str.replace('\\l', '\\\\l')  # Now using raw strings
+    # doc_str = doc_str.replace('\\s', '\\\\s')
+    # doc_str = doc_str.replace('\\e', '\\\\e')
+    # doc_str = doc_str.replace('\\d', '\\\\d')
+    # doc_str = doc_str.replace('\\D', '\\\\D')
     doc_str = doc_str.replace('tag', 'object')
     doc_str = doc_str.replace('Tag', 'Object')
     doc_str = doc_str.replace('(optional)', '')  # Note this is now dealt with in the type definition
+    doc_str = doc_str.replace('uniaxialmaterial', 'uniaxial_material')
     return doc_str
 
 
@@ -557,6 +568,8 @@ def build_init_method_docstring(classname, pms, pms_ordered):
         descr = force_line_char_limit(w12 + f'{pdes}', w12)
         dstr.append(descr)
     dstr.append(w8 + '"""')
+    if 'math:' in ''.join(dstr):
+        dstr[0] = w8 + 'r"""'
     return dstr
 
 
@@ -882,9 +895,13 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
             line = line.replace(':ref:', '')
             if fn_line_counter:
                 line = trim_leading_whitespace(line)
+                # if '.. math::' in line:
+                #
                 sub_obj_blurbs[fn_line_counter - 1] += line
             elif title_marker == 2:
                 line = trim_leading_whitespace(line)
+                # if 'math::' in line:
+                #     raise ValueError(line)
                 obj_blurb += line
 
     if base_type is not None:  # when there are no inputs
@@ -1299,7 +1316,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 1
+    all = 0
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
@@ -1313,8 +1330,9 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
-        print(pstr)
+        parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
+        # pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
+        # print(pstr)
         # test_clean_fn_line()
         # parse_generic_single_file(obj_type='section', osi_type='sect')
         # parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)

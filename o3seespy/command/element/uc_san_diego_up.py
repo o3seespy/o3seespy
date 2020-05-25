@@ -15,7 +15,7 @@ class QuadUP(ElementBase):
     op_type = 'quadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0, t=0):
-        """
+        r"""
         Initial method for QuadUP
 
         Parameters
@@ -85,7 +85,7 @@ class BrickUP(ElementBase):
     op_type = 'brickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
-        """
+        r"""
         Initial method for BrickUP
 
         Parameters
@@ -120,7 +120,7 @@ class BrickUP(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_brick_up():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
         >>> coords = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -158,7 +158,7 @@ class BbarQuadUP(ElementBase):
     op_type = 'bbarQuadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0, t=0):
-        """
+        r"""
         Initial method for BbarQuadUP
 
         Parameters
@@ -229,7 +229,7 @@ class BbarBrickUP(ElementBase):
     op_type = 'bbarBrickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
-        """
+        r"""
         Initial method for BbarBrickUP
 
         Parameters
@@ -264,7 +264,7 @@ class BbarBrickUP(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_bbar_brick_up():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=3)
         >>> coords = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -302,7 +302,7 @@ class N94QuadUP(ElementBase):
     op_type = '9_4_QuadUP'
 
     def __init__(self, osi, ele_nodes, thick, mat, bulk, fmass, h_perm, v_perm, b1=0, b2=0):
-        """
+        r"""
         Initial method for N94QuadUP
 
         Parameters
@@ -334,7 +334,7 @@ class N94QuadUP(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_n94quad_up():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1], [0.5, 0.5, 0.5]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -371,7 +371,7 @@ class N208BrickUP(ElementBase):
     op_type = '20_8_BrickUP'
 
     def __init__(self, osi, ele_nodes, mat, bulk, fmass, perm_x, perm_y, perm_z, b_x=0, b_y=0, b_z=0):
-        """
+        r"""
         Initial method for N208BrickUP
 
         Parameters
@@ -406,7 +406,7 @@ class N208BrickUP(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> test_n208brick_up():
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=3)
         >>> coords = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]

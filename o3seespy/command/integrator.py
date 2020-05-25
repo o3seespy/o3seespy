@@ -14,20 +14,20 @@ class LoadControl(IntegratorBase):
     op_type = 'LoadControl'
 
     def __init__(self, osi, incr, num_iter=1, min_incr: float=None, max_incr: float=None):
-        """
+        r"""
         Initial method for LoadControl
 
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
         incr: float
-            Load factor increment :math:`\\lambda`.
+            Load factor increment :math:`\lambda`.
         num_iter: int, optional
             Number of iterations the user would like to occur in the solution algorithm. 
         min_incr: float (default=True), optional
-            Min stepsize the user will allow :math:`\\lambda_{min}`. 
+            Min stepsize the user will allow :math:`\lambda_{min}`. 
         max_incr: float (default=True), optional
-            Max stepsize the user will allow :math:`\\lambda_{max}`. 
+            Max stepsize the user will allow :math:`\lambda_{max}`. 
 
         Examples
         --------
@@ -71,7 +71,7 @@ class DisplacementControl(IntegratorBase):
     op_type = 'DisplacementControl'
 
     def __init__(self, osi, node, dof, incr, num_iter=1, d_umin: float=None, d_umax: float=None):
-        """
+        r"""
         Initial method for DisplacementControl
 
         Parameters
@@ -82,7 +82,7 @@ class DisplacementControl(IntegratorBase):
         dof: int
             Degree of freedom at the node, 1 through ndf.
         incr: float
-            First displacement increment :math:`\\delta u_{dof}`.
+            First displacement increment :math:`\delta u_{dof}`.
         num_iter: int, optional
             Number of iterations the user would like to occur in the solution algorithm. 
         d_umin: None (default=True), optional
@@ -129,7 +129,7 @@ class ParallelDisplacementControl(IntegratorBase):
     op_type = 'ParallelDisplacementControl'
 
     def __init__(self, osi, node, dof, incr, num_iter=1, d_umin: float=None, d_umax: float=None):
-        """
+        r"""
         Initial method for ParallelDisplacementControl
 
         Parameters
@@ -140,7 +140,7 @@ class ParallelDisplacementControl(IntegratorBase):
         dof: int
             Degree of freedom at the node, 1 through ndf.
         incr: float
-            First displacement increment :math:`\\delta u_{dof}`.
+            First displacement increment :math:`\delta u_{dof}`.
         num_iter: int, optional
             Number of iterations the user would like to occur in the solution algorithm. 
         d_umin: None (default=True), optional
@@ -245,7 +245,7 @@ class ArcLength(IntegratorBase):
     op_type = 'ArcLength'
 
     def __init__(self, osi, s, alpha):
-        """
+        r"""
         Initial method for ArcLength
 
         Parameters
@@ -270,7 +270,7 @@ class ArcLength(IntegratorBase):
 
 
 class CentralDifference(IntegratorBase):
-    """
+    r"""
     The CentralDifference Integrator Class
     
     Create a centralDifference integrator.#. The calculation of :math:`U_t + \Delta t`, is based on using the
@@ -308,7 +308,7 @@ class Newmark(IntegratorBase):
     op_type = 'Newmark'
 
     def __init__(self, osi, gamma, beta, form: str=None):
-        """
+        r"""
         Initial method for Newmark
 
         Parameters
@@ -349,7 +349,7 @@ class HHT(IntegratorBase):
     op_type = 'HHT'
 
     def __init__(self, osi, alpha, gamma: float=None, beta: float=None):
-        """
+        r"""
         Initial method for HHT
 
         Parameters
@@ -393,7 +393,7 @@ class HHT(IntegratorBase):
 
 
 class GeneralizedAlpha(IntegratorBase):
-    """
+    r"""
     The GeneralizedAlpha Integrator Class
     
     Create a GeneralizedAlpha integrator. This is an implicit method that like the HHT method allows for high frequency
@@ -403,7 +403,7 @@ class GeneralizedAlpha(IntegratorBase):
     op_type = 'GeneralizedAlpha'
 
     def __init__(self, osi, alpha_m, alpha_f, gamma: float=None, beta: float=None):
-        """
+        r"""
         Initial method for GeneralizedAlpha
 
         Parameters
@@ -481,7 +481,7 @@ class TRBDF2(IntegratorBase):
 
 
 class ExplicitDifference(IntegratorBase):
-    """
+    r"""
     The ExplicitDifference Integrator Class
     
     Create a ExplicitDifference integrator.#. When using Rayleigh damping, the damping ratio of high vibration modes is
