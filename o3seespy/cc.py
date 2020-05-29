@@ -8,6 +8,7 @@ DOF2D_X = 1
 DOF2D_Y = 2
 DOF2D_ROTZ = 3
 DOF2D_PP = 3  # pore pressure
+DOF3D_Z = 3
 
 P = 'P'
 M_Z = 'Mz'

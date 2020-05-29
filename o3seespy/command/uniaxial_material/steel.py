@@ -686,7 +686,7 @@ class SteelMPF(UniaxialMaterialBase):
     """
     op_type = 'SteelMPF'
 
-    def __init__(self, osi, fyp, fyn, e0, bp, bn, r0, c_r1, c_r2, a1=0.0, a2=1.0, a3=0.0, a4=1.0):
+    def __init__(self, osi, fyp, fyn, e0, bp, bn, params, a1=0.0, a2=1.0, a3=0.0, a4=1.0):
         """
         Initial method for SteelMPF
 
@@ -703,7 +703,7 @@ class SteelMPF(UniaxialMaterialBase):
             Strain hardening ratio in tension (positive loading direction)
         bn: float
             Strain hardening ratio in compression (negative loading direction)
-        r0: float
+        params: list
             Initial value of the curvature parameter r (r0 = 20 recommended)
         c_r1: float
             Curvature degradation parameter (a1 = 0.925 recommended)
@@ -732,9 +732,10 @@ class SteelMPF(UniaxialMaterialBase):
         self.e0 = float(e0)
         self.bp = float(bp)
         self.bn = float(bn)
-        self.r0 = float(r0)
-        self.c_r1 = float(c_r1)
-        self.c_r2 = float(c_r2)
+        self.params = params
+        # self.r0 = float(r0)
+        # self.c_r1 = float(c_r1)
+        # self.c_r2 = float(c_r2)
         self.a1 = float(a1)
         self.a2 = float(a2)
         self.a3 = float(a3)
@@ -742,7 +743,7 @@ class SteelMPF(UniaxialMaterialBase):
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.fyp, self.fyn, self.e0, self.bp, self.bn, self.r0, self.c_r1, self.c_r2, self.a1, self.a2, self.a3, self.a4]
+        self._parameters = [self.op_type, self._tag, self.fyp, self.fyn, self.e0, self.bp, self.bn, *self.params, self.a1, self.a2, self.a3, self.a4]
         if osi is None:
             self.built = 0
         if osi is not None:

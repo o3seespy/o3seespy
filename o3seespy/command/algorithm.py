@@ -27,3 +27,25 @@ class Newton(AlgorithmBase):
         self.initial_then_current = initial_then_current
         self._parameters = [self.op_type, self.secant, self.initial, self.initial_then_current]
         self.to_process(osi)
+
+
+class KrylovNewton(AlgorithmBase):
+    op_type = "KrylovNewton"
+
+    def __init__(self, osi, tang_inter='current', tang_incr='current', max_inter=3):
+        """
+
+        Parameters
+        ----------
+        osi
+        tang_inter: str
+            options are: 'current', 'initial', 'noTangent'
+        tang_incr
+        max_inter
+        """
+        self.osi = osi
+        self.tang_inter = tang_inter
+        self.tang_incr = tang_incr
+        self.max_inter = max_inter
+        self._parameters = [self.op_type, self.tang_inter, self.tang_incr, self.max_inter]
+        self.to_process(osi)
