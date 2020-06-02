@@ -8,18 +8,18 @@ class RecorderBase(OpenSeesObject):
     
     
 class RecorderToArrayCacheBase(RecorderBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
-    tmpfname = None
+    temp_ffp = None
     
     def collect(self, unlink=True):
         from numpy import loadtxt
         try:
-            a = loadtxt(self.tmpfname, dtype=float)
+            a = loadtxt(self.temp_ffp, dtype=float)
         except ValueError as e:
             print('Warning: Need to run opy.wipe() before collecting arrays')
             raise ValueError(e)
         if unlink:
             try:
-                os.unlink(self.tmpfname)
+                os.unlink(self.temp_ffp)
             except PermissionError:
                 print('Warning: Need to run opy.wipe() before collecting arrays')
         return a
@@ -102,7 +102,7 @@ class NodesToFile(RecorderBase):
 class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
 
-    def __init__(self, osi, node, dofs, res_type, nsd=8, dt=None):
+    def __init__(self, osi, node, dofs, res_type, nsd=8, dt=None, temp_ffp=None):
         """
         Records properties of a node and saves results to a numpy array
 
@@ -118,10 +118,15 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
             Number of significant figures
         dt: float
             Time step
+        temp_ffp: str
+            Full file path where data should be stored and loaded from
         """
         self.osi = osi
-        self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', node.tag]
+        if temp_ffp is None:
+            self.temp_ffp = tempfile.NamedTemporaryFile(delete=False).name
+        else:
+            self.temp_ffp = temp_ffp
+        self._parameters = [self.op_type, '-file', self.temp_ffp, '-precision', nsd, '-node', node.tag]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -156,10 +161,10 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
         else:
             node_tags = [x.tag for x in nodes]
         if temp_ffp is None:
-            self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+            self.temp_ffp = tempfile.NamedTemporaryFile(delete=False).name
         else:
-            self.tmpfname = temp_ffp
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
+            self.temp_ffp = temp_ffp
+        self._parameters = [self.op_type, '-file', self.temp_ffp, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
         if dt is not None:
             self._parameters.insert(5,'-dT')
             self._parameters.insert(6, dt)
@@ -169,7 +174,7 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
 class TimeToArrayCache(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, nsd=8, dt=None):
+    def __init__(self, osi, nsd=8, dt=None, temp_ffp=None):
         """
         Records the recorder time and saves to a numpy array
 
@@ -182,8 +187,11 @@ class TimeToArrayCache(RecorderBase):
             Time step
         """
         self.osi = osi
-        self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-time', '-node', 1]
+        if temp_ffp is None:
+            self.temp_ffp = tempfile.NamedTemporaryFile(delete=False).name
+        else:
+            self.temp_ffp = temp_ffp
+        self._parameters = [self.op_type, '-file', self.temp_ffp, '-precision', nsd, '-time', '-node', 1]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -193,13 +201,13 @@ class TimeToArrayCache(RecorderBase):
     def collect(self, unlink=True):
         from numpy import loadtxt
         try:
-            a = loadtxt(self.tmpfname, dtype=float)
+            a = loadtxt(self.temp_ffp, dtype=float)
         except ValueError as e:
             print('Warning: Need to run opy.wipe() before collecting arrays')
             raise ValueError(e)
         if unlink:
             try:
-                os.unlink(self.tmpfname)
+                os.unlink(self.temp_ffp)
             except PermissionError:
                 print('Warning: Need to run opy.wipe() before collecting arrays')
         return a[:, 0]
@@ -221,7 +229,7 @@ class TimeToFile(RecorderBase):
             Time step
         """
         self.osi = osi
-        self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+        self.temp_ffp = tempfile.NamedTemporaryFile(delete=False).name
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-time', '-node', 1]
         if dt is not None:
             self._parameters.insert(5, '-dT')
@@ -321,11 +329,11 @@ class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementT
         if material is not None:
             extra_pms += ['material', material]
         if fname is None:
-            self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+            self.temp_ffp = tempfile.NamedTemporaryFile(delete=False).name
         else:
-            self.tmpfname = fname
+            self.temp_ffp = fname
         self.ele = ele
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-ele', ele.tag, *extra_pms, *self.arg_vals]
+        self._parameters = [self.op_type, '-file', self.temp_ffp, '-precision', nsd, '-ele', ele.tag, *extra_pms, *self.arg_vals]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -343,12 +351,12 @@ class ElementsToArrayCache(RecorderToArrayCacheBase):
         if material is not None:
             extra_pms += ['material', material]
         if fname is None:
-            self.tmpfname = tempfile.NamedTemporaryFile(delete=False).name
+            self.temp_ffp = tempfile.NamedTemporaryFile(delete=False).name
         else:
-            self.tmpfname = fname
+            self.temp_ffp = fname
         self.ele_tags = [x.tag for x in eles]
 
-        self._parameters = [self.op_type, '-file', self.tmpfname, '-precision', nsd, '-ele', *self.ele_tags, *extra_pms, *arg_vals]
+        self._parameters = [self.op_type, '-file', self.temp_ffp, '-precision', nsd, '-ele', *self.ele_tags, *extra_pms, *arg_vals]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
