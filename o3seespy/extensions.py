@@ -17,6 +17,123 @@ def to_commands(op_base_type, parameters):
     p_str = ', '.join(para)
     return 'opy.%s(%s)' % (op_base_type, p_str)
 
+def _dep_get_fn_name_and_args(line):
+    import re
+    line = line.replace('.', 'stoppoint')
+    fn_match = re.match(r"(?P<function>\w+)\s?\((?P<arg>(?P<args>\w+(,\s?)?)+)\)", line)
+    fn_dict = fn_match.groupdict()
+    args = [arg.strip() for arg in fn_dict['arg'].split(',')]
+    args = [arg.replace('stoppoint', '.') for arg in args]
+    return fn_dict['function'], args
+
+
+def _get_fn_name_and_args(line):
+    import re
+    fn_name = line.split('(')[0]
+    args = re.search(r'\((.*?)\)', line).group(1)
+    args = args.replace(' ', '')
+    args = args.split(',')
+    # line = line.replace('.', 'stoppoint')
+    # fn_match = re.match(r"(?P<function>\w+)\s?\((?P<arg>(?P<args>\w+(,\s?)?)+)\)", line)
+    # fn_dict = fn_match.groupdict()
+    # args = [arg.strip() for arg in fn_dict['arg'].split(',')]
+    # args = [arg.replace('stoppoint', '.') for arg in args]
+    return fn_name, args
+
+
+def check_if_opy_lines_consistent(line1, line2, line3=None):
+    if line3 is None:
+        if line1 == line2:
+            return True
+        print(line1)
+        fn1, args1 = _get_fn_name_and_args(line1)
+        print(line2)
+        fn2, args2 = _get_fn_name_and_args(line2)
+        if fn1 == fn2 and len(args1) == len(args2):
+            for i in range(len(args1)):
+                if args1[i] == args2[i]:
+                    continue
+                elif isinstance(args1[i], str) or isinstance(args2, str):  # TODO: currently all str
+                    # consistent = 0  # since strings must be identical
+                    return False
+            return True
+        else:
+            return False
+    else:
+        if line1 == line2 and line1 == line3:
+            return True
+        fn1, args1 = _get_fn_name_and_args(line1)
+        fn2, args2 = _get_fn_name_and_args(line2)
+        fn3, args3 = _get_fn_name_and_args(line3)
+        if fn1 == fn2 and fn1 == fn3 and len(args1) == len(args2) and len(args1) == len(args3):
+            for i in range(len(args1)):
+                if args1[i] == args2[i] and args1[i] == args3[i]:
+                    continue
+                elif isinstance(args1[i], str) or isinstance(args2[i], str) or isinstance(args3[i], str):
+                    # consistent = 0  # since strings must be identical
+                    return False
+                else:
+                    val1 = float(args1[i])
+                    val2 = float(args2[i])
+                    val3 = float(args3[i])
+                    if val2 - val1 == val3 - val2:
+                        continue
+                    else:
+                        return False
+        else:
+            return False
+
+
+def compress_opy_lines(commands):
+    slines = 10  # search lines
+    latest_rep = 0
+    new_commands = []
+    for i, com in enumerate(commands[:-slines]):
+        if i <= latest_rep:
+            continue
+        new_commands.append(com)
+        print(com)
+        dup_detected = 0
+        for j in range(1, slines):
+            if dup_detected:
+                break
+            if check_if_opy_lines_consistent(com, commands[i + j]):
+                # check all lines in between are repeated
+                consistent = 1
+                for k in range(1, j):
+                    if not check_if_opy_lines_consistent(commands[i + k], commands[i + j + k]):
+                        consistent = 0
+                if consistent:
+                    nr = 1
+                    new_rep = i + nr * j
+                    while consistent:
+                        nr += 1
+                        new_rep = i + nr * j
+                        for k in range(j):
+                            if new_rep + k >= len(commands) - 1:
+                                consistent = 0
+                            elif commands[i + k] != commands[new_rep + k]:
+                                consistent = 0
+                    if nr > 3:
+                        dup_detected = 1
+                        print('FOUND major repetition: ', nr)
+                        latest_rep = new_rep
+                        new_commands.append(f'for i in range({nr}):')
+                        for k in range(j):
+                            new_commands.append('    ' + commands[i + k])
+
+    return new_commands
+
+
+def to_cpy_file(osi, ofile='ofile.py', w_analyze=False):
+    commands = compress_opy_lines(osi.commands)
+    ofile = open(ofile, 'w')
+    pstr = 'import openseespy.opensees as opy\n' + '\n'.join(commands)
+    if w_analyze:
+        pstr += '\nopy.analyze(1, 0.1)\n'
+    ofile.write(pstr)
+    ofile.close()
+
 
 def to_py_file(osi, ofile='ofile.py', w_analyze=False):
     ofile = open(ofile, 'w')
