@@ -17,14 +17,15 @@ def to_commands(op_base_type, parameters):
     p_str = ', '.join(para)
     return 'opy.%s(%s)' % (op_base_type, p_str)
 
-def _dep_get_fn_name_and_args(line):
-    import re
-    line = line.replace('.', 'stoppoint')
-    fn_match = re.match(r"(?P<function>\w+)\s?\((?P<arg>(?P<args>\w+(,\s?)?)+)\)", line)
-    fn_dict = fn_match.groupdict()
-    args = [arg.strip() for arg in fn_dict['arg'].split(',')]
-    args = [arg.replace('stoppoint', '.') for arg in args]
-    return fn_dict['function'], args
+#
+# def _dep_get_fn_name_and_args(line):
+#     import re
+#     line = line.replace('.', 'stoppoint')
+#     fn_match = re.match(r"(?P<function>\w+)\s?\((?P<arg>(?P<args>\w+(,\s?)?)+)\)", line)
+#     fn_dict = fn_match.groupdict()
+#     args = [arg.strip() for arg in fn_dict['arg'].split(',')]
+#     args = [arg.replace('stoppoint', '.') for arg in args]
+#     return fn_dict['function'], args
 
 
 def _get_fn_name_and_args(line):
@@ -33,11 +34,17 @@ def _get_fn_name_and_args(line):
     args = re.search(r'\((.*?)\)', line).group(1)
     args = args.replace(' ', '')
     args = args.split(',')
-    # line = line.replace('.', 'stoppoint')
-    # fn_match = re.match(r"(?P<function>\w+)\s?\((?P<arg>(?P<args>\w+(,\s?)?)+)\)", line)
-    # fn_dict = fn_match.groupdict()
-    # args = [arg.strip() for arg in fn_dict['arg'].split(',')]
-    # args = [arg.replace('stoppoint', '.') for arg in args]
+    for i in range(len(args)):
+        if '.' in args[i]:
+            args[i] = float(args[i])
+        elif "'" in args[i]:
+            args[i] = args[i][1:-1]
+        else:
+            try:
+                args[i] = int(args[i])
+            except ValueError:
+                pass
+
     return fn_name, args
 
 
@@ -45,15 +52,13 @@ def check_if_opy_lines_consistent(line1, line2, line3=None):
     if line3 is None:
         if line1 == line2:
             return True
-        print(line1)
         fn1, args1 = _get_fn_name_and_args(line1)
-        print(line2)
         fn2, args2 = _get_fn_name_and_args(line2)
         if fn1 == fn2 and len(args1) == len(args2):
             for i in range(len(args1)):
                 if args1[i] == args2[i]:
                     continue
-                elif isinstance(args1[i], str) or isinstance(args2, str):  # TODO: currently all str
+                elif isinstance(args1[i], str) or isinstance(args2, str):
                     # consistent = 0  # since strings must be identical
                     return False
             return True
@@ -92,7 +97,6 @@ def compress_opy_lines(commands):
         if i <= latest_rep:
             continue
         new_commands.append(com)
-        print(com)
         dup_detected = 0
         for j in range(1, slines):
             if dup_detected:
@@ -125,19 +129,13 @@ def compress_opy_lines(commands):
     return new_commands
 
 
-def to_cpy_file(osi, ofile='ofile.py', w_analyze=False):
-    commands = compress_opy_lines(osi.commands)
+def to_py_file(osi, ofile='ofile.py', compress=True, w_analyze=False):
+    if compress:
+        commands = compress_opy_lines(osi.commands)
+    else:
+        commands = osi.commands
     ofile = open(ofile, 'w')
     pstr = 'import openseespy.opensees as opy\n' + '\n'.join(commands)
-    if w_analyze:
-        pstr += '\nopy.analyze(1, 0.1)\n'
-    ofile.write(pstr)
-    ofile.close()
-
-
-def to_py_file(osi, ofile='ofile.py', w_analyze=False):
-    ofile = open(ofile, 'w')
-    pstr = 'import openseespy.opensees as opy\n' + '\n'.join(osi.commands)
     if w_analyze:
         pstr += '\nopy.analyze(1, 0.1)\n'
     ofile.write(pstr)

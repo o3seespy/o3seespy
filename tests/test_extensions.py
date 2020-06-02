@@ -1,11 +1,12 @@
 import eqsig
 import numpy as np
-
+import tempfile
 import o3seespy as o3
 from o3seespy import extensions
+import os
 
 
-def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=0.0):
+def get_inelastic_response(tmp_file, mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=0.0):
     osi = o3.OpenSeesInstance(ndm=2, state=3)
 
     # Establish nodes
@@ -74,7 +75,7 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
         o3.analyze(osi, 1, analysis_dt)
         curr_time = o3.get_time(osi)
     o3.wipe(osi)
-    o3.extensions.to_cpy_file(osi)
+    o3.extensions.to_py_file(osi, ofile=tmp_file, compress=True)
     return outputs
 
 
@@ -86,22 +87,25 @@ def test_can_compress_py_file():
     rec = 0.3 * np.sin(np.linspace(0, 2, 10))
 
     k_spring = 4 * np.pi ** 2
-    outputs = get_inelastic_response(mass, k_spring, f_yield, rec, dt=0.01, xi=0.05, r_post=r_post)
-
+    tmp_file = tempfile.NamedTemporaryFile(delete=False).name
+    outputs = get_inelastic_response(tmp_file, mass, k_spring, f_yield, rec, dt=0.01, xi=0.05, r_post=r_post)
+    ofile = open(tmp_file).read()
+    os.unlink(tmp_file)
+    assert len(ofile.splitlines()) == 32
+    assert 'for ' in ofile
 
 def test_get_fn_name_and_args():
-    line = 'node(0.0, 1.0)'
+    line = "node(0.0, 1.0, 2, 'water')"
     fn1, args = o3.extensions._get_fn_name_and_args(line)
     assert fn1 == 'node'
-    assert args[0] == '0.0'
-    assert args[1] == '1.0'
-
+    assert args[0] == 0.0
+    assert args[1] == 1.0
+    assert args[2] == 2
+    assert args[3] == "water"
 
 
 if __name__ == '__main__':
     # test_get_fn_name_and_args()
     test_can_compress_py_file()
-    # import re
-    # s = "node(0.0, 1.0, a, 'ret')"
-    # print(re.search(r'\((.*?)\)', s).group(1))
+
 
