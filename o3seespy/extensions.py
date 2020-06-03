@@ -108,6 +108,7 @@ def _build_logic_formula(line1, line2):
                 new_args[i] = f'{args1[i]} + {diff} * i'
     return f'{fn1}({", ".join(new_args)})'
 
+
 def compress_opy_lines(commands):
     slines = 10  # search lines
     latest_rep = -1
@@ -124,7 +125,7 @@ def compress_opy_lines(commands):
                 # check all lines in between are repeated
                 consistent = 1
                 for k in range(1, j):
-                    if i + j + k >= len(commands) - 1:
+                    if i + j + k >= len(commands):
                         consistent = 0
                         break
                     if not check_if_opy_lines_consistent(commands[i + k], commands[i + j + k]):
@@ -136,7 +137,7 @@ def compress_opy_lines(commands):
                         nr += 1
                         new_rep = i + nr * j
                         for k in range(j):
-                            if new_rep + k >= len(commands) - 1:
+                            if new_rep + k >= len(commands):
                                 consistent = 0
                             elif nr == 1:
                                 if not check_if_opy_lines_consistent(commands[i + k], commands[new_rep + k]):
