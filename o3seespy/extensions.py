@@ -89,6 +89,23 @@ def check_if_opy_lines_consistent(line1, line2, line3=None):
             return False
 
 
+def _build_logic_formula(line1, line2):
+    if line1 == line2:
+        return line1
+    fn1, args1 = _get_fn_name_and_args(line1)
+    fn2, args2 = _get_fn_name_and_args(line2)
+    new_args = list(args1)
+    for i in range(len(args1)):
+        if args1[i] == args2[i]:
+            new_args[i] = str(args1[i])
+        else:
+            diff = args2[i] - args1[i]
+            if diff < 0:
+                new_args[i] = f'{args1[i]} {diff} * i'
+            else:
+                new_args[i] = f'{args1[i]} + {diff} * i'
+    return f'{fn1}({", ".join(new_args)})'
+
 def compress_opy_lines(commands):
     slines = 10  # search lines
     latest_rep = 0
@@ -124,7 +141,8 @@ def compress_opy_lines(commands):
                         latest_rep = new_rep
                         new_commands.append(f'for i in range({nr}):')
                         for k in range(j):
-                            new_commands.append('    ' + commands[i + k])
+                            new_command = _build_logic_formula(commands[i + k], commands[i + k + j])
+                            new_commands.append('    ' + new_command)
 
     return new_commands
 

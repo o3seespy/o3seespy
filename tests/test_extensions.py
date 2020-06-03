@@ -94,6 +94,7 @@ def test_can_compress_py_file():
     assert len(ofile.splitlines()) == 32
     assert 'for ' in ofile
 
+
 def test_get_fn_name_and_args():
     line = "node(0.0, 1.0, 2, 'water')"
     fn1, args = o3.extensions._get_fn_name_and_args(line)
@@ -104,8 +105,19 @@ def test_get_fn_name_and_args():
     assert args[3] == "water"
 
 
+def test_build_logic_formula():
+    line1 = "node(0.0, 1.0, 2, 'water')"
+    line2 = "node(0.0, 2.0, 2, 'water')"
+    new_line = o3.extensions._build_logic_formula(line1, line2)
+    assert new_line == 'node(0.0, 1.0 + 1.0 * i, 2, water)'
+    line2 = "node(0.0, 0.0, 2, 'water')"
+    new_line = o3.extensions._build_logic_formula(line1, line2)
+    assert new_line == 'node(0.0, 1.0 -1.0 * i, 2, water)'
+
+
 if __name__ == '__main__':
     # test_get_fn_name_and_args()
-    test_can_compress_py_file()
+    # test_can_compress_py_file()
+    test_build_logic_formula()
 
 
