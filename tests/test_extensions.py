@@ -115,9 +115,20 @@ def test_build_logic_formula():
     assert new_line == 'node(0.0, 1.0 -1.0 * i, 2, water)'
 
 
+def test_compress_opy_lines():
+    commands = ['opy.nodeCoord(1)',
+                'opy.nodeCoord(2)',
+                'opy.nodeCoord(3)',
+                'opy.nodeCoord(4)',
+                'opy.nodeCoord(5)',
+                'opy.nodeCoord(6)']
+    new_commands = o3.extensions.compress_opy_lines(commands)
+    print(new_commands)
+
 if __name__ == '__main__':
     # test_get_fn_name_and_args()
     # test_can_compress_py_file()
-    test_build_logic_formula()
+    # test_build_logic_formula()
+    test_compress_opy_lines()
 
 

@@ -35,10 +35,11 @@ def _get_fn_name_and_args(line):
     args = args.replace(' ', '')
     args = args.split(',')
     for i in range(len(args)):
-        if '.' in args[i]:
-            args[i] = float(args[i])
-        elif "'" in args[i]:
+
+        if "'" in args[i] or '"' in args[i]:
             args[i] = args[i][1:-1]
+        elif '.' in args[i]:
+            args[i] = float(args[i])
         else:
             try:
                 args[i] = int(args[i])
@@ -85,6 +86,7 @@ def check_if_opy_lines_consistent(line1, line2, line3=None):
                         continue
                     else:
                         return False
+            return True
         else:
             return False
 
@@ -108,24 +110,27 @@ def _build_logic_formula(line1, line2):
 
 def compress_opy_lines(commands):
     slines = 10  # search lines
-    latest_rep = 0
+    latest_rep = -1
     new_commands = []
-    for i, com in enumerate(commands[:-slines]):
+    for i, com in enumerate(commands):
         if i <= latest_rep:
             continue
         new_commands.append(com)
         dup_detected = 0
         for j in range(1, slines):
-            if dup_detected:
+            if dup_detected or i + j >= len(commands) - 1:
                 break
             if check_if_opy_lines_consistent(com, commands[i + j]):
                 # check all lines in between are repeated
                 consistent = 1
                 for k in range(1, j):
+                    if i + j + k >= len(commands) - 1:
+                        consistent = 0
+                        break
                     if not check_if_opy_lines_consistent(commands[i + k], commands[i + j + k]):
                         consistent = 0
                 if consistent:
-                    nr = 1
+                    nr = 0
                     new_rep = i + nr * j
                     while consistent:
                         nr += 1
@@ -133,13 +138,21 @@ def compress_opy_lines(commands):
                         for k in range(j):
                             if new_rep + k >= len(commands) - 1:
                                 consistent = 0
-                            elif commands[i + k] != commands[new_rep + k]:
-                                consistent = 0
+                            elif nr == 1:
+                                if not check_if_opy_lines_consistent(commands[i + k], commands[new_rep + k]):
+                                    consistent = 0
+                                    break
+                            else:
+                                if not check_if_opy_lines_consistent(commands[i + (nr - 2) * j + k],
+                                                                     commands[i + (nr - 1) * j + k],
+                                                                     commands[i + nr * j + k]
+                                                                     ):
+                                    consistent = 0
                     if nr > 3:
                         dup_detected = 1
                         print('FOUND major repetition: ', nr)
                         latest_rep = new_rep
-                        new_commands.append(f'for i in range({nr}):')
+                        new_commands[-1] = f'for i in range({nr}):'  # replace
                         for k in range(j):
                             new_command = _build_logic_formula(commands[i + k], commands[i + k + j])
                             new_commands.append('    ' + new_command)
