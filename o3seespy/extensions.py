@@ -37,7 +37,8 @@ def _get_fn_name_and_args(line):
     for i in range(len(args)):
 
         if "'" in args[i] or '"' in args[i]:
-            args[i] = args[i][1:-1]
+            pass
+        #     args[i] = args[i][1:-1]
         elif '.' in args[i]:
             args[i] = float(args[i])
         else:
