@@ -6,12 +6,12 @@ class NDMaterialBase(OpenSeesObject):
     op_type = None
     built = 1
 
-    def set_parameter(self, osi, pstr, value, ele, eles):
+    def set_parameter(self, osi, pstr, value, ele, eles, pval=1):
         from o3seespy import set_parameter
         if ele is not None:
-            set_parameter(osi, value=value, eles=[ele], args=[pstr, 1])
+            set_parameter(osi, value=value, eles=[ele], args=[pstr, pval])
         if eles is not None:
-            set_parameter(osi, value=value, eles=eles, args=[pstr, 1])
+            set_parameter(osi, value=value, eles=eles, args=[pstr, pval])
 
     def build(self, osi):
         self.osi = osi

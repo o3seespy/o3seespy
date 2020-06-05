@@ -129,9 +129,9 @@ class PM4Sand(NDMaterialBase):
         update_material_stage(osi, self, stage=1)
         # opw.set_parameter(osi, value=0, eles=[ele], args=['FirstCall', 1])
 
-    def update_to_nonlinear(self, osi):
+    def update_to_nonlinear(self):
         from o3seespy import update_material_stage
-        update_material_stage(osi, self, 1)
+        update_material_stage(self.osi, self, 1)
 
     def set_nu(self, nu, ele=None, eles=None):
         from o3seespy import set_parameter
@@ -148,7 +148,7 @@ class PM4Sand(NDMaterialBase):
             set_parameter(self.osi, value=value, eles=eles, args=['materialState', 1])
 
     def set_first_call(self, value, ele=None, eles=None):
-        self.set_parameter(self.osi, 'FirstCall', value, ele, eles)
+        self.set_parameter(self.osi, pstr='FirstCall', pval=self.tag, value=value, ele=ele, eles=eles)
 
 
 

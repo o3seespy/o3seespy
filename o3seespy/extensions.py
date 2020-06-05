@@ -115,7 +115,7 @@ def compress_opy_lines(commands):
     latest_rep = -1
     new_commands = []
     for i, com in enumerate(commands):
-        if i <= latest_rep:
+        if i < latest_rep:
             continue
         new_commands.append(com)
         dup_detected = 0
@@ -152,7 +152,6 @@ def compress_opy_lines(commands):
                                     consistent = 0
                     if nr > 3:
                         dup_detected = 1
-                        print('FOUND major repetition: ', nr)
                         latest_rep = new_rep
                         new_commands[-1] = f'for i in range({nr}):'  # replace
                         for k in range(j):

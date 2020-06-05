@@ -104,9 +104,9 @@ class PressureIndependMultiYield(NDMaterialBase):
         if osi is not None:
             self.to_process(osi)
 
-    def update_to_nonlinear(self, osi):
+    def update_to_nonlinear(self):
         from o3seespy import update_material_stage
-        update_material_stage(osi, self, 1)
+        update_material_stage(self.osi, self, 1)
 
     def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
@@ -253,9 +253,9 @@ class PressureDependMultiYield(NDMaterialBase):
         if osi is not None:
             self.to_process(osi)
 
-    def update_to_nonlinear(self, osi):
+    def update_to_nonlinear(self):
         from o3seespy import update_material_stage
-        update_material_stage(osi, self, 1)
+        update_material_stage(self.osi, self, 1)
 
     def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
@@ -412,9 +412,9 @@ class PressureDependMultiYield02(NDMaterialBase):
         if osi is not None:
             self.to_process(osi)
 
-    def update_to_nonlinear(self, osi):
+    def update_to_nonlinear(self):
         from o3seespy import update_material_stage
-        update_material_stage(osi, self, 1)
+        update_material_stage(self.osi, self, 1)
 
     def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:

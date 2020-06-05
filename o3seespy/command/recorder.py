@@ -195,7 +195,7 @@ class TimeToArrayCache(RecorderBase):
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
-        self._parameters += ['-dof', 0, 'accel']
+        self._parameters += ['-dof', 1, 'accel']
         self.to_process(osi)
 
     def collect(self, unlink=True):
