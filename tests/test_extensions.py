@@ -91,7 +91,7 @@ def test_can_compress_py_file():
     outputs = get_inelastic_response(tmp_file, mass, k_spring, f_yield, rec, dt=0.01, xi=0.05, r_post=r_post)
     ofile = open(tmp_file).read()
     os.unlink(tmp_file)
-    assert len(ofile.splitlines()) == 32
+    assert len(ofile.splitlines()) == 34
     assert 'for ' in ofile
 
 
@@ -102,17 +102,17 @@ def test_get_fn_name_and_args():
     assert args[0] == 0.0
     assert args[1] == 1.0
     assert args[2] == 2
-    assert args[3] == "water"
+    assert args[3] == "'water'"
 
 
 def test_build_logic_formula():
     line1 = "node(0.0, 1.0, 2, 'water')"
     line2 = "node(0.0, 2.0, 2, 'water')"
     new_line = o3.extensions._build_logic_formula(line1, line2)
-    assert new_line == 'node(0.0, 1.0 + 1.0 * i, 2, water)'
+    assert new_line == "node(0.0, 1.0 + 1.0 * i, 2, 'water')"
     line2 = "node(0.0, 0.0, 2, 'water')"
     new_line = o3.extensions._build_logic_formula(line1, line2)
-    assert new_line == 'node(0.0, 1.0 -1.0 * i, 2, water)'
+    assert new_line == "node(0.0, 1.0 -1.0 * i, 2, 'water')"
 
 
 def test_compress_opy_lines():

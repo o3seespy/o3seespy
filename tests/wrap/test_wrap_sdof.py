@@ -129,7 +129,7 @@ def test_sdof():
     diff_acc = abs(np.sum(acc_opensees_elastic - resp_a[0]))
     assert diff_disp < 1.0e-4
     assert diff_acc < 5.0e-4
-    assert np.isclose(disp_inelastic_final, 0.0186556)
+    assert np.isclose(disp_inelastic_final, 0.018651987846)
 
 
 if __name__ == '__main__':

@@ -57,7 +57,7 @@ def test_ramberg_osgood_steel():
 
 def test_steel_mpf():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.uniaxial_material.SteelMPF(osi, fyp=1.0, fyn=1.0, e0=1.0, bp=1.0, bn=1.0, r0=1.0, c_r1=1.0, c_r2=1.0, a1=0.0, a2=1.0, a3=0.0, a4=1.0)
+    o3.uniaxial_material.SteelMPF(osi, fyp=1.0, fyn=1.0, e0=1.0, bp=1.0, bn=1.0, params=[1.0, 1.0, 1.0], a1=0.0, a2=1.0, a3=0.0, a4=1.0)
 
 
 def test_steel01thermal():
