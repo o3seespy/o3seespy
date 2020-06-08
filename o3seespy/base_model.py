@@ -83,6 +83,18 @@ class OpenSeesObject(object):
         return outputs
 
 
+class OpenSeesMultiCallObject(OpenSeesObject):
+    _multi_parameters = None
+
+    @property
+    def parameters(self):
+        return self._multi_parameters[-1]
+
+    @property
+    def multi_parameters(self):
+        return self._multi_parameters
+
+
 def collect_serial_value(value):
     if isinstance(value, str):
         return value

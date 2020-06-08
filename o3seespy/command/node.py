@@ -79,3 +79,33 @@ class Node(OpenSeesObject):
         if self.acc is not None:
             self._parameters += ["-accel", self.acc]
         self.to_process(osi)
+
+
+def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
+    # axis-2 = x  # unless x or y are singlar
+    # axis-1 = y
+    # axis-1 = z
+    if not hasattr(zs, '__len__'):
+        zs = [zs]
+    sn = []
+    for xx in range(len(xs)):
+        sn.append([])
+        for yy in range(len(ys)):
+
+            if len(zs) == 1:
+                if active is None or active[xx][yy]:
+                    sn[xx].append(Node(osi, xs[xx], ys[yy], zs[0]))
+                else:
+                    sn[xx].append(None)
+            else:
+                sn[xx].append([])
+                for zz in range(len(zs)):
+                    # Establish left and right nodes
+                    if active is None or active[xx][yy][zz]:
+                        sn[xx][yy].append(Node(osi, xs[xx], ys[yy], zs[zz]))
+                    else:
+                        sn[xx][yy].append(None)
+    # if len(zs) == 1:
+    #     return sn[0]
+    return sn
+

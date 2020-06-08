@@ -1,4 +1,4 @@
-from o3seespy.base_model import OpenSeesObject
+from o3seespy.base_model import OpenSeesObject, OpenSeesMultiCallObject
 from o3seespy.opensees_instance import OpenSeesInstance
 
 
@@ -47,12 +47,51 @@ class EqualDOF(OpenSeesObject):
     op_base_type = "equalDOF"
     op_type = None
 
-    def __init__(self, osi, node_1, node_2, dofs):
-        self.node_1 = node_1
-        self.node_2 = node_2
+    def __init__(self, osi, m_node, s_node, dofs):
+        """
+        Construct a constraint where the s_node has the same movement as the m_node
+
+        :param osi:
+        :param m_node: OpenSeesObject.node.Node() or list of
+            Master node
+        :param s_node: OpenSeesObject.node.Node() or list of
+            Slave node
+        :param dofs:
+        """
+        self.m_node = m_node
+        self.s_node = s_node
         self.dofs = dofs
-        self._parameters = [self.node_1.tag, self.node_2.tag, *self.dofs]
+        self._parameters = [self.m_node.tag, self.s_node.tag, *self.dofs]
         self.to_process(osi)
+
+
+class EqualDOFMulti(OpenSeesMultiCallObject):
+    op_base_type = "equalDOF"
+    op_type = None
+
+    def __init__(self, osi, m_node, s_nodes, dofs):
+        """
+        Construct a constraint where the s_node has the same movement as the m_node
+
+        :param osi:
+        :param m_node: OpenSeesObject.node.Node() or list of
+            Master node
+        :param s_nodes: list of OpenSeesObject.node.Node()
+            Slave node
+        :param dofs:
+        """
+        self.m_node = m_node
+        self.s_nodes = s_nodes
+        self.dofs = dofs
+        s_nodes = self.s_nodes
+        if hasattr(m_node, '__len__'):
+            m_nodes = self.m_node
+        else:
+            m_nodes = [self.m_node for i in range(len(self.s_nodes))]
+        self._multi_parameters = []
+        for i in range(len(s_nodes)):
+            self._multi_parameters.append([m_nodes[i].tag, self.s_nodes[i].tag, *self.dofs])
+            self.to_process(osi)
 
 
 def set_rigid_diaphragm(osi, r_node, cnodes, perp_dir):
@@ -68,7 +107,7 @@ def set_rigid_link(osi, r_node, c_node, rtype):
 
     Parameters
     ----------
-    r_node: Node
+    r_node: OpenSeesObject.node.Node()
         Master node
     c_node: Node
         Slave node
@@ -105,6 +144,29 @@ class Fix1DOF(OpenSeesObject):
         self.to_process(osi)
 
 
+class Fix1DOFMulti(OpenSeesMultiCallObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, nodes, x):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        nodes: list of OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        """
+        self.nodes = nodes
+        self.x = x
+        self._multi_parameters = []
+        for node in self.nodes:
+            self._multi_parameters.append([node.tag, self.x])
+            self.to_process(osi)
+
+
 class Fix2DOF(OpenSeesObject):
     op_base_type = "fix"
     op_type = None
@@ -128,6 +190,32 @@ class Fix2DOF(OpenSeesObject):
         self._parameters = [self.node.tag, self.x, self.y]
         self.to_process(osi)
 
+
+class Fix2DOFMulti(OpenSeesMultiCallObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, nodes, x, y):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        nodes: list of OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        y: int
+            Fixity in y-direction
+        """
+        self.nodes = nodes
+        self.x = x
+        self.y = y
+        self._multi_parameters = []
+        for node in self.nodes:
+            self._multi_parameters.append([node.tag, self.x, self.y])
+            self.to_process(osi)
+        
 
 class Fix3DOF(OpenSeesObject):
     op_base_type = "fix"
@@ -154,6 +242,35 @@ class Fix3DOF(OpenSeesObject):
         self.z_rot = z_rot
         self._parameters = [self.node.tag, self.x, self.y, self.z_rot]
         self.to_process(osi)
+
+
+class Fix3DOFMulti(OpenSeesMultiCallObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, nodes, x, y, z_rot):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        nodes: list of OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        y: int
+            Fixity in y-direction
+        z_rot: int
+            Fixity in rotation about z-axis
+        """
+        self.nodes = nodes
+        self.x = x
+        self.y = y
+        self.z_rot = z_rot
+        self._multi_parameters = []
+        for node in self.nodes:
+            self._multi_parameters.append([node.tag, self.x, self.y, self.z_rot])
+            self.to_process(osi)
 
 
 class Fix6DOF(OpenSeesObject):
@@ -188,8 +305,46 @@ class Fix6DOF(OpenSeesObject):
         self.x_rot = x_rot
         self.y_rot = y_rot
         self.z_rot = z_rot
-        self._parameters = [self.node.tag, self.x, self.y, self.z, self.x_rot, self. y_rot, self.z_rot]
+        self._parameters = [self.node.tag, self.x, self.y, self.z, self.x_rot, self.y_rot, self.z_rot]
         self.to_process(osi)
+
+
+class Fix6DOFMulti(OpenSeesMultiCallObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, nodes, x, y, z, x_rot, y_rot, z_rot):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        nodes: list of OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        y: int
+            Fixity in y-direction
+        z: int
+            Fixity in z-direction
+        x_rot: int
+            Fixity in rotation about x-axis
+        y_rot: int
+            Fixity in rotation about y-axis
+        z_rot: int
+            Fixity in rotation about z-axis
+        """
+        self.nodes = nodes
+        self.x = x
+        self.y = y
+        self.z = z
+        self.x_rot = x_rot
+        self.y_rot = y_rot
+        self.z_rot = z_rot
+        self._multi_parameters = []
+        for node in self.nodes:
+            self._multi_parameters.append([node.tag, self.x, self.y, self.z, self.x_rot, self. y_rot, self.z_rot])
+            self.to_process(osi)
 
 
 class Fix(OpenSeesObject):
@@ -282,17 +437,6 @@ def analyze(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None):
         parameters = [int(num_inc), float(dt), dt_min, dt_max, jd]
     # opy.analyze(*parameters)
     return osi.to_process(op_type, parameters)
-    # if osi.state in [1, 3]:
-    #     para = []
-    #     for i, e in enumerate(parameters):
-    #         if isinstance(e, str):
-    #             e = "'%s'" % e
-    #         para.append(str(e))
-    #         if i > 40:  # avoid verbose print output
-    #             break
-    #     p_str = ', '.join(para)
-    #     osi.to_process('opy.analyze(%s)' % p_str)
-    # return 0
 
 
 def get_node_disp(osi, node, dof):
