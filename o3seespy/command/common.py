@@ -1,6 +1,7 @@
 from o3seespy.base_model import OpenSeesObject, OpenSeesMultiCallObject
 from o3seespy.opensees_instance import OpenSeesInstance
-
+# from o3seespy.cc import
+from o3seespy.exceptions import ModelError
 
 def set_node_mass(osi, node, x_mass, y_mass, rot_mass):
     op_type = 'mass'
@@ -192,6 +193,57 @@ class Fix2DOF(OpenSeesObject):
 
 
 class Fix2DOFMulti(OpenSeesMultiCallObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, nodes, x, y):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        nodes: list of OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        y: int
+            Fixity in y-direction
+        """
+        self.nodes = nodes
+        self.x = x
+        self.y = y
+        self._multi_parameters = []
+        for node in self.nodes:
+            self._multi_parameters.append([node.tag, self.x, self.y])
+            self.to_process(osi)
+
+
+def add_fixity_to_dof(osi, dof, nodes):
+    if osi.ndf == 1:
+        fn = Fix1DOF
+        arr = [1]
+    elif osi.ndf == 2:
+        fn = Fix2DOF
+        arr = [0, 0]
+    elif osi.ndf == 3:
+        fn = Fix3DOF
+        arr = [0, 0, 0]
+    elif osi.ndf == 6:
+        fn = Fix6DOF
+        arr = [0, 0, 0, 0, 0, 0]
+    else:
+        raise ModelError("'create_fixities_for_dof' only supports ndf=1,2,3,6")
+    arr[dof - 1] = 1
+    for node in nodes:
+        try:
+            fn(osi, node, *arr)
+        except ValueError:
+            if osi.state == 3:
+                osi.commands = osi.commands[:-1]
+            pass
+
+
+class Fix2DOaFMulti(OpenSeesMultiCallObject):
     op_base_type = "fix"
     op_type = None
 

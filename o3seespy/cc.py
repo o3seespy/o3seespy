@@ -23,3 +23,6 @@ TORSION = 'T'
 PLANE_STRAIN = "PlaneStrain"
 PLANE_STRESS = "PlaneStress"
 
+# DOFD = {1: ['X'],
+#         2: ['X', 'Y'],
+#         3: ['X', 'ROTZ']}
