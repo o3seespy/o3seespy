@@ -704,11 +704,8 @@ class SteelMPF(UniaxialMaterialBase):
         bn: float
             Strain hardening ratio in compression (negative loading direction)
         params: list
-            Initial value of the curvature parameter r (r0 = 20 recommended)
-        c_r1: float
-            Curvature degradation parameter (a1 = 0.925 recommended)
-        c_r2: float
-            Curvature degradation parameter (a2 = 0.15 or 0.0015 recommended)
+            Parameters to control the transition from elastic to plastic branches. ``params=[r0,cr1,cr2]``. recommended
+            values: ``r0=20``, ``cr1=0.925``, ``cr2=0.15`` or ``cr2=0.0015``
         a1: float, optional
             Isotropic hardening in compression parameter (optional, default = 0.0). shifts compression yield envelope by
             a proportion of compressive yield strength after a maximum plastic tensile strain of a2(fyp/e0)
@@ -724,7 +721,7 @@ class SteelMPF(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.uniaxial_material.SteelMPF(osi, fyp=1.0, fyn=1.0, e0=1.0, bp=1.0, bn=1.0, r0=1.0, c_r1=1.0, c_r2=1.0, a1=0.0, a2=1.0, a3=0.0, a4=1.0)
+        >>> o3.uniaxial_material.SteelMPF(osi, fyp=1.0, fyn=1.0, e0=1.0, bp=1.0, bn=1.0, params=[1.0, 1.0, 1.0], a1=0.0, a2=1.0, a3=0.0, a4=1.0)
         """
         self.osi = osi
         self.fyp = float(fyp)
@@ -733,9 +730,6 @@ class SteelMPF(UniaxialMaterialBase):
         self.bp = float(bp)
         self.bn = float(bn)
         self.params = params
-        # self.r0 = float(r0)
-        # self.c_r1 = float(c_r1)
-        # self.c_r2 = float(c_r2)
         self.a1 = float(a1)
         self.a2 = float(a2)
         self.a3 = float(a3)

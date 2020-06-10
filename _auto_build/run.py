@@ -629,7 +629,7 @@ def check_if_default_is_expression(defo):
         return True
 
 
-suffixes = ['', 'Args', 'Tag', 'Tags', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag', 's']
+suffixes = ['', 'Args', 'Tag', 'Tags', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag', 's', 'Points']
 
 
 def clean_fn_line(line, has_tag=True):
@@ -1360,6 +1360,7 @@ if __name__ == '__main__':
         # pstr, tstr, istr = parse_single_file(ffp, osi_type='mat', expected_base_type='patch', multi_def=True)
         # print(pstr, tstr, istr)
     if all:
+        parse_generic_single_file(obj_type='frictionModel', osi_type='ele')
         parse_generic_single_file(obj_type='pattern', osi_type='pat')
         parse_generic_single_file(obj_type='timeSeries', osi_type='tseries')
         parse_generic_single_file(obj_type='constraints', osi_type=None)
