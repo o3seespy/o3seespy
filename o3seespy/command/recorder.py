@@ -113,7 +113,7 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
         dofs: list
             A list of integers representing the degrees-of-freedom
         res_type: str
-            Response type
+            Response type: `disp`, 'vel', 'accel', 'incrDisp', 'reaction', 'eigin i', 'rayleighForces'
         nsd: int
             Number of significant figures
         dt: float

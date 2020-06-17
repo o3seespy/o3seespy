@@ -37,7 +37,7 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
     # Fix bottom node
     o3.Fix3DOF(osi, top_node, o3.cc.FREE, o3.cc.FIXED, o3.cc.FIXED)
     o3.Fix3DOF(osi, bot_node, o3.cc.FIXED, o3.cc.FIXED, o3.cc.FIXED)
-    # Set out-of-plane DOFs to be slaved
+    # Set out-of-plane DOFs to be constrained
     o3.EqualDOF(osi, top_node, bot_node, [o3.cc.Y, o3.cc.ROTZ])
 
     # nodal mass (weight / g):

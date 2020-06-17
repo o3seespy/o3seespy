@@ -11,7 +11,7 @@ class SimpleContact2D(ElementBase):
     """
     op_type = 'SimpleContact2D'
 
-    def __init__(self, osi, i_node, j_node, s_node, l_node, mat, g_tol, f_tol):
+    def __init__(self, osi, i_node, j_node, c_node, l_node, mat, g_tol, f_tol):
         """
         Initial method for SimpleContact2D
 
@@ -19,11 +19,11 @@ class SimpleContact2D(ElementBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         i_node: obj
-            Master nodes (-ndm 2 -ndf 2)
+            Retained nodes (-ndm 2 -ndf 2)
         j_node: obj
-            Master nodes (-ndm 2 -ndf 2)
-        s_node: int
-            Slave node (-ndm 2 -ndf 2)
+            Retained nodes (-ndm 2 -ndf 2)
+        c_node: int
+            Constrained node (-ndm 2 -ndf 2)
         l_node: int
             Lagrange multiplier node (-ndm 2 -ndf 2)
         mat: obj
@@ -41,19 +41,19 @@ class SimpleContact2D(ElementBase):
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
-        >>> o3.element.SimpleContact2D(osi, i_node=i_node, j_node=j_node, s_node=1, l_node=1, mat=mat, g_tol=1.0, f_tol=1.0)
+        >>> o3.element.SimpleContact2D(osi, i_node=i_node, j_node=j_node, c_node=1, l_node=1, mat=mat, g_tol=1.0, f_tol=1.0)
         """
         self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
-        self.s_node = int(s_node)
+        self.c_node = int(c_node)
         self.l_node = int(l_node)
         self.mat = mat
         self.g_tol = float(g_tol)
         self.f_tol = float(f_tol)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.s_node, self.l_node, self.mat.tag, self.g_tol, self.f_tol]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.c_node, self.l_node, self.mat.tag, self.g_tol, self.f_tol]
         self.to_process(osi)
 
 
@@ -67,7 +67,7 @@ class SimpleContact3D(ElementBase):
     """
     op_type = 'SimpleContact3D'
 
-    def __init__(self, osi, i_node, j_node, k_node, l_node, s_node, lagr_node, mat, g_tol, f_tol):
+    def __init__(self, osi, i_node, j_node, k_node, l_node, c_node, lagr_node, mat, g_tol, f_tol):
         """
         Initial method for SimpleContact3D
 
@@ -75,15 +75,15 @@ class SimpleContact3D(ElementBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         i_node: obj
-            Master nodes (-ndm 3 -ndf 3)
+            Retained nodes (-ndm 3 -ndf 3)
         j_node: obj
-            Master nodes (-ndm 3 -ndf 3)
+            Retained nodes (-ndm 3 -ndf 3)
         k_node: int
-            Master nodes (-ndm 3 -ndf 3)
+            Retained nodes (-ndm 3 -ndf 3)
         l_node: int
-            Master nodes (-ndm 3 -ndf 3)
-        s_node: int
-            Slave node (-ndm 3 -ndf 3)
+            Retained nodes (-ndm 3 -ndf 3)
+        c_node: int
+            Constrained node (-ndm 3 -ndf 3)
         lagr_node: int
             Lagrange multiplier node (-ndm 3 -ndf 3)
         mat: obj
@@ -101,21 +101,21 @@ class SimpleContact3D(ElementBase):
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
-        >>> o3.element.SimpleContact3D(osi, i_node=i_node, j_node=j_node, k_node=1, l_node=1, s_node=1, lagr_node=1, mat=mat, g_tol=1.0, f_tol=1.0)
+        >>> o3.element.SimpleContact3D(osi, i_node=i_node, j_node=j_node, k_node=1, l_node=1, c_node=1, lagr_node=1, mat=mat, g_tol=1.0, f_tol=1.0)
         """
         self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
         self.k_node = int(k_node)
         self.l_node = int(l_node)
-        self.s_node = int(s_node)
+        self.c_node = int(c_node)
         self.lagr_node = int(lagr_node)
         self.mat = mat
         self.g_tol = float(g_tol)
         self.f_tol = float(f_tol)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.k_node, self.l_node, self.s_node, self.lagr_node, self.mat.tag, self.g_tol, self.f_tol]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.k_node, self.l_node, self.c_node, self.lagr_node, self.mat.tag, self.g_tol, self.f_tol]
         self.to_process(osi)
 
 
@@ -129,7 +129,7 @@ class BeamContact2D(ElementBase):
     """
     op_type = 'BeamContact2D'
 
-    def __init__(self, osi, i_node, j_node, s_node, l_node, mat, width, g_tol, f_tol, c_flag):
+    def __init__(self, osi, i_node, j_node, c_node, l_node, mat, width, g_tol, f_tol, c_flag):
         """
         Initial method for BeamContact2D
 
@@ -137,11 +137,11 @@ class BeamContact2D(ElementBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         i_node: obj
-            Master nodes (-ndm 2 -ndf 3)
+            Retained nodes (-ndm 2 -ndf 3)
         j_node: obj
-            Master nodes (-ndm 2 -ndf 3)
-        s_node: int
-            Slave node (-ndm 2 -ndf 2)
+            Retained nodes (-ndm 2 -ndf 3)
+        c_node: int
+            Constrained node (-ndm 2 -ndf 2)
         l_node: int
             Lagrange multiplier node (-ndm 2 -ndf 2)
         mat: obj
@@ -163,12 +163,12 @@ class BeamContact2D(ElementBase):
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
-        >>> o3.element.BeamContact2D(osi, i_node=i_node, j_node=j_node, s_node=1, l_node=1, mat=mat, width=1.0, g_tol=1.0, f_tol=1.0, c_flag=1)
+        >>> o3.element.BeamContact2D(osi, i_node=i_node, j_node=j_node, c_node=1, l_node=1, mat=mat, width=1.0, g_tol=1.0, f_tol=1.0, c_flag=1)
         """
         self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
-        self.s_node = int(s_node)
+        self.c_node = int(c_node)
         self.l_node = int(l_node)
         self.mat = mat
         self.width = float(width)
@@ -177,7 +177,7 @@ class BeamContact2D(ElementBase):
         self.c_flag = int(c_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.s_node, self.l_node, self.mat.tag, self.width, self.g_tol, self.f_tol, self.c_flag]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.c_node, self.l_node, self.mat.tag, self.width, self.g_tol, self.f_tol, self.c_flag]
         self.to_process(osi)
 
 
@@ -191,7 +191,7 @@ class BeamContact3D(ElementBase):
     """
     op_type = 'BeamContact3D'
 
-    def __init__(self, osi, i_node, j_node, s_node, l_node, radius, crd_transf, mat, g_tol, f_tol, c_flag):
+    def __init__(self, osi, i_node, j_node, c_node, l_node, radius, crd_transf, mat, g_tol, f_tol, c_flag):
         """
         Initial method for BeamContact3D
 
@@ -199,11 +199,11 @@ class BeamContact3D(ElementBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         i_node: obj
-            Master nodes (-ndm 3 -ndf 6)
+            Retained nodes (-ndm 3 -ndf 6)
         j_node: obj
-            Master nodes (-ndm 3 -ndf 6)
-        s_node: int
-            Slave node (-ndm 3 -ndf 3)
+            Retained nodes (-ndm 3 -ndf 6)
+        c_node: int
+            Constrained node (-ndm 3 -ndf 3)
         l_node: int
             Lagrange multiplier node (-ndm 3 -ndf 3)
         radius: float
@@ -227,12 +227,12 @@ class BeamContact3D(ElementBase):
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
-        >>> o3.element.BeamContact3D(osi, i_node=i_node, j_node=j_node, s_node=1, l_node=1, radius=1.0, crd_transf=1, mat=mat, g_tol=1.0, f_tol=1.0, c_flag=1)
+        >>> o3.element.BeamContact3D(osi, i_node=i_node, j_node=j_node, c_node=1, l_node=1, radius=1.0, crd_transf=1, mat=mat, g_tol=1.0, f_tol=1.0, c_flag=1)
         """
         self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
-        self.s_node = int(s_node)
+        self.c_node = int(c_node)
         self.l_node = int(l_node)
         self.radius = float(radius)
         self.crd_transf = int(crd_transf)
@@ -242,7 +242,7 @@ class BeamContact3D(ElementBase):
         self.c_flag = int(c_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.s_node, self.l_node, self.radius, self.crd_transf, self.mat.tag, self.g_tol, self.f_tol, self.c_flag]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.c_node, self.l_node, self.radius, self.crd_transf, self.mat.tag, self.g_tol, self.f_tol, self.c_flag]
         self.to_process(osi)
 
 
@@ -256,7 +256,7 @@ class BeamEndContact3D(ElementBase):
     """
     op_type = 'BeamEndContact3D'
 
-    def __init__(self, osi, i_node, j_node, s_node, l_node, radius, g_tol, f_tol, c_flag):
+    def __init__(self, osi, i_node, j_node, c_node, l_node, radius, g_tol, f_tol, c_flag):
         """
         Initial method for BeamEndContact3D
 
@@ -264,11 +264,11 @@ class BeamEndContact3D(ElementBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         i_node: obj
-            Master node from the beam (-ndm 3 -ndf 6)
+            Retained node from the beam (-ndm 3 -ndf 6)
         j_node: obj
             The remaining node on the beam element with ``inode`` (-ndm 3 -ndf 6)
-        s_node: int
-            Slave node (-ndm 3 -ndf 3)
+        c_node: int
+            Constrained node (-ndm 3 -ndf 3)
         l_node: int
             Lagrange multiplier node (-ndm 3 -ndf 3)
         radius: float
@@ -287,12 +287,12 @@ class BeamEndContact3D(ElementBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> i_node = o3.node.Node(osi, 0.0, 0.0)
         >>> j_node = o3.node.Node(osi, 0.0, 1.0)
-        >>> o3.element.BeamEndContact3D(osi, i_node=i_node, j_node=j_node, s_node=1, l_node=1, radius=1.0, g_tol=1.0, f_tol=1.0, c_flag=1.0)
+        >>> o3.element.BeamEndContact3D(osi, i_node=i_node, j_node=j_node, c_node=1, l_node=1, radius=1.0, g_tol=1.0, f_tol=1.0, c_flag=1.0)
         """
         self.osi = osi
         self.i_node = i_node
         self.j_node = j_node
-        self.s_node = int(s_node)
+        self.c_node = int(c_node)
         self.l_node = int(l_node)
         self.radius = float(radius)
         self.g_tol = float(g_tol)
@@ -300,5 +300,5 @@ class BeamEndContact3D(ElementBase):
         self.c_flag = float(c_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.s_node, self.l_node, self.radius, self.g_tol, self.f_tol, self.c_flag]
+        self._parameters = [self.op_type, self._tag, self.i_node.tag, self.j_node.tag, self.c_node, self.l_node, self.radius, self.g_tol, self.f_tol, self.c_flag]
         self.to_process(osi)

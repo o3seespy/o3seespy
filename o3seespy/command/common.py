@@ -48,21 +48,22 @@ class EqualDOF(OpenSeesObject):
     op_base_type = "equalDOF"
     op_type = None
 
-    def __init__(self, osi, m_node, s_node, dofs):
+    def __init__(self, osi, r_node, c_node, dofs):
         """
-        Construct a constraint where the s_node has the same movement as the m_node
+        Construct a constraint where the constrained node `c_node`
+         has the same movement as the retained node `r_node`
 
         :param osi:
-        :param m_node: OpenSeesObject.node.Node() or list of
-            Master node
-        :param s_node: OpenSeesObject.node.Node() or list of
-            Slave node
+        :param r_node: OpenSeesObject.node.Node() or list of
+            Retained node
+        :param c_node: OpenSeesObject.node.Node() or list of
+            Constrained node
         :param dofs:
         """
-        self.m_node = m_node
-        self.s_node = s_node
+        self.r_node = r_node
+        self.c_node = c_node
         self.dofs = dofs
-        self._parameters = [self.m_node.tag, self.s_node.tag, *self.dofs]
+        self._parameters = [self.r_node.tag, self.c_node.tag, *self.dofs]
         self.to_process(osi)
 
 
@@ -70,28 +71,27 @@ class EqualDOFMulti(OpenSeesMultiCallObject):
     op_base_type = "equalDOF"
     op_type = None
 
-    def __init__(self, osi, m_node, s_nodes, dofs):
+    def __init__(self, osi, r_node, c_nodes, dofs):
         """
-        Construct a constraint where the s_node has the same movement as the m_node
+        Construct a constraint where the c_node has the same movement as the r_node
 
         :param osi:
-        :param m_node: OpenSeesObject.node.Node() or list of
-            Master node
-        :param s_nodes: list of OpenSeesObject.node.Node()
-            Slave node
+        :param r_node: OpenSeesObject.node.Node() or list of
+            Retained node
+        :param c_nodes: list of OpenSeesObject.node.Node()
+            Constrained node
         :param dofs:
         """
-        self.m_node = m_node
-        self.s_nodes = s_nodes
+        self.r_node = r_node
+        self.c_nodes = c_nodes
         self.dofs = dofs
-        s_nodes = self.s_nodes
-        if hasattr(m_node, '__len__'):
-            m_nodes = self.m_node
+        if hasattr(r_node, '__len__'):
+            r_nodes = self.r_node
         else:
-            m_nodes = [self.m_node for i in range(len(self.s_nodes))]
+            r_nodes = [self.r_node for i in range(len(self.c_nodes))]
         self._multi_parameters = []
-        for i in range(len(s_nodes)):
-            self._multi_parameters.append([m_nodes[i].tag, self.s_nodes[i].tag, *self.dofs])
+        for i in range(len(c_nodes)):
+            self._multi_parameters.append([r_nodes[i].tag, self.c_nodes[i].tag, *self.dofs])
             self.to_process(osi)
 
 
@@ -109,9 +109,9 @@ def set_rigid_link(osi, r_node, c_node, rtype):
     Parameters
     ----------
     r_node: OpenSeesObject.node.Node()
-        Master node
+        Retained node
     c_node: Node
-        Slave node
+        Constrained node
     rtype: str
         Either 'bar' or 'beam'
 
