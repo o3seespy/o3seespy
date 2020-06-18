@@ -629,7 +629,7 @@ def check_if_default_is_expression(defo):
         return True
 
 
-suffixes = ['', 'Args', 'Tag', 'Tags', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag', 's', 'Points']
+suffixes = ['', 'Args', 'Tag', 'Tags', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag', 's', 'Points', 'Code', 'PerLength']
 
 
 def clean_fn_line(line, has_tag=True):
@@ -911,6 +911,8 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
             if len(line):
                 line = ' ' + line
             for pm in cur_res:
+                if len(pm) > 4 and "'-" == pm[0:2]:
+                    pm = pm[2:-1]
                 descriptions[pm] += line
         elif len(line) > 7 and '   :noi' in line[:7]:
             # if len(line) > 7 and '   :ref' in line[:7]:
@@ -1233,6 +1235,7 @@ def parse_all_elements():
 
             # open(up.OPY_DOCS_PATH + '%s.rst' % ele)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % ele
+            print(ele)
             pstr, tstr, istr = parse_single_file(ffp, osi_type='ele')
             if istr not in ipara and istr != '':
                 ipara.append(istr)
@@ -1350,7 +1353,8 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
+        # parse_generic_single_file(obj_type='elastomericBearingPlasticity', osi_type='ele')
+        parse_single_file(up.OPY_DOCS_PATH + 'elastomericBearingPlasticity.rst', osi_type='ele')
         # pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
         # print(pstr)
         # test_clean_fn_line()

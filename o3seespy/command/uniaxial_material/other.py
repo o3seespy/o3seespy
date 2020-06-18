@@ -1927,21 +1927,21 @@ class AxialSpHD(UniaxialMaterialBase):
         sce: float
             Compressive modulus
         fty: float
-            Yield stress under tension (   ``fty``) and compression (   ``fcy``) (see note 1)
+            Yield stress under tension (``fty``) and compression (``fcy``) (see note 1)
         fcy: float
-            Yield stress under tension (   ``fty``) and compression (   ``fcy``) (see note 1)
+            Yield stress under tension (``fty``) and compression (``fcy``) (see note 1)
         bte: float
-            Reduction rate for tensile elastic range (   ``bte``), tensile yielding (   ``bty``), tensile hardening (  
-            ``bth``) and compressive yielding (   ``bcy``) (see note 1)
+            Reduction rate for tensile elastic range (``bte``), tensile yielding (``bty``), tensile hardening (  
+            ``bth``) and compressive yielding (``bcy``) (see note 1)
         bty: float
-            Reduction rate for tensile elastic range (   ``bte``), tensile yielding (   ``bty``), tensile hardening (  
-            ``bth``) and compressive yielding (   ``bcy``) (see note 1)
+            Reduction rate for tensile elastic range (``bte``), tensile yielding (``bty``), tensile hardening (  
+            ``bth``) and compressive yielding (``bcy``) (see note 1)
         bth: float
-            Reduction rate for tensile elastic range (   ``bte``), tensile yielding (   ``bty``), tensile hardening (  
-            ``bth``) and compressive yielding (   ``bcy``) (see note 1)
+            Reduction rate for tensile elastic range (``bte``), tensile yielding (``bty``), tensile hardening (  
+            ``bth``) and compressive yielding (``bcy``) (see note 1)
         bcy: float
-            Reduction rate for tensile elastic range (   ``bte``), tensile yielding (   ``bty``), tensile hardening (  
-            ``bth``) and compressive yielding (   ``bcy``) (see note 1)
+            Reduction rate for tensile elastic range (``bte``), tensile yielding (``bty``), tensile hardening (  
+            ``bth``) and compressive yielding (``bcy``) (see note 1)
         fcr: float
             Target point stress (see note 1)
         ath: float

@@ -533,11 +533,10 @@ class HingeRadau(BeamIntegrationBase):
     """
     The HingeRadau BeamIntegration Class
     
-    Create a HingeRadau beamIntegration object.Two-point Gauss-Radau integration over each hinge region places an
-    integration point atthe element ends and at 2/3 the hinge length inside the element. This approach
-    representslinear curvature distributions exactly; however, the characteristic length for
-    softening plastic hinges is not equal to the assumed palstic hinge length.Arguments and
-    examples see `HingeMidPoint-BeamIntegration`.
+    Create a HingeRadau beamIntegration object.Modified two-point Gauss-Radau integration over each hinge region places
+    an integration point atthe element ends and at 8/3 the hinge length inside the element. This approach representslinear
+    curvature distributions exactly and the characteristic length for softening plastic hinges is equal to the assumed
+    palstic hinge length.Arguments and examples see `HingeMidPoint-BeamIntegration`.
     """
     op_type = 'HingeRadau'
 
@@ -584,11 +583,11 @@ class HingeRadauTwo(BeamIntegrationBase):
     """
     The HingeRadauTwo BeamIntegration Class
     
-    Create a HingeRadauTwo beamIntegration object.Modified two-point Gauss-Radau integration over each hinge region
-    places an integrationpoint at the element ends and at 8/3 the hinge length inside the element. This
-    approachrepresents linear curvature distributions exactly and the characteristic length for
-    softeningplastic hinges is equal to the assumed plastic hinge length.Arguments and
-    examples see `HingeMidPoint-BeamIntegration`.
+    Create a HingeRadauTwo beamIntegration object.Two-point Gauss-Radau integration over each hinge region places an
+    integrationpoint at the element ends and at 2/3 the hinge length inside the element. This approachrepresents linear
+    curvature distributions exactly; however, the characteristic length for softeningplastic hinges is not equal to
+    the assumed plastic hinge length (equals 1/4 of the plastic hinge length).Arguments and examples see
+    `HingeMidPoint-BeamIntegration`.
     """
     op_type = 'HingeRadauTwo'
 

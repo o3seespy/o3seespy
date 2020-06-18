@@ -424,3 +424,129 @@ class PressureDependMultiYield02(NDMaterialBase):
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
             self.set_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
 
+
+
+class PressureDependMultiYield03(NDMaterialBase):
+    """
+    The PressureDependMultiYield03 NDMaterial Class
+    
+    The reference for PressureDependMultiYield03 material: Khosravifar, A., Elgamal, A., Lu, J., and Li, J. [2018]. "A
+    3D model for earthquake-induced liquefaction triggering and post-liquefaction response." Soil Dynamics and Earthquake
+    Engineering, 110, 43-52)PressureDependMultiYield03 is modified from PressureDependMultiYield02 material to comply
+    with the established guidelines on the dependence of liquefaction triggering to the number of loading cycles,
+    effective overburden stress (Kσ), and static shear stress (Kα).The explanations of parametersSee `notes
+    <http://opensees.berkeley.edu/wiki/index.php/PressureDependMultiYield02_Material>`_
+    """
+    op_type = 'PressureDependMultiYield03'
+
+    def __init__(self, osi, nd, rho, ref_shear_modul, ref_bulk_modul, friction_ang, peak_shear_stra, ref_press, press_depend_coe, pt_ang, ca, cb, cc, cd, ce, da, db, dc, no_yield_surf=20.0, yield_surf: float=None, liquefac1=1, liquefac2=0., pa=101, s0=1.73):
+        """
+        Initial method for PressureDependMultiYield03
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        nd: None
+            
+        rho: None
+            
+        ref_shear_modul: None
+            
+        ref_bulk_modul: None
+            
+        friction_ang: None
+            
+        peak_shear_stra: None
+            
+        ref_press: None
+            
+        press_depend_coe: None
+            
+        pt_ang: None
+            
+        ca: None
+            
+        cb: None
+            
+        cc: None
+            
+        cd: None
+            
+        ce: None
+            
+        da: None
+            
+        db: None
+            
+        dc: None
+            
+        no_yield_surf: None, optional
+            
+        yield_surf: None (default=True), optional
+            
+        liquefac1: None, optional
+            
+        liquefac2: None, optional
+            
+        pa: None, optional
+            
+        s0: None, optional
+            
+        """
+        self.osi = osi
+        self.nd = nd
+        self.rho = rho
+        self.ref_shear_modul = ref_shear_modul
+        self.ref_bulk_modul = ref_bulk_modul
+        self.friction_ang = friction_ang
+        self.peak_shear_stra = peak_shear_stra
+        self.ref_press = ref_press
+        self.press_depend_coe = press_depend_coe
+        self.pt_ang = pt_ang
+        self.ca = ca
+        self.cb = cb
+        self.cc = cc
+        self.cd = cd
+        self.ce = ce
+        self.da = da
+        self.db = db
+        self.dc = dc
+        self.no_yield_surf = no_yield_surf
+        self.yield_surf = yield_surf
+        self.liquefac1 = liquefac1
+        self.liquefac2 = liquefac2
+        self.pa = pa
+        self.s0 = s0
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.nd, self.rho, self.ref_shear_modul, self.ref_bulk_modul, self.friction_ang, self.peak_shear_stra, self.ref_press, self.press_depend_coe, self.pt_ang, self.ca, self.cb, self.cc, self.cd, self.ce, self.da, self.db, self.dc, self.no_yield_surf]
+        special_pms = ['yield_surf', 'liquefac1', 'liquefac2', 'pa', 's0']
+        packets = [True, False, False, False, False]
+        for i, pm in enumerate(special_pms):
+            if getattr(self, pm) is not None:
+                if packets[i]:
+                    self._parameters += [*getattr(self, pm)]
+                else:
+                    self._parameters += [getattr(self, pm)]
+            else:
+                break
+        if osi is None:
+            self.built = 0
+        if osi is not None:
+            self.to_process(osi)
+
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
+
+    def set_g_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'shearModulus', value, ele, eles)
+
+    def set_bulk_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'bulkModulus', value, ele, eles)
+
+    def set_friction_angle(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
+
+    def set_cohesion(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'shearModulus', value, ele, eles)

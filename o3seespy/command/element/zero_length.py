@@ -231,7 +231,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         ele_nodes: list
-            A list of a slave and a master nodes
+            A list of a constrained and a retained nodes
         kn: float
             Penalty in normal direction
         kt: float
@@ -281,7 +281,7 @@ class ZeroLengthContact3D(ElementBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         ele_nodes: list
-            A list of a slave and a master nodes
+            A list of a constrained and a retained nodes
         kn: float
             Penalty in normal direction
         kt: float
@@ -468,9 +468,9 @@ class ZeroLengthImpact3D(ElementBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         ele_nodes: list
-            A list of a slave and a master nodes * ``1`` if out-normal vector of master plane points to +x direction *
-            ``2`` if out-normal vector of master plane points to +y direction * ``3`` if out-normal vector of master plane points
-            to +z direction
+            A list of a constrained and a retained nodes * ``1`` if out-normal vector of master plane points to +x
+            direction * ``2`` if out-normal vector of master plane points to +y direction * ``3`` if out-normal vector of
+            master plane points to +z direction
         direction: None
             
         init_gap: float

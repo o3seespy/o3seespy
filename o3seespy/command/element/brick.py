@@ -101,19 +101,19 @@ class BbarBrick(ElementBase):
         self.to_process(osi)
 
 
-class Brick20N(ElementBase):
+class N20NodeBrick(ElementBase):
     """
-    The Brick20N Element Class
+    The N20NodeBrick Element Class
     
     The element is used to construct a twenty-node three dimensional element object
 
     
     """
-    op_type = 'Brick20N'
+    op_type = '20NodeBrick'
 
     def __init__(self, osi, ele_nodes, mat, bf1, bf2, bf3, mass_den):
         """
-        Initial method for Brick20N
+        Initial method for N20NodeBrick
 
         Parameters
         ----------
@@ -130,16 +130,6 @@ class Brick20N(ElementBase):
             Body force in the direction of global coordinates x, y and z
         mass_den: float
             Mass density (mass/volume)
-
-        Examples
-        --------
-        >>> import o3seespy as o3
-        >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=3)
-        >>> coords = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]]
-        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
-        >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
-        >>> o3.element.Brick20N(osi, ele_nodes=ele_nodes, mat=mat, bf1=1.0, bf2=1.0, bf3=1.0, mass_den=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]

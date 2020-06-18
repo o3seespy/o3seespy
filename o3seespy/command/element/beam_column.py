@@ -12,7 +12,7 @@ class ElasticBeamColumn2D(ElementBase):
     """
     op_type = 'elasticBeamColumn'
 
-    def __init__(self, osi, ele_nodes, area, e_mod, iz, transf, mass=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, area, e_mod, iz, transf, mass: float=None, c_mass=False, release_code=None):
         """
         Initial method for ElasticBeamColumn2D
 
@@ -29,10 +29,12 @@ class ElasticBeamColumn2D(ElementBase):
             Second moment of area about the local z-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        mass: None, optional
-            
+        mass: float, optional
+            Element mass per unit length (optional, default = 0.0)
         c_mass: bool
             To form consistent mass matrix (optional, default = lumped mass matrix)
+        release_code: None, optional
+            
 
         Examples
         --------
@@ -49,8 +51,12 @@ class ElasticBeamColumn2D(ElementBase):
         self.e_mod = float(e_mod)
         self.iz = float(iz)
         self.transf = transf
-        self.mass = mass
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         self.c_mass = c_mass
+        self.release_code = release_code
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.area, self.e_mod, self.iz, self.transf.tag]
@@ -58,6 +64,8 @@ class ElasticBeamColumn2D(ElementBase):
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
+        if getattr(self, 'release_code') is not None:
+            self._parameters += ['-release', self.release_code]
         self.to_process(osi)
 
 
@@ -72,7 +80,7 @@ class ElasticBeamColumn3D(ElementBase):
     """
     op_type = 'elasticBeamColumn'
 
-    def __init__(self, osi, ele_nodes, area, e_mod, g_mod, jxx, iy, iz, transf, mass=None, c_mass=False):
+    def __init__(self, osi, ele_nodes, area, e_mod, g_mod, jxx, iy, iz, transf, mass: float=None, c_mass=False):
         """
         Initial method for ElasticBeamColumn3D
 
@@ -95,8 +103,8 @@ class ElasticBeamColumn3D(ElementBase):
             Second moment of area about the local z-axis
         transf: obj
             Identifier for previously-defined coordinate-transformation (crdtransf) object
-        mass: None, optional
-            
+        mass: float, optional
+            Element mass per unit length (optional, default = 0.0)
         c_mass: bool
             To form consistent mass matrix (optional, default = lumped mass matrix)
 
@@ -118,7 +126,10 @@ class ElasticBeamColumn3D(ElementBase):
         self.iy = float(iy)
         self.iz = float(iz)
         self.transf = transf
-        self.mass = mass
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
         self.c_mass = c_mass
         osi.n_ele += 1
         self._tag = osi.n_ele
@@ -356,7 +367,7 @@ class DispBeamColumn(ElementBase):
     """
     The DispBeamColumn Element Class
     
-    Create a ForceBeamColumn element.
+    Create a dispBeamColumn element.
     """
     op_type = 'dispBeamColumn'
 

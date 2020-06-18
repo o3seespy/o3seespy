@@ -206,17 +206,17 @@ class J2Plasticity(NDMaterialBase):
         self.set_parameter(self.osi, 'rho', value, ele, eles)
 
 
-class DrukerPrager(NDMaterialBase):
+class DruckerPrager(NDMaterialBase):
     """
-    The DrukerPrager NDMaterial Class
+    The DruckerPrager NDMaterial Class
     
     This command is used to construct an multi dimensional material object that has a Drucker-Prager yield criterium.
     """
-    op_type = 'DrukerPrager'
+    op_type = 'DruckerPrager'
 
     def __init__(self, osi, k_mod, g_mod, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, atm_pressure=101e3):
         r"""
-        Initial method for DrukerPrager
+        Initial method for DruckerPrager
 
         Parameters
         ----------
@@ -251,9 +251,8 @@ class DrukerPrager(NDMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.nd_material.DrukerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, atm_pressure=101e3)
+        >>> o3.nd_material.DruckerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, atm_pressure=101e3)
         """
         self.osi = osi
         self.k_mod = float(k_mod)
@@ -277,6 +276,27 @@ class DrukerPrager(NDMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
+    def set_material_state(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'materialState', value, ele, eles)
+
+    def set_frictional_strength(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'frictionalStrength', value, ele, eles)
+
+    def set_nonassociative_term(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'nonassociativeTerm', value, ele, eles)
+
+    def set_cohesive_intercept(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'cohesiveIntercept', value, ele, eles)
+
+    def set_g_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'shearModulus', value, ele, eles)
+
+    def set_bulk_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'bulkModulus', value, ele, eles)
+
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
 
 
 class Damage2p(NDMaterialBase):
