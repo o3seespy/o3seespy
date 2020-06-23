@@ -4,7 +4,7 @@ uniaxialMaterial,TzLiq1,combine
 element,elasticBeamColumn,2Dand3D
 element,ElasticTimoshenkoBeam,2Dand3D
 element,elastomericBearingPlasticity,2Dand3D
-element,elastomericBearingBoucWen,2Dand3D
+element,ElastomericBearingBoucWen,2Dand3D
 element,flatSliderBearing,2Dand3D
 element,singleFPBearing,2Dand3D
 element,RJWatsonEqsBearing,2Dand3D

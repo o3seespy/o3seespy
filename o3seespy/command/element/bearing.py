@@ -236,7 +236,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
 
     For a two-dimensional problem
     """
-    op_type = 'elastomericBearingBoucWen'
+    op_type = 'ElastomericBearingBoucWen'
 
     def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals: list=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
         """
@@ -348,7 +348,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
 
     For a three-dimensional problem
     """
-    op_type = 'elastomericBearingBoucWen'
+    op_type = 'ElastomericBearingBoucWen'
 
     def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, orient_vals: list=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
         """
@@ -397,15 +397,18 @@ class ElastomericBearingBoucWen3D(ElementBase):
         --------
         >>> import o3seespy as o3
         >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0]]
+        >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+        >>> coords = [[0, 0, 0], [0, 1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> orient_vals = [1, 1]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.ElastomericBearingBoucWen3D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0, mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat, orient_vals=orient_vals, shear_dist=1.0, do_rayleigh="string", mass=1.0)
+        >>> o3.element.ElastomericBearingBoucWen3D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0,
+        >>>                                        mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, t_mat=t_mat,
+        >>>                                        my_mat=my_mat, mz_mat=mz_mat, orient_vals=orient_vals,
+        >>>                                        shear_dist=1.0, do_rayleigh=False, mass=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -514,13 +517,14 @@ class FlatSliderBearing2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.FlatSliderBearing2D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=[0.0, 0.0], mass=1.0, shear_dist=1.0)
+        >>> frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> o3.element.FlatSliderBearing2D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, k_init=1.0, p_mat=p_mat, mz_mat=mz_mat,
+        >>>                                do_rayleigh=False, max_iter=1, tol=1.0, orient=None, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -636,14 +640,17 @@ class FlatSliderBearing3D(ElementBase):
         --------
         >>> import o3seespy as o3
         >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0]]
+        >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+        >>> coords = [[0, 0, 0], [0, 1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.FlatSliderBearing3D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat, do_rayleigh="string", max_iter=1, tol=1.0, orient=[0.0, 0.0], mass=1.0, shear_dist=1.0)
+        >>> frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> o3.element.FlatSliderBearing3D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, k_init=1.0, p_mat=p_mat, t_mat=t_mat,
+        >>>                                my_mat=my_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=None, tol=None,
+        >>>                                orient=None, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -756,13 +763,15 @@ class SingleFPBearing2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.SingleFPBearing2D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', reff=1.0, k_init=1.0, p_mat=p_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=[0.0, 0.0], mass=1.0, shear_dist=1.0)
+        >>> frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> o3.element.SingleFPBearing2D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, reff=1.0, k_init=1.0, p_mat=p_mat,
+        >>>                              mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=None,
+        >>>                              mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -878,14 +887,17 @@ class SingleFPBearing3D(ElementBase):
         --------
         >>> import o3seespy as o3
         >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0]]
+        >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+        >>> coords = [[0, 0, 0], [0, 1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.SingleFPBearing3D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', reff=1.0, k_init=1.0, p_mat=p_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=[0.0, 0.0], mass=1.0, shear_dist=1.0)
+        >>> frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> o3.element.SingleFPBearing3D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, reff=1.0, k_init=1.0, p_mat=p_mat, t_mat=t_mat,
+        >>>                              my_mat=my_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=None, tol=None,
+        >>>                              orient=None, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -945,7 +957,7 @@ class SingleFPBearing3D(ElementBase):
 class TFP(ElementBase):
     """
     The TFP Element Class
-    
+
     This command is used to construct a Triple Friction Pendulum Bearing element object, which is defined by two nodes.
     The element can have zero length or the appropriate bearing height. The bearing has unidirectional (2D) or coupled
     (3D) friction properties (with post-yield stiffening due to the concave sliding surface) for the shear
@@ -959,11 +971,12 @@ class TFP(ElementBase):
     geometry unless the optional x-axis vector is specified in
     which case the nodal geometry is ignored and the user-defined orientation is utilized.
 
-    
+
     """
     op_type = 'TFP'
 
-    def __init__(self, osi, ele_nodes, r1, r2, r3, r4, db1, db2, db3, db4, d1, d2, d3, d4, mu1, mu2, mu3, mu4, h1, h2, h3, h4, h0, col_load, big_k):
+    def __init__(self, osi, ele_nodes, r1, r2, r3, r4, db1, db2, db3, db4, d1, d2, d3, d4, mu1, mu2, mu3, mu4, h1, h2,
+                 h3, h4, h0, col_load, big_k=None):
         """
         Initial method for TFP
 
@@ -1022,13 +1035,16 @@ class TFP(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
-        >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.TFP(osi, ele_nodes=ele_nodes, r1=1.0, r2=1.0, r3=1.0, r4=1.0, db1=1.0, db2=1.0, db3=1.0, db4=1.0, d1=1.0, d2=1.0, d3=1.0, d4=1.0, mu1=1.0, mu2=1.0, mu3=1.0, mu4=1.0, h1=1.0, h2=1.0, h3=1.0, h4=1.0, h0=1.0, col_load=1.0, big_k=1.0)
+        >>> o3.element.TFP(osi, ele_nodes=ele_nodes,
+        >>>                r1=1.0, r2=1.0, r3=1.0, r4=1.0,
+        >>>                db1=1.0, db2=1.0, db3=1.0, db4=1.0,
+        >>>                d1=1.0, d2=1.0, d3=1.0, d4=1.0,
+        >>>                mu1=0.3, mu2=0.4, mu3=0.5, mu4=0.5,
+        >>>                h1=1.0, h2=1.0, h3=1.0, h4=1.0,
+        >>>                h0=1.0, col_load=1.0, big_k=None)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1054,11 +1070,19 @@ class TFP(ElementBase):
         self.h4 = float(h4)
         self.h0 = float(h0)
         self.col_load = float(col_load)
-        self.big_k = float(big_k)
+        if big_k is not None:
+            self.big_k = float(big_k)
+        else:
+            self.big_k = None
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.r1, self.r2, self.r3, self.r4, self.db1, self.db2, self.db3, self.db4, self.d1, self.d2, self.d3, self.d4, self.mu1, self.mu2, self.mu3, self.mu4, self.h1, self.h2, self.h3, self.h4, self.h0, self.col_load, self.big_k]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.r1, self.r2, self.r3, self.r4, self.db1,
+                            self.db2, self.db3, self.db4, self.d1, self.d2, self.d3, self.d4, self.mu1, self.mu2,
+                            self.mu3, self.mu4, self.h1, self.h2, self.h3, self.h4, self.h0, self.col_load]
+        if getattr(self, 'big_k') is not None:
+            self._parameters += [self.big_k]
         self.to_process(osi)
+
 
 
 class TripleFrictionPendulum(ElementBase):
@@ -1069,7 +1093,7 @@ class TripleFrictionPendulum(ElementBase):
     """
     op_type = 'TripleFrictionPendulum'
 
-    def __init__(self, osi, ele_nodes, frn_tag1, frn_tag2, frn_tag3, vert_mat, rot_z_mat, rot_x_mat, rot_y_mat, l1, l2, l3, d1, d2, d3, big_w, uy, kvt, min_fv, tol):
+    def __init__(self, osi, ele_nodes, frn1, frn2, frn3, vert_mat, rot_z_mat, rot_x_mat, rot_y_mat, l1, l2, l3, d1, d2, d3, big_w, uy, kvt, min_fv, tol):
         """
         Initial method for TripleFrictionPendulum
 
@@ -1078,11 +1102,11 @@ class TripleFrictionPendulum(ElementBase):
         osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
-        frn_tag1: int
+        frn1: obj
             = objects associated with previously-defined frictionmodels at the three sliding interfaces
-        frn_tag2: int
+        frn2: obj
             = objects associated with previously-defined frictionmodels at the three sliding interfaces
-        frn_tag3: int
+        frn3: obj
             = objects associated with previously-defined frictionmodels at the three sliding interfaces
         vert_mat: obj
             = pre-defined material object for compression behavior of the bearing
@@ -1126,17 +1150,22 @@ class TripleFrictionPendulum(ElementBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> frn2 = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> frn3 = o3.friction_model.Coulomb(osi, mu=1.0)
         >>> vert_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> rot_z_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> rot_x_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> rot_y_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.TripleFrictionPendulum(osi, ele_nodes=ele_nodes, frn_tag1=1, frn_tag2=1, frn_tag3=1, vert_mat=vert_mat, rot_z_mat=rot_z_mat, rot_x_mat=rot_x_mat, rot_y_mat=rot_y_mat, l1=1.0, l2=1.0, l3=1.0, d1=1.0, d2=1.0, d3=1.0, big_w=1.0, uy=1.0, kvt=1.0, min_fv=1, tol=1.0)
+        >>> o3.element.TripleFrictionPendulum(osi, ele_nodes=ele_nodes, frn1=frn1, frn2=frn2, frn3=frn3, vert_mat=vert_mat,
+        >>>                                   rot_z_mat=rot_z_mat, rot_x_mat=rot_x_mat, rot_y_mat=rot_y_mat, l1=1.0, l2=1.0,
+        >>>                                   l3=1.0, d1=1.0, d2=1.0, d3=1.0, big_w=1.0, uy=1.0, kvt=1.0, min_fv=None, tol=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
-        self.frn_tag1 = int(frn_tag1)
-        self.frn_tag2 = int(frn_tag2)
-        self.frn_tag3 = int(frn_tag3)
+        self.frn1 = frn1
+        self.frn2 = frn2
+        self.frn3 = frn3
         self.vert_mat = vert_mat
         self.rot_z_mat = rot_z_mat
         self.rot_x_mat = rot_x_mat
@@ -1154,7 +1183,7 @@ class TripleFrictionPendulum(ElementBase):
         self.tol = float(tol)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_tag1, self.frn_tag2, self.frn_tag3, self.vert_mat.tag, self.rot_z_mat.tag, self.rot_x_mat.tag, self.rot_y_mat.tag, self.l1, self.l2, self.l3, self.d1, self.d2, self.d3, self.big_w, self.uy, self.kvt, self.min_fv, self.tol]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn1.tag, self.frn2.tag, self.frn3.tag, self.vert_mat.tag, self.rot_z_mat.tag, self.rot_x_mat.tag, self.rot_y_mat.tag, self.l1, self.l2, self.l3, self.d1, self.d2, self.d3, self.big_w, self.uy, self.kvt, self.min_fv, self.tol]
         self.to_process(osi)
 
 
@@ -1193,12 +1222,11 @@ class MultipleShearSpring(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0]]
+        >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+        >>> coords = [[0, 0, 0], [1, 0, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> mat = o3.uniaxial_material.Elastic(osi, 1.0)
-        >>> o3.element.MultipleShearSpring(osi, ele_nodes=ele_nodes, n_spring=1, mat=mat, lim=1.0, mass=1.0, orient=[1])
+        >>> o3.element.MultipleShearSpring(osi, ele_nodes=ele_nodes, n_spring=1, mat=mat, lim=1.0, mass=1.0, orient=None)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1999,11 +2027,12 @@ class RJWatsonEqsBearing2D(ElementBase):
         k_init: float
             Initial stiffness of sliding friction component in local shear direction
         p_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in axial direction
         vy_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in shear direction along local y-axis (mer
+            spring behavior not including friction)
         mz_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int, optional
@@ -2016,6 +2045,20 @@ class RJWatsonEqsBearing2D(ElementBase):
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> p_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> vy_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> mz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> frn_mdl = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> o3.element.RJWatsonEqsBearing2D(osi, ele_nodes=ele_nodes, frn_mdl=frn_mdl, k_init=1.0, p_mat=p_mat, vy_mat=vy_mat,
+        >>>                                 mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=None, mass=1.0,
+        >>>                                 shear_dist=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -2110,17 +2153,19 @@ class RJWatsonEqsBearing3D(ElementBase):
         k_init: float
             Initial stiffness of sliding friction component in local shear direction
         p_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in axial direction
         vy_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in shear direction along local y-axis (mer
+            spring behavior not including friction)
         vz_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in shear direction along local z-axis (mer
+            spring behavior not including friction)
         t_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in torsional direction
         my_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in moment direction around local y-axis
         mz_mat: obj, optional
-            
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         do_rayleigh: bool
             To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
         max_iter: int, optional
@@ -2133,6 +2178,23 @@ class RJWatsonEqsBearing3D(ElementBase):
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.0)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> p_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> vy_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> vz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> t_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> my_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> mz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+        >>> o3.element.RJWatsonEqsBearing3D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat,
+        >>>                                 vy_mat=vy_mat, vz_mat=vz_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat,
+        >>>                                 do_rayleigh=False, max_iter=1, tol=1.0, orient=1, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]

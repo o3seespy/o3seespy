@@ -6,6 +6,10 @@ class UniaxialMaterialBase(object):
     pass
 
 
+class ElementBase(object):
+    pass
+
+
 class SectionBase(object):
     pass
 
@@ -858,3 +862,133 @@ class StressDensity(NDMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
+
+class TFP(ElementBase):
+    """
+    The TFP Element Class
+
+    This command is used to construct a Triple Friction Pendulum Bearing element object, which is defined by two nodes.
+    The element can have zero length or the appropriate bearing height. The bearing has unidirectional (2D) or coupled
+    (3D) friction properties (with post-yield stiffening due to the concave sliding surface) for the shear
+    deformations, and force-deformation behaviors defined by UniaxialMaterials in the remaining two (2D)
+    or four (3D) directions. To capture the uplift behavior of the bearing, the user-specified
+    UniaxialMaterial in the axial direction is modified for no-tension behavior. P-Delta
+    moments are entirely transferred to the concave sliding surface (iNode). It is
+    important to note that rotations of the concave sliding surface (rotations at
+    the iNode) affect the shear behavior of the bearing. If the element has
+    non-zero length, the local x-axis is determined from the nodal
+    geometry unless the optional x-axis vector is specified in
+    which case the nodal geometry is ignored and the user-defined orientation is utilized.
+
+
+    """
+    op_type = 'TFP'
+
+    def __init__(self, osi, ele_nodes, r1, r2, r3, r4, db1, db2, db3, db4, d1, d2, d3, d4, mu1, mu2, mu3, mu4, h1, h2,
+                 h3, h4, h0, col_load, big_k=None):
+        """
+        Initial method for TFP
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of two element nodes
+        r1: float
+            Radius of inner bottom sliding surface
+        r2: float
+            Radius of inner top sliding surface
+        r3: float
+            Radius of outer bottom sliding surface
+        r4: float
+            Radius of outer top sliding surface
+        db1: float
+            Diameter of inner bottom sliding surface
+        db2: float
+            Diameter of inner top sliding surface
+        db3: float
+            Diameter of outer bottom sliding surface
+        db4: float
+            Diameter of outer top sliding surface
+        d1: float
+            Diameter of inner slider
+        d2: float
+            Diameter of inner slider
+        d3: float
+            Diameter of outer bottom slider
+        d4: float
+            Diameter of outer top slider
+        mu1: float
+            Friction coefficient of inner bottom sliding surface
+        mu2: float
+            Friction coefficient of inner top sliding surface
+        mu3: float
+            Friction coefficient of outer bottom sliding surface
+        mu4: float
+            Friction coefficient of outer top sliding surface
+        h1: float
+            Height from inner bottom sliding surface to center of bearing
+        h2: float
+            Height from inner top sliding surface to center of bearing
+        h3: float
+            Height from outer bottom sliding surface to center of bearing
+        h4: float
+            Height from inner top sliding surface to center of bearing
+        h0: float
+            Total height of bearing
+        col_load: float
+            Initial axial load on bearing (only used for first time step then load come from model)
+        big_k: float
+            Optional, stiffness of spring in vertical dirn (dof 2 if ndm= 2, dof 3 if ndm = 3) (default=1.0e15)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [1, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> o3.element.TFP(osi, ele_nodes=ele_nodes,
+        >>>                r1=1.0, r2=1.0, r3=1.0, r4=1.0,
+        >>>                db1=1.0, db2=1.0, db3=1.0, db4=1.0,
+        >>>                d1=1.0, d2=1.0, d3=1.0, d4=1.0,
+        >>>                mu1=0.3, mu2=0.4, mu3=0.5, mu4=0.5,
+        >>>                h1=1.0, h2=1.0, h3=1.0, h4=1.0,
+        >>>                h0=1.0, col_load=1.0, big_k=None)
+        """
+        self.osi = osi
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.r1 = float(r1)
+        self.r2 = float(r2)
+        self.r3 = float(r3)
+        self.r4 = float(r4)
+        self.db1 = float(db1)
+        self.db2 = float(db2)
+        self.db3 = float(db3)
+        self.db4 = float(db4)
+        self.d1 = float(d1)
+        self.d2 = float(d2)
+        self.d3 = float(d3)
+        self.d4 = float(d4)
+        self.mu1 = float(mu1)
+        self.mu2 = float(mu2)
+        self.mu3 = float(mu3)
+        self.mu4 = float(mu4)
+        self.h1 = float(h1)
+        self.h2 = float(h2)
+        self.h3 = float(h3)
+        self.h4 = float(h4)
+        self.h0 = float(h0)
+        self.col_load = float(col_load)
+        if big_k is not None:
+            self.big_k = float(big_k)
+        else:
+            self.big_k = None
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.r1, self.r2, self.r3, self.r4, self.db1,
+                            self.db2, self.db3, self.db4, self.d1, self.d2, self.d3, self.d4, self.mu1, self.mu2,
+                            self.mu3, self.mu4, self.h1, self.h2, self.h3, self.h4, self.h0, self.col_load]
+        if getattr(self, 'big_k') is not None:
+            self._parameters += [self.big_k]
+        self.to_process(osi)

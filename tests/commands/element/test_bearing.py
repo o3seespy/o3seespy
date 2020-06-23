@@ -37,71 +37,86 @@ def test_elastomeric_bearing_bouc_wen2d():
     o3.element.ElastomericBearingBoucWen2D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0, mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, mz_mat=mz_mat, orient_vals=orient_vals, shear_dist=1.0, do_rayleigh="string", mass=1.0)
 
 
-@pytest.mark.skip()
+@pytest.mark.skip()  # can't find element - but has been fixed in latest, previous
 def test_elastomeric_bearing_bouc_wen3d():
-    osi = o3.OpenSeesInstance(ndm=2)
-    coords = [[0, 0], [1, 0]]
+    osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+    coords = [[0, 0, 0], [0, 1, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
     orient_vals = [1, 1]
     p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-    o3.element.ElastomericBearingBoucWen3D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0, mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat, orient_vals=orient_vals, shear_dist=1.0, do_rayleigh="string", mass=1.0)
+    o3.element.ElastomericBearingBoucWen3D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0,
+                                           mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, t_mat=t_mat,
+                                           my_mat=my_mat, mz_mat=mz_mat, orient_vals=orient_vals,
+                                           shear_dist=1.0, do_rayleigh=False, mass=1.0)
 
 
-@pytest.mark.skip()
 def test_flat_slider_bearing2d():
     osi = o3.OpenSeesInstance(ndm=2)
     coords = [[0, 0], [1, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
     p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-    o3.element.FlatSliderBearing2D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=[0.0, 0.0], mass=1.0, shear_dist=1.0)
+    frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+    o3.element.FlatSliderBearing2D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, k_init=1.0, p_mat=p_mat, mz_mat=mz_mat,
+                                   do_rayleigh=False, max_iter=1, tol=1.0, orient=None, mass=1.0, shear_dist=1.0)
 
 
 @pytest.mark.skip()
 def test_flat_slider_bearing3d():
-    osi = o3.OpenSeesInstance(ndm=2)
-    coords = [[0, 0], [1, 0]]
+    osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+    coords = [[0, 0, 0], [0, 1, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
     p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-    o3.element.FlatSliderBearing3D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat, do_rayleigh="string", max_iter=1, tol=1.0, orient=[0.0, 0.0], mass=1.0, shear_dist=1.0)
+    frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+    o3.element.FlatSliderBearing3D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, k_init=1.0, p_mat=p_mat, t_mat=t_mat,
+                                   my_mat=my_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=None, tol=None,
+                                   orient=None, mass=1.0, shear_dist=1.0)
 
 
-@pytest.mark.skip()
 def test_single_fp_bearing2d():
     osi = o3.OpenSeesInstance(ndm=2)
     coords = [[0, 0], [1, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
     p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-    o3.element.SingleFPBearing2D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', reff=1.0, k_init=1.0, p_mat=p_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=[0.0, 0.0], mass=1.0, shear_dist=1.0)
+    frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+    o3.element.SingleFPBearing2D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, reff=1.0, k_init=1.0, p_mat=p_mat,
+                                 mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=None,
+                                 mass=1.0, shear_dist=1.0)
 
 
 @pytest.mark.skip()
 def test_single_fp_bearing3d():
-    osi = o3.OpenSeesInstance(ndm=2)
-    coords = [[0, 0], [1, 0]]
+    osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+    coords = [[0, 0, 0], [0, 1, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
     p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-    o3.element.SingleFPBearing3D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', reff=1.0, k_init=1.0, p_mat=p_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=[0.0, 0.0], mass=1.0, shear_dist=1.0)
+    frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+    o3.element.SingleFPBearing3D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, reff=1.0, k_init=1.0, p_mat=p_mat, t_mat=t_mat,
+                                 my_mat=my_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=None, tol=None,
+                                 orient=None, mass=1.0, shear_dist=1.0)
 
 
-@pytest.mark.skip()
 def test_tfp():
     osi = o3.OpenSeesInstance(ndm=2)
     coords = [[0, 0], [1, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
-    p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-    mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-    o3.element.TFP(osi, ele_nodes=ele_nodes, r1=1.0, r2=1.0, r3=1.0, r4=1.0, db1=1.0, db2=1.0, db3=1.0, db4=1.0, d1=1.0, d2=1.0, d3=1.0, d4=1.0, mu1=1.0, mu2=1.0, mu3=1.0, mu4=1.0, h1=1.0, h2=1.0, h3=1.0, h4=1.0, h0=1.0, col_load=1.0, big_k=1.0)
+    o3.element.TFP(osi, ele_nodes=ele_nodes,
+                   r1=1.0, r2=1.0, r3=1.0, r4=1.0,
+                   db1=1.0, db2=1.0, db3=1.0, db4=1.0,
+                   d1=1.0, d2=1.0, d3=1.0, d4=1.0,
+                   mu1=0.3, mu2=0.4, mu3=0.5, mu4=0.5,
+                   h1=1.0, h2=1.0, h3=1.0, h4=1.0,
+                   h0=1.0, col_load=1.0, big_k=None)
 
 
 @pytest.mark.skip()
@@ -109,11 +124,16 @@ def test_triple_friction_pendulum():
     osi = o3.OpenSeesInstance(ndm=2)
     coords = [[0, 0], [1, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+    frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+    frn2 = o3.friction_model.Coulomb(osi, mu=1.0)
+    frn3 = o3.friction_model.Coulomb(osi, mu=1.0)
     vert_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     rot_z_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     rot_x_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
     rot_y_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-    o3.element.TripleFrictionPendulum(osi, ele_nodes=ele_nodes, frn_tag1=1, frn_tag2=1, frn_tag3=1, vert_mat=vert_mat, rot_z_mat=rot_z_mat, rot_x_mat=rot_x_mat, rot_y_mat=rot_y_mat, l1=1.0, l2=1.0, l3=1.0, d1=1.0, d2=1.0, d3=1.0, big_w=1.0, uy=1.0, kvt=1.0, min_fv=1, tol=1.0)
+    o3.element.TripleFrictionPendulum(osi, ele_nodes=ele_nodes, frn1=frn1, frn2=frn2, frn3=frn3, vert_mat=vert_mat,
+                                      rot_z_mat=rot_z_mat, rot_x_mat=rot_x_mat, rot_y_mat=rot_y_mat, l1=1.0, l2=1.0,
+                                      l3=1.0, d1=1.0, d2=1.0, d3=1.0, big_w=1.0, uy=1.0, kvt=1.0, min_fv=None, tol=1.0)
 
 
 def test_multiple_shear_spring():

@@ -87,13 +87,17 @@ def clean_param_names(params, base_type):
         if len(new_pm) > 4 and new_pm[-4:] == '_tag':
             new_pm = new_pm[:-4]
             dtype_is_obj = True
-        if len(new_pm) > 4 and new_pm[-3:] == 'tag':
+        elif len(new_pm) > 4 and new_pm[-3:] == 'tag':
             new_pm = new_pm[:-3]
             dtype_is_obj = True
-        if len(new_pm) > 5 and new_pm[-5:] == '_tags':
+        elif len(new_pm) > 5 and new_pm[-5:] == '_tags':
             new_pm = new_pm[:-5]
             if new_pm[-1] != 's':
                 new_pm += 's'
+        elif len(new_pm) > 5 and new_pm[-5:-1] == '_tag':  # e.g. Tag1
+            suf = new_pm[-1]
+            new_pm = new_pm[:-5]
+            new_pm += suf
         # if pm == 'eleNodes':
 
         pms[pm] = params[pm]
@@ -629,7 +633,8 @@ def check_if_default_is_expression(defo):
         return True
 
 
-suffixes = ['', 'Args', 'Tag', 'Tags', 'Tags', 'MatTag', 'MatTags', 'Flag', 'Vals', 'SeriesTag', 's', 'Points', 'Code', 'PerLength']
+suffixes = ['', 'Args', 'Tag', 'Tags', 'Tags', 'Tag1', 'Tag2', 'Tag3', 'Tag4', 'MatTag', 'MatTags',
+            'Flag', 'Vals', 'SeriesTag', 's', 'Points', 'Code', 'PerLength']
 
 
 def clean_fn_line(line, has_tag=True):
@@ -978,6 +983,8 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         elif defaults[pm].org_name.endswith('Tags'):
             defaults[pm].list_items_dtype = 'obj'
             defaults[pm].dtype = 'list'
+        elif defaults[pm].org_name[:-1].endswith('Tag'):  # e.g. Tag1, Tag2
+            defaults[pm].dtype = 'obj'
         elif 'listi' in dtypes[i]:
             defaults[pm].dtype = 'list'
             defaults[pm].list_items_dtype = 'int'
@@ -1347,7 +1354,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 0
+    all = 1
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
@@ -1363,8 +1370,8 @@ if __name__ == '__main__':
         # print(ts)
         # parse_generic_single_file(obj_type='elastomericBearingPlasticity', osi_type='ele')
         #
-        parse_single_file(up.OPY_DOCS_PATH + 'trussEle.rst', osi_type='ele')
-        parse_all_elements()
+        parse_single_file(up.OPY_DOCS_PATH + 'TripleFrictionPendulum.rst', osi_type='ele')
+        # parse_all_elements()
         # pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
         # print(pstr)
         # test_clean_fn_line()
