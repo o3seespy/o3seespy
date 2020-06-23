@@ -64,7 +64,7 @@ def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_are
         for i, x in enumerate(pos):
             top_nodes.append(Node(osi, x_centre + x, y_centre))
             bot_nodes.append(Node(osi, x_centre + x, y_centre))
-            common.Fix3DOF(osi, bot_nodes[i], cc.DOF2D_X, cc.DOF2D_Y, cc.DOF2D_ROTZ)
+            common.Fix3DOF(osi, bot_nodes[i], cc.FIXED, cc.FIXED, cc.FIXED)
             if sf_mats[i] is not None:
                 sf_eles.append(ZeroLength(osi, [top_nodes[i], bot_nodes[i]], [sf_mats[i]], [cc.DOF2D_Y], r_flag, orient))
             if i != 0:

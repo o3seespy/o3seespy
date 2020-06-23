@@ -116,13 +116,12 @@ def test_triple_friction_pendulum():
     o3.element.TripleFrictionPendulum(osi, ele_nodes=ele_nodes, frn_tag1=1, frn_tag2=1, frn_tag3=1, vert_mat=vert_mat, rot_z_mat=rot_z_mat, rot_x_mat=rot_x_mat, rot_y_mat=rot_y_mat, l1=1.0, l2=1.0, l3=1.0, d1=1.0, d2=1.0, d3=1.0, big_w=1.0, uy=1.0, kvt=1.0, min_fv=1, tol=1.0)
 
 
-@pytest.mark.skip()
 def test_multiple_shear_spring():
-    osi = o3.OpenSeesInstance(ndm=2)
-    coords = [[0, 0], [1, 0]]
+    osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+    coords = [[0, 0, 0], [1, 0, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
     mat = o3.uniaxial_material.Elastic(osi, 1.0)
-    o3.element.MultipleShearSpring(osi, ele_nodes=ele_nodes, n_spring=1, mat=mat, lim=1.0, mass=1.0, orient=[1])
+    o3.element.MultipleShearSpring(osi, ele_nodes=ele_nodes, n_spring=1, mat=mat, lim=1.0, mass=1.0, orient=None)
 
 
 @pytest.mark.skip()
@@ -161,16 +160,16 @@ def test_elastomeric_x():
     o3.element.ElastomericX(osi, ele_nodes=ele_nodes, fy=1.0, alpha=1.0, gr=1.0, kbulk=1.0, d1=1.0, d2=1.0, ts=1.0, tr=1.0, n=1, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, kc=1.0, phi_m=1.0, ac=1.0, s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, tag1=1.0, tag2=1.0, tag3=1.0, tag4=1.0)
 
 
-@pytest.mark.skip()
 def test_rj_watson_eqs_bearing2d():
     osi = o3.OpenSeesInstance(ndm=2)
-    coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
-    ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+    coords = [[0, 0], [0, 1]]
+    ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
     p_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
     vy_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
-    vz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
-    o3.element.RJWatsonEqsBearing2D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat, vy_mat=vy_mat,
-                                    mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=1, mass=1.0,
+    mz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    frn_mdl = o3.friction_model.Coulomb(osi, mu=1.0)
+    o3.element.RJWatsonEqsBearing2D(osi, ele_nodes=ele_nodes, frn_mdl=frn_mdl, k_init=1.0, p_mat=p_mat, vy_mat=vy_mat,
+                                    mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=None, mass=1.0,
                                     shear_dist=1.0)
 
 

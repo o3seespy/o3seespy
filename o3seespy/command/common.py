@@ -697,6 +697,8 @@ def get_all_ele_node_tags(osi):
 
 def get_all_ele_node_tags_as_dict(osi):
     ele_tags = get_ele_tags(osi)
+    if not hasattr(ele_tags, '__len__'):
+        ele_tags = [ele_tags]
     node_tags = {}
     for ele_tag in ele_tags:
         node_tags[ele_tag] = osi.to_process('eleNodes', [ele_tag])
