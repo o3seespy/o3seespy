@@ -7,6 +7,11 @@ element,elastomericBearingPlasticity,2Dand3D
 element,elastomericBearingBoucWen,2Dand3D
 element,flatSliderBearing,2Dand3D
 element,singleFPBearing,2Dand3D
+element,RJWatsonEqsBearing,2Dand3D
+element,Truss,diffObjs
+element,TrussSection,diffObjs
+element,corotTruss,diffObjs
+element,corotTrussSection,diffObjs
 section,Elastic,2Dand3D
 section,Fiber,doubleUp
 geomTransf,Linear,2Dand3D

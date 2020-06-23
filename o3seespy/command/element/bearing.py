@@ -1957,6 +1957,243 @@ class HDR(ElementBase):
         self.to_process(osi)
 
 
+class RJWatsonEqsBearing2D(ElementBase):
+    """
+    The RJWatsonEqsBearing2D Element Class
+    
+    This command is used to construct a RJWatsonEqsBearing element object, which is defined by two nodes. The iNode
+    represents the masonry plate and the jNode represents the sliding surface plate. The element can have zero length
+    or the appropriate bearing height. The bearing has unidirectional (2D) or coupled (3D) friction properties (with
+    post-yield stiffening due to the mass-energy-regulator (MER) springs) for the shear deformations, and
+    force-deformation behaviors defined by UniaxialMaterials in the remaining two (2D) or four (3D)
+    directions. To capture the uplift behavior of the bearing, the user-specified UniaxialMaterial
+    in the axial direction is modified for no-tension behavior. By default (sDratio = 1.0)
+    P-Delta moments are entirely transferred to the sliding surface (jNode). It is
+    important to note that rotations of the sliding surface (rotations at the
+    jNode) affect the shear behavior of the bearing. To avoid the
+    introduction of artificial viscous damping in the isolation
+    system (sometimes referred to as "damping leakage in the
+    isolation system"), the bearing element does not
+    contribute to the Rayleigh damping by default.
+    If the element has non-zero length, the local
+    x-axis is determined from the nodal geometry
+    unless the optional x-axis vector is
+    specified in which case the nodal
+    geometry is ignored and the user-defined orientation is utilized.
+
+    For a two-dimensional problem
+    """
+    op_type = 'RJWatsonEqsBearing'
+
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, vy_mat=None, mz_mat=None, do_rayleigh=False, max_iter: int=None, tol: float=None, orient=None, mass: float=None, shear_dist: float=None):
+        """
+        Initial method for RJWatsonEqsBearing2D
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of two element nodes
+        frn_mdl: obj
+            Object associated with previously-defined frictionmodel
+        k_init: float
+            Initial stiffness of sliding friction component in local shear direction
+        p_mat: obj, optional
+            
+        vy_mat: obj, optional
+            
+        mz_mat: obj, optional
+            
+        do_rayleigh: bool
+            To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
+        max_iter: int, optional
+            Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
+        tol: float, optional
+            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
+        orient: None, optional
+            
+        mass: float, optional
+            Element mass (optional, default = 0.0)
+        shear_dist: float, optional
+            Shear distance from inode as a fraction of the element length (optional, default = 0.0)
+        """
+        self.osi = osi
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.frn_mdl = frn_mdl
+        self.k_init = float(k_init)
+        self.p_mat = p_mat
+        self.vy_mat = vy_mat
+        self.mz_mat = mz_mat
+        self.do_rayleigh = do_rayleigh
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = int(max_iter)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
+        self.orient = orient
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        if shear_dist is None:
+            self.shear_dist = None
+        else:
+            self.shear_dist = float(shear_dist)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init]
+        if getattr(self, 'p_mat') is not None:
+            self._parameters += ['-P', self.p_mat.tag]
+        if getattr(self, 'vy_mat') is not None:
+            self._parameters += ['-Vy', self.vy_mat.tag]
+        if getattr(self, 'mz_mat') is not None:
+            self._parameters += ['-Mz', self.mz_mat.tag]
+        if getattr(self, 'do_rayleigh'):
+            self._parameters += ['-doRayleigh']
+        if getattr(self, 'max_iter') is not None:
+            self._parameters += ['-iter', self.max_iter]
+        if getattr(self, 'tol') is not None:
+            if getattr(self, 'max_iter') is None:
+                raise ValueError('Cannot set: tol and not: max_iter')
+            self._parameters += [self.tol]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['-orient', *self.orient]
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
+        if getattr(self, 'shear_dist') is not None:
+            self._parameters += ['-shearDist', self.shear_dist]
+        self.to_process(osi)
+
+
+class RJWatsonEqsBearing3D(ElementBase):
+    """
+    The RJWatsonEqsBearing3D Element Class
+    
+    This command is used to construct a RJWatsonEqsBearing element object, which is defined by two nodes. The iNode
+    represents the masonry plate and the jNode represents the sliding surface plate. The element can have zero length
+    or the appropriate bearing height. The bearing has unidirectional (2D) or coupled (3D) friction properties (with
+    post-yield stiffening due to the mass-energy-regulator (MER) springs) for the shear deformations, and
+    force-deformation behaviors defined by UniaxialMaterials in the remaining two (2D) or four (3D)
+    directions. To capture the uplift behavior of the bearing, the user-specified UniaxialMaterial
+    in the axial direction is modified for no-tension behavior. By default (sDratio = 1.0)
+    P-Delta moments are entirely transferred to the sliding surface (jNode). It is
+    important to note that rotations of the sliding surface (rotations at the
+    jNode) affect the shear behavior of the bearing. To avoid the
+    introduction of artificial viscous damping in the isolation
+    system (sometimes referred to as "damping leakage in the
+    isolation system"), the bearing element does not
+    contribute to the Rayleigh damping by default.
+    If the element has non-zero length, the local
+    x-axis is determined from the nodal geometry
+    unless the optional x-axis vector is
+    specified in which case the nodal
+    geometry is ignored and the user-defined orientation is utilized.
+
+    For a three-dimensional problem
+    """
+    op_type = 'RJWatsonEqsBearing'
+
+    def __init__(self, osi, ele_nodes, frn_mdl, k_init, p_mat=None, vy_mat=None, vz_mat=None, t_mat=None, my_mat=None, mz_mat=None, do_rayleigh=False, max_iter: int=None, tol: float=None, orient=None, mass: float=None, shear_dist: float=None):
+        """
+        Initial method for RJWatsonEqsBearing3D
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of two element nodes
+        frn_mdl: obj
+            Object associated with previously-defined frictionmodel
+        k_init: float
+            Initial stiffness of sliding friction component in local shear direction
+        p_mat: obj, optional
+            
+        vy_mat: obj, optional
+            
+        vz_mat: obj, optional
+            
+        t_mat: obj, optional
+            
+        my_mat: obj, optional
+            
+        mz_mat: obj, optional
+            
+        do_rayleigh: bool
+            To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
+        max_iter: int, optional
+            Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
+        tol: float, optional
+            Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
+        orient: None, optional
+            
+        mass: float, optional
+            Element mass (optional, default = 0.0)
+        shear_dist: float, optional
+            Shear distance from inode as a fraction of the element length (optional, default = 0.0)
+        """
+        self.osi = osi
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.frn_mdl = frn_mdl
+        self.k_init = float(k_init)
+        self.p_mat = p_mat
+        self.vy_mat = vy_mat
+        self.vz_mat = vz_mat
+        self.t_mat = t_mat
+        self.my_mat = my_mat
+        self.mz_mat = mz_mat
+        self.do_rayleigh = do_rayleigh
+        if max_iter is None:
+            self.max_iter = None
+        else:
+            self.max_iter = int(max_iter)
+        if tol is None:
+            self.tol = None
+        else:
+            self.tol = float(tol)
+        self.orient = orient
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        if shear_dist is None:
+            self.shear_dist = None
+        else:
+            self.shear_dist = float(shear_dist)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init]
+        if getattr(self, 'p_mat') is not None:
+            self._parameters += ['-P', self.p_mat.tag]
+        if getattr(self, 'vy_mat') is not None:
+            self._parameters += ['-Vy', self.vy_mat.tag]
+        if getattr(self, 'vz_mat') is not None:
+            self._parameters += ['-Vz', self.vz_mat.tag]
+        if getattr(self, 't_mat') is not None:
+            self._parameters += ['-T', self.t_mat.tag]
+        if getattr(self, 'my_mat') is not None:
+            self._parameters += ['-My', self.my_mat.tag]
+        if getattr(self, 'mz_mat') is not None:
+            self._parameters += ['-Mz', self.mz_mat.tag]
+        if getattr(self, 'do_rayleigh'):
+            self._parameters += ['-doRayleigh']
+        if getattr(self, 'max_iter') is not None:
+            self._parameters += ['-iter', self.max_iter]
+        if getattr(self, 'tol') is not None:
+            if getattr(self, 'max_iter') is None:
+                raise ValueError('Cannot set: tol and not: max_iter')
+            self._parameters += [self.tol]
+        if getattr(self, 'orient') is not None:
+            self._parameters += ['-orient', *self.orient]
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
+        if getattr(self, 'shear_dist') is not None:
+            self._parameters += ['-shearDist', self.shear_dist]
+        self.to_process(osi)
+
+
 class FPBearingPTV(ElementBase):
     """
     The FPBearingPTV Element Class

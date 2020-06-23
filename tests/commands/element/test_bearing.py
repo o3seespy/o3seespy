@@ -162,6 +162,36 @@ def test_elastomeric_x():
 
 
 @pytest.mark.skip()
+def test_rj_watson_eqs_bearing2d():
+    osi = o3.OpenSeesInstance(ndm=2)
+    coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+    ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+    p_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    vy_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    vz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    o3.element.RJWatsonEqsBearing2D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat, vy_mat=vy_mat,
+                                    mz_mat=mz_mat, do_rayleigh=False, max_iter=1, tol=1.0, orient=1, mass=1.0,
+                                    shear_dist=1.0)
+
+
+@pytest.mark.skip()
+def test_rj_watson_eqs_bearing3d():
+    osi = o3.OpenSeesInstance(ndm=2)
+    coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+    ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+    p_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    vy_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    vz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    t_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    my_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    mz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
+    o3.element.RJWatsonEqsBearing3D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat,
+                                    vy_mat=vy_mat, vz_mat=vz_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat,
+                                    do_rayleigh=False, max_iter=1, tol=1.0, orient=1, mass=1.0, shear_dist=1.0)
+
+
+
+@pytest.mark.skip()
 def test_lead_rubber_x():
     osi = o3.OpenSeesInstance(ndm=2)
     coords = [[0, 0], [1, 0]]

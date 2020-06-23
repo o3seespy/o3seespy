@@ -130,6 +130,21 @@ class N20NodeBrick(ElementBase):
             Body force in the direction of global coordinates x, y and z
         mass_den: float
             Mass density (mass/volume)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+        >>> coords = [[0, 0, 0], [-1, 0, 0], [-1, -1, 0], [0, -1, 0],
+        >>>           [0, 0, -1], [-1, 0, -1], [-1, -1, -1], [0, -1, -1],
+        >>>           [-0.5, 0, 0], [-1, -0.5, 0], [-0.5, -1, 0], [0, -0.5, 0],
+        >>>           [-0.5, 0, -1], [-1, -0.5, -1], [-0.5, -1, -1], [0, -0.5, -1],
+        >>>           [0, 0, -0.5], [-1, 0, -0.5], [-1, -1, -0.5], [0, -1, -0.5],
+        >>>           ]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
+        >>> o3.element.N20NodeBrick(osi, ele_nodes=ele_nodes, mat=mat, bf1=1.0, bf2=1.0, bf3=1.0, mass_den=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]

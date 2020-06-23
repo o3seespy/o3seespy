@@ -701,6 +701,9 @@ def clean_fn_line(line, has_tag=True):
                 elif '-' in names_only[j + 1]:  # TODO: unsure if this is best way to identify flags
                     flags.append(word)
                     inp = word
+                # elif 'doRayleigh' in word:
+                #     flags.append(word)
+                #     inp = word
                 else:
                     cur_kwarg = '-' + word
                     op_kwargs[cur_kwarg] = []
@@ -730,10 +733,10 @@ def clean_fn_line(line, has_tag=True):
             defaults[marker].marker = markers[marker]
         for flag in flags:
             defaults[flag].is_flag = True
-    if "'-doRayleigh'" in defaults and 'rFlag' in defaults:  # e.g. ZeroLength
-        del defaults["'-doRayleigh'"]
-    elif "'-doRayleigh'" in defaults:  # TODO: not working
-        defaults["'-doRayleigh'"].is_flag = True
+    # if "doRayleigh" in defaults and 'rFlag' in defaults:  # e.g. ZeroLength
+    #     del defaults["doRayleigh"]
+    # if "doRayleigh" in defaults:  # TODO: not working
+    #     defaults["doRayleigh"].is_flag = True
 
 
     return base_type, optype, defaults, op_kwargs
@@ -894,7 +897,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                 if not len(df_td):
                     raise ValueError(f'{base_type}-{optype}')
                 assert base_type == base_type1
-                assert optype == optype1, (optype, optype1)
+                #assert optype == optype1, (optype, optype1)
                 if two_defs == 'combine':
                     for inp in defaults1:
                         if inp not in defaults:
@@ -1050,6 +1053,11 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         defaults['dI'].marker = 'jntOffset'
         if 'dJ' in defaults:
             defaults['dJ'].depends_on = 'dI'
+    if "-doRayleigh" in op_kwargs and 'rFlag' in defaults:
+        del op_kwargs['-doRayleigh']
+        # defaults['iter'] = copy.deepcopy(defaults['maxIter'])
+        defaults['rFlag'].marker = 'doRayleigh'
+
         # del defaults['maxIter']
     #assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
     # if len(op_kwargs) == 1:
@@ -1226,8 +1234,8 @@ def parse_all_elements():
         ipara = []
         print(item, collys[item])
         for ele in collys[item]:
-            if ele in ['trussEle', 'corotTruss', 'RJWatsonEqsBearing']:
-                continue
+            # if ele in ['trussEle', 'corotTruss', 'RJWatsonEqsBearing']:
+            #     continue
             # if ele == 'zeroLengthND':
             #     continue
             # if mat == 'PressureDependMultiYield02':
@@ -1339,7 +1347,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 1
+    all = 0
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
@@ -1354,7 +1362,9 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
         # parse_generic_single_file(obj_type='elastomericBearingPlasticity', osi_type='ele')
-        parse_single_file(up.OPY_DOCS_PATH + 'elastomericBearingPlasticity.rst', osi_type='ele')
+        #
+        parse_single_file(up.OPY_DOCS_PATH + 'trussEle.rst', osi_type='ele')
+        parse_all_elements()
         # pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
         # print(pstr)
         # test_clean_fn_line()
