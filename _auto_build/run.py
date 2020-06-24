@@ -444,6 +444,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
 
 
 def build_test_for_generic(names, pms, cl_pms):
+    # TODO: detect 2D or 3D
     tpara = [f'def test_{names["low_op_name"]}():', w4 + 'osi = o3.OpenSeesInstance(ndm=2)']
     prior_strs = []
     pjoins = ['osi']
@@ -462,8 +463,8 @@ def build_test_for_generic(names, pms, cl_pms):
                 prior_strs.append(w4 + f'{o3_name} = o3.transformation.Linear(osi, [])')
             elif o3_name in ['node', 'i_node']:
                 prior_strs.append(w4 + f'{o3_name} = o3.node.Node(osi, 0.0, 0.0)')
-            elif o3_name == 'j_node':
-                prior_strs.append(w4 + 'j_node = o3.node.Node(osi, 0.0, 1.0)')
+            elif o3_name in ['j_node', 'c_node', 'r_node', 'l_node', 'lagr_node', 's_node', 'k_node']:
+                prior_strs.append(w4 + f'{o3_name} = o3.node.Node(osi, 0.0, 1.0)')
             elif o3_name == 'mat':  # TODO: detect ndmaterial
                 prior_strs.append(w4 + f'{o3_name} = o3.uniaxial_material.Elastic(osi, 1.0)')
             if o3_name in ['sec', 'sec_i', 'sec_j', 'sec_e', 'section']:
@@ -475,7 +476,7 @@ def build_test_for_generic(names, pms, cl_pms):
         elif dtype == 'list' and pms[pm].list_items_dtype == 'obj':
             if o3_name == 'ele_nodes':
                 prior_strs.append(w4 + 'coords = [[0, 0], [1, 0], [1, 1], [0, 1]]')
-                prior_strs.append(w4 + 'ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]')
+                prior_strs.append(w4 + 'ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords)]')
             else:
                 prior_strs.append(w4 + f'{o3_name} = [1, 1]')
             pjoins.append(f'{o3_name}={o3_name}')
@@ -997,7 +998,8 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
 
     if 'eleNodes' in defaults:
         defaults['eleNodes'].list_items_dtype = 'obj'
-    hidden_objs = ['iNode', 'jNode', 'sec', 'secI', 'secJ', 'secE']
+    hidden_objs = ['iNode', 'jNode', 'kNode', 'cNode', 'lNode', 'rNode', 'sNode', 'lagr_node',
+                   'crdTransf', 'sec', 'secI', 'secJ', 'secE']
     for obj in hidden_objs:
         if obj in defaults:
             defaults[obj].dtype = 'obj'

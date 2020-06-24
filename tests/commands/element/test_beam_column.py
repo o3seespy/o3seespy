@@ -7,14 +7,14 @@ def test_elastic_beam_column2d():
     coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
     transf = o3.geom_transf.Linear2D(osi, [])
-    o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, transf=transf, mass=1.0, c_mass="string")
+    o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, transf=transf, mass=1.0)
 
 def test_elastic_beam_column3d():
     osi = o3.OpenSeesInstance(ndm=2)
     coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
     transf = o3.geom_transf.Linear2D(osi, [])
-    o3.element.ElasticBeamColumn3D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, g_mod=1.0, jxx=1.0, iy=1.0, iz=1.0, transf=transf, mass=1.0, c_mass="string")
+    o3.element.ElasticBeamColumn3D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, g_mod=1.0, jxx=1.0, iy=1.0, iz=1.0, transf=transf, mass=1.0)
 
 
 def test_mod_elastic_beam2dmass():
@@ -22,7 +22,7 @@ def test_mod_elastic_beam2dmass():
     coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
     transf = o3.geom_transf.Linear2D(osi, [])
-    o3.element.ModElasticBeam2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, k11=1.0, k33=1.0, k44=1.0, transf=transf, mass=1.0, c_mass="string")
+    o3.element.ModElasticBeam2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, k11=1.0, k33=1.0, k44=1.0, transf=transf, mass=1.0)
 
 
 def test_elastic_timoshenko_beam2d():
@@ -30,7 +30,7 @@ def test_elastic_timoshenko_beam2d():
     coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
     transf = o3.geom_transf.Linear2D(osi, [])
-    o3.element.ElasticTimoshenkoBeam2D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, avy=1.0, transf=transf, mass=1.0, c_mass="string")
+    o3.element.ElasticTimoshenkoBeam2D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, avy=1.0, transf=transf, mass=1.0)
 
 
 def test_elastic_timoshenko_beam3d():
@@ -38,7 +38,7 @@ def test_elastic_timoshenko_beam3d():
     coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
     transf = o3.geom_transf.Linear2D(osi, [])
-    o3.element.ElasticTimoshenkoBeam3D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, jxx=1.0, iy=1.0, iz_2=1, avy=1.0, avz=1.0, transf=transf, mass=1.0, c_mass="string")
+    o3.element.ElasticTimoshenkoBeam3D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, jxx=1.0, iy=1.0, iz_2=1, avy=1.0, avz=1.0, transf=transf, mass=1.0, c_mass=True)
 
 
 def test_disp_beam_column():
