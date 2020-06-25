@@ -124,6 +124,33 @@ def set_rigid_link(osi, r_node, c_node, rtype):
     osi.to_process(op_type, parameters)
 
 
+class RigidLink(OpenSeesObject):
+    op_base_type = 'rigidLink'
+    op_type = None
+    def __init__(self, osi, rtype, r_node, c_node):
+        """
+        Create a multi-point constraint between nodes.
+
+        Parameters
+        ----------
+        rtype: str
+            Either 'bar' or 'beam'
+        r_node: OpenSeesObject.node.Node()
+            Retained node
+        c_node: Node
+            Constrained node
+
+        Returns
+        -------
+
+        """
+        self.rtype = rtype
+        self.r_node = r_node
+        self.c_node = c_node
+        self.parameters = [rtype, r_node.tag, c_node.tag]
+        self.to_process(osi)
+
+
 class Fix1DOF(OpenSeesObject):
     op_base_type = "fix"
     op_type = None

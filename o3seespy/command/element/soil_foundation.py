@@ -40,6 +40,8 @@ def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_are
         -------
 
         """
+        # TODO: sf_horz_mats - if 1 then apply to left node, if len(sf_mats) apply to each
+        # TODO: sf_frn - soil-foundation friction, if float, then add each sf_mat inside a flat bearing.
         if not hasattr(sf_mats, '__len__'):  # TODO: only supports 2D
             sf_mats = [sf_mats] * len(pos)
         else:

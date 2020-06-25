@@ -43,7 +43,7 @@ class ElasticBeamColumn2D(ElementBase):
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> transf = o3.geom_transf.Linear2D(osi, [])
-        >>> o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, transf=transf, mass=1.0, c_mass="string")
+        >>> o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, transf=transf, mass=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -115,7 +115,7 @@ class ElasticBeamColumn3D(ElementBase):
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> transf = o3.geom_transf.Linear2D(osi, [])
-        >>> o3.element.ElasticBeamColumn3D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, g_mod=1.0, jxx=1.0, iy=1.0, iz=1.0, transf=transf, mass=1.0, c_mass="string")
+        >>> o3.element.ElasticBeamColumn3D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, g_mod=1.0, jxx=1.0, iy=1.0, iz=1.0, transf=transf, mass=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -255,7 +255,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> transf = o3.geom_transf.Linear2D(osi, [])
-        >>> o3.element.ElasticTimoshenkoBeam2D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, avy=1.0, transf=transf, mass=1.0, c_mass="string")
+        >>> o3.element.ElasticTimoshenkoBeam2D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, avy=1.0, transf=transf, mass=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -333,7 +333,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> transf = o3.geom_transf.Linear2D(osi, [])
-        >>> o3.element.ElasticTimoshenkoBeam3D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, jxx=1.0, iy=1.0, iz_2=1, avy=1.0, avz=1.0, transf=transf, mass=1.0, c_mass="string")
+        >>> o3.element.ElasticTimoshenkoBeam3D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, jxx=1.0, iy=1.0, iz_2=1, avy=1.0, avz=1.0, transf=transf, mass=1.0, c_mass=True)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]

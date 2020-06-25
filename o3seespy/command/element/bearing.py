@@ -62,8 +62,6 @@ class ElastomericBearingPlasticity2D(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> orient = [0, 0, 0, 0, 0, 0]
-        >>> # o3.element.ElastomericBearingPlasticity2D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0, mu=1.0, p_mat=p_mat, mz_mat=mz_mat, do_rayleigh=False, orient=orient, mass=1.0, shear_dist=0.0)
         >>> o3.element.ElastomericBearingPlasticity2D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0,
         >>>                                           mu=1.0, p_mat=p_mat, mz_mat=mz_mat)
         """
@@ -164,15 +162,17 @@ class ElastomericBearingPlasticity3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [0, 1]]
+        >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+        >>> coords = [[0, 0, 0], [0, 1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.ElastomericBearingPlasticity3D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0, mu=1.0, p_mat=p_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat)
+        >>> orient_vals = [1, 0, 0]
+        >>> o3.element.ElastomericBearingPlasticity3D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0,
+        >>>                                           mu=1.0, p_mat=p_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat,
+        >>>                                           orient=orient_vals)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -280,14 +280,15 @@ class ElastomericBearingBoucWen2D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
-        >>> orient_vals = [1, 1]
+        >>> orient_vals = [1, 0, 0, 1, 0, 1]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.ElastomericBearingBoucWen2D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0, mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, mz_mat=mz_mat, orient_vals=orient_vals, shear_dist=1.0, do_rayleigh="string", mass=1.0)
+        >>> o3.element.ElastomericBearingBoucWen2D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0,
+        >>>                                        mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, mz_mat=mz_mat,
+        >>>                                        orient_vals=orient_vals, shear_dist=1.0, do_rayleigh=False, mass=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -396,11 +397,10 @@ class ElastomericBearingBoucWen3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
         >>> coords = [[0, 0, 0], [0, 1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
-        >>> orient_vals = [1, 1]
+        >>> orient_vals = [1, 0, 0]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
@@ -639,7 +639,6 @@ class FlatSliderBearing3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
         >>> coords = [[0, 0, 0], [0, 1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -648,9 +647,10 @@ class FlatSliderBearing3D(ElementBase):
         >>> t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> orient_vals = [1, 0, 0]
         >>> o3.element.FlatSliderBearing3D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, k_init=1.0, p_mat=p_mat, t_mat=t_mat,
         >>>                                my_mat=my_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=None, tol=None,
-        >>>                                orient=None, mass=1.0, shear_dist=1.0)
+        >>>                                mass=1.0, shear_dist=1.0, orient=orient_vals)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -886,7 +886,6 @@ class SingleFPBearing3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
         >>> coords = [[0, 0, 0], [0, 1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
@@ -895,9 +894,10 @@ class SingleFPBearing3D(ElementBase):
         >>> t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
         >>> frn1 = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> orient_vals = [1, 0, 0]
         >>> o3.element.SingleFPBearing3D(osi, ele_nodes=ele_nodes, frn_mdl=frn1, reff=1.0, k_init=1.0, p_mat=p_mat, t_mat=t_mat,
         >>>                              my_mat=my_mat, mz_mat=mz_mat, do_rayleigh=False, max_iter=None, tol=None,
-        >>>                              orient=None, mass=1.0, shear_dist=1.0)
+        >>>                              orient=orient_vals, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1691,7 +1691,9 @@ class ElastomericX(ElementBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
-        >>> o3.element.ElastomericX(osi, ele_nodes=ele_nodes, fy=1.0, alpha=1.0, gr=1.0, kbulk=1.0, d1=1.0, d2=1.0, ts=1.0, tr=1.0, n=1, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, kc=1.0, phi_m=1.0, ac=1.0, s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, tag1=1.0, tag2=1.0, tag3=1.0, tag4=1.0)
+        >>> o3.element.ElastomericX(osi, ele_nodes=ele_nodes, fy=1.0, alpha=1.0, gr=1.0, kbulk=1.0, d1=1.0, d2=1.0, ts=1.0,
+        >>>                         tr=1.0, n=1, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, kc=1.0, phi_m=1.0, ac=1.0,
+        >>>                         s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, tag1=1.0, tag2=1.0, tag3=1.0, tag4=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -1822,7 +1824,10 @@ class LeadRubberX(ElementBase):
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
-        >>> o3.element.LeadRubberX(osi, ele_nodes=ele_nodes, fy=1.0, alpha=1.0, gr=1.0, kbulk=1.0, d1=1.0, d2=1.0, ts=1.0, tr=1.0, n=1, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, kc=1.0, phi_m=1.0, ac=1.0, s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, q_l=1.0, c_l=1.0, k_s=1.0, a_s=1.0, tag1=1, tag2=1, tag3=1, tag4=1, tag5=1)
+        >>> o3.element.LeadRubberX(osi, ele_nodes=ele_nodes, fy=1.0, alpha=1.0, gr=1.0, kbulk=1.0, d1=1.0, d2=1.0, ts=1.0,
+        >>>                        tr=1.0, n=1, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, kc=1.0, phi_m=1.0, ac=1.0,
+        >>>                        s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, q_l=1.0, c_l=1.0, k_s=1.0, a_s=1.0,
+        >>>                        tag1=1, tag2=1, tag3=1, tag4=1, tag5=1)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -2182,19 +2187,20 @@ class RJWatsonEqsBearing3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
-        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+        >>> coords = [[0, 0, 0], [0, 1, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> p_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
         >>> vy_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
         >>> vz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
         >>> t_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
         >>> my_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
         >>> mz_mat = o3.uniaxial_material.Elastic(osi, 1, 1)
-        >>> o3.element.RJWatsonEqsBearing3D(osi, ele_nodes=ele_nodes, frn_mdl='frn_mdl', k_init=1.0, p_mat=p_mat,
+        >>> orient_vals = [1, 0, 0]
+        >>> frn_mdl = o3.friction_model.Coulomb(osi, mu=1.0)
+        >>> o3.element.RJWatsonEqsBearing3D(osi, ele_nodes=ele_nodes, frn_mdl=frn_mdl, k_init=1.0, p_mat=p_mat,
         >>>                                 vy_mat=vy_mat, vz_mat=vz_mat, t_mat=t_mat, my_mat=my_mat, mz_mat=mz_mat,
-        >>>                                 do_rayleigh=False, max_iter=1, tol=1.0, orient=1, mass=1.0, shear_dist=1.0)
+        >>>                                 do_rayleigh=False, max_iter=1, tol=1.0, orient=orient_vals, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
