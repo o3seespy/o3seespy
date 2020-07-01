@@ -1390,7 +1390,7 @@ if __name__ == '__main__':
         parse_generic_single_file(obj_type='integrator', osi_type=None)
         parse_generic_single_file(obj_type='test', osi_type=None)
         parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
-        parse_generic_single_file(obj_type='section', osi_type='sect')
+        parse_generic_single_file(obj_type='section', osi_type='sect')  # TODO: deal with duplicate in Fiber
         parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)
         parse_generic_single_file(obj_type='layer', osi_type=None, extras=['layer'], multi_def=True)

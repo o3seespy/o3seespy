@@ -82,7 +82,7 @@ class Results2D(object):
                 self.savetxt(self.cache_path + 'timer.txt', self.time)
             elif self.pseudo_dt:
                 from numpy import arange
-                x_disp = self.loadtxt(f'{self.cache_path}x_disp.txt')
+                x_disp = self.loadtxt(f'{self.cache_path}x_disp.txt', ndmin=2)
                 self.time = arange(len(x_disp[:, 0])) * self.pseudo_dt
                 self.savetxt(self.cache_path + 'timer.txt', self.time)
 
