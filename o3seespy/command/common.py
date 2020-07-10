@@ -195,6 +195,27 @@ class Fix1DOFMulti(OpenSeesMultiCallObject):
             self.to_process(osi)
 
 
+class Fix1DOF(OpenSeesObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, node, x):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        node: OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        """
+        self.node = node
+        self.x = x
+        self._parameters = [self.node.tag, self.x]
+        self.to_process(osi)
+
+
 class Fix2DOF(OpenSeesObject):
     op_base_type = "fix"
     op_type = None

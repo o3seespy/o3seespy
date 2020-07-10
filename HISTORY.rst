@@ -13,6 +13,7 @@ History
 * Fixed issue with BeamOnNonlinearWinklerFoundation where fixities were not applied to base node.
 * Fixed issue with getting element node tags when there is only one element
 * Fixed issues with Contact elements
+* Added more solver algorithms
 
 
 

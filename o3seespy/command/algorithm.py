@@ -29,6 +29,29 @@ class Newton(AlgorithmBase):
         self.to_process(osi)
 
 
+class SecantNewton(AlgorithmBase):
+    op_type = "SecantNewton"
+
+    def __init__(self, osi, iterate='current', increment='current', maxDim=3):
+        self.osi = osi
+        self.iterate = iterate
+        self.increment = increment
+        self.maxDim = maxDim
+        self._parameters = [self.op_type, self.iterate, self.increment, self.maxDim]
+        self.to_process(osi)
+
+
+class RaphsonNewton(AlgorithmBase):
+    op_type = "RaphsonNewton"
+
+    def __init__(self, osi, iterate='current', increment='current'):
+        self.osi = osi
+        self.iterate = iterate
+        self.increment = increment
+        self._parameters = [self.op_type, self.iterate, self.increment]
+        self.to_process(osi)
+
+
 class KrylovNewton(AlgorithmBase):
     op_type = "KrylovNewton"
 
