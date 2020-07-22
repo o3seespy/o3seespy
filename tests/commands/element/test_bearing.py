@@ -240,4 +240,4 @@ def test_fp_bearing_ptv():
 
 
 if __name__ == '__main__':
-    test_elastomeric_bearing_plasticity2d()
+    test_elastomeric_bearing_bouc_wen2d()

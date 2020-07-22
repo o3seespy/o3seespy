@@ -1,4 +1,4 @@
-openseespy
+openseespy==3.1.5.12
 numpy
 sfsimodels
 

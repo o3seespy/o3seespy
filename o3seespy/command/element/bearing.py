@@ -236,7 +236,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
 
     For a two-dimensional problem
     """
-    op_type = 'ElastomericBearingBoucWen'
+    op_type = 'elastomericBearingBoucWen'
 
     def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals: list=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
         """
@@ -327,7 +327,11 @@ class ElastomericBearingBoucWen2D(ElementBase):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
+        try:
+            self.to_process(osi)
+        except ValueError:
+            self._parameters[0] = 'ElastomericBearingBoucWen'
+            self.to_process(osi)
 
 
 class ElastomericBearingBoucWen3D(ElementBase):
@@ -349,7 +353,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
 
     For a three-dimensional problem
     """
-    op_type = 'ElastomericBearingBoucWen'
+    op_type = 'elastomericBearingBoucWen'
 
     def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, orient_vals: list=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
         """
@@ -453,7 +457,11 @@ class ElastomericBearingBoucWen3D(ElementBase):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
-        self.to_process(osi)
+        try:
+            self.to_process(osi)
+        except ValueError:
+            self._parameters[0] = 'ElastomericBearingBoucWen'
+            self.to_process(osi)
 
 
 class FlatSliderBearing2D(ElementBase):
