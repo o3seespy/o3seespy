@@ -1,5 +1,3 @@
-from inspect import signature
-from collections import OrderedDict
 
 
 def to_commands(op_base_type, parameters):
@@ -185,6 +183,8 @@ def to_tcl_file(osi, ofile='ofile.tcl', w_analyze=False):
 
 
 def get_o3_kwargs_from_obj(obj, o3_obj, custom=None, overrides=None):
+    from inspect import signature
+    from collections import OrderedDict
     if custom is None:
         custom = {}
     if overrides is None:

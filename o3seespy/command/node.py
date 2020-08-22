@@ -82,9 +82,30 @@ class Node(OpenSeesObject):
 
 
 def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
-    # axis-2 = x  # unless x or y are singlar
+    """
+    Creates an array of nodes that are in a regular mesh
+
+    The mesh has len(xs) nodes in the x-direction and len(ys) in the y-direction.
+    If zs is not None then has len(zs) in the z-direction.
+
+    Parameters
+    ----------
+    osi
+    xs
+    ys
+    zs
+    active
+
+    Returns
+    -------
+    np.array
+        axis-0 = x-direction
+        axis-1 = y-direction
+        axis-2 = z  # not included if len(zs)=1 or zs=None
+    """
+    # axis-0 = x  # unless x or y are singular
     # axis-1 = y
-    # axis-1 = z
+    # axis-2 = z  # not included if len(zs)=1 or
     from numpy import array
     if not hasattr(zs, '__len__'):
         zs = [zs]
@@ -95,7 +116,11 @@ def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
 
             if len(zs) == 1:
                 if active is None or active[xx][yy]:
-                    sn[xx].append(Node(osi, xs[xx], ys[yy], zs[0]))
+                    if osi.ndm == 2:
+                        pms = [osi, xs[xx], ys[yy]]
+                    else:
+                        pms = [osi, xs[xx], ys[yy], zs[0]]
+                    sn[xx].append(Node(*pms))
                 else:
                     sn[xx].append(None)
             else:
@@ -104,6 +129,61 @@ def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
                     # Establish left and right nodes
                     if active is None or active[xx][yy][zz]:
                         sn[xx][yy].append(Node(osi, xs[xx], ys[yy], zs[zz]))
+                    else:
+                        sn[xx][yy].append(None)
+    # if len(zs) == 1:
+    #     return sn[0]
+    return array(sn)
+
+
+def build_varied_y_node_mesh(osi, xs, ys, zs=None, active=None):
+    """
+    Creates an array of nodes that in vertical lines, but vary in height
+
+    The mesh has len(xs)=ln(ys) nodes in the x-direction and len(ys[0]) in the y-direction.
+    If zs is not None then has len(zs) in the z-direction.
+
+    Parameters
+    ----------
+    osi
+    xs
+    ys
+    zs
+    active
+
+    Returns
+    -------
+    np.array
+        axis-0 = x-direction
+        axis-1 = y-direction
+        axis-2 = z  # not included if len(zs)=1 or zs=None
+    """
+    # axis-0 = x  # unless x or y are singular
+    # axis-1 = y
+    # axis-2 = z  # not included if len(zs)=1 or
+    from numpy import array
+    if not hasattr(zs, '__len__'):
+        zs = [zs]
+    sn = []
+    for xx in range(len(xs)):
+        sn.append([])
+        for yy in range(len(ys[xx])):
+
+            if len(zs) == 1:
+                if active is None or active[xx][yy]:
+                    if osi.ndm == 2:
+                        pms = [osi, xs[xx], ys[xx][yy]]
+                    else:
+                        pms = [osi, xs[xx], ys[xx][yy], zs[0]]
+                    sn[xx].append(Node(*pms))
+                else:
+                    sn[xx].append(None)
+            else:
+                sn[xx].append([])
+                for zz in range(len(zs)):
+                    # Establish left and right nodes
+                    if active is None or active[xx][yy][zz]:
+                        sn[xx][yy].append(Node(osi, xs[xx], ys[xx][yy], zs[zz]))
                     else:
                         sn[xx][yy].append(None)
     # if len(zs) == 1:

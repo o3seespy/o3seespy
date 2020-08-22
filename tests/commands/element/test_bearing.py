@@ -179,7 +179,7 @@ def test_elastomeric_x():
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
     o3.element.ElastomericX(osi, ele_nodes=ele_nodes, fy=1.0, alpha=1.0, gr=1.0, kbulk=1.0, d1=1.0, d2=1.0, ts=1.0,
                             tr=1.0, n=1, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, kc=1.0, phi_m=1.0, ac=1.0,
-                            s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, tag1=1.0, tag2=1.0, tag3=1.0, tag4=1.0)
+                            s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, tag1=0, tag2=0, tag3=0, tag4=0)
 
 
 def test_rj_watson_eqs_bearing2d():

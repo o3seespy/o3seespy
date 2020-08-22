@@ -1,5 +1,6 @@
 from o3seespy.opensees_instance import OpenSeesInstance
 from o3seespy import exceptions
+from o3seespy import extensions
 from o3seespy import cc
 from o3seespy import cc as static  # deprecated
 from o3seespy.command import node, algorithm, rayleigh, test, uniaxial_material, element, nd_material

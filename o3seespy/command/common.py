@@ -244,7 +244,7 @@ class Fix2DOFMulti(OpenSeesMultiCallObject):
     op_base_type = "fix"
     op_type = None
 
-    def __init__(self, osi, nodes, x, y):
+    def __init__(self, osi, nodes, x, y, is_none='raise'):
         """
         Create a homogeneous SP constraint.
 
@@ -262,8 +262,15 @@ class Fix2DOFMulti(OpenSeesMultiCallObject):
         self.y = y
         self._multi_parameters = []
         for node in self.nodes:
-            self._multi_parameters.append([node.tag, self.x, self.y])
-            self.to_process(osi)
+            try:
+                self._multi_parameters.append([node.tag, self.x, self.y])
+                self.to_process(osi)
+            except AttributeError as e:
+                if is_none == 'raise':
+                    raise e
+                else:
+                    pass
+                
 
 
 def add_fixity_to_dof(osi, dof, nodes):

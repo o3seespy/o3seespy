@@ -9,7 +9,7 @@ class FluidSolidPorousMaterial(NDMaterialBase):
     volumetric and linear elastic. The solid phase can be any NDMaterial. This material is developed to simulate the
     response of saturated porous media under fully undrained condition.
     """
-    op_type = 'FluidSolidPorousMaterial'
+    op_type = 'FluidSolidPorous'
 
     def __init__(self, osi, nd, soil_mat, combined_bulk_modul, pa=101.0):
         r"""

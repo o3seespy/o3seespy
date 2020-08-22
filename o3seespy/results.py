@@ -8,6 +8,7 @@ class Results2D(object):
     x_disp = None
     y_disp = None
     node_c = None
+    ele_c = None
     used_r_starter = 0
     mat2ele_tags = None  # Assume 1-to-1 so if it uses a section then should be null
     sect2ele_tags = None  # Store position and tag - UNUSED
@@ -22,7 +23,7 @@ class Results2D(object):
         self.savetxt = savetxt
         self.loadtxt = loadtxt
         self.ele2node_tags = {}
-        self.meta_files = ['node_c', 'mat2ele_tags', 'sect2ele_tags', 'mat2sect_tags']
+        self.meta_files = ['node_c', 'ele_c', 'mat2ele_tags', 'sect2ele_tags', 'mat2sect_tags']
         self.meta_fmt = [None, '%i', '%i', '%i']
         self.pseudo_dt = None  # use if recording steps of a static analysis
 

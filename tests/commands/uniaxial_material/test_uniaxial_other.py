@@ -69,7 +69,7 @@ def test_impact_material():
 @pytest.mark.skip()
 def test_hyperbolic_gap_material():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.uniaxial_material.HyperbolicGapMaterial(osi, kmax=1.0, kur=1.0, rf=1.0, fult=1.0, gap=1.0)
+    o3.uniaxial_material.HyperbolicGapMaterial(osi, kmax=1.0, kur=2.0, rf=1.0, fult=2.0, gap=0.0)
 
 
 @pytest.mark.skip()

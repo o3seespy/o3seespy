@@ -10,7 +10,14 @@ Models with implementation issues
  - section.plate_fiber
  - section.layered_shell
  - element.beam_column
- - element.quadrilateral
  - block2D
  - block3D
  - Dodd_Restrepo - not connected in openseespy
+ - nd_material.FluidSolidPorousMaterial - issue with name
+
+No working example
+==================
+
+ - uniaxial_material.HyperbolicGapMaterial
+ - element.ElastomericX bearing
+ - uniaxial_material.Cast
