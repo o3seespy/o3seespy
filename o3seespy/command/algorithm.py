@@ -72,3 +72,25 @@ class KrylovNewton(AlgorithmBase):
         self.max_inter = max_inter
         self._parameters = [self.op_type, self.tang_inter, self.tang_incr, self.max_inter]
         self.to_process(osi)
+
+
+class ModifiedNewton(AlgorithmBase):
+    op_type = "ModifiedNewton"
+
+    def __init__(self, osi, secant=False, initial=False):
+        """
+
+        Parameters
+        ----------
+        osi
+        secant: bool
+            Flag to indicate to use secant stiffness.
+        initial: bool
+            Flag to indicate to use initial stiffness
+        max_inter
+        """
+        self.osi = osi
+        self.secant = secant
+        self.initial = initial
+        self._parameters = [self.op_type, self.secant, self.initial]
+        self.to_process(osi)

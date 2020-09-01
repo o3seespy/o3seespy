@@ -147,7 +147,7 @@ class RigidLink(OpenSeesObject):
         self.rtype = rtype
         self.r_node = r_node
         self.c_node = c_node
-        self.parameters = [rtype, r_node.tag, c_node.tag]
+        self._parameters = [rtype, r_node.tag, c_node.tag]
         self.to_process(osi)
 
 
@@ -193,27 +193,6 @@ class Fix1DOFMulti(OpenSeesMultiCallObject):
         for node in self.nodes:
             self._multi_parameters.append([node.tag, self.x])
             self.to_process(osi)
-
-
-class Fix1DOF(OpenSeesObject):
-    op_base_type = "fix"
-    op_type = None
-
-    def __init__(self, osi, node, x):
-        """
-        Create a homogeneous SP constraint.
-
-        Parameters
-        ----------
-        osi: OpenSeesInstance
-        node: OpenSeesObject.node.Node()
-        x: int
-            Fixity in x-direction
-        """
-        self.node = node
-        self.x = x
-        self._parameters = [self.node.tag, self.x]
-        self.to_process(osi)
 
 
 class Fix2DOF(OpenSeesObject):
@@ -271,7 +250,6 @@ class Fix2DOFMulti(OpenSeesMultiCallObject):
                 else:
                     pass
                 
-
 
 def add_fixity_to_dof(osi, dof, nodes):
     if osi.ndf == 1:
@@ -770,3 +748,41 @@ def get_all_ele_node_tags_by_n_nodes(osi):
                 all_node_tags[len(node_tags)] = {}
             all_node_tags[len(node_tags)][ele_tag] = node_tags
     return all_node_tags
+
+
+class Parameter(OpenSeesObject):
+    op_base_type = 'parameter'
+    op_type = None
+
+    def __init__(self, osi, ele, section=None, mat=None, pname=''):
+        """
+
+        Parameters
+        ----------
+        osi
+        ele
+        section
+        mat
+        pname
+        """
+        self.ele = ele
+        self.section = section
+        self.mat = mat
+        self.pname = pname
+        osi.n_params += 1
+        self._tag = osi.n_params
+        self._parameters = [self.tag, 'element', self.ele.tag]
+        if self.section is not None:
+            self._parameters += ['section', self.section]  # unsure if this is correct
+        if self.mat is not None:
+            self._parameters += ['material', self.mat]
+        self._parameters.append(pname)
+        self.to_process(osi)
+
+
+def update_parameter(osi, param, value):
+    """Set a parameter to a new value"""
+    op_type = 'updateParameter'
+    parameters = [param.tag, value]
+    return osi.to_process(op_type, parameters)
+
