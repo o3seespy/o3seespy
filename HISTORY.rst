@@ -2,7 +2,14 @@
 History
 =======
 
-3.1.0.25 (2020-07-20)
+3.1.0.27 (2020-09-21)
+---------------------
+* Added `algorithm.ModifiedNewton`
+* Added Parameter
+* Changed install requirements to support latest version of openseespy on Windows and Linux
+
+
+3.1.0.26 (2020-07-20)
 --------------------
 * Added commands for applying fixities to list of nodes (e.g. `o3.Fix2DOFMulti`), and for equal DOF command
 * Added function for generating a grid of nodes `build_regular_node_mesh`

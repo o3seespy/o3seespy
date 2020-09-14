@@ -28,7 +28,9 @@ setup(name='o3seespy',
                                       '_auto_build', '.github']),
       install_requires=[
         "numpy",  # now it is optional
-        "openseespy==3.1.5.12"
+        'openseespy>=3.1.5.12 ; sys_platform!="darwin"',
+        'openseespy==3.1.5.12 ; sys_platform=="darwin"',
+
       ],
       # List additional groups of dependencies here (e.g. development
       # dependencies). You can install these using the following syntax,

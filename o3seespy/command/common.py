@@ -24,6 +24,22 @@ class Mass(OpenSeesObject):
         if self.rot_mass is not None:
             self._parameters.append(self.rot_mass)
         self.to_process(osi)
+        
+        
+class Mass3D(OpenSeesObject):
+    op_base_type = "mass"
+    op_type = None
+
+    def __init__(self, osi, node, x, y, z, x_rot, y_rot, z_rot):
+        self.node = node
+        self.x = x
+        self.y = y
+        self.z = y
+        self.x_rot = x_rot
+        self.y_rot = y_rot
+        self.z_rot = z_rot
+        self._parameters = [self.node.tag, self.x, self.y, self.z, self.x_rot, self.y_rot, self.z_rot]
+        self.to_process(osi)
 
 
 def set_equal_dof(osi, node_1, node_2, dof):
@@ -268,6 +284,8 @@ def add_fixity_to_dof(osi, dof, nodes):
         raise ModelError("'create_fixities_for_dof' only supports ndf=1,2,3,6")
     arr[dof - 1] = 1
     for node in nodes:
+        if node is None:
+            continue
         try:
             fn(osi, node, *arr)
         except ValueError:
