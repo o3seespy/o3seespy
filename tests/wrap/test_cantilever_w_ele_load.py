@@ -54,7 +54,7 @@ def test_cantilever_w_force_beam_column():
         tol = 1.0e-3
         o3.constraints.Plain(osi)
         o3.numberer.RCM(osi)
-        o3.system.BandGeneral(osi)
+        o3.system.BandGen(osi)
         n_steps_gravity = 10
         o3.integrator.LoadControl(osi, 1. / n_steps_gravity, num_iter=10)
         o3.test_check.NormDispIncr(osi, tol, 10)
@@ -135,7 +135,7 @@ def test_disp_control_cantilever_nonlinear():
     # opy.wipeAnalysis()
     o3.constraints.Plain(osi)
     o3.numberer.RCM(osi)
-    o3.system.BandGeneral(osi)
+    o3.system.BandGen(osi)
     o3.test_check.NormUnbalance(osi, 2, max_iter=10, p_flag=0)
     # o3.test_check.FixedNumIter(osi, max_iter=10)
     # o3.test_check.NormDispIncr(osi, 0.002, 10, p_flag=0)

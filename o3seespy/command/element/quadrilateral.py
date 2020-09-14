@@ -41,8 +41,7 @@ class Quad(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> osi = o3.OpenSeesInstance(ndm=2, ndf=2)
         >>> obj = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
@@ -86,6 +85,13 @@ class ShellMITC4(ElementBase):
         sec: obj
             Object associated with previously-defined sectionforcedeformation object. currently must be either a
             ``'platefibersection'``, or ``'elasticmembraneplatesection'``
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.element.ShellMITC4(osi, ele_nodes=1, sec=obj)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -119,6 +125,13 @@ class ShellDKGQ(ElementBase):
         sec: obj
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.element.ShellDKGQ(osi, ele_nodes=1, sec=obj)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -152,6 +165,13 @@ class ShellDKGT(ElementBase):
         sec: obj
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.element.ShellDKGT(osi, ele_nodes=1, sec=obj)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -185,6 +205,13 @@ class ShellNLDKGQ(ElementBase):
         sec: obj
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.element.ShellNLDKGQ(osi, ele_nodes=1, sec=obj)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -218,6 +245,13 @@ class ShellNLDKGT(ElementBase):
         sec: obj
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.element.ShellNLDKGT(osi, ele_nodes=1, sec=obj)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -249,6 +283,13 @@ class ShellNL(ElementBase):
         sec: obj
             Object associated with previously-defined sectionforcedeformation object. currently can be a
             ``'platefibersection'``, a ``'elasticmembraneplatesection'`` and a ``'layeredshell'`` section
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.element.ShellNL(osi, ele_nodes=1, sec=obj)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
@@ -287,8 +328,7 @@ class BbarQuad(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> osi = o3.OpenSeesInstance(ndm=2, ndf=2)
         >>> mat = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
@@ -335,8 +375,7 @@ class EnhancedQuad(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> osi = o3.OpenSeesInstance(ndm=2, ndf=2)
         >>> obj = o3.nd_material.ElasticIsotropic(osi, 1, 0.45)
         >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]

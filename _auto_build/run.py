@@ -186,6 +186,9 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         else:
             op_class_name = convert_name_to_class_name(op_type + name_from_kw) + cl_name_suf
             base_class_name = convert_name_to_class_name(base_type)
+            custom_strs = find_in_custom_defs(base_type, op_class_name)
+            if custom_strs is not None:
+                return custom_strs
             # base_class_name = base_type[0].capitalize() + base_type[1:]
             para.append(f'class {op_class_name}({base_class_name}Base):')
             cur_obj_class_name = op_class_name
@@ -695,6 +698,9 @@ def clean_fn_line(line, has_tag=True):
                         markers[names_only[j + 1]] = word
                         continue
             if len(inputs) > j + 1:
+                if word == names_only[j + 1].upper():
+                    markers[names_only[j + 1]] = word
+                    continue
                 suf_match = 0
                 for suffix in suffixes:
                     if word + suffix == names_only[j + 1]:
@@ -949,7 +955,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
     return pstr, tstr, istr
 
 
-def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=[]):
+def find_in_custom_defs(base_type, optype):
     from _auto_build import _custom_gen as cust_file
 
     cust_obj_list = [o[0] for o in getmembers(cust_file) if isclass(o[1])]
@@ -963,6 +969,13 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
             if parent_class == cust_parent_obj_list[indy]:
                 source = inspect.getsource(getattr(cust_file, op_class_name))
                 return '\n' + source + '\n', ""
+    return None
+
+
+def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=[]):
+    custom_str = find_in_custom_defs(base_type, optype)
+    if custom_str is not None:
+        return custom_str
     if osi_type is not None:
         doc_str_pms = doc_str_pms[1:]  # remove mat tag
         dtypes = dtypes[1:]
@@ -1104,7 +1117,7 @@ def parse_all_uniaxial_mat():
         if mtype is not None:
             line = line.replace(' ', '')
             line = line.replace('\t', '')
-            if ':' in line or '-' in line or '#' in line  or line == '':
+            if ':' in line or '-' in line or '#' in line or line == '':
                 continue
             collys[mtype].append(line)
 
@@ -1372,7 +1385,8 @@ if __name__ == '__main__':
         # print(ts)
         # parse_generic_single_file(obj_type='elastomericBearingPlasticity', osi_type='ele')
         #
-        parse_single_file(up.OPY_DOCS_PATH + 'TripleFrictionPendulum.rst', osi_type='ele')
+        p = parse_single_file(up.OPY_DOCS_PATH + 'elastomericBearingBoucWen.rst', osi_type=None)
+        print(p[0])
         # parse_all_elements()
         # pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
         # print(pstr)
@@ -1394,10 +1408,21 @@ if __name__ == '__main__':
         parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)
         parse_generic_single_file(obj_type='layer', osi_type=None, extras=['layer'], multi_def=True)
+        parse_generic_single_file(obj_type='system', osi_type=None)
 
         parse_all_uniaxial_mat()
         parse_all_ndmat()
         parse_all_elements()
+
+        # load old versions
+        a = open('req_objs_that_are_deprecated/required_system.txt', 'r')
+        b = a.read().splitlines()
+        a.close()
+        ffp = ROOT_DIR + 'o3seespy/command/system.py'
+        a = open(ffp, 'a')
+        a.write('\n'.join(b))
+        a.close()
+
     ofile = open('temp.out', 'w')
     ofile.write('\n'.join(glob_list))
     # ps, ts, istr = parse_single_file(up.OPY_DOCS_PATH + 'block2D.rst', 'block')

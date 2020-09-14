@@ -992,3 +992,255 @@ class TFP(ElementBase):
         if getattr(self, 'big_k') is not None:
             self._parameters += [self.big_k]
         self.to_process(osi)
+
+
+class ElastomericBearingBoucWen2D(ElementBase):
+    """
+    The ElastomericBearingBoucWen2D Element Class
+
+    This command is used to construct an elastomericBearing element object, which is defined by two nodes. The element
+    can have zero length or the appropriate bearing height. The bearing has unidirectional (2D) or coupled (3D)
+    plasticity properties for the shear deformations, and force-deformation behaviors defined by
+    UniaxialMaterials in the remaining two (2D) or four (3D) directions. By default (sDratio =
+    0.5) P-Delta moments are equally distributed to the two end-nodes. To avoid the
+    introduction of artificial viscous damping in the isolation system (sometimes
+    referred to as "damping leakage in the isolation system"), the bearing
+    element does not contribute to the Rayleigh damping by default. If
+    the element has non-zero length, the local x-axis is determined
+    from the nodal geometry unless the optional x-axis vector is
+    specified in which case the nodal geometry is ignored and
+    the user-defined orientation is utilized.
+
+    For a two-dimensional problem
+    """
+    op_type = 'elastomericBearingBoucWen'
+
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None,
+                 orient_vals: list = None, shear_dist: float = None, do_rayleigh=False, mass: float = None):
+        """
+        Initial method for ElastomericBearingBoucWen2D
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of two element nodes
+        k_init: float
+            Initial elastic stiffness in local shear direction
+        qd: float
+            Characteristic strength
+        alpha1: float
+            Post yield stiffness ratio of linear hardening component
+        alpha2: float
+            Post yield stiffness ratio of non-linear hardening component
+        mu: float
+            Exponent of non-linear hardening component
+        eta: float
+            Yielding exponent (sharpness of hysteresis loop corners) (default = 1.0)
+        beta: float
+            First hysteretic shape parameter (default = 0.5)
+        gamma: float
+            Second hysteretic shape parameter (default = 0.5)
+        p_mat: obj, optional
+            Object associated with previously-defined uniaxial_material in axial direction
+        mz_mat: obj, optional
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
+        orient_vals: list, optional
+            Vector components in global coordinates defining local x-axis , vector components in global coordinates
+            defining local y-axis
+        shear_dist: float, optional
+            Shear distance from inode as a fraction of the element length (optional, default = 0.5)
+        do_rayleigh: bool
+            To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
+        mass: float, optional
+            Element mass (optional, default = 0.0)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [1, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> orient_vals = [1, 0, 0, 1, 0, 1]
+        >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+        >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+        >>> o3.element.ElastomericBearingBoucWen2D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0,
+        >>>                                        mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, mz_mat=mz_mat,
+        >>>                                        orient_vals=orient_vals, shear_dist=1.0, do_rayleigh=False, mass=1.0)
+        """
+        self.osi = osi
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.k_init = float(k_init)
+        self.qd = float(qd)
+        self.alpha1 = float(alpha1)
+        self.alpha2 = float(alpha2)
+        self.mu = float(mu)
+        self.eta = float(eta)
+        self.beta = float(beta)
+        self.gamma = float(gamma)
+        self.p_mat = p_mat
+        self.mz_mat = mz_mat
+        self.orient_vals = orient_vals
+        if shear_dist is None:
+            self.shear_dist = None
+        else:
+            self.shear_dist = float(shear_dist)
+        self.do_rayleigh = do_rayleigh
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2,
+                            self.mu, self.eta, self.beta, self.gamma]
+        if getattr(self, 'p_mat') is not None:
+            self._parameters += ['-P', self.p_mat.tag]
+        if getattr(self, 'mz_mat') is not None:
+            self._parameters += ['-Mz', self.mz_mat.tag]
+        if getattr(self, 'orient_vals') is not None:
+            self._parameters += ['-orient', *self.orient_vals]
+        if getattr(self, 'shear_dist') is not None:
+            self._parameters += ['-shearDist', self.shear_dist]
+        if getattr(self, 'do_rayleigh'):
+            self._parameters += ['-doRayleigh']
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
+        try:
+            self.to_process(osi)
+        except ValueError:
+            self._parameters[0] = 'ElastomericBearingBoucWen'
+            self.to_process(osi)
+
+
+class ElastomericBearingBoucWen3D(ElementBase):
+    """
+    The ElastomericBearingBoucWen3D Element Class
+
+    This command is used to construct an elastomericBearing element object, which is defined by two nodes. The element
+    can have zero length or the appropriate bearing height. The bearing has unidirectional (2D) or coupled (3D)
+    plasticity properties for the shear deformations, and force-deformation behaviors defined by
+    UniaxialMaterials in the remaining two (2D) or four (3D) directions. By default (sDratio =
+    0.5) P-Delta moments are equally distributed to the two end-nodes. To avoid the
+    introduction of artificial viscous damping in the isolation system (sometimes
+    referred to as "damping leakage in the isolation system"), the bearing
+    element does not contribute to the Rayleigh damping by default. If
+    the element has non-zero length, the local x-axis is determined
+    from the nodal geometry unless the optional x-axis vector is
+    specified in which case the nodal geometry is ignored and
+    the user-defined orientation is utilized.
+
+    For a three-dimensional problem
+    """
+    op_type = 'elastomericBearingBoucWen'
+
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None,
+                 my_mat=None, mz_mat=None, orient_vals: list = None, shear_dist: float = None, do_rayleigh=False,
+                 mass: float = None):
+        """
+        Initial method for ElastomericBearingBoucWen3D
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of two element nodes
+        k_init: float
+            Initial elastic stiffness in local shear direction
+        qd: float
+            Characteristic strength
+        alpha1: float
+            Post yield stiffness ratio of linear hardening component
+        alpha2: float
+            Post yield stiffness ratio of non-linear hardening component
+        mu: float
+            Exponent of non-linear hardening component
+        eta: float
+            Yielding exponent (sharpness of hysteresis loop corners) (default = 1.0)
+        beta: float
+            First hysteretic shape parameter (default = 0.5)
+        gamma: float
+            Second hysteretic shape parameter (default = 0.5)
+        p_mat: obj, optional
+            Object associated with previously-defined uniaxial_material in axial direction
+        t_mat: obj, optional
+            Object associated with previously-defined uniaxial_material in torsional direction
+        my_mat: obj, optional
+            Object associated with previously-defined uniaxial_material in moment direction around local y-axis
+        mz_mat: obj, optional
+            Object associated with previously-defined uniaxial_material in moment direction around local z-axis
+        orient_vals: list, optional
+            Vector components in global coordinates defining local x-axis , vector components in global coordinates
+            defining local y-axis
+        shear_dist: float, optional
+            Shear distance from inode as a fraction of the element length (optional, default = 0.5)
+        do_rayleigh: bool
+            To include rayleigh damping from the bearing (optional, default = no rayleigh damping contribution)
+        mass: float, optional
+            Element mass (optional, default = 0.0)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=3, ndf=6)
+        >>> coords = [[0, 0, 0], [0, 1, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> orient_vals = [1, 0, 0]
+        >>> p_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+        >>> mz_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+        >>> t_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+        >>> my_mat = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
+        >>> o3.element.ElastomericBearingBoucWen3D(osi, ele_nodes=ele_nodes, k_init=1.0, qd=1.0, alpha1=1.0, alpha2=1.0,
+        >>>                                        mu=1.0, eta=1.0, beta=1.0, gamma=1.0, p_mat=p_mat, t_mat=t_mat,
+        >>>                                        my_mat=my_mat, mz_mat=mz_mat, orient_vals=orient_vals,
+        >>>                                        shear_dist=1.0, do_rayleigh=False, mass=1.0)
+        """
+        self.osi = osi
+        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.k_init = float(k_init)
+        self.qd = float(qd)
+        self.alpha1 = float(alpha1)
+        self.alpha2 = float(alpha2)
+        self.mu = float(mu)
+        self.eta = float(eta)
+        self.beta = float(beta)
+        self.gamma = float(gamma)
+        self.p_mat = p_mat
+        self.t_mat = t_mat
+        self.my_mat = my_mat
+        self.mz_mat = mz_mat
+        self.orient_vals = orient_vals
+        if shear_dist is None:
+            self.shear_dist = None
+        else:
+            self.shear_dist = float(shear_dist)
+        self.do_rayleigh = do_rayleigh
+        if mass is None:
+            self.mass = None
+        else:
+            self.mass = float(mass)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2,
+                            self.mu, self.eta, self.beta, self.gamma]
+        if getattr(self, 'p_mat') is not None:
+            self._parameters += ['-P', self.p_mat.tag]
+        if getattr(self, 't_mat') is not None:
+            self._parameters += ['-T', self.t_mat.tag]
+        if getattr(self, 'my_mat') is not None:
+            self._parameters += ['-My', self.my_mat.tag]
+        if getattr(self, 'mz_mat') is not None:
+            self._parameters += ['-Mz', self.mz_mat.tag]
+        if getattr(self, 'orient_vals') is not None:
+            self._parameters += ['-orient', *self.orient_vals]
+        if getattr(self, 'shear_dist') is not None:
+            self._parameters += ['-shearDist', self.shear_dist]
+        if getattr(self, 'do_rayleigh'):
+            self._parameters += ['-doRayleigh']
+        if getattr(self, 'mass') is not None:
+            self._parameters += ['-mass', self.mass]
+        try:
+            self.to_process(osi)
+        except ValueError:
+            self._parameters[0] = 'ElastomericBearingBoucWen'
+            self.to_process(osi)

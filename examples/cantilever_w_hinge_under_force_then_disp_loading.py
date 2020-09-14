@@ -54,7 +54,7 @@ def run(use_pload):
         tol = 1.0e-3
         o3.constraints.Plain(osi)
         o3.numberer.RCM(osi)
-        o3.system.BandGeneral(osi)
+        o3.system.BandGen(osi)
         n_steps_gravity = 10
         o3.integrator.LoadControl(osi, 1. / n_steps_gravity, num_iter=10)
         o3.test_check.NormDispIncr(osi, tol, 10)

@@ -27,7 +27,7 @@ def test_ele_load_uniform():
     tol = 1.0e-4
     o3.constraints.Plain(osi)
     o3.numberer.RCM(osi)
-    o3.system.BandGeneral(osi)
+    o3.system.BandGen(osi)
     o3.test_check.NormDispIncr(osi, tol, 6)
     o3.algorithm.Newton(osi)
     n_steps_gravity = 1

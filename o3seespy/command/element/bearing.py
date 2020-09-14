@@ -220,7 +220,7 @@ class ElastomericBearingPlasticity3D(ElementBase):
 class ElastomericBearingBoucWen2D(ElementBase):
     """
     The ElastomericBearingBoucWen2D Element Class
-    
+
     This command is used to construct an elastomericBearing element object, which is defined by two nodes. The element
     can have zero length or the appropriate bearing height. The bearing has unidirectional (2D) or coupled (3D)
     plasticity properties for the shear deformations, and force-deformation behaviors defined by
@@ -238,7 +238,8 @@ class ElastomericBearingBoucWen2D(ElementBase):
     """
     op_type = 'elastomericBearingBoucWen'
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None, orient_vals: list=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, mz_mat=None,
+                 orient_vals: list = None, shear_dist: float = None, do_rayleigh=False, mass: float = None):
         """
         Initial method for ElastomericBearingBoucWen2D
 
@@ -269,7 +270,7 @@ class ElastomericBearingBoucWen2D(ElementBase):
             Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         orient_vals: list, optional
             Vector components in global coordinates defining local x-axis , vector components in global coordinates
-            defining local y-axis 
+            defining local y-axis
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
         do_rayleigh: bool
@@ -314,7 +315,8 @@ class ElastomericBearingBoucWen2D(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, self.gamma]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2,
+                            self.mu, self.eta, self.beta, self.gamma]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
@@ -334,10 +336,11 @@ class ElastomericBearingBoucWen2D(ElementBase):
             self.to_process(osi)
 
 
+
 class ElastomericBearingBoucWen3D(ElementBase):
     """
     The ElastomericBearingBoucWen3D Element Class
-    
+
     This command is used to construct an elastomericBearing element object, which is defined by two nodes. The element
     can have zero length or the appropriate bearing height. The bearing has unidirectional (2D) or coupled (3D)
     plasticity properties for the shear deformations, and force-deformation behaviors defined by
@@ -355,7 +358,9 @@ class ElastomericBearingBoucWen3D(ElementBase):
     """
     op_type = 'elastomericBearingBoucWen'
 
-    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None, my_mat=None, mz_mat=None, orient_vals: list=None, shear_dist: float=None, do_rayleigh=False, mass: float=None):
+    def __init__(self, osi, ele_nodes, k_init, qd, alpha1, alpha2, mu, eta, beta, gamma, p_mat=None, t_mat=None,
+                 my_mat=None, mz_mat=None, orient_vals: list = None, shear_dist: float = None, do_rayleigh=False,
+                 mass: float = None):
         """
         Initial method for ElastomericBearingBoucWen3D
 
@@ -390,7 +395,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
             Object associated with previously-defined uniaxial_material in moment direction around local z-axis
         orient_vals: list, optional
             Vector components in global coordinates defining local x-axis , vector components in global coordinates
-            defining local y-axis 
+            defining local y-axis
         shear_dist: float, optional
             Shear distance from inode as a fraction of the element length (optional, default = 0.5)
         do_rayleigh: bool
@@ -440,7 +445,8 @@ class ElastomericBearingBoucWen3D(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu, self.eta, self.beta, self.gamma]
+        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2,
+                            self.mu, self.eta, self.beta, self.gamma]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
@@ -462,6 +468,7 @@ class ElastomericBearingBoucWen3D(ElementBase):
         except ValueError:
             self._parameters[0] = 'ElastomericBearingBoucWen'
             self.to_process(osi)
+
 
 
 class FlatSliderBearing2D(ElementBase):
@@ -1701,7 +1708,7 @@ class ElastomericX(ElementBase):
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
         >>> o3.element.ElastomericX(osi, ele_nodes=ele_nodes, fy=1.0, alpha=1.0, gr=1.0, kbulk=1.0, d1=1.0, d2=1.0, ts=1.0,
         >>>                         tr=1.0, n=1, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, kc=1.0, phi_m=1.0, ac=1.0,
-        >>>                         s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, tag1=1.0, tag2=1.0, tag3=1.0, tag4=1.0)
+        >>>                         s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, tag1=0, tag2=0, tag3=0, tag4=0)
         """
         self.osi = osi
         self.ele_nodes = [x.tag for x in ele_nodes]
