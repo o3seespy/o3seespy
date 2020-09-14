@@ -23,6 +23,12 @@ class BandGen(SystemBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.BandGen(osi)
         """
         self.osi = osi
         self._parameters = [self.op_type]
@@ -47,6 +53,12 @@ class BandSPD(SystemBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.BandSPD(osi)
         """
         self.osi = osi
         self._parameters = [self.op_type]
@@ -71,6 +83,12 @@ class ProfileSPD(SystemBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.ProfileSPD(osi)
         """
         self.osi = osi
         self._parameters = [self.op_type]
@@ -93,6 +111,12 @@ class SuperLU(SystemBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.SuperLU(osi)
         """
         self.osi = osi
         self._parameters = [self.op_type]
@@ -114,6 +138,12 @@ class UmfPack(SystemBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.UmfPack(osi)
         """
         self.osi = osi
         self._parameters = [self.op_type]
@@ -140,6 +170,12 @@ class FullGeneral(SystemBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.FullGeneral(osi)
         """
         self.osi = osi
         self._parameters = [self.op_type]
@@ -162,6 +198,13 @@ class SparseSYM(SystemBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.SparseSYM(osi)
         """
         self.osi = osi
         self._parameters = [self.op_type]

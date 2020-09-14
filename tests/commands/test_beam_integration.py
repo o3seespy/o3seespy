@@ -1,5 +1,4 @@
 import o3seespy as o3  # for testing only
-import pytest
 
 
 def test_lobatto():
@@ -101,10 +100,18 @@ def test_hinge_radau_two():
     o3.beam_integration.HingeRadauTwo(osi, sec_i=sec_i, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
 
 
-@pytest.mark.skip()
-def test_beamhinge_endpoint():
+# @pytest.mark.skip()
+# def test_beamhinge_endpoint():
+#     osi = o3.OpenSeesInstance(ndm=2)
+#     sec_j = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+#     sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+#     o3.beam_integration.BeamhingeEndpoint(osi, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
+
+
+def test_hinge_endpoint():
     osi = o3.OpenSeesInstance(ndm=2)
+    sec_i = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
     sec_j = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
     sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
-    o3.beam_integration.BeamhingeEndpoint(osi, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
+    o3.beam_integration.HingeEndpoint(osi, sec_i=sec_i, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
 

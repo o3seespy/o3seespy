@@ -378,11 +378,11 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             as ultimate strain.
         epscu_val: float
             Value for the definition of the concrete ultimate strain
-        nu: str or list
-            Definition for poisson's ratio. * ``*['-nu', <value of poisson's ratio>]`` * ``'-varub'`` poisson's ratio is
-            defined as a function of axial strain by means of the expression proposed by braga et al. (2006) with the upper bound
-            equal to 0.5 *``'-varnoub'`` poisson's ratio is defined as a function of axial strain by means of the expression
-            proposed by braga et al. (2006) without any upper bound.
+        nu: str
+            Or |list|                definition for poisson's ratio. * ``*['-nu', <value of poisson's ratio>]`` *
+            ``'-varub'`` poisson's ratio is defined as a function of axial strain by means of the expression proposed by
+            braga et al. (2006) with the upper bound equal to 0.5 *``'-varnoub'`` poisson's ratio is defined as a
+            function of axial strain by means of the expression proposed by braga et al. (2006) without any upper bound.
         l1: float
             Length/diameter of square/circular core section measured respect to the hoop center line.
         l2: float

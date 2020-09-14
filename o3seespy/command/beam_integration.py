@@ -630,23 +630,25 @@ class HingeRadauTwo(BeamIntegrationBase):
         self.to_process(osi)
 
 
-class BeamhingeEndpoint(OpenSeesObject):
+class HingeEndpoint(BeamIntegrationBase):
     """
-    The beamhingeEndpoint BeamhingeEndpoint Class
+    The HingeEndpoint BeamIntegration Class
     
     Create a HingeEndpoint beamIntegration object.Endpoint integration over each hinge region moves the integration
     points to the element ends;however, there is a large integration error for linear curvature distributions along
     the element.
     """
-    op_base_type = 'beamhingeEndpoint'
+    op_type = 'HingeEndpoint'
 
-    def __init__(self, osi, lp_i, sec_j, lp_j, sec_e):
+    def __init__(self, osi, sec_i, lp_i, sec_j, lp_j, sec_e):
         """
-        Initial method for beamhingeEndpoint
+        Initial method for HingeEndpoint
 
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        sec_i: obj
+            A previous-defined section object for hinge at i.
         lp_i: float
             The plastic hinge length at i.
         sec_j: obj
@@ -655,13 +657,23 @@ class BeamhingeEndpoint(OpenSeesObject):
             The plastic hinge length at j.
         sec_e: obj
             A previous-defined section object for the element interior.
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> sec_i = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> sec_j = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> sec_e = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> o3.beam_integration.HingeEndpoint(osi, sec_i=sec_i, lp_i=1.0, sec_j=sec_j, lp_j=1.0, sec_e=sec_e)
         """
         self.osi = osi
+        self.sec_i = sec_i
         self.lp_i = float(lp_i)
         self.sec_j = sec_j
         self.lp_j = float(lp_j)
         self.sec_e = sec_e
         osi.n_integ += 1
         self._tag = osi.n_integ
-        self._parameters = [self._tag, self.lp_i, self.sec_j.tag, self.lp_j, self.sec_e.tag]
+        self._parameters = [self.op_type, self._tag, self.sec_i.tag, self.lp_i, self.sec_j.tag, self.lp_j, self.sec_e.tag]
         self.to_process(osi)
