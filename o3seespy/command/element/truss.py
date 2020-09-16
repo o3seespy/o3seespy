@@ -44,7 +44,8 @@ class Truss(ElementBase):
         >>> o3.element.Truss(osi, ele_nodes=ele_nodes, big_a=1.0, mat=mat, rho=1.0, c_flag=1.0, r_flag=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.big_a = float(big_a)
         self.mat = mat
         if rho is None:
@@ -61,7 +62,7 @@ class Truss(ElementBase):
             self.r_flag = float(r_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.mat.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.big_a, self.mat.tag]
         if getattr(self, 'rho') is not None:
             self._parameters += ['-rho', self.rho]
         if getattr(self, 'c_flag') is not None:
@@ -114,7 +115,8 @@ class CorotTruss(ElementBase):
         >>> o3.element.CorotTruss(osi, ele_nodes=ele_nodes, big_a=1.0, mat=mat, rho=1.0, c_flag=1.0, r_flag=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.big_a = float(big_a)
         self.mat = mat
         if rho is None:
@@ -131,7 +133,7 @@ class CorotTruss(ElementBase):
             self.r_flag = float(r_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_a, self.mat.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.big_a, self.mat.tag]
         if getattr(self, 'rho') is not None:
             self._parameters += ['-rho', self.rho]
         if getattr(self, 'c_flag') is not None:

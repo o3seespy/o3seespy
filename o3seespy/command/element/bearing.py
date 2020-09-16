@@ -66,7 +66,8 @@ class ElastomericBearingPlasticity2D(ElementBase):
         >>>                                           mu=1.0, p_mat=p_mat, mz_mat=mz_mat)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
         self.alpha1 = float(alpha1)
@@ -86,7 +87,7 @@ class ElastomericBearingPlasticity2D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
@@ -175,7 +176,8 @@ class ElastomericBearingPlasticity3D(ElementBase):
         >>>                                           orient=orient_vals)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.k_init = float(k_init)
         self.qd = float(qd)
         self.alpha1 = float(alpha1)
@@ -197,7 +199,7 @@ class ElastomericBearingPlasticity3D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.k_init, self.qd, self.alpha1, self.alpha2, self.mu]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
@@ -542,7 +544,8 @@ class FlatSliderBearing2D(ElementBase):
         >>>                                do_rayleigh=False, max_iter=1, tol=1.0, orient=None, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
         self.p_mat = p_mat
@@ -567,7 +570,7 @@ class FlatSliderBearing2D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.frn_mdl.tag, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
@@ -668,7 +671,8 @@ class FlatSliderBearing3D(ElementBase):
         >>>                                mass=1.0, shear_dist=1.0, orient=orient_vals)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
         self.p_mat = p_mat
@@ -692,7 +696,7 @@ class FlatSliderBearing3D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.frn_mdl.tag, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
@@ -789,7 +793,8 @@ class SingleFPBearing2D(ElementBase):
         >>>                              mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl
         self.reff = float(reff)
         self.k_init = float(k_init)
@@ -815,7 +820,7 @@ class SingleFPBearing2D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.frn_mdl.tag, self.reff, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'mz_mat') is not None:
@@ -915,7 +920,8 @@ class SingleFPBearing3D(ElementBase):
         >>>                              orient=orient_vals, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl
         self.reff = float(reff)
         self.k_init = float(k_init)
@@ -943,7 +949,7 @@ class SingleFPBearing3D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.reff, self.k_init]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.frn_mdl.tag, self.reff, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 't_mat') is not None:
@@ -1177,7 +1183,8 @@ class TripleFrictionPendulum(ElementBase):
         >>>                                   l3=1.0, d1=1.0, d2=1.0, d3=1.0, big_w=1.0, uy=1.0, kvt=1.0, min_fv=None, tol=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.frn1 = frn1
         self.frn2 = frn2
         self.frn3 = frn3
@@ -1198,7 +1205,7 @@ class TripleFrictionPendulum(ElementBase):
         self.tol = float(tol)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn1.tag, self.frn2.tag, self.frn3.tag, self.vert_mat.tag, self.rot_z_mat.tag, self.rot_x_mat.tag, self.rot_y_mat.tag, self.l1, self.l2, self.l3, self.d1, self.d2, self.d3, self.big_w, self.uy, self.kvt, self.min_fv, self.tol]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.frn1.tag, self.frn2.tag, self.frn3.tag, self.vert_mat.tag, self.rot_z_mat.tag, self.rot_x_mat.tag, self.rot_y_mat.tag, self.l1, self.l2, self.l3, self.d1, self.d2, self.d3, self.big_w, self.uy, self.kvt, self.min_fv, self.tol]
         self.to_process(osi)
 
 
@@ -1244,7 +1251,8 @@ class MultipleShearSpring(ElementBase):
         >>> o3.element.MultipleShearSpring(osi, ele_nodes=ele_nodes, n_spring=1, mat=mat, lim=1.0, mass=1.0, orient=None)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.n_spring = int(n_spring)
         self.mat = mat
         if lim is None:
@@ -1258,7 +1266,7 @@ class MultipleShearSpring(ElementBase):
         self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.n_spring]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.n_spring]
         if getattr(self, 'mat') is not None:
             self._parameters += ['-mat', self.mat.tag]
         if getattr(self, 'lim') is not None:
@@ -1335,7 +1343,8 @@ class KikuchiBearingadjustPDOutput(ElementBase):
         >>> o3.element.KikuchiBearingadjustPDOutput(osi, ele_nodes=ele_nodes, shape=1.0, size=1.0, total_rubber=1.0, total_height=1.0, n_mss=1, mat_mss=mat_mss, lim_disp=1.0, n_mns=1, mat_mns=mat_mns, lamb=1.0, no_pd_input="string", no_tilt="string", ci=1.0, cj=1.0, orient=[0.0, 0.0], mass=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         if shape is None:
             self.shape = None
         else:
@@ -1378,7 +1387,7 @@ class KikuchiBearingadjustPDOutput(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.total_rubber, '-adjustPDOutput', self.ci, self.cj]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.total_rubber, '-adjustPDOutput', self.ci, self.cj]
         if getattr(self, 'shape') is not None:
             self._parameters += ['-shape', self.shape]
         if getattr(self, 'size') is not None:
@@ -1477,7 +1486,8 @@ class KikuchiBearingdoBalance(ElementBase):
         >>> o3.element.KikuchiBearingdoBalance(osi, ele_nodes=ele_nodes, shape=1.0, size=1.0, total_rubber=1.0, total_height=1.0, n_mss=1, mat_mss=mat_mss, lim_disp=1.0, n_mns=1, mat_mns=mat_mns, lamb=1.0, no_pd_input="string", no_tilt="string", lim_fo=1.0, lim_fi=1.0, n_iter=1.0, orient=[0.0, 0.0], mass=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         if shape is None:
             self.shape = None
         else:
@@ -1521,7 +1531,7 @@ class KikuchiBearingdoBalance(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.total_rubber, '-doBalance', self.lim_fo, self.lim_fi, self.n_iter]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.total_rubber, '-doBalance', self.lim_fo, self.lim_fi, self.n_iter]
         if getattr(self, 'shape') is not None:
             self._parameters += ['-shape', self.shape]
         if getattr(self, 'size') is not None:
@@ -1598,7 +1608,8 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
         >>> o3.element.YamamotoBiaxialHDRcoRS(osi, ele_nodes=ele_nodes, tp=1, d_do=1.0, d_di=1.0, hr=1.0, cr=1.0, cs=1.0, orient=[0.0, 0.0], mass=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.tp = int(tp)
         self.d_do = float(d_do)
         self.d_di = float(d_di)
@@ -1612,7 +1623,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.tp, self.d_do, self.d_di, self.hr, '-coRS', self.cr, self.cs]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.tp, self.d_do, self.d_di, self.hr, '-coRS', self.cr, self.cs]
         if getattr(self, 'orient') is not None:
             self._parameters += ['--orient', *self.orient]
         if getattr(self, 'mass') is not None:
@@ -1711,7 +1722,8 @@ class ElastomericX(ElementBase):
         >>>                         s_dratio=1.0, m=1.0, cd=1.0, tc=1.0, tag1=0, tag2=0, tag3=0, tag4=0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.fy = float(fy)
         self.alpha = float(alpha)
         self.gr = float(gr)
@@ -1740,7 +1752,7 @@ class ElastomericX(ElementBase):
         self.tag4 = float(tag4)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.fy, self.alpha, self.gr, self.kbulk, self.d1, self.d2, self.ts, self.tr, self.n, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.kc, self.phi_m, self.ac, self.s_dratio, self.m, self.cd, self.tc, self.tag1, self.tag2, self.tag3, self.tag4]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.fy, self.alpha, self.gr, self.kbulk, self.d1, self.d2, self.ts, self.tr, self.n, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.kc, self.phi_m, self.ac, self.s_dratio, self.m, self.cd, self.tc, self.tag1, self.tag2, self.tag3, self.tag4]
         self.to_process(osi)
 
 
@@ -1845,7 +1857,8 @@ class LeadRubberX(ElementBase):
         >>>                        tag1=1, tag2=1, tag3=1, tag4=1, tag5=1)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.fy = float(fy)
         self.alpha = float(alpha)
         self.gr = float(gr)
@@ -1879,7 +1892,7 @@ class LeadRubberX(ElementBase):
         self.tag5 = int(tag5)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.fy, self.alpha, self.gr, self.kbulk, self.d1, self.d2, self.ts, self.tr, self.n, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.kc, self.phi_m, self.ac, self.s_dratio, self.m, self.cd, self.tc, self.q_l, self.c_l, self.k_s, self.a_s, self.tag1, self.tag2, self.tag3, self.tag4, self.tag5]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.fy, self.alpha, self.gr, self.kbulk, self.d1, self.d2, self.ts, self.tr, self.n, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.kc, self.phi_m, self.ac, self.s_dratio, self.m, self.cd, self.tc, self.q_l, self.c_l, self.k_s, self.a_s, self.tag1, self.tag2, self.tag3, self.tag4, self.tag5]
         self.to_process(osi)
 
 
@@ -1969,7 +1982,8 @@ class HDR(ElementBase):
         >>> o3.element.HDR(osi, ele_nodes=ele_nodes, gr=1.0, kbulk=1.0, d1=1.0, d2=1.0, ts=1.0, tr=1.0, n=1, a1=1.0, a2=1.0, a3=1.0, b1=1.0, b2=1.0, b3=1.0, c1=1.0, c2=1.0, c3=1.0, c4=1.0, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, kc=1.0, phi_m=1.0, ac=1.0, s_dratio=1.0, m=1.0, tc=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.gr = float(gr)
         self.kbulk = float(kbulk)
         self.d1 = float(d1)
@@ -2001,7 +2015,7 @@ class HDR(ElementBase):
         self.tc = float(tc)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.gr, self.kbulk, self.d1, self.d2, self.ts, self.tr, self.n, self.a1, self.a2, self.a3, self.b1, self.b2, self.b3, self.c1, self.c2, self.c3, self.c4, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.kc, self.phi_m, self.ac, self.s_dratio, self.m, self.tc]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.gr, self.kbulk, self.d1, self.d2, self.ts, self.tr, self.n, self.a1, self.a2, self.a3, self.b1, self.b2, self.b3, self.c1, self.c2, self.c3, self.c4, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.kc, self.phi_m, self.ac, self.s_dratio, self.m, self.tc]
         self.to_process(osi)
 
 
@@ -2081,7 +2095,8 @@ class RJWatsonEqsBearing2D(ElementBase):
         >>>                                 shear_dist=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
         self.p_mat = p_mat
@@ -2107,7 +2122,7 @@ class RJWatsonEqsBearing2D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.frn_mdl.tag, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'vy_mat') is not None:
@@ -2218,7 +2233,8 @@ class RJWatsonEqsBearing3D(ElementBase):
         >>>                                 do_rayleigh=False, max_iter=1, tol=1.0, orient=orient_vals, mass=1.0, shear_dist=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.frn_mdl = frn_mdl
         self.k_init = float(k_init)
         self.p_mat = p_mat
@@ -2247,7 +2263,7 @@ class RJWatsonEqsBearing3D(ElementBase):
             self.shear_dist = float(shear_dist)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.frn_mdl.tag, self.k_init]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.frn_mdl.tag, self.k_init]
         if getattr(self, 'p_mat') is not None:
             self._parameters += ['-P', self.p_mat.tag]
         if getattr(self, 'vy_mat') is not None:
@@ -2366,7 +2382,8 @@ class FPBearingPTV(ElementBase):
         >>> o3.element.FPBearingPTV(osi, ele_nodes=ele_nodes, mu_ref=1.0, is_pressure_dependent=1, p_ref=1.0, is_temperature_dependent=1, diffusivity=1.0, conductivity=1.0, is_velocity_dependent=1, rate_parameter=1.0, reffective_fp=1.0, radius__contact=1.0, k_initial=1.0, the_material_a=1, the_material_b=1, the_material_c=1, the_material_d=1, x1=1.0, x2=1.0, x3=1.0, y1=1.0, y2=1.0, y3=1.0, shear_dist=1.0, do_rayleigh=1, mass=1.0, max_iter=1, tol=1.0, unit=1)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mu_ref = float(mu_ref)
         self.is_pressure_dependent = int(is_pressure_dependent)
         self.p_ref = float(p_ref)
@@ -2396,5 +2413,5 @@ class FPBearingPTV(ElementBase):
         self.unit = int(unit)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mu_ref, self.is_pressure_dependent, self.p_ref, self.is_temperature_dependent, self.diffusivity, self.conductivity, self.is_velocity_dependent, self.rate_parameter, self.reffective_fp, self.radius__contact, self.k_initial, self.the_material_a, self.the_material_b, self.the_material_c, self.the_material_d, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.shear_dist, self.do_rayleigh, self.mass, self.max_iter, self.tol, self.unit]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mu_ref, self.is_pressure_dependent, self.p_ref, self.is_temperature_dependent, self.diffusivity, self.conductivity, self.is_velocity_dependent, self.rate_parameter, self.reffective_fp, self.radius__contact, self.k_initial, self.the_material_a, self.the_material_b, self.the_material_c, self.the_material_d, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.shear_dist, self.do_rayleigh, self.mass, self.max_iter, self.tol, self.unit]
         self.to_process(osi)

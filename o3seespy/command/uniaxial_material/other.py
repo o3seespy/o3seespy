@@ -1433,7 +1433,7 @@ class InitStressMaterial(UniaxialMaterialBase):
         >>>                                             theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0,
         >>>                                             theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0,
         >>>                                             theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
-        >>> o3.uniaxial_material.InitStressMaterial(osi, other=other, init_stress=1.0)
+        >>> o3.uniaxial_material.InitStressMaterial(osi, other=other, init_stress=-1.0)
         """
         self.osi = osi
         self.other = other
@@ -2026,6 +2026,7 @@ class CFSWSWP(UniaxialMaterialBase):
         Examples
         --------
         >>> import o3seespy as o3
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.uniaxial_material.CFSWSWP(osi, height=1.0, width=1.0, fut=1.0, tf=1.0, ife=1.0, ifi=1.0, ts=1.0, np=1.0, ds=1.0, vs=1.0, sc=1.0, nc=1.0, otype=1, opening_area=1.0, opening_length=1.0)
         """

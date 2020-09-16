@@ -65,7 +65,8 @@ class BeamColumnJoint(ElementBase):
         >>> o3.element.BeamColumnJoint(osi, ele_nodes, *mats, ele_height_fac=1.0, ele_width_fac=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat1 = mat1
         self.mat2 = mat2
         self.mat3 = mat3
@@ -83,7 +84,7 @@ class BeamColumnJoint(ElementBase):
         self.ele_width_fac = float(ele_width_fac)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat1.tag, self.mat2.tag, self.mat3.tag, self.mat4.tag, self.mat5.tag, self.mat6.tag, self.mat7.tag, self.mat8.tag, self.mat9.tag, self.mat10.tag, self.mat11.tag, self.mat12.tag, self.mat13.tag, self.ele_height_fac, self.ele_width_fac]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat1.tag, self.mat2.tag, self.mat3.tag, self.mat4.tag, self.mat5.tag, self.mat6.tag, self.mat7.tag, self.mat8.tag, self.mat9.tag, self.mat10.tag, self.mat11.tag, self.mat12.tag, self.mat13.tag, self.ele_height_fac, self.ele_width_fac]
         self.to_process(osi)
 
 
@@ -129,7 +130,8 @@ class ElasticTubularJoint(ElementBase):
         >>> o3.element.ElasticTubularJoint(osi, ele_nodes=ele_nodes, brace__diameter=1.0, brace__angle=1.0, big_e=1.0, chord__diameter=1.0, chord__thickness=1.0, chord__angle=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.brace__diameter = float(brace__diameter)
         self.brace__angle = float(brace__angle)
         self.big_e = float(big_e)
@@ -138,7 +140,7 @@ class ElasticTubularJoint(ElementBase):
         self.chord__angle = float(chord__angle)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.brace__diameter, self.brace__angle, self.big_e, self.chord__diameter, self.chord__thickness, self.chord__angle]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.brace__diameter, self.brace__angle, self.big_e, self.chord__diameter, self.chord__thickness, self.chord__angle]
         self.to_process(osi)
 
 
@@ -199,7 +201,8 @@ class Joint2D(ElementBase):
         >>> o3.element.Joint2D(osi, ele_nodes=ele_nodes, mat1=1, mat2=1, mat3=1, mat4=1, mat_c=1, lrg_dsp='', dmg='', dmg1dmg2dmg3dmg4dmg_c=1)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat1 = int(mat1)
         self.mat2 = int(mat2)
         self.mat3 = int(mat3)
@@ -210,7 +213,7 @@ class Joint2D(ElementBase):
         self.dmg1dmg2dmg3dmg4dmg_c = dmg1dmg2dmg3dmg4dmg_c
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat1, self.mat2, self.mat3, self.mat4, self.mat_c, self.lrg_dsp.tag, self.dmg.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat1, self.mat2, self.mat3, self.mat4, self.mat_c, self.lrg_dsp.tag, self.dmg.tag]
         if getattr(self, 'dmg1dmg2dmg3dmg4dmg_c') is not None:
             self._parameters += ['-damage', self.dmg1dmg2dmg3dmg4dmg_c]
         self.to_process(osi)

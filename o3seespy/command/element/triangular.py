@@ -48,7 +48,8 @@ class Tri31(ElementBase):
         >>> o3.element.Tri31(osi, ele_nodes=ele_nodes, thick=1.0, otype=o3.cc.PLANE_STRAIN, mat=mat, pressure=1.0, rho=1.0, b1=1.0, b2=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.thick = float(thick)
         self.otype = otype
         self.mat = mat
@@ -58,5 +59,5 @@ class Tri31(ElementBase):
         self.b2 = float(b2)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.otype, self.mat.tag, self.pressure, self.rho, self.b1, self.b2]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.thick, self.otype, self.mat.tag, self.pressure, self.rho, self.b1, self.b2]
         self.to_process(osi)

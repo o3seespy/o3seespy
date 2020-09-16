@@ -43,7 +43,8 @@ class PFEMElementBubble(ElementBase):
         >>> o3.element.PFEMElementBubble(osi, ele_nodes, rho=1.0, mu=1.0, b1=1.0, b2=1.0, b3=1.0, thickness=1.0, kappa=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.rho = float(rho)
         self.mu = float(mu)
         self.b1 = float(b1)
@@ -53,7 +54,7 @@ class PFEMElementBubble(ElementBase):
         self.kappa = float(kappa)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.rho, self.mu, self.b1, self.b2, self.b3, self.thickness, self.kappa]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.rho, self.mu, self.b1, self.b2, self.b3, self.thickness, self.kappa]
         self.to_process(osi)
 
 
@@ -97,7 +98,8 @@ class PFEMElementCompressible(ElementBase):
         >>> o3.element.PFEMElementCompressible(osi, ele_nodes, rho=1.0, mu=1.0, b1=1.0, b2=1.0, thickness=1.0, kappa=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.rho = float(rho)
         self.mu = float(mu)
         self.b1 = float(b1)
@@ -106,5 +108,5 @@ class PFEMElementCompressible(ElementBase):
         self.kappa = float(kappa)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.rho, self.mu, self.b1, self.b2, self.thickness, self.kappa]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.rho, self.mu, self.b1, self.b2, self.thickness, self.kappa]
         self.to_process(osi)

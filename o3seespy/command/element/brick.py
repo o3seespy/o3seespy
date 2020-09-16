@@ -40,14 +40,15 @@ class StdBrick(ElementBase):
         >>> o3.element.StdBrick(osi, ele_nodes=ele_nodes, mat=mat, b1=1.0, b2=1.0, b3=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.b1 = float(b1)
         self.b2 = float(b2)
         self.b3 = float(b3)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.b1, self.b2, self.b3]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.b1, self.b2, self.b3]
         self.to_process(osi)
 
 
@@ -90,14 +91,15 @@ class BbarBrick(ElementBase):
         >>> o3.element.BbarBrick(osi, ele_nodes=ele_nodes, mat=mat, b1=1.0, b2=1.0, b3=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.b1 = float(b1)
         self.b2 = float(b2)
         self.b3 = float(b3)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.b1, self.b2, self.b3]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.b1, self.b2, self.b3]
         self.to_process(osi)
 
 
@@ -147,7 +149,8 @@ class N20NodeBrick(ElementBase):
         >>> o3.element.N20NodeBrick(osi, ele_nodes=ele_nodes, mat=mat, bf1=1.0, bf2=1.0, bf3=1.0, mass_den=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.bf1 = float(bf1)
         self.bf2 = float(bf2)
@@ -155,7 +158,7 @@ class N20NodeBrick(ElementBase):
         self.mass_den = float(mass_den)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.bf1, self.bf2, self.bf3, self.mass_den]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.bf1, self.bf2, self.bf3, self.mass_den]
         self.to_process(osi)
 
 
@@ -197,12 +200,13 @@ class SSPbrick(ElementBase):
         >>> o3.element.SSPbrick(osi, ele_nodes=ele_nodes, mat=mat, b1=1.0, b2=1.0, b3=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.b1 = float(b1)
         self.b2 = float(b2)
         self.b3 = float(b3)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.b1, self.b2, self.b3]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.b1, self.b2, self.b3]
         self.to_process(osi)

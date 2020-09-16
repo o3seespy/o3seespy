@@ -61,7 +61,8 @@ class TwoNodeLink(ElementBase):
         >>> o3.element.TwoNodeLink(osi, ele_nodes=ele_nodes, mats=mats, dir=[1, 1], p_delta_vals=p_delta_vals)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         if mats is None:
             self.mats = None
         else:
@@ -77,7 +78,7 @@ class TwoNodeLink(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags]
         if getattr(self, 'mats') is not None:
             self._parameters += ['-mat', *self.mats]
         if getattr(self, 'dir') is not None:

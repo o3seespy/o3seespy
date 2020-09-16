@@ -46,7 +46,8 @@ class ElasticBeamColumn2D(ElementBase):
         >>> o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, transf=transf, mass=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.area = float(area)
         self.e_mod = float(e_mod)
         self.iz = float(iz)
@@ -59,7 +60,7 @@ class ElasticBeamColumn2D(ElementBase):
         self.release_code = release_code
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.area, self.e_mod, self.iz, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.area, self.e_mod, self.iz, self.transf.tag]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'c_mass'):
@@ -118,7 +119,8 @@ class ElasticBeamColumn3D(ElementBase):
         >>> o3.element.ElasticBeamColumn3D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, g_mod=1.0, jxx=1.0, iy=1.0, iz=1.0, transf=transf, mass=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.area = float(area)
         self.e_mod = float(e_mod)
         self.g_mod = float(g_mod)
@@ -133,7 +135,7 @@ class ElasticBeamColumn3D(ElementBase):
         self.c_mass = c_mass
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.area, self.e_mod, self.g_mod, self.jxx, self.iy, self.iz, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.area, self.e_mod, self.g_mod, self.jxx, self.iy, self.iz, self.transf.tag]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         if getattr(self, 'c_mass'):
@@ -187,7 +189,8 @@ class ModElasticBeam2D(ElementBase):
             Element mass per unit length (optional, default = 0.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.area = float(area)
         self.e_mod = float(e_mod)
         self.iz = float(iz)
@@ -202,7 +205,7 @@ class ModElasticBeam2D(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.area, self.e_mod, self.iz, self.k11, self.k33, self.k44, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.area, self.e_mod, self.iz, self.k11, self.k33, self.k44, self.transf.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         if getattr(self, 'mass') is not None:
@@ -258,7 +261,8 @@ class ElasticTimoshenkoBeam2D(ElementBase):
         >>> o3.element.ElasticTimoshenkoBeam2D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, avy=1.0, transf=transf, mass=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.e_mod = float(e_mod)
         self.g_mod = float(g_mod)
         self.area = float(area)
@@ -272,7 +276,7 @@ class ElasticTimoshenkoBeam2D(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.e_mod, self.g_mod, self.area, self.iz, self.avy, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.e_mod, self.g_mod, self.area, self.iz, self.avy, self.transf.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         if getattr(self, 'mass') is not None:
@@ -336,7 +340,8 @@ class ElasticTimoshenkoBeam3D(ElementBase):
         >>> o3.element.ElasticTimoshenkoBeam3D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, jxx=1.0, iy=1.0, iz_2=1, avy=1.0, avz=1.0, transf=transf, mass=1.0, c_mass=True)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.e_mod = float(e_mod)
         self.g_mod = float(g_mod)
         self.area = float(area)
@@ -354,7 +359,7 @@ class ElasticTimoshenkoBeam3D(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.e_mod, self.g_mod, self.area, self.iz, self.jxx, self.iy, self.iz_2, self.avy, self.avz, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.e_mod, self.g_mod, self.area, self.iz, self.jxx, self.iy, self.iz_2, self.avy, self.avz, self.transf.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         if getattr(self, 'mass') is not None:
@@ -401,7 +406,8 @@ class DispBeamColumn(ElementBase):
         >>> o3.element.DispBeamColumn(osi, ele_nodes=[i_node, j_node], transf=transf, integration=integration, c_mass=1, mass=0.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.transf = transf
         self.integration = integration
         self.c_mass = c_mass
@@ -411,7 +417,7 @@ class DispBeamColumn(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.transf.tag, self.integration.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.transf.tag, self.integration.tag]
         if getattr(self, 'c_mass'):
             self._parameters += ['-cMass']
         if getattr(self, 'mass') is not None:
@@ -459,7 +465,8 @@ class ForceBeamColumn(ElementBase):
         >>> o3.element.ForceBeamColumn(osi, ele_nodes=[i_node, j_node], transf=transf, integration=integration, max_iter=10, tol=1e-12, mass=0.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.transf = transf
         self.integration = integration
         if max_iter is None:
@@ -476,7 +483,7 @@ class ForceBeamColumn(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.transf.tag, self.integration.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.transf.tag, self.integration.tag]
         if getattr(self, 'max_iter') is not None:
             self._parameters += ['-iter', self.max_iter]
         if getattr(self, 'tol') is not None:
@@ -534,7 +541,8 @@ class NonlinearBeamColumn(ElementBase):
         >>>                                max_iter=10, tol=1e-12, mass=0.0, int_type="radau")
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
         self.transf = transf
@@ -553,7 +561,7 @@ class NonlinearBeamColumn(ElementBase):
         self.int_type = int_type
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.num_intgr_pts, self.sec.tag, self.transf.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.num_intgr_pts, self.sec.tag, self.transf.tag]
         if getattr(self, 'max_iter') is not None:
             self._parameters += ['-iter', self.max_iter]
         if getattr(self, 'tol') is not None:
@@ -611,7 +619,8 @@ class DispBeamColumnInt(ElementBase):
         >>> o3.element.DispBeamColumnInt(osi, ele_nodes=ele_nodes, num_intgr_pts=4, sec=sec, transf=transf, c_rot=1.0, mass=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.num_intgr_pts = int(num_intgr_pts)
         self.sec = sec
         self.transf = transf
@@ -622,7 +631,7 @@ class DispBeamColumnInt(ElementBase):
             self.mass = float(mass)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.num_intgr_pts, self.sec.tag, self.transf.tag, self.c_rot]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.num_intgr_pts, self.sec.tag, self.transf.tag, self.c_rot]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         self.to_process(osi)
@@ -695,7 +704,8 @@ class MVLEM(ElementBase):
         """
         self.osi = osi
         self.dens = float(dens)
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.m = int(m)
         self.c = float(c)
         self.thick = thick
@@ -712,7 +722,7 @@ class MVLEM(ElementBase):
         self.mat_shear = mat_shear
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, self.dens, *self.ele_nodes, self.m, self.c]
+        self._parameters = [self.op_type, self._tag, self.dens, *self.ele_node_tags, self.m, self.c]
         if getattr(self, 'thick') is not None:
             self._parameters += ['-thick', *self.thick]
         if getattr(self, 'widths') is not None:
@@ -777,7 +787,8 @@ class SFIMVLEM(ElementBase):
         >>> o3.element.SFIMVLEM(osi, ele_nodes=ele_nodes, m=1, c=1.0, thick=[1.0, 1.0], widths=[1.0, 1.0], mat_tags=mat_tags)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.m = int(m)
         self.c = float(c)
         self.thick = thick
@@ -785,7 +796,7 @@ class SFIMVLEM(ElementBase):
         self.mats = mats
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.m, self.c]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, self.c]
         if getattr(self, 'thick') is not None:
             self._parameters += ['-thick', *self.thick]
         if getattr(self, 'widths') is not None:

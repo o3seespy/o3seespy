@@ -50,7 +50,8 @@ class SSPquadUP(ElementBase):
         >>> o3.element.SSPquadUP(osi, ele_nodes=ele_nodes, mat=obj, thick=1.0, f_bulk=1.0, f_den=1.0, k1=1.0, k2=1.0, void=1.0, alpha=1.0, b1=0.0, b2=0.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.thick = float(thick)
         self.f_bulk = float(f_bulk)
@@ -63,7 +64,7 @@ class SSPquadUP(ElementBase):
         self.b2 = float(b2)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.thick, self.f_bulk, self.f_den, self.k1, self.k2, self.void, self.alpha, self.b1, self.b2]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.thick, self.f_bulk, self.f_den, self.k1, self.k2, self.void, self.alpha, self.b1, self.b2]
         self.to_process(osi)
 
 
@@ -118,7 +119,8 @@ class SSPbrickUP(ElementBase):
         >>> o3.element.SSPbrickUP(osi, ele_nodes=ele_nodes, mat=obj, f_bulk=1.0, f_den=1.0, k1=1.0, k2=1.0, k3=1.0, void=0.5, alpha=1.0e-5, b1=1.0, b2=1.0, b3=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.f_bulk = float(f_bulk)
         self.f_den = float(f_den)
@@ -132,5 +134,5 @@ class SSPbrickUP(ElementBase):
         self.b3 = float(b3)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.f_bulk, self.f_den, self.k1, self.k2, self.k3, self.void, self.alpha, self.b1, self.b2, self.b3]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.f_bulk, self.f_den, self.k1, self.k2, self.k3, self.void, self.alpha, self.b1, self.b2, self.b3]
         self.to_process(osi)

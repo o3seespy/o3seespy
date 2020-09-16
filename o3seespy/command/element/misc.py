@@ -32,11 +32,12 @@ class SurfaceLoad(ElementBase):
         >>> o3.element.SurfaceLoad(osi, ele_nodes=ele_nodes, p=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.p = float(p)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.p]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.p]
         self.to_process(osi)
 
 
@@ -82,7 +83,8 @@ class VS3D4(ElementBase):
         >>> o3.element.VS3D4(osi, ele_nodes=ele_nodes, big_e=1.0, big_g=1.0, rho=1.0, big_r=1.0, alpha_n=1.0, alpha_t=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.big_e = float(big_e)
         self.big_g = float(big_g)
         self.rho = float(rho)
@@ -91,7 +93,7 @@ class VS3D4(ElementBase):
         self.alpha_t = float(alpha_t)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.big_e, self.big_g, self.rho, self.big_r, self.alpha_n, self.alpha_t]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.big_e, self.big_g, self.rho, self.big_r, self.alpha_n, self.alpha_t]
         self.to_process(osi)
 
 
@@ -129,11 +131,12 @@ class AC3D8(ElementBase):
         >>> o3.element.AC3D8(osi, ele_nodes=ele_nodes, mat=mat)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag]
         self.to_process(osi)
 
 
@@ -211,9 +214,10 @@ class AV3D4(ElementBase):
         >>> o3.element.AV3D4(osi, ele_nodes=ele_nodes, mat=mat)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag]
         self.to_process(osi)
