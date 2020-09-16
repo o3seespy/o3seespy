@@ -338,7 +338,11 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
             else:
                 if pms[pm].list_items_dtype == 'obj':
                     para += extra
-                    para.append(w8 + w_extra + f'self.{o3_name} = [x.tag for x in {o3_name}]')
+                    if o3_name == 'ele_nodes':
+                        pms[pm].o3_pm_name = 'ele_node_tags'
+                    para.append(w8 + w_extra + f'self.{pms[pm].o3_pm_name} = [x.tag for x in {o3_name}]')
+                    if o3_name == 'ele_nodes':
+                        para.append(w8 + w_extra + f'self.{o3_name} = {o3_name}')
                 else:
                     para.append(w8 + f'self.{o3_name} = {o3_name}')
         pjoins = []
@@ -356,7 +360,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
         need_special_logic = False
         applied_op_warg = False
         for pm in cl_pms:
-            o3_name = pms[pm].o3_name
+            o3_pm_name = pms[pm].o3_pm_name
             if pms[pm].marker or pms[pm].depends_on:
                 continue
             if pms[pm].is_flag:
@@ -368,14 +372,14 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                 need_special_logic = True
                 break
             if pms[pm].dtype == 'obj':
-                pjoins.append(f'self.{o3_name}.tag')
+                pjoins.append(f'self.{o3_pm_name}.tag')
             elif pms[pm].packed:
-                pjoins.append('*self.' + o3_name)
+                pjoins.append('*self.' + o3_pm_name)
             else:
-                pjoins.append('self.' + o3_name)
+                pjoins.append('self.' + o3_pm_name)
         para.append(w8 + 'self._parameters = [%s]' % (', '.join(pjoins)))
         for pm in cl_pms:
-            o3_name = pms[pm].o3_name
+            o3_pm_name = pms[pm].o3_pm_name
             if pms[pm].packed:
                 ps = '*'
             else:
@@ -383,21 +387,21 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
 
             if pms[pm].marker:
                 # para.append(w8 + f"if getattr(self, '{o3_name}') not in [None, '']:")
-                para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
+                para.append(w8 + f"if getattr(self, '{o3_pm_name}') is not None:")
                 tt = ''
                 if pms[pm].dtype == 'obj':
                     tt = '.tag'
-                para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', {ps}self.{o3_name}{tt}]")
+                para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].marker}', {ps}self.{o3_pm_name}{tt}]")
 
             elif pms[pm].depends_on:
                 d_o3 = pms[pms[pm].depends_on].o3_name
-                para.append(w8 + f"if getattr(self, '{o3_name}') is not None:")
+                para.append(w8 + f"if getattr(self, '{o3_pm_name}') is not None:")
                 para.append(w8 + w4 + f"if getattr(self, '{d_o3}') is None:")
-                para.append(w8 + w8 + f"raise ValueError('Cannot set: {o3_name} and not: {d_o3}')")
-                para.append(w8 + w4 + f"self._parameters += [{ps}self.{o3_name}]")
+                para.append(w8 + w8 + f"raise ValueError('Cannot set: {o3_pm_name} and not: {d_o3}')")
+                para.append(w8 + w4 + f"self._parameters += [{ps}self.{o3_pm_name}]")
 
             if pms[pm].is_flag:
-                para.append(w8 + f"if getattr(self, '{o3_name}'):")
+                para.append(w8 + f"if getattr(self, '{o3_pm_name}'):")
                 para.append(w8 + w4 + f"self._parameters += ['-{pms[pm].org_name}']")  # TODO: does this always work?
         if need_special_logic:
             sp_logic = False
@@ -407,7 +411,7 @@ def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="
                     sp_logic = True
                 if sp_logic:
                     sp_pms.append(pm)
-            sp_pm_strs = ["'%s'" % pms[pm].o3_name for pm in sp_pms]
+            sp_pm_strs = ["'%s'" % pms[pm].o3_pm_name for pm in sp_pms]
             para.append(w8 + f"special_pms = [{', '.join(sp_pm_strs)}]")
             packets = [str(pms[pm].packed) for pm in sp_pms]
             para.append(w8 + f"packets = [{', '.join(packets)}]")
@@ -479,7 +483,7 @@ def build_test_for_generic(names, pms, cl_pms):
         elif dtype == 'list' and pms[pm].list_items_dtype == 'obj':
             if o3_name == 'ele_nodes':
                 prior_strs.append(w4 + 'coords = [[0, 0], [1, 0], [1, 1], [0, 1]]')
-                prior_strs.append(w4 + 'ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords)]')
+                prior_strs.append(w4 + 'ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]')
             else:
                 prior_strs.append(w4 + f'{o3_name} = [1, 1]')
             pjoins.append(f'{o3_name}={o3_name}')
@@ -610,7 +614,8 @@ def build_init_method_docstring(classname, pms, pms_ordered):
 class Param(object):
     def __init__(self, org_name, default_value, packed=None, dtype=None):
         self.org_name = org_name
-        self.o3_name = None
+        self.o3_name = None  # input name for object (e.g. ele_nodes)
+        self._o3_pm_name = None  # name passed to parameters (e.g. ele_node_tags)
         self.default_value = default_value
         self.packed = packed
         self.dtype = dtype
@@ -624,6 +629,15 @@ class Param(object):
         self.depends_on = None
         self.o3_default_is_none = False
 
+    @property
+    def o3_pm_name(self):
+        if self._o3_pm_name is None:
+            return self.o3_name
+        return self._o3_pm_name
+
+    @o3_pm_name.setter
+    def o3_pm_name(self, name):
+        self._o3_pm_name = name
 
 def check_if_default_is_expression(defo):
     # if any(re.findall('|'.join(['\*', '\/', '\+', '\-', '\^']), defo)):  # deal with -1, or 1e-1

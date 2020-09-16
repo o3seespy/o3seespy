@@ -56,7 +56,8 @@ class QuadUP(ElementBase):
         >>> o3.element.QuadUP(osi, ele_nodes=ele_nodes, thick=1.0, mat=mat, bulk=1.0, fmass=1.0, h_perm=1.0, v_perm=1.0, b1=0, b2=0, t=0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.thick = float(thick)
         self.mat = mat
         self.bulk = float(bulk)
@@ -68,7 +69,7 @@ class QuadUP(ElementBase):
         self.t = float(t)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.mat.tag, self.bulk, self.fmass, self.h_perm, self.v_perm, self.b1, self.b2, self.t]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.thick, self.mat.tag, self.bulk, self.fmass, self.h_perm, self.v_perm, self.b1, self.b2, self.t]
         self.to_process(osi)
 
 
@@ -128,7 +129,8 @@ class BrickUP(ElementBase):
         >>> o3.element.BrickUP(osi, ele_nodes=ele_nodes, mat=mat, bulk=1.0, fmass=1.0, perm_x=1.0, perm_y=1.0, perm_z=1.0, b_x=0, b_y=0, b_z=0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
@@ -140,7 +142,7 @@ class BrickUP(ElementBase):
         self.b_z = float(b_z)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.bulk, self.fmass, self.perm_x, self.perm_y, self.perm_z, self.b_x, self.b_y, self.b_z]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.bulk, self.fmass, self.perm_x, self.perm_y, self.perm_z, self.b_x, self.b_y, self.b_z]
         self.to_process(osi)
 
 
@@ -199,7 +201,8 @@ class BbarQuadUP(ElementBase):
         >>> o3.element.BbarQuadUP(osi, ele_nodes=ele_nodes, thick=1.0, mat=mat, bulk=1.0, fmass=1.0, h_perm=1.0, v_perm=1.0, b1=0, b2=0, t=0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.thick = float(thick)
         self.mat = mat
         self.bulk = float(bulk)
@@ -211,7 +214,7 @@ class BbarQuadUP(ElementBase):
         self.t = float(t)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.mat.tag, self.bulk, self.fmass, self.h_perm, self.v_perm, self.b1, self.b2, self.t]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.thick, self.mat.tag, self.bulk, self.fmass, self.h_perm, self.v_perm, self.b1, self.b2, self.t]
         self.to_process(osi)
 
 
@@ -272,7 +275,8 @@ class BbarBrickUP(ElementBase):
         >>> o3.element.BbarBrickUP(osi, ele_nodes=ele_nodes, mat=mat, bulk=1.0, fmass=1.0, perm_x=1.0, perm_y=1.0, perm_z=1.0, b_x=0, b_y=0, b_z=0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
@@ -284,7 +288,7 @@ class BbarBrickUP(ElementBase):
         self.b_z = float(b_z)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.bulk, self.fmass, self.perm_x, self.perm_y, self.perm_z, self.b_x, self.b_y, self.b_z]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.bulk, self.fmass, self.perm_x, self.perm_y, self.perm_z, self.b_x, self.b_y, self.b_z]
         self.to_process(osi)
 
 
@@ -342,7 +346,8 @@ class N94QuadUP(ElementBase):
         >>> o3.element.N94QuadUP(osi, ele_nodes=ele_nodes, thick=1.0, mat=mat, bulk=1.0, fmass=1.0, h_perm=1.0, v_perm=1.0, b1=0, b2=0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.thick = float(thick)
         self.mat = mat
         self.bulk = float(bulk)
@@ -353,7 +358,7 @@ class N94QuadUP(ElementBase):
         self.b2 = float(b2)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.mat.tag, self.bulk, self.fmass, self.h_perm, self.v_perm, self.b1, self.b2]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.thick, self.mat.tag, self.bulk, self.fmass, self.h_perm, self.v_perm, self.b1, self.b2]
         self.to_process(osi)
 
 
@@ -414,7 +419,8 @@ class N208BrickUP(ElementBase):
         >>> o3.element.N208BrickUP(osi, ele_nodes=ele_nodes, mat=mat, bulk=1.0, fmass=1.0, perm_x=1.0, perm_y=1.0, perm_z=1.0, b_x=0, b_y=0, b_z=0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.bulk = float(bulk)
         self.fmass = float(fmass)
@@ -426,5 +432,5 @@ class N208BrickUP(ElementBase):
         self.b_z = float(b_z)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.bulk, self.fmass, self.perm_x, self.perm_y, self.perm_z, self.b_x, self.b_y, self.b_z]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.bulk, self.fmass, self.perm_x, self.perm_y, self.perm_z, self.b_x, self.b_y, self.b_z]
         self.to_process(osi)

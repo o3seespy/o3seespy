@@ -82,6 +82,13 @@ class InitStressNDMaterial(NDMaterialBase):
             Initial stress
         n_dim: int
             Number of dimensions (e.g. if plane strain ndim=2)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
+        >>> o3.nd_material.InitStressNDMaterial(osi, other=mat, init_stress=1.0, n_dim=2)
         """
         self.osi = osi
         self.other = other

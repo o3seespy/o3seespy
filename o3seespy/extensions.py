@@ -279,10 +279,14 @@ def py2tcl(pystr):
     return new
 
 
-# def gen_free_field_boundary(eles, left_bc, bl_node=0, width=1):
+# def gen_free_field_2d_bc(osi, eles, left_bc, bl_node=0, width=1):
 #     import numpy as np
-#     # eles array_like of vertical elements
+#     from o3seespy import node
+#     # eles array_like of vertical quad like elements
 #     # bl_node is index of bottom-left node
 #     nd_inds = np.array([0, 3])  # TODO: depends on direction and node order
 #     for i, ele in enumerate(eles):
 #         line_nodes = ele.ele_nodes[nd_inds]
+#         new_nodes = []
+#         for node in line_nodes:
+#             new_nodes.append(node.Node(osi, node.x + width, node.y + width))

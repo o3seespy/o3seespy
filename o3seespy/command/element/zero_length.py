@@ -40,7 +40,8 @@ class ZeroLength(ElementBase):
         >>> o3.element.ZeroLength(osi, ele_nodes, mats=[bilinear_mat], dirs=[o3.cc.DOF2D_X], r_flag=1)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         if mats is None:
             self.mats = None
         else:
@@ -53,7 +54,7 @@ class ZeroLength(ElementBase):
         self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags]
         if getattr(self, 'mats') is not None:
             self._parameters += ['-mat', *self.mats]
         if getattr(self, 'dirs') is not None:
@@ -103,13 +104,14 @@ class ZeroLengthND(ElementBase):
         >>> o3.element.ZeroLengthND(osi, ele_nodes=ele_nodes, mat=mat, uni=uni, orient=[1, 2, 3, 4, 5, 6])
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.uni = uni
         self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.uni.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.uni.tag]
         if getattr(self, 'orient') is not None:
             self._parameters += ['--orient', *self.orient]
         self.to_process(osi)
@@ -150,7 +152,8 @@ class ZeroLengthSection(ElementBase):
         >>> o3.element.ZeroLengthSection(osi, ele_nodes=ele_nodes, sec=sec, r_flag=1.0, orient=[1])
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.sec = sec
         if r_flag is None:
             self.r_flag = None
@@ -159,7 +162,7 @@ class ZeroLengthSection(ElementBase):
         self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.sec.tag]
         if getattr(self, 'r_flag') is not None:
             self._parameters += ['-doRayleigh', self.r_flag]
         if getattr(self, 'orient') is not None:
@@ -203,14 +206,15 @@ class CoupledZeroLength(ElementBase):
         >>> o3.element.CoupledZeroLength(osi, ele_nodes=ele_nodes, dirn1=1, dirn2=1, mat=mat, r_flag=1)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.dirn1 = int(dirn1)
         self.dirn2 = int(dirn2)
         self.mat = mat
         self.r_flag = float(r_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.dirn1, self.dirn2, self.mat.tag, self.r_flag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.dirn1, self.dirn2, self.mat.tag, self.r_flag]
         self.to_process(osi)
 
 
@@ -253,7 +257,8 @@ class ZeroLengthContact2Dnormal(ElementBase):
         >>> o3.element.ZeroLengthContact2Dnormal(osi, ele_nodes=ele_nodes, kn=1.0, kt=1.0, mu=1.0, nx=1, ny=0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.kn = float(kn)
         self.kt = float(kt)
         self.mu = float(mu)
@@ -261,7 +266,7 @@ class ZeroLengthContact2Dnormal(ElementBase):
         self.ny = ny
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.kn, self.kt, self.mu, '-normal', self.nx, self.ny]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.kn, self.kt, self.mu, '-normal', self.nx, self.ny]
         self.to_process(osi)
 
 class ZeroLengthContact3D(ElementBase):
@@ -304,7 +309,8 @@ class ZeroLengthContact3D(ElementBase):
         >>> o3.element.ZeroLengthContact3D(osi, ele_nodes=ele_nodes, kn=1.0, kt=1.0, mu=1.0, c=1.0, dir=1)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.kn = float(kn)
         self.kt = float(kt)
         self.mu = float(mu)
@@ -312,7 +318,7 @@ class ZeroLengthContact3D(ElementBase):
         self.dir = int(dir)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.kn, self.kt, self.mu, self.c, self.dir]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.kn, self.kt, self.mu, self.c, self.dir]
         self.to_process(osi)
 
 
@@ -497,7 +503,8 @@ class ZeroLengthImpact3D(ElementBase):
         >>> o3.element.ZeroLengthImpact3D(osi, ele_nodes=ele_nodes, direction=1, init_gap=1.0, friction_ratio=1.0, kt=1.0, kn=1.0, kn2=1.0, delta_y=1.0, cohesion=1.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.direction = direction
         self.init_gap = float(init_gap)
         self.friction_ratio = float(friction_ratio)
@@ -508,5 +515,5 @@ class ZeroLengthImpact3D(ElementBase):
         self.cohesion = float(cohesion)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.direction, self.init_gap, self.friction_ratio, self.kt, self.kn, self.kn2, self.delta_y, self.cohesion]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.direction, self.init_gap, self.friction_ratio, self.kt, self.kn, self.kn2, self.delta_y, self.cohesion]
         self.to_process(osi)

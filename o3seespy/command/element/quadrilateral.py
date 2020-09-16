@@ -48,7 +48,8 @@ class Quad(ElementBase):
         >>> o3.element.Quad(osi, ele_nodes=ele_nodes, thick=1.0, otype='PlaneStrain', mat=obj, pressure=1.0, rho=1.0, b1=0.0, b2=0.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.thick = float(thick)
         self.otype = otype
         self.mat = mat
@@ -58,7 +59,7 @@ class Quad(ElementBase):
         self.b2 = float(b2)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.otype, self.mat.tag, self.pressure, self.rho, self.b1, self.b2]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.thick, self.otype, self.mat.tag, self.pressure, self.rho, self.b1, self.b2]
         self.to_process(osi)
 
 
@@ -89,16 +90,19 @@ class ShellMITC4(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.element.ShellMITC4(osi, ele_nodes=1, sec=obj)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> o3.element.ShellMITC4(osi, ele_nodes=ele_nodes, sec=sec)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.sec = sec
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.sec.tag]
         self.to_process(osi)
 
 
@@ -129,16 +133,19 @@ class ShellDKGQ(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.element.ShellDKGQ(osi, ele_nodes=1, sec=obj)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> o3.element.ShellDKGQ(osi, ele_nodes=ele_nodes, sec=sec)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.sec = sec
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.sec.tag]
         self.to_process(osi)
 
 
@@ -169,16 +176,19 @@ class ShellDKGT(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.element.ShellDKGT(osi, ele_nodes=1, sec=obj)
+        >>> coords = [[0, 0], [1, 0], [1, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> o3.element.ShellDKGT(osi, ele_nodes=ele_nodes, sec=sec)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.sec = sec
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.sec.tag]
         self.to_process(osi)
 
 
@@ -209,16 +219,19 @@ class ShellNLDKGQ(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.element.ShellNLDKGQ(osi, ele_nodes=1, sec=obj)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> o3.element.ShellNLDKGQ(osi, ele_nodes=ele_nodes, sec=sec)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.sec = sec
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.sec.tag]
         self.to_process(osi)
 
 
@@ -251,14 +264,18 @@ class ShellNLDKGT(ElementBase):
         >>> import o3seespy as o3
         >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.element.ShellNLDKGT(osi, ele_nodes=1, sec=obj)
+        >>> coords = [[0, 0], [1, 0], [1, 1]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> o3.element.ShellNLDKGT(osi, ele_nodes=ele_nodes, sec=sec)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.sec = sec
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.sec.tag]
         self.to_process(osi)
 
 
@@ -287,16 +304,19 @@ class ShellNL(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.element.ShellNL(osi, ele_nodes=1, sec=obj)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1], [0.5, 0], [1, 0.5], [0.5, 1], [0, 0.5], [0.5, 0.5]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
+        >>> o3.element.ShellNL(osi, ele_nodes=ele_nodes, sec=sec)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.sec = sec
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.sec.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.sec.tag]
         self.to_process(osi)
 
 
@@ -335,12 +355,13 @@ class BbarQuad(ElementBase):
         >>> o3.element.BbarQuad(osi, ele_nodes=ele_nodes, thick=1.0, mat=mat)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.thick = float(thick)
         self.mat = mat
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.mat.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.thick, self.mat.tag]
         self.to_process(osi)
 
 
@@ -382,13 +403,14 @@ class EnhancedQuad(ElementBase):
         >>> o3.element.EnhancedQuad(osi, ele_nodes=ele_nodes, thick=1.0, otype='PlaneStress', mat=obj)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.thick = float(thick)
         self.otype = otype
         self.mat = mat
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.thick, self.otype, self.mat.tag]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.thick, self.otype, self.mat.tag]
         self.to_process(osi)
 
 
@@ -432,7 +454,8 @@ class SSPquad(ElementBase):
         >>> o3.element.SSPquad(osi, ele_nodes=ele_nodes, mat=obj, otype='PlaneStrain', thick=1.0, b1=0.0, b2=0.0)
         """
         self.osi = osi
-        self.ele_nodes = [x.tag for x in ele_nodes]
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
         self.mat = mat
         self.otype = otype
         self.thick = float(thick)
@@ -440,5 +463,5 @@ class SSPquad(ElementBase):
         self.b2 = float(b2)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_nodes, self.mat.tag, self.otype, self.thick, self.b1, self.b2]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.otype, self.thick, self.b1, self.b2]
         self.to_process(osi)

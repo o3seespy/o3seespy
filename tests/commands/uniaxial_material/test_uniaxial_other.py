@@ -117,7 +117,7 @@ def test_init_stress_material():
                                                 theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0,
                                                 theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0,
                                                 theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
-    o3.uniaxial_material.InitStressMaterial(osi, other=other, init_stress=1.0)
+    o3.uniaxial_material.InitStressMaterial(osi, other=other, init_stress=-1.0)
 
 
 def test_path_independent():
@@ -171,3 +171,6 @@ def test_cfssswp():
     osi = o3.OpenSeesInstance(ndm=2)
     o3.uniaxial_material.CFSSSWP(osi, height=1.0, width=1.0, fuf=1.0, fyf=1.0, tf=1.0, af=1.0, fus=1.0, fys=1.0, ts=1.0, np=1.0, ds=1.0, vs=1.0, sc=1.0, dt=1.0, opening_area=1.0, opening_length=1.0)
 
+
+if __name__ == '__main__':
+    test_init_stress_material()
