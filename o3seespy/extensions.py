@@ -279,14 +279,47 @@ def py2tcl(pystr):
     return new
 
 
-# def gen_free_field_2d_bc(osi, eles, left_bc, bl_node=0, width=1):
-#     import numpy as np
-#     from o3seespy import node
-#     # eles array_like of vertical quad like elements
-#     # bl_node is index of bottom-left node
-#     nd_inds = np.array([0, 3])  # TODO: depends on direction and node order
-#     for i, ele in enumerate(eles):
-#         line_nodes = ele.ele_nodes[nd_inds]
-#         new_nodes = []
-#         for node in line_nodes:
-#             new_nodes.append(node.Node(osi, node.x + width, node.y + width))
+def gen_free_field_2d_bc(osi, eles, left_bc, bl_node=0, width=1, connection=None):
+    import numpy as np
+    from o3seespy import element
+    from o3seespy import EqualDOF
+    from o3seespy import node
+    # eles array_like of vertical quad like elements
+    # bl_node is index of bottom-left node
+    if left_bc:
+        top_ind = 3
+        bot_ind = 0
+        sgn = -1
+    else:
+        top_ind = 2
+        bot_ind = 1
+        sgn = 1
+    top_inds = np.array([3, 2])
+    bot_inds = np.array([0, 1])  # TODO: depends on node order
+    new_eles = []
+    new_nodes = []
+    for i, ele in enumerate(eles):
+        if i == 0:
+            top_line_nodes = np.array(ele.ele_nodes)[top_inds]
+            new_nodes_line = []
+            for nod in top_line_nodes:
+                new_nodes_line.append(node.Node(osi, nod.x + sgn * width, nod.y))
+            new_nodes.append(new_nodes_line)
+            EqualDOF(osi, new_nodes[i][0], new_nodes[i][1], [1, 2])
+            if connection is None:  # use rigid
+                EqualDOF(osi, ele.ele_nodes[top_ind], new_nodes[i][0], [1, 2])
+            # TODO: support uniaxial material based connections
+        line_nodes = np.array(ele.ele_nodes)[bot_inds]
+
+        new_nodes_line = []
+        for nod in line_nodes:
+            new_nodes_line.append(node.Node(osi, nod.x + sgn * width, nod.y))
+        new_nodes.append(new_nodes_line)
+        EqualDOF(osi, new_nodes[i][0], new_nodes[i][1], [1, 2])
+        if connection is None:  # use rigid
+            EqualDOF(osi, ele.ele_nodes[bot_ind], new_nodes[i][0], [1, 2])
+        if isinstance(ele, element.SSPquad):
+            ele_nodes = [new_nodes[i+1][0], new_nodes[i+1][1], new_nodes[i][1], new_nodes[i][0]]
+            new_eles.append(element.SSPquad(osi, ele_nodes, ele.mat, ele.otype, ele.thick * 1e6,
+                                            ele.b1, ele.b2))
+        # TODO: support Quad
