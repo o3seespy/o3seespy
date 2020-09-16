@@ -1,9 +1,11 @@
 FREE = 0
 FIXED = 1
 
-X = 1
-Y = 2
-ROTZ = 3
+X = 1  # deprecated
+Y = 2  # deprecated
+ROTZ = 3  # deprecated
+DOF_X = 1
+DOF_Y = 2
 DOF2D_X = 1
 DOF2D_Y = 2
 DOF2D_ROTZ = 3

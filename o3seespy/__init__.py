@@ -12,3 +12,7 @@ from o3seespy.command import test_check  # deprecated
 from o3seespy.__about__ import __version__
 from o3seespy import results
 
+try:
+    from custom_openseespy import custom_opensees as opy
+except ModuleNotFoundError:
+    import openseespy.opensees as opy

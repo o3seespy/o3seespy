@@ -62,7 +62,7 @@ def test_cantilever_w_force_beam_column():
         o3.analysis.Static(osi)
         o3.analyze(osi, n_steps_gravity)
         o3.gen_reactions(osi)
-        end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.Y)
+        end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.DOF_Y)
         return o3.get_ele_response(osi, ele, 'force')[:3], end_disp
 
     ele_len_o = 4.0
@@ -140,19 +140,19 @@ def test_disp_control_cantilever_nonlinear():
     # o3.test_check.FixedNumIter(osi, max_iter=10)
     # o3.test_check.NormDispIncr(osi, 0.002, 10, p_flag=0)
     o3.algorithm.Newton(osi)
-    o3.integrator.DisplacementControl(osi, right_node, o3.cc.Y, d_inc)
+    o3.integrator.DisplacementControl(osi, right_node, o3.cc.DOF_Y, d_inc)
     o3.analysis.Static(osi)
     ts_po = o3.time_series.Linear(osi, factor=1)
     o3.pattern.Plain(osi, ts_po)
     o3.Load(osi, right_node, [0.0, 1.0, 0])
     o3.analyze(osi, 4)
-    end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.Y)
+    end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.DOF_Y)
     r = o3.get_ele_response(osi, ele, 'force')[:3]
     k = r[1] / -end_disp
     k_elastic_expected = 1. / (ele_len ** 3 / (3 * e_mod * i_sect))
     assert np.isclose(k, k_elastic_expected)
     o3.analyze(osi, 6)
-    end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.Y)
+    end_disp = o3.get_node_disp(osi, right_node, dof=o3.cc.DOF_Y)
     r = o3.get_ele_response(osi, ele, 'force')[:3]
     k = r[1] / -end_disp
     assert k < 0.95 * k_elastic_expected

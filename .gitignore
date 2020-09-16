@@ -11,3 +11,4 @@ dist/
 venv/
 docs/_build/
 user_paths.py
+custom_openseespy/

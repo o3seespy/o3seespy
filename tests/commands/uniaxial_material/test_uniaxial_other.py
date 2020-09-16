@@ -161,6 +161,7 @@ def test_axial_sp_hd():
     o3.uniaxial_material.AxialSpHD(osi, sce=1.0, fty=1.0, fcy=1.0, bte=1.0, bty=1.0, bth=1.0, bcy=1.0, fcr=1.0, ath=1.0)
 
 
+@pytest.mark.skip()
 def test_cfswswp():
     osi = o3.OpenSeesInstance(ndm=2)
     o3.uniaxial_material.CFSWSWP(osi, height=1.0, width=1.0, fut=1.0, tf=1.0, ife=1.0, ifi=1.0, ts=1.0, np=1.0, ds=1.0, vs=1.0, sc=1.0, nc=1.0, otype=1, opening_area=1.0, opening_length=1.0)

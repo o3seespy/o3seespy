@@ -1,5 +1,5 @@
 try:
-    import custom_openseespy.opensees as opy
+    from custom_openseespy import custom_opensees as opy
 except ModuleNotFoundError:
     import openseespy.opensees as opy
 from collections import OrderedDict

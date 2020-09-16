@@ -164,20 +164,24 @@ def to_py_file(osi, ofile='ofile.py', compress=True, w_analyze=False):
         commands = compress_opy_lines(osi.commands)
     else:
         commands = osi.commands
-    ofile = open(ofile, 'w')
     pstr = 'import openseespy.opensees as opy\n' + '\n'.join(commands)
     if w_analyze:
         pstr += '\nopy.analyze(1, 0.1)\n'
+    ofile = open(ofile, 'w')
     ofile.write(pstr)
     ofile.close()
 
 
 def to_tcl_file(osi, ofile='ofile.tcl', w_analyze=False):
-    ofile = open(ofile, 'w')
-    pstr = '\n'.join(osi.commands)
+    # if compress:
+    #     commands = compress_opy_lines(osi.commands)
+    # else:
+    commands = osi.commands
+    pstr = '\n'.join(commands)
     if w_analyze:
         pstr += '\nopy.analyze(1, 0.1)\n'
     tcl_str = py2tcl(pstr)
+    ofile = open(ofile, 'w')
     ofile.write(tcl_str)
     ofile.close()
 
@@ -268,4 +272,17 @@ def py2tcl(pystr):
     new = new.replace(',', '')
     new = new.replace("'", '')
     new = new.replace('"', '')
+    # lines = new.splitlines()
+    # for i in range(len(lines)):
+    #     if 'for i in range(' in lines[i]:
+    #         line = lines.replace('for i in range(', 'for {set i 1} {$i <= num} {incr i 1} {')
     return new
+
+
+# def gen_free_field_boundary(eles, left_bc, bl_node=0, width=1):
+#     import numpy as np
+#     # eles array_like of vertical elements
+#     # bl_node is index of bottom-left node
+#     nd_inds = np.array([0, 3])  # TODO: depends on direction and node order
+#     for i, ele in enumerate(eles):
+#         line_nodes = ele.ele_nodes[nd_inds]

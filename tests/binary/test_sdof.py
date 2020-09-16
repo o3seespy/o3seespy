@@ -2,7 +2,7 @@ import eqsig
 from eqsig import sdof
 import numpy as np
 
-import openseespy.opensees as opy
+from o3seespy import opy
 from o3seespy import cc as opc
 
 
@@ -54,7 +54,7 @@ def get_inelastic_response(mass, k_spring, f_yield, motion, dt, xi=0.05, r_post=
 
     values = list(-1 * motion)  # should be negative
     opy.timeSeries('Path', load_tag_dynamic, '-dt', dt, '-values', *values)
-    opy.pattern('UniformExcitation', pattern_tag_dynamic, opc.X, '-accel', load_tag_dynamic)
+    opy.pattern('UniformExcitation', pattern_tag_dynamic, opc.DOF_X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
     angular_freq2 = opy.eigen('-fullGenLapack', 1)

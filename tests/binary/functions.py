@@ -1,4 +1,4 @@
-from openseespy import opensees as op
+from o3seespy import opy
 
 
 def elastic_section(section_id):
@@ -7,7 +7,7 @@ def elastic_section(section_id):
     area = 0.3 * 0.4
     inertia = 0.3 * 0.4 ** 3 / 12
 
-    op.section("Elastic", section_id, *[e_conc, area, inertia])
+    opy.section("Elastic", section_id, *[e_conc, area, inertia])
 
 
 def bilinear_material(mat_id):
@@ -19,14 +19,14 @@ def bilinear_material(mat_id):
     eps_yield = 300.0e6 / 200e9
     phi_y = 2.1 * eps_yield / depth
     mat_props = [ei, 0.05 * ei, phi_y]
-    op.uniaxialMaterial("ElasticBilin", mat_id, *mat_props)
+    opy.uniaxialMaterial("ElasticBilin", mat_id, *mat_props)
 
 
 def uniaxial_steel01_material(mat_id):
     mat_type = 'Steel01'
 
     mat_args = [300e6, 200e9, 0.001]
-    op.uniaxialMaterial(mat_type, mat_id, *mat_args)
+    opy.uniaxialMaterial(mat_type, mat_id, *mat_args)
 
 
 def uniaxial_steel01_section(section_id, mat_id=None):
@@ -34,7 +34,7 @@ def uniaxial_steel01_section(section_id, mat_id=None):
         mat_id = section_id
     uniaxial_steel01_material(mat_id)
 
-    op.section("Uniaxial", section_id, mat_id, "Mz")
+    opy.section("Uniaxial", section_id, mat_id, "Mz")
 
 
 def define_beam_integration(integ_tag):
@@ -46,7 +46,7 @@ def define_beam_integration(integ_tag):
     uniaxial_steel01_section(section1_id)
     uniaxial_steel01_section(section2_id)
     uniaxial_steel01_section(section3_id)
-    op.beamIntegration('HingeMidpoint', integ_tag, section1_id, lp_i, section2_id, lp_j, section3_id)
+    opy.beamIntegration('HingeMidpoint', integ_tag, section1_id, lp_i, section2_id, lp_j, section3_id)
 
 
 def define_force_beam_column(ele_i, integ_tag):
@@ -55,7 +55,7 @@ def define_force_beam_column(ele_i, integ_tag):
     bot_node = 1
     top_node = 2
     transf_tag = 1
-    op.geomTransf('Linear', transf_tag, *[])
-    op.node(bot_node, 0., 0.)
-    op.node(top_node, 0., 5.)
-    op.element('forceBeamColumn', ele_i, bot_node, top_node, transf_tag, integ_tag)
+    opy.geomTransf('Linear', transf_tag, *[])
+    opy.node(bot_node, 0., 0.)
+    opy.node(top_node, 0., 5.)
+    opy.element('forceBeamColumn', ele_i, bot_node, top_node, transf_tag, integ_tag)

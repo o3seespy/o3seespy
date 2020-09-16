@@ -1,4 +1,4 @@
-import openseespy.opensees as opy
+from o3seespy import opy
 
 
 def test_basic():

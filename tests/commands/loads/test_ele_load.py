@@ -1,6 +1,5 @@
 import o3seespy as o3  # for testing only
 import pytest
-import openseespy.opensees as opy
 import numpy as np
 
 
@@ -35,7 +34,7 @@ def test_ele_load_uniform():
     o3.integrator.LoadControl(osi, d_gravity, num_iter=10)
     o3.analysis.Static(osi)
     o3.analyze(osi, n_steps_gravity)
-    opy.reactions()
+    o3.gen_reactions(osi)
     ele_loads = o3.get_ele_response(osi, ele, 'force')
     assert np.isclose(ele_loads[0], 0.0)
     assert np.isclose(ele_loads[1], udl * ele_len / 2)
@@ -43,7 +42,8 @@ def test_ele_load_uniform():
     assert np.isclose(ele_loads[3], 0.0)
     assert np.isclose(ele_loads[4], udl * ele_len / 2)
     assert np.isclose(ele_loads[5], -udl * ele_len ** 2 / 12)
-    assert np.isclose(o3.get_node_reaction(osi, ele_nodes[0], o3.cc.Y), udl * ele_len / 2)
+    load = o3.get_node_reaction(osi, ele_nodes[0], o3.cc.DOF_Y)
+    assert np.isclose(load, udl * ele_len / 2)
 
 
 if __name__ == '__main__':

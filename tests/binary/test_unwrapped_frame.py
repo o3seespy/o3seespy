@@ -6,7 +6,7 @@ import eqsig.sdof
 
 import numpy as np
 
-from openseespy import opensees as op
+from o3seespy import opy
 from tests import extras as opc
 from tests.conftest import TEST_DATA_DIR
 import pytest
@@ -47,8 +47,8 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     :return:
     """
 
-    op.wipe()
-    op.model('basic', '-ndm', 2, '-ndf', 3)  # 2 dimensions, 3 dof per node
+    opy.wipe()
+    opy.model('basic', '-ndm', 2, '-ndf', 3)  # 2 dimensions, 3 dof per node
 
     q_floor = 10000.  # kPa
     trib_width = fb.floor_length
@@ -66,7 +66,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
         for ss in range(fb.n_storeys + 1):
             n_i = cc * 100 + ss
             nd["C%i-S%i" % (cc, ss)] = n_i
-            op.node(n_i, col_xs[cc - 1], sto_ys[ss])
+            opy.node(n_i, col_xs[cc - 1], sto_ys[ss])
 
             if ss != 0:
                 if cc == 1:
@@ -75,21 +75,21 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
                     node_mass = trib_mass_per_length * fb.bay_lengths[-1] / 2
                 else:
                     node_mass = trib_mass_per_length * (fb.bay_lengths[cc - 2] + fb.bay_lengths[cc - 1] / 2)
-                op.mass(n_i, node_mass)
+                opy.mass(n_i, node_mass)
 
     # Set all nodes on a storey to have the same displacement
     for ss in range(0, fb.n_storeys + 1):
         for cc in range(1, n_cols + 1):
-            op.equalDOF(nd["C%i-S%i" % (1, ss)], nd["C%i-S%i" % (cc, ss)],  opc.X)
+            opy.equalDOF(nd["C%i-S%i" % (1, ss)], nd["C%i-S%i" % (cc, ss)], opc.X)
 
     # Fix all base nodes
     for cc in range(1, n_cols + 1):
-        op.fix(nd["C%i-S%i" % (cc, 0)], opc.FIXED, opc.FIXED, opc.FIXED)
+        opy.fix(nd["C%i-S%i" % (cc, 0)], opc.FIXED, opc.FIXED, opc.FIXED)
 
     # Coordinate transformation
     geo_tag = 1
     trans_args = []
-    op.geomTransf("Linear", geo_tag, *[])
+    opy.geomTransf("Linear", geo_tag, *[])
 
     l_hinge = fb.bay_lengths[0] * 0.1
 
@@ -122,17 +122,17 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
             ed["C%i-S%i" % (cc, ss)] = ele_i
             mat_props = elastic_bilin(ei_columns[ss][cc - 1], 0.05 * ei_columns[ss][cc - 1], phi_y_col[ss][cc - 1])
             #print(opc.ELASTIC_BILIN, ele_i, *mat_props)
-            op.uniaxialMaterial(opc.ELASTIC_BILIN, ele_i, *mat_props)
-            # op.uniaxialMaterial("Elastic", ele_i, ei_columns[ss][cc - 1])
+            opy.uniaxialMaterial(opc.ELASTIC_BILIN, ele_i, *mat_props)
+            # opy.uniaxialMaterial("Elastic", ele_i, ei_columns[ss][cc - 1])
 
             node_numbers = [nd["C%i-S%i" % (cc, ss)], nd["C%i-S%i" % (cc, ss + 1)]]
-            op.element(opc.ELASTIC_BEAM_COLUMN, ele_i,
-                       *node_numbers,
-                       a_columns[ss - 1][cc - 1],
-                       e_conc,
-                       i_columns[ss - 1][cc - 1],
-                       geo_tag
-                       )
+            opy.element(opc.ELASTIC_BEAM_COLUMN, ele_i,
+                        *node_numbers,
+                        a_columns[ss - 1][cc - 1],
+                        e_conc,
+                        i_columns[ss - 1][cc - 1],
+                        geo_tag
+                        )
 
         # Set beams
         for bb in range(1, fb.n_bays + 1):
@@ -141,8 +141,8 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
             sd["B%i-S%i" % (bb, ss)] = ele_i
             ed["B%i-S%i" % (bb, ss)] = ele_i
             mat_props = elastic_bilin(ei_beams[ss][bb - 1], 0.05 * ei_beams[ss][bb - 1], phi_y_beam[ss][bb - 1])
-            op.uniaxialMaterial(opc.ELASTIC_BILIN, ele_i, *mat_props)
-            # op.uniaxialMaterial("Elastic", ele_i, ei_beams[ss][bb - 1])
+            opy.uniaxialMaterial(opc.ELASTIC_BILIN, ele_i, *mat_props)
+            # opy.uniaxialMaterial("Elastic", ele_i, ei_beams[ss][bb - 1])
             node_numbers = [nd["C%i-S%i" % (bb, ss + 1)], nd["C%i-S%i" % (bb + 1, ss + 1)]]
             print((opc.BEAM_WITH_HINGES, ele_i,
                        *node_numbers,
@@ -151,7 +151,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
                        sd["B%i-S%i" % (bb, ss)], geo_tag
                        ))
             # Old definition
-            # op.element(opc.BEAM_WITH_HINGES, ele_i,
+            # opy.element(opc.BEAM_WITH_HINGES, ele_i,
             #  *[nd["C%i-S%i" % (bb, ss - 1)], nd["C%i-S%i" % (bb + 1, ss)]],
             #  sd["B%i-S%i" % (bb, ss)], l_hinge,
             #  sd["B%i-S%i" % (bb, ss)], l_hinge,
@@ -160,7 +160,7 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
             #  i_beams[ss - 1][bb - 1], geo_tag
             #  )
             # New definition
-            # op.element(opc.BEAM_WITH_HINGES, ele_i,
+            # opy.element(opc.BEAM_WITH_HINGES, ele_i,
             #            *node_numbers,
             #             sd["B%i-S%i" % (bb, ss)], l_hinge,
             #            sd["B%i-S%i" % (bb, ss)], l_hinge,
@@ -169,24 +169,24 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
             #            )
 
             # Elastic definition
-            op.element(opc.ELASTIC_BEAM_COLUMN, ele_i,
-                       *node_numbers,
-                       a_beams[ss - 1][bb - 1],
-                       e_conc,
-                       i_beams[ss - 1][bb - 1],
-                       geo_tag
-                       )
+            opy.element(opc.ELASTIC_BEAM_COLUMN, ele_i,
+                        *node_numbers,
+                        a_beams[ss - 1][bb - 1],
+                        e_conc,
+                        i_beams[ss - 1][bb - 1],
+                        geo_tag
+                        )
 
     # Define the dynamic analysis
     load_tag_dynamic = 1
     pattern_tag_dynamic = 1
 
     values = list(-1 * asig.values)  # should be negative
-    op.timeSeries('Path', load_tag_dynamic, '-dt', asig.dt, '-values', *values)
-    op.pattern('UniformExcitation', pattern_tag_dynamic, opc.X, '-accel', load_tag_dynamic)
+    opy.timeSeries('Path', load_tag_dynamic, '-dt', asig.dt, '-values', *values)
+    opy.pattern('UniformExcitation', pattern_tag_dynamic, opc.X, '-accel', load_tag_dynamic)
 
     # set damping based on first eigen mode
-    angular_freq2 = op.eigen('-fullGenLapack', 1)
+    angular_freq2 = opy.eigen('-fullGenLapack', 1)
     if hasattr(angular_freq2, '__len__'):
         angular_freq2 = angular_freq2[0]
     angular_freq = angular_freq2 ** 0.5
@@ -199,22 +199,22 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
     period = angular_freq / 2 / np.pi
     print("period: ", period)
 
-    op.rayleigh(alpha_m, beta_k, beta_k_init, beta_k_comm)
+    opy.rayleigh(alpha_m, beta_k, beta_k_init, beta_k_comm)
 
     # Run the dynamic analysis
 
-    op.wipeAnalysis()
+    opy.wipeAnalysis()
 
-    op.algorithm('Newton')
-    op.system('SparseGeneral')
-    op.numberer('RCM')
-    op.constraints('Transformation')
-    op.integrator('Newmark', 0.5, 0.25)
-    op.analysis('Transient')
-    #op.test("NormDispIncr", 1.0e-1, 2, 0)
+    opy.algorithm('Newton')
+    opy.system('SparseGeneral')
+    opy.numberer('RCM')
+    opy.constraints('Transformation')
+    opy.integrator('Newmark', 0.5, 0.25)
+    opy.analysis('Transient')
+    #opy.test("NormDispIncr", 1.0e-1, 2, 0)
     tol = 1.0e-10
     iter = 10
-    op.test('EnergyIncr', tol, iter, 0, 2)  # TODO: make this test work
+    opy.test('EnergyIncr', tol, iter, 0, 2)  # TODO: make this test work
     analysis_time = (len(values) - 1) * asig.dt + extra_time
     outputs = {
         "time": [],
@@ -224,19 +224,19 @@ def get_inelastic_response(fb, asig, extra_time=0.0, xi=0.05, analysis_dt=0.001)
         "force": []
     }
     print("Analysis starting")
-    while op.getTime() < analysis_time:
-        curr_time = op.getTime()
-        op.analyze(1, analysis_dt)
+    while opy.getTime() < analysis_time:
+        curr_time = opy.getTime()
+        opy.analyze(1, analysis_dt)
         outputs["time"].append(curr_time)
-        outputs["rel_disp"].append(op.nodeDisp(nd["C%i-S%i" % (1, fb.n_storeys)], opc.X))
-        outputs["rel_vel"].append(op.nodeVel(nd["C%i-S%i" % (1, fb.n_storeys)], opc.X))
-        outputs["rel_accel"].append(op.nodeAccel(nd["C%i-S%i" % (1, fb.n_storeys)], opc.X))
-        op.reactions()
+        outputs["rel_disp"].append(opy.nodeDisp(nd["C%i-S%i" % (1, fb.n_storeys)], opc.X))
+        outputs["rel_vel"].append(opy.nodeVel(nd["C%i-S%i" % (1, fb.n_storeys)], opc.X))
+        outputs["rel_accel"].append(opy.nodeAccel(nd["C%i-S%i" % (1, fb.n_storeys)], opc.X))
+        opy.reactions()
         react = 0
         for cc in range(1, fb.n_cols):
-            react += -op.nodeReaction(nd["C%i-S%i" % (cc, 0)], opc.X)
+            react += -opy.nodeReaction(nd["C%i-S%i" % (cc, 0)], opc.X)
         outputs["force"].append(react)  # Should be negative since diff node
-    op.wipe()
+    opy.wipe()
     for item in outputs:
         outputs[item] = np.array(outputs[item])
 
