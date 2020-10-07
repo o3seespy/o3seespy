@@ -27,6 +27,7 @@ def test_shell_dkgq():
     o3.element.ShellDKGQ(osi, ele_nodes=ele_nodes, sec=sec)
 
 
+@pytest.mark.skip()  # this is been fixed by needs latest openseespy
 def test_shell_dkgt():
     osi = o3.OpenSeesInstance(ndm=2)
     coords = [[0, 0], [1, 0], [1, 1]]
