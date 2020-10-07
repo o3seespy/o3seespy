@@ -12,12 +12,15 @@ with open('README.rst') as readme_file:
 
 setup(name='o3seespy',
       version=about['__version__'],
-      description='Object-oriented native python version of Opensees',
+      description='Object-oriented native Python version of OpenSees',
       long_description=readme,  # + '\n\n' + history,
       url='',
       author=about['__author__'],
       author_email='mmi46@uclive.ac.nz',
       license=about['__license__'],
+      package_data={
+            '': ['o3seespy/command/mat_recorder_options.csv'],
+        },
       classifiers=[
           'Development Status :: 3 - Alpha',
           'Intended Audience :: Science/Research',
