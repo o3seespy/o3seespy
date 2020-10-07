@@ -2,3 +2,4 @@ include LICENSE
 include OpenSees-LICENSE
 include README.rst
 include requirements.txt
+include o3seespy/command/mat_recorder_options.csv
