@@ -279,10 +279,10 @@ def py2tcl(pystr):
     return new
 
 
-def gen_free_field_2d_bc(osi, eles, left_bc, bl_node=0, width=1, connection=None):
+def gen_free_field_2d_bc(osi, eles, left_bc, bl_node=0, width=1, connection=None, base_fix_x=False, base_fix_y=True):
     import numpy as np
     from o3seespy import element
-    from o3seespy import EqualDOF
+    from o3seespy import EqualDOF, Fix2DOFMulti
     from o3seespy import node
     # eles array_like of vertical quad like elements
     # bl_node is index of bottom-left node
@@ -320,6 +320,13 @@ def gen_free_field_2d_bc(osi, eles, left_bc, bl_node=0, width=1, connection=None
             EqualDOF(osi, ele.ele_nodes[bot_ind], new_nodes[i][0], [1, 2])
         if isinstance(ele, element.SSPquad):
             ele_nodes = [new_nodes[i+1][0], new_nodes[i+1][1], new_nodes[i][1], new_nodes[i][0]]
-            new_eles.append(element.SSPquad(osi, ele_nodes, ele.mat, ele.otype, ele.thick * 1e6,
+            new_eles.append(element.SSPquad(osi, ele_nodes, ele.mat, ele.otype, ele.thick * 1e4,
                                             ele.b1, ele.b2))
         # TODO: support Quad
+    if base_fix_x and base_fix_y:
+        Fix2DOFMulti(osi, new_nodes[-1], [1, 2])
+    elif base_fix_x:
+        Fix2DOFMulti(osi, new_nodes[-1], x=1, y=0)
+    else:
+        Fix2DOFMulti(osi, new_nodes[-1], x=0, y=1)
+

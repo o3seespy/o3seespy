@@ -24,14 +24,14 @@ class OpenSeesObject(object):
 
     def to_process(self, osi):
         if osi.state == 0:
-            self.to_opensees()
-        if osi.state == 1:
-            osi.to_commands(self.to_commands())
-        elif osi.state == 2:
-            osi.to_dict(self)
+            return self.to_opensees()
+        # elif osi.state == 1:
+        #     osi.to_commands(self.to_commands())
+        # elif osi.state == 2:
+        #     osi.to_dict(self)
         elif osi.state == 3:
             osi.to_commands(self.to_commands())
-            self.to_opensees()
+            return self.to_opensees()
         elif osi.state == 4:
             osi.to_commands(self.to_commands())
 

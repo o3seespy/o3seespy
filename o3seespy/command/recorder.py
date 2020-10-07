@@ -57,7 +57,7 @@ class NodeToFile(RecorderBase):
         if time:
             self._parameters.insert(5, '-time')
         self._parameters += ['-dof', *dofs, res_type]
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
 
 class NodesToFile(RecorderBase):
@@ -96,7 +96,7 @@ class NodesToFile(RecorderBase):
             self._parameters.insert(6, dt)
         if time:
             self._parameters.insert(5, '-time')
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
 
 class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
@@ -131,7 +131,7 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
         self._parameters += ['-dof', *dofs, res_type]
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
 
 class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
@@ -168,7 +168,7 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
         if dt is not None:
             self._parameters.insert(5,'-dT')
             self._parameters.insert(6, dt)
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
 
 class TimeToArrayCache(RecorderBase):
@@ -196,7 +196,7 @@ class TimeToArrayCache(RecorderBase):
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
         self._parameters += ['-dof', 1, 'accel']
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
     def collect(self, unlink=True):
         from numpy import loadtxt
@@ -235,7 +235,7 @@ class TimeToFile(RecorderBase):
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
         self._parameters += ['-dof', 1, 'disp']
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
 
 class ElementToFile(RecorderBase):
@@ -274,7 +274,7 @@ class ElementToFile(RecorderBase):
             self._parameters.insert(6, dt)
         if time:
             self._parameters.insert(5, '-time')
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
 
 class ElementsToFile(RecorderBase):
@@ -314,7 +314,7 @@ class ElementsToFile(RecorderBase):
             self._parameters.insert(6, dt)
         if time:
             self._parameters.insert(5, '-time')
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
 
 class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementToArray where data saved to memory and loaded as array without collect
@@ -337,7 +337,7 @@ class ElementToArrayCache(RecorderToArrayCacheBase):  # TODO: implement ElementT
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
 
 class ElementsToArrayCache(RecorderToArrayCacheBase):
@@ -360,8 +360,16 @@ class ElementsToArrayCache(RecorderToArrayCacheBase):
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
-        self.to_process(osi)
+        self._tag = self.to_process(osi)
 
+
+def remove_recorder(osi, recorder):
+    return osi.to_process('remove', ['recorder', recorder.tag])
+
+
+def remove_recorders(osi):
+    """Removes all recorders"""
+    return osi.to_process('remove', ['recorders'])
 
 
 def load_recorder_options():
