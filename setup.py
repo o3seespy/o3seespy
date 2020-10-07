@@ -43,7 +43,6 @@ setup(name='o3seespy',
           'test': ['pytest'],
       },
       python_requires='>=3',
-      package_data={},
       zip_safe=False)
 
 
