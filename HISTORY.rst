@@ -2,7 +2,7 @@
 History
 =======
 
-3.1.0.XX (2020-09-XX)
+3.1.0.33 (2020-10-08)
 ---------------------
 * Added `senscmds` (beta), `parallelcmds`(beta), `fsicmds`(beta)
 

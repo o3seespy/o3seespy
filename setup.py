@@ -21,6 +21,7 @@ setup(name='o3seespy',
       package_data={
             'o3seespy': ['o3seespy/command/mat_recorder_options.csv'],
         },
+      include_package_data=True,
       classifiers=[
           'Development Status :: 3 - Alpha',
           'Intended Audience :: Science/Research',
