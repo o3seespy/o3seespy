@@ -176,6 +176,7 @@ class ShellDKGT(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
+        >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0], [1, 1]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]

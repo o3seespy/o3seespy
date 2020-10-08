@@ -19,6 +19,7 @@ class OpenSeesInstance(object):  # TODO: allow custom (self compiled opensees)
     n_transformation = 0
     n_region = 0
     n_params = 0
+    n_mesh = 0
 
     def __init__(self, ndm: int, ndf=None, state=0):
         self.ndm = ndm

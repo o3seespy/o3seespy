@@ -691,6 +691,11 @@ def get_np(osi):
     return osi.to_process('getNP', [])
 
 
+def set_num_threads(osi, num):
+    """Set the total number of threads"""
+    return osi.to_process('setNumThread', [num])
+
+
 def get_num_threads(osi):
     """return the total number of threads available"""
     return osi.to_process('getNumThread', [])
@@ -804,3 +809,20 @@ def update_parameter(osi, param, value):
     parameters = [param.tag, value]
     return osi.to_process(op_type, parameters)
 
+
+def start(osi):
+    """Start the timer"""
+    return osi.to_process('start', [])
+
+def stop(osi):
+    """Stop the timer and print timing information."""
+    return osi.to_process('stop', [])
+
+
+def update_element_domain(osi):
+    """Update elements in the domain"""
+    return osi.to_process('updateElementDomain', [])
+
+
+def remesh(osi, alpha):
+    return osi.to_process('remesh', [alpha])

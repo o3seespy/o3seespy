@@ -152,6 +152,233 @@ def build_additional_methods(obj_type, obj_name):
     return para
 
 
+def constructor_of_func(base_name, op_type, defaults, op_kwargs, osi_type, cl_name_suf="", obj_blurb=[]):
+
+    if len(op_kwargs) == 1:
+        iis = list(op_kwargs)
+        item = iis[0]
+        pms = op_kwargs[item]
+        if len(pms) == 1:
+            defaults[pms[0]].marker = item[1:]  # remove '-' since it gets added again
+            del op_kwargs[item]
+
+    kw_pms = []  # TODO: This only works if object should be split into many objects based on kwargs, but
+    # some kwargs are just to input a single value.
+    for kw in op_kwargs:
+        for pm in op_kwargs[kw]:
+            kw_pms.append(pm)
+    if not len(op_kwargs):
+        op_kwargs[''] = []
+    para = ['']
+    tpara = []
+    for kw in op_kwargs:  # TODO: add a csv of objects that should not split since optional args are not exclusive (e.g. FRPConfinedConcrete02)
+        name_from_kw = kw.replace('-', '')
+        name_from_kw = name_from_kw.replace("'", '')
+        if op_type is None:
+            raise ValueError
+
+        pms = clean_param_names(defaults, '')
+        # Determine what is in this class
+        cl_pms = []  # TODO: need to add op_kwarg str
+        for pm in pms:
+            if pms[pm].org_name not in kw_pms or pm in op_kwargs[kw]:
+                cl_pms.append(pm)
+
+        # Build definition string
+        # check there are no non-default pms are after pms that have defaults
+        contains_no_default = False
+        non_defaults_reversed = []
+        con_defaults_reversed = []
+        for i in range(len(cl_pms)):
+            pm = cl_pms[-1-i]
+            if pms[pm].default_value is None and not pms[pm].marker and not pms[pm].is_flag and not pms[pm].depends_on:  # TODO: may need to switch to .has_default in case default=None
+                contains_no_default = True
+                non_defaults_reversed.append(pm)
+            else:
+                con_defaults_reversed.append(pm)
+        inp_pms_order = non_defaults_reversed[::-1] + con_defaults_reversed[::-1]
+
+        pjoins = ['osi']
+        for pm in inp_pms_order:  # TODO: if packed and obj
+            o3_name = pms[pm].o3_name
+            default = pms[pm].default_value
+            if pms[pm].is_flag:
+                pjoins.append(f'{o3_name}=False')
+            elif default is not None:
+                if pms[pm].forced_not_optional:
+                    pjoins.append(f'{o3_name}')
+                elif pms[pm].default_is_expression:
+                    pjoins.append(f'{o3_name}: float=None')
+                    pms[pm].o3_default_is_none = True
+                else:
+                    if pms[pm].marker or pms[pm].depends_on:
+                        if pms[pm].dtype in ['str', 'float', 'int']:
+                            pjoins.append(f'{o3_name}: {pms[pm].dtype}=None')
+                        elif pms[pm].dtype is not None and 'list' in pms[pm].dtype:
+                            pjoins.append(f'{o3_name}: list=None')
+                        else:
+                            pjoins.append(f'{o3_name}=None')  # cannot have value for marker
+                        pms[pm].o3_default_is_none = True
+                    else:
+                        pjoins.append(f'{o3_name}={default}')
+            else:
+                if pms[pm].marker or pms[pm].depends_on:
+                    if pms[pm].dtype in ['str', 'float', 'int']:
+                        pjoins.append(f'{o3_name}: {pms[pm].dtype}=None')
+                    elif pms[pm].dtype is not None and 'list' in pms[pm].dtype:
+                        pjoins.append(f'{o3_name}: list=None')
+                    else:
+                        pjoins.append(f'{o3_name}=None')
+                    pms[pm].o3_default_is_none = True
+                else:
+                    pjoins.append(f'{o3_name}')
+
+        pjoined = ', '.join(pjoins)
+        low_op_name = convert_camel_to_snake(op_type)
+        if 'Returns ' in obj_blurb[0] and 'get_' not in low_op_name:
+            low_op_name = f'get_{low_op_name}'
+        para.append(f'def {low_op_name}({pjoined}):')
+        para += build_fn_docstring(obj_blurb, pms, inp_pms_order)
+        import importlib
+
+        # Try to insert the initialisation example from tests
+        insert_example = 1
+        if insert_example:
+
+            source = None
+            try:
+                tcommands = importlib.import_module(f"tests.commands.test_{base_name}")
+                tname = f'test_{low_op_name}'
+                if tname in dir(tcommands):
+                    source = inspect.getsource(getattr(tcommands, tname)).splitlines()
+            except ModuleNotFoundError:
+                pass
+            if source is not None:
+                para = para[:-1]  # remove triple quote at end of docstring
+                para.append('')  # blank line
+                para.append(w4 + 'Examples')
+                para.append(w4 + '--------')
+                para.append(w4 + '>>> import o3seespy as o3')
+
+                for line in source[1:]:  # skip first line which says 'test_'
+                    if 'def ' in line:
+                        nline = w4 + '>>> ' + '# Example is currently not working'
+                        para.append(nline)
+                        continue
+                    nline = w4 + '>>> ' + line[4:]
+                    para.append(nline)
+                para.append(w4 + '"""')
+
+        # Create init function saving logic
+        for i, pm in enumerate(cl_pms):
+            o3_name = pms[pm].o3_name
+            dtype = pms[pm].dtype
+            w_extra = ''
+            extra = []
+            if pms[pm].o3_default_is_none and dtype in ['float', 'int']:
+                extra.append(w4 + f'if {o3_name} is not None:')
+                w_extra = w4
+            if dtype == 'float':
+                para += extra
+                para.append(w4 + w_extra + f'{o3_name} = float({o3_name})')
+            elif dtype == 'int':
+                para += extra
+                para.append(w4 + w_extra + f'{o3_name} = int({o3_name})')
+            else:
+                if pms[pm].list_items_dtype == 'obj':
+                    para += extra
+                    if o3_name == 'ele_nodes':
+                        pms[pm].o3_pm_name = 'ele_node_tags'
+                    para.append(w4 + w_extra + f'{pms[pm].o3_pm_name} = [x.tag for x in {o3_name}]')
+        pjoins = []
+        # if op_type is not None:
+        #     pjoins.append(op_type)
+        need_special_logic = False
+        applied_op_warg = False
+        for pm in cl_pms:
+            o3_pm_name = pms[pm].o3_pm_name
+            if pms[pm].marker or pms[pm].depends_on:
+                continue
+            if pms[pm].is_flag:
+                continue
+            if not applied_op_warg and pm in op_kwargs[kw]:
+                applied_op_warg = True
+                pjoins.append(f"'{kw}'")
+            if pms[pm].default_is_expression:
+                need_special_logic = True
+                break
+            if pms[pm].dtype == 'obj':
+                pjoins.append(f'{o3_pm_name}.tag')
+            elif pms[pm].packed:
+                pjoins.append('*' + o3_pm_name)
+            else:
+                pjoins.append('' + o3_pm_name)
+        para.append(w4 + '_parameters = [%s]' % (', '.join(pjoins)))
+        for pm in cl_pms:
+            o3_pm_name = pms[pm].o3_pm_name
+            if pms[pm].packed:
+                ps = '*'
+            else:
+                ps = ''
+
+            if pms[pm].marker:
+                # para.append(w8 + f"if getattr(self, '{o3_name}') not in [None, '']:")
+                para.append(w4 + f"if {o3_pm_name} is not None:")
+                tt = ''
+                if pms[pm].dtype == 'obj':
+                    tt = '.tag'
+                para.append(w4 + w4 + f"_parameters += ['-{pms[pm].marker}', {ps}{o3_pm_name}{tt}]")
+
+            elif pms[pm].depends_on:
+                d_o3 = pms[pms[pm].depends_on].o3_name
+                para.append(w4 + f"if {o3_pm_name} is not None:")
+                para.append(w4 + w4 + f"if {d_o3} is None:")
+                para.append(w4 + w8 + f"raise ValueError('Cannot set: {o3_pm_name} and not: {d_o3}')")
+                para.append(w4 + w4 + f"_parameters += [{ps}{o3_pm_name}]")
+
+            if pms[pm].is_flag:
+                para.append(w4 + f"if {o3_pm_name}:")
+                para.append(w4 + w4 + f"_parameters += ['-{pms[pm].org_name}']")  # TODO: does this always work?
+        if need_special_logic:
+            sp_logic = False
+            sp_pms = []
+            for pm in pms:
+                if pms[pm].default_is_expression:
+                    sp_logic = True
+                if sp_logic:
+                    sp_pms.append(pm)
+            sp_pm_strs = ["'%s'" % pms[pm].o3_pm_name for pm in sp_pms]
+            para.append(w4 + f"special_pms = [{', '.join(sp_pm_strs)}]")
+            packets = [str(pms[pm].packed) for pm in sp_pms]
+            para.append(w4 + f"packets = [{', '.join(packets)}]")
+            para.append(w4 + 'for i, pm in enumerate(special_pms):')
+            para.append(w4 + w4 + 'if pm is not None:')
+            para.append(w4 + w8 + 'if packets[i]:')
+            para.append(w4 + w8 + w4 + '_parameters += [*pm]')
+            para.append(w4 + w8 + 'else:')
+            para.append(w4 + w8 + w4 + '_parameters += [pm]')
+            para.append(w4 + w4 + 'else:')
+            para.append(w4 + w8 + 'break')
+
+        para.append(w4 + f'return osi.to_process("{op_type}", _parameters)')
+        para.append('')
+
+        # Build test
+        names = {
+            'low_op_name': low_op_name,
+            'low_base_name': base_name,
+            'op_class_name': low_op_name
+        }
+        # if low_base_name == 'element':
+        #     tpara1 = build_test_for_element(names, pms, cl_pms)
+        # elif low_base_name == 'beam_integration':
+        #     tpara1 = build_test_for_beamintegration(names, pms, cl_pms)
+        # else:
+        tpara1 = build_test_for_generic(names, pms, cl_pms)
+        tpara += tpara1
+    return '\n'.join(para), '\n'.join(tpara)
+
+
 def constructor(base_type, op_type, defaults, op_kwargs, osi_type, cl_name_suf="", obj_blurb=[]):
     df_ip = pd.read_csv('markup_lists/force_in_place.csv')
     df_ip = df_ip[(df_ip['base_type'] == base_type) & (df_ip['op_type'] == op_type)]
@@ -611,6 +838,63 @@ def build_init_method_docstring(classname, pms, pms_ordered):
     return dstr
 
 
+def build_fn_docstring(fn_blurb, pms, pms_ordered):
+    use_raw = 0
+    joined_fn_blurb = ''.join(fn_blurb)
+    if 'math:' in joined_fn_blurb:
+        use_raw = 1
+
+    para = []
+    if use_raw:
+        para.append(w4 + 'r"""')
+    else:
+        para.append(w4 + '"""')
+    if '.. math::' in joined_fn_blurb:
+        lines = []
+        mline = False
+        for i, line in enumerate(fn_blurb):
+            line = line.replace('\t', '    ')
+            if '.. math::' in line:
+                para.append(force_line_char_limit(w4 + f'{"".join(lines)}', w4))  # parse all text above math.
+                para.append('\n    .. math::\n')
+                mline = True  # define a new line for math
+                lines = []
+            elif mline and w4 + ' ' == line[:5]:  # copy verbose if line is indented
+                para.append(line)
+            else:
+                if mline:
+                    para.append('\n')
+                    mline = False
+                lines.append(trim_leading_whitespace(line))
+        if len(lines):
+            para.append(force_line_char_limit(w4 + f'{"".join(lines)}', w4))  # parse all remaining text.
+    else:
+        lines = []
+        for line in fn_blurb:
+            lines.append(trim_leading_whitespace(line))
+
+        para.append(force_line_char_limit(w4 + f'{"".join(lines)}', w4))
+
+    para += ['', w4 + 'Parameters', w4 + '----------',
+            w4 + f'osi: o3seespy.OpenSeesInstance']
+    for pm in pms_ordered:
+        op_str = ''
+        pdes = clean_docstring_content(pms[pm].p_description.capitalize())
+        if pms[pm].default_is_expression:
+            op_str = f' (default={pms[pm].default_is_expression})'
+        if pms[pm].o3_default_is_none or pms[pm].default_value:
+            ostr = ', optional'
+        else:
+            ostr = ''
+        para.append(w4 + f'{pms[pm].o3_name}: {pms[pm].dtype}{op_str}{ostr}')
+        descr = force_line_char_limit(w12 + f'{pdes}', w12)
+        para.append(descr)
+    para.append(w4 + '"""')
+    if use_raw:
+        para[0] = w4 + 'r"""'
+    return para
+
+
 class Param(object):
     def __init__(self, org_name, default_value, packed=None, dtype=None):
         self.org_name = org_name
@@ -776,7 +1060,7 @@ def trim_leading_whitespace(line):
     return line
 
 
-def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
+def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False, is_fn=False, fname=''):
     a = open(ffp)
     f = a.read()
     lines = f.splitlines()
@@ -828,7 +1112,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                     cur_obj_blurb = sub_obj_blurbs[0]
                 if two_defs != 'doubleUp' or optype1 is not None:
                     pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype,
-                                            base_type, osi_type, cl_name_suf, cur_obj_blurb)
+                                            base_type, osi_type, cl_name_suf, cur_obj_blurb, is_fn=is_fn, fname=fname)
                     pstr += pstr1
                     tstr += tstr1
 
@@ -844,7 +1128,8 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                     if defaults1 is None:
                         raise ValueError(defaults, op_kwargs)
                     pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults1, op_kwargs1, descriptions, optype1,
-                                                    base_type1, osi_type, cl_name_suf, cur_obj_blurb)
+                                                    base_type1, osi_type, cl_name_suf, cur_obj_blurb, is_fn=is_fn,
+                                                    fname=fname)
                     pstr += '\n' + pstr1
                     tstr += tstr1
                 # Reset in case two objects in same file
@@ -866,13 +1151,24 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
             continue
 
         first_char = char_only[0]
-        res = re.search(pname_pat, line)
+        if '``<specific parameter args>``' in line:
+            if 'specificparameterargs' in defaults:
+                defaults['p_args'] = defaults['specificparameterargs']
+                del defaults['specificparameterargs']
+            doc_str_pms.append('p_args')
+            dtypes.append('unk')
+            descriptions['p_args'] = trim_leading_whitespace(line.replace('``<specific parameter args>``', ''))
+            continue
+        # rline = line.replace('<', '')
+        # rline = rline.replace('>', '')
+        rline = line
+        res = re.search(pname_pat, rline)
         if first_char != '*' and res:
             pname = res.group()[2:-2]
             # if len(res.group()) > 4 and "'-" == res.group()[2:4]:
             #     continue  # op_kwarg
-            ei = line.find('|')
-            dtype_res = re.search(dtype_pat, line)
+            ei = rline.find('|')
+            dtype_res = re.search(dtype_pat, rline)
             if dtype_res is None:
                 continue
             dtype = dtype_res.group()[1:-1]
@@ -888,7 +1184,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
             #         break
             des = trim_leading_whitespace(des)
 
-            res = re.findall(pname_pat, line[:ei])
+            res = re.findall(pname_pat, rline[:ei])
             for pm in res:
                 if len(pm) > 4 and "'-" == pm[0:2]:
                     pm = pm[2:-1]
@@ -907,9 +1203,10 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
                         pass
                     else:
                         cam_case = convert_camel_to_snake(base_class_name)
-                        new_istr = f'from o3seespy.command.{cam_case} import {base_class_name}Base'
-                        if new_istr not in ipara:
-                            ipara.append(new_istr)
+                        if is_fn is False:
+                            new_istr = f'from o3seespy.command.{cam_case} import {base_class_name}Base'
+                            if new_istr not in ipara:
+                                ipara.append(new_istr)
                 if multi_def and optype is None:
                     base_type = None
                     doc_string_open = 0
@@ -962,7 +1259,7 @@ def parse_single_file(ffp, osi_type, expected_base_type=None, multi_def=False):
         else:
             cur_obj_blurb = sub_obj_blurbs[fn_line_counter - 1]
         pstr1, tstr1 = refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type,
-                                        osi_type, cl_name_suf, cur_obj_blurb)
+                                        osi_type, cl_name_suf, cur_obj_blurb, is_fn=is_fn, fname=fname)
         pstr += pstr1
         tstr += tstr1
     istr = '\n'.join(ipara)
@@ -986,7 +1283,8 @@ def find_in_custom_defs(base_type, optype):
     return None
 
 
-def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=[]):
+def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, optype, base_type, osi_type, cl_name_suf="", obj_blurb=[],
+                     is_fn=False, fname=''):
     custom_str = find_in_custom_defs(base_type, optype)
     if custom_str is not None:
         return custom_str
@@ -1093,7 +1391,6 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         del op_kwargs['-doRayleigh']
         # defaults['iter'] = copy.deepcopy(defaults['maxIter'])
         defaults['rFlag'].marker = 'doRayleigh'
-
         # del defaults['maxIter']
     #assert len(doc_str_pms) == len(defaults) + len(op_kwargs), (len(doc_str_pms), (len(defaults), len(op_kwargs)))
     # if len(op_kwargs) == 1:
@@ -1102,8 +1399,11 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
     #         defaults[item] = Param(org_name=item, default_value=False, packed=False)
     #         defaults[item].marker = f'-{item}'
     #         del op_kwargs[item]
-
-    pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf, obj_blurb=obj_blurb)
+    if is_fn:
+        pstr, tstr = constructor_of_func(fname, base_type, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf,
+                                 obj_blurb=obj_blurb)
+    else:
+        pstr, tstr = constructor(base_type, optype, defaults, op_kwargs, osi_type=osi_type, cl_name_suf=cl_name_suf, obj_blurb=obj_blurb)
     return pstr, tstr
     # if line[3:5] == '``':
     #     para = line[5:]
@@ -1306,7 +1606,8 @@ def str_of_set_parameter_base_method():
         w8 + 'if eles is not None:',
         w12 + 'set_parameter(osi, value=value, eles=eles, args=[pstr, 1])', '']
 
-def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False):
+
+def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False, is_fn=False):
     o3_type = convert_camel_to_snake(obj_type)
     o3_class_type = convert_name_to_class_name(obj_type)
     import user_paths as up
@@ -1333,11 +1634,14 @@ def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False):
 
     floc = ROOT_DIR + 'o3seespy/command/'
     for item in collys:
-        para = ['from o3seespy.base_model import OpenSeesObject', '', '']
-        para += [f'class {o3_class_type}Base(OpenSeesObject):']
-        para += [w4 + f'op_base_type = "{obj_type}"', '']
-        if obj_type == 'section':
-            para += str_of_set_parameter_base_method()
+        if is_fn is False:
+            para = ['from o3seespy.base_model import OpenSeesObject', '', '']
+            para += [f'class {o3_class_type}Base(OpenSeesObject):']
+            para += [w4 + f'op_base_type = "{obj_type}"', '']
+            if obj_type == 'section':
+                para += str_of_set_parameter_base_method()
+        else:
+            para = []
         tpara = ['import o3seespy as o3  # for testing only', '', '']
         ipara = []
         for mat in collys[item]:
@@ -1351,7 +1655,7 @@ def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False):
 
             open(up.OPY_DOCS_PATH + '%s.rst' % mat)
             ffp = up.OPY_DOCS_PATH + '%s.rst' % mat
-            pstr, tstr, istr = parse_single_file(ffp, osi_type=osi_type, expected_base_type=o3_class_type, multi_def=multi_def)
+            pstr, tstr, istr = parse_single_file(ffp, osi_type=osi_type, expected_base_type=o3_class_type, multi_def=multi_def, is_fn=is_fn, fname=obj_type)
             if istr not in ipara and istr != '':
                 ipara.append(istr)
             para.append(pstr)
@@ -1383,7 +1687,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 1
+    all = 0
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
@@ -1399,8 +1703,14 @@ if __name__ == '__main__':
         # print(ts)
         # parse_generic_single_file(obj_type='elastomericBearingPlasticity', osi_type='ele')
         #
-        p = parse_single_file(up.OPY_DOCS_PATH + 'elastomericBearingBoucWen.rst', osi_type=None)
-        print(p[0])
+        p = parse_generic_single_file(obj_type='senscmds', osi_type=None, is_fn=True)
+        p = parse_generic_single_file(obj_type='parallelcmds', osi_type=None, is_fn=True)
+        p = parse_generic_single_file(obj_type='reliabilitycmds', osi_type=None, is_fn=True)
+        p = parse_generic_single_file(obj_type='fsicmds', osi_type=None, is_fn=True)
+
+
+        # p = parse_single_file(up.OPY_DOCS_PATH + 'elastomericBearingBoucWen.rst', osi_type=None)
+        # print(p[0])
         # parse_all_elements()
         # pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
         # print(pstr)
@@ -1423,7 +1733,10 @@ if __name__ == '__main__':
         parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)
         parse_generic_single_file(obj_type='layer', osi_type=None, extras=['layer'], multi_def=True)
         parse_generic_single_file(obj_type='system', osi_type=None)
-
+        parse_generic_single_file(obj_type='mesh', osi_type='mesh')
+        parse_generic_single_file(obj_type='senscmds', osi_type='senscmds', is_fn=True)
+        # parse_generic_single_file(obj_type='system', osi_type=None)
+        # TODO: deal with senscmds.rst
         parse_all_uniaxial_mat()
         parse_all_ndmat()
         parse_all_elements()

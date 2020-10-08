@@ -19,7 +19,7 @@ setup(name='o3seespy',
       author_email='mmi46@uclive.ac.nz',
       license=about['__license__'],
       package_data={
-            '': ['o3seespy/command/mat_recorder_options.csv'],
+            'o3seespy': ['o3seespy/command/mat_recorder_options.csv'],
         },
       classifiers=[
           'Development Status :: 3 - Alpha',

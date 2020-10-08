@@ -7,6 +7,7 @@ from o3seespy.command import node, algorithm, rayleigh, test, uniaxial_material,
 from o3seespy.command.common import *
 from o3seespy.command import section, beam_integration, constraints, numberer, system, region, friction_model
 from o3seespy.command import integrator, analysis, recorder, pattern, time_series, geom_transf, patch, layer
+from .command import mesh, senscmds
 import o3seespy.tools
 from o3seespy.command import test_check  # deprecated
 from o3seespy.__about__ import __version__

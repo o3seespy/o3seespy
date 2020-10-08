@@ -2,6 +2,11 @@
 History
 =======
 
+3.1.0.XX (2020-09-XX)
+---------------------
+* Added `senscmds` (beta), `parallelcmds`(beta), `fsicmds`(beta)
+
+
 3.1.0.27 (2020-09-21)
 ---------------------
 * Added `algorithm.ModifiedNewton`
