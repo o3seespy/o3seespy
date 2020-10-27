@@ -823,6 +823,9 @@ def update_element_domain(osi):
     """Update elements in the domain"""
     return osi.to_process('updateElementDomain', [])
 
+def domain_change(osi):
+    return osi.to_process('domainChange', [])
+
 
 def remesh(osi, alpha):
     return osi.to_process('remesh', [alpha])

@@ -509,3 +509,24 @@ class ExplicitDifference(IntegratorBase):
         self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)
+
+
+class NewmarkExplicit(IntegratorBase):
+    r"""
+    Pass
+    """
+    op_type = 'NewmarkExplicit'
+
+    def __init__(self, osi, gamma):
+        """
+        Initial method for NewmarkExplicit
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+
+        """
+        self.osi = osi
+        self.gamma = gamma
+        self._parameters = [self.op_type, self.gamma]
+        self.to_process(osi)

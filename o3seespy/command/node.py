@@ -4,25 +4,16 @@ from o3seespy.base_model import OpenSeesObject
 class Node(OpenSeesObject):
     op_base_type = "node"
     op_type = "node"
-    # x_con = None
-    # y_con = None
-    # z_con = None
-    # x_rot_con = None
-    # y_rot_con = None
-    # z_rot_con = None
-    # x_mass = 0.0
-    # y_mass = 0.0
-    # z_rot_mass = 0.0
 
     def __init__(self, osi, x: float, y=None, z=None, vel=None, acc=None,
-                 x_mass=None, y_mass=None, z_mass=None, x_rot_mass=None, y_rot_mass=None, z_rot_mass=None):
+                 x_mass=None, y_mass=None, z_mass=None, x_rot_mass=None, y_rot_mass=None, z_rot_mass=None, tag=None):
         """
         An OpenSEES node
 
         Parameters
         ----------
-        osi : opensees_pack.opensees_instance.OpenSeesInstance object
-            An instance of opensees
+        osi : o3seespy.opensees_instance.OpenSeesInstance object
+            An instance of OpenSees
         x : float
             x-coordinate
         y : float, optional
@@ -47,8 +38,11 @@ class Node(OpenSeesObject):
         self.z_rot_mass = z_rot_mass
         self.vel = vel
         self.acc = acc
-        osi.n_node += 1
-        self._tag = osi.n_node
+        if tag is None:
+            osi.n_node += 1
+            self._tag = osi.n_node
+        else:
+            self._tag = tag
         if osi.ndm == 1:
             self._parameters = [self._tag, *[self.x]]
             pms = ['x_mass']
@@ -190,3 +184,116 @@ def build_varied_y_node_mesh(osi, xs, ys, zs=None, active=None):
     #     return sn[0]
     return array(sn)
 
+
+def duplicate_node(osi, node):
+    """
+    Copy a node to initialise in another processor in parallel mode
+
+    Note: It has the same node number
+    """
+    if osi.ndm == 1:
+        _parameters = [node.tag, *[node.x]]
+        pms = ['x_mass']
+    elif osi.ndm == 2:
+        _parameters = [node.tag, *[node.x, node.y]]
+        pms = ['x_mass', 'y_mass', 'z_rot_mass']
+    elif osi.ndm == 3:
+        _parameters = [node.tag, *[node.x, node.y, node.z]]
+        pms = ['x_mass', 'y_mass', 'z_mass', 'x_rot_mass', 'y_rot_mass', 'z_rot_mass']
+    else:
+        raise NotImplementedError("Currently only supports 1-3D analyses")
+    masses = []
+    none_found = 0
+    for pm in pms:
+        val = getattr(node, pm)
+        if val is None:
+            none_found = pm
+        else:
+            setattr(node, pm, float(val))
+            if not none_found:
+                masses.append(float(val))
+            else:
+                raise ValueError(f'Cannot set {pm} since {none_found} is None')
+    if node.vel is not None:
+        _parameters += ["-vel", node.vel]
+    if node.acc is not None:
+        _parameters += ["-accel", node.acc]
+    osi.to_process('node', _parameters)
+
+
+def build_node_if_within_segment(osi, coords, segment):
+    """
+
+    Parameters
+    ----------
+    coords
+    segment: array_like
+        if osi.ndm = 1, segment is [[min_x], [max_x]]
+        if osi.num = 2, segment is [[
+
+    Returns
+    -------
+
+    """
+    pass
+
+
+def hash_coords(coords, nsf=8):
+    return '_'.join(['{n:.{nsf}}'.format(n=float(x), nsf=nsf) for x in coords])
+
+
+def build_node_tag_hash_dict_from_vary_y_mesh(ndm, xs, ys, zs=None, active=None, init_tag=0, nsf=8):
+    """
+    Creates an array of nodes that in vertical lines, but vary in height
+
+    The mesh has len(xs)=ln(ys) nodes in the x-direction and len(ys[0]) in the y-direction.
+    If zs is not None then has len(zs) in the z-direction.
+
+    Parameters
+    ----------
+    osi
+    xs
+    ys
+    zs
+    active
+
+    Returns
+    -------
+    np.array
+        axis-0 = x-direction
+        axis-1 = y-direction
+        axis-2 = z  # not included if len(zs)=1 or zs=None
+        """
+    # axis-0 = x  # unless x or y are singular
+    # axis-1 = y
+    # axis-2 = z  # not included if len(zs)=1 or
+    from numpy import array
+    if not hasattr(zs, '__len__'):
+        zs = [zs]
+    sd = {}
+    tag = init_tag
+    for xx in range(len(xs)):
+        for yy in range(len(ys[xx])):
+            if len(zs) == 1:
+                if active is None or active[xx][yy]:
+                    if ndm == 2:
+                        pms = [xs[xx], ys[xx][yy]]
+                    else:
+                        pms = [xs[xx], ys[xx][yy], zs[0]]
+
+                    fstr = hash_coords(pms, nsf)
+                    if fstr not in sd:
+                        sd[fstr] = []
+                    sd[fstr].append((tag, *pms))
+                    tag += 1
+            else:
+                for zz in range(len(zs)):
+                    # Establish left and right nodes
+                    if active is None or active[xx][yy][zz]:
+                        pms = [xs[xx], ys[xx][yy], zs[zz]]
+                        fstr = hash_coords(pms, nsf)
+                        if fstr not in sd:
+                            sd[fstr] = []
+                        sd[fstr].append((tag, *pms))
+                        tag += 1
+    return sd, tag

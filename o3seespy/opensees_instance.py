@@ -6,22 +6,26 @@ from collections import OrderedDict
 from o3seespy import exceptions, extensions
 
 
-class OpenSeesInstance(object):  # TODO: allow custom (self compiled opensees)
-    n_node = 0
-    n_con = 0
-    n_ele = 0
-    n_mat = 0
-    n_sect = 0
-    n_tseries = 0
-    n_pat = 0
-    n_fix = 0
-    n_integ = 0
-    n_transformation = 0
-    n_region = 0
-    n_params = 0
-    n_mesh = 0
+class OpenSeesInstance(object):
 
-    def __init__(self, ndm: int, ndf=None, state=0):
+    def __init__(self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000):
+        init_tag = 0
+        if mp:
+            pid = opy.getPID()
+            init_tag = pid * nnpp
+        self.n_node = init_tag
+        self.n_con = init_tag
+        self.n_ele = init_tag
+        self.n_mat = init_tag
+        self.n_sect = init_tag
+        self.n_tseries = init_tag
+        self.n_pat = init_tag
+        self.n_fix = init_tag
+        self.n_integ = init_tag
+        self.n_transformation = init_tag
+        self.n_region = init_tag
+        self.n_params = init_tag
+        self.n_mesh = init_tag
         self.ndm = ndm
         self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
         parameters = ['BasicBuilder', '-ndm', ndm]
@@ -120,3 +124,55 @@ class OpenseesInstance(OpenSeesInstance):
     def __init__(self, ndm: int, ndf=None, state=0):
         print('Please use OpenSeesInstance instead of OpenseesInstance')
         super(OpenseesInstance, self).__init__(ndm, ndf, state)
+
+
+class _OpenSeesInstanceTestMP(OpenSeesInstance):
+    def __init__(self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000, pid=None):
+        init_tag = 0
+        if mp:
+            if pid is None:
+                pid = opy.getPID()
+            init_tag = pid * nnpp
+        self.n_node = init_tag
+        self.n_con = init_tag
+        self.n_ele = init_tag
+        self.n_mat = init_tag
+        self.n_sect = init_tag
+        self.n_tseries = init_tag
+        self.n_pat = init_tag
+        self.n_fix = init_tag
+        self.n_integ = init_tag
+        self.n_transformation = init_tag
+        self.n_region = init_tag
+        self.n_params = init_tag
+        self.n_mesh = init_tag
+        self.ndm = ndm
+        self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
+        parameters = ['BasicBuilder', '-ndm', ndm]
+        if ndf is not None:
+            if ndf not in [1, 2, 3, 6]:
+                raise ValueError('ndm must be: 1, 2, 3, 6')
+            self.ndf = int(ndf)
+            parameters += ['-ndf', self.ndf]
+        else:
+            if ndm == 1:
+                self.ndf = 1
+            elif ndm == 2:
+                self.ndf = 3
+            else:
+                self.ndf = 6
+        opy.wipe()
+        opy.model(*parameters)
+        self.commands = []
+        self.dict = OrderedDict()
+
+        if state == 1:
+            self.commands.append('opy.wipe()')
+            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
+        if state == 2:
+            self.dict['ndm'] = ndm
+            self.dict['ndf'] = ndf
+            # base_types = ['node', 'element', 'section', 'uniaxial_material']
+        elif state == 3:
+            self.commands.append('opy.wipe()')
+            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")

@@ -2,6 +2,14 @@
 History
 =======
 
+3.1.0.XX (2020-X-X)
+---------------------
+* Added support for parallel MP node numbering, can now set node tag on creation by passing `tag=<tag-number>`,
+* Added support for all OpenSees tags to support parallel MP numbering by having unique numbers for different processor
+  ids, simply pass in `mp=True` into `OpenSeesInstance()`.
+* Added `o3.domain_change(osi)` to provide the 'domainChange' command.
+* Added `integrator.NewmarkExplicit`
+
 3.1.0.33 (2020-10-08)
 ---------------------
 * Added `senscmds` (beta), `parallelcmds`(beta), `fsicmds`(beta)
