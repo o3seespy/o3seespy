@@ -13,6 +13,7 @@ class OpenSeesInstance(object):
         if mp:
             pid = opy.getPID()
             init_tag = pid * nnpp
+        self.mp = mp
         self.n_node = init_tag
         self.n_con = init_tag
         self.n_ele = init_tag
@@ -133,6 +134,7 @@ class _OpenSeesInstanceTestMP(OpenSeesInstance):
             if pid is None:
                 pid = opy.getPID()
             init_tag = pid * nnpp
+        self.mp = mp
         self.n_node = init_tag
         self.n_con = init_tag
         self.n_ele = init_tag

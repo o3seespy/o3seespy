@@ -100,3 +100,10 @@ class ParallelRCM(NumbererBase):
         self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)
+
+
+def apply_rcm(osi):
+    if osi.mp:
+        ParallelRCM(osi)
+    else:
+        RCM(osi)

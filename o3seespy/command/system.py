@@ -95,6 +95,37 @@ class ProfileSPD(SystemBase):
         self.to_process(osi)
 
 
+class ParallelProfileSPD(SystemBase):
+    """
+    The ParallelProfileSPD System Class
+
+    This command is used to construct a parallel version of the profileSPDSOE linear system of equation object.
+    As the name implies, this class
+    is used for symmetric positive definite matrix systems. The matrix is stored as shown below in a 1 dimensional array
+    with only those values below the first non-zero row in any column being stored. This is sometimes also referred to
+    as a skyline storage scheme.
+    """
+    op_type = 'ParallelProfileSPD'
+
+    def __init__(self, osi):
+        """
+        Initial method for ParallelProfileSPD
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.ParallelProfileSPD(osi)
+        """
+        self.osi = osi
+        self._parameters = [self.op_type]
+        self.to_process(osi)
+
+
 class SuperLU(SystemBase):
     """
     The SuperLU System Class
@@ -251,6 +282,15 @@ class BandGeneral(SystemBase):
         self.to_process(osi)
 
 
+class ParallelBandGeneral(SystemBase):
+    op_type = "ParallelBandGeneral"
+
+    def __init__(self, osi):
+        self.osi = osi
+        self._parameters = [self.op_type]
+        self.to_process(osi)
+
+
 class SparseGeneral(SystemBase):
     op_type = "SparseGeneral"
 
@@ -258,3 +298,10 @@ class SparseGeneral(SystemBase):
         self.osi = osi
         self._parameters = [self.op_type]
         self.to_process(osi)
+
+
+def apply_mumps_or_sparse_general(osi, **kwargs):
+    if osi.mp:
+        Mumps(osi, **kwargs)
+    else:
+        SparseGeneral(osi)

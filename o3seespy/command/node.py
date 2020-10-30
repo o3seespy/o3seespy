@@ -42,7 +42,7 @@ class Node(OpenSeesObject):
             osi.n_node += 1
             self._tag = osi.n_node
         else:
-            self._tag = tag
+            self._tag = int(tag)
         if osi.ndm == 1:
             self._parameters = [self._tag, *[self.x]]
             pms = ['x_mass']
@@ -75,7 +75,7 @@ class Node(OpenSeesObject):
         self.to_process(osi)
 
 
-def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
+def build_regular_node_mesh(osi, xs, ys, zs=None, active=None, tags=None):
     """
     Creates an array of nodes that are in a regular mesh
 
@@ -89,6 +89,8 @@ def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
     ys
     zs
     active
+    tags: array_like
+        array of node tags
 
     Returns
     -------
@@ -100,6 +102,7 @@ def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
     # axis-0 = x  # unless x or y are singular
     # axis-1 = y
     # axis-2 = z  # not included if len(zs)=1 or
+    tag = None
     from numpy import array
     if not hasattr(zs, '__len__'):
         zs = [zs]
@@ -107,14 +110,15 @@ def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
     for xx in range(len(xs)):
         sn.append([])
         for yy in range(len(ys)):
-
+            if tags is not None:
+                tag = tags[xx][yy]
             if len(zs) == 1:
                 if active is None or active[xx][yy]:
                     if osi.ndm == 2:
                         pms = [osi, xs[xx], ys[yy]]
                     else:
                         pms = [osi, xs[xx], ys[yy], zs[0]]
-                    sn[xx].append(Node(*pms))
+                    sn[xx].append(Node(*pms, tag=tag))
                 else:
                     sn[xx].append(None)
             else:
@@ -122,7 +126,7 @@ def build_regular_node_mesh(osi, xs, ys, zs=None, active=None):
                 for zz in range(len(zs)):
                     # Establish left and right nodes
                     if active is None or active[xx][yy][zz]:
-                        sn[xx][yy].append(Node(osi, xs[xx], ys[yy], zs[zz]))
+                        sn[xx][yy].append(Node(osi, xs[xx], ys[yy], zs[zz], tag=tag))
                     else:
                         sn[xx][yy].append(None)
     # if len(zs) == 1:
@@ -242,11 +246,11 @@ def hash_coords(coords, nsf=8):
     return '_'.join(['{n:.{nsf}}'.format(n=float(x), nsf=nsf) for x in coords])
 
 
-def build_node_tag_hash_dict_from_vary_y_mesh(ndm, xs, ys, zs=None, active=None, init_tag=0, nsf=8):
+def build_node_tag_hash_dict_from_mesh(ndm, xs, ys, zs=None, active=None, init_tag=0, nsf=8):
     """
     Creates an array of nodes that in vertical lines, but vary in height
 
-    The mesh has len(xs)=ln(ys) nodes in the x-direction and len(ys[0]) in the y-direction.
+    The mesh has len(xs) nodes in the x-direction and len(ys[0]) in the y-direction.
     If zs is not None then has len(zs) in the z-direction.
 
     Parameters
@@ -267,33 +271,41 @@ def build_node_tag_hash_dict_from_vary_y_mesh(ndm, xs, ys, zs=None, active=None,
     # axis-0 = x  # unless x or y are singular
     # axis-1 = y
     # axis-2 = z  # not included if len(zs)=1 or
-    from numpy import array
+    import numpy as np
+    ys = np.array(ys)
+    nx = xs.shape[0]
+    ny = ys.shape[min(len(ys.shape), 1)]
     if not hasattr(zs, '__len__'):
         zs = [zs]
+    if len(active.shape) == 3:
+        azi = np.arange(len(zs))
+    else:
+        azi = [None] * len(xs)
+    if len(xs.shape) >= 2:
+        yind4x = np.arange(ny)
+    else:
+        yind4x = [None] * ny
+    if len(ys.shape) >= 2:
+        xind4y = np.arange(nx)
+    else:
+        xind4y = [None] * nx
+
+    nz = zs.shape[-1]
     sd = {}
     tag = init_tag
-    for xx in range(len(xs)):
-        for yy in range(len(ys[xx])):
-            if len(zs) == 1:
-                if active is None or active[xx][yy]:
+    for xx in range(nx):
+        for yy in range(ny):
+            for zz in range(nz):
+                if active is None or active[xx, yy, azi[zz]]:
                     if ndm == 2:
-                        pms = [xs[xx], ys[xx][yy]]
+                        pms = [xs[xx, yind4x[yy]], ys[xind4y[xx], yy]]
                     else:
-                        pms = [xs[xx], ys[xx][yy], zs[0]]
+                        pms = [xs[xx, yind4x[yy]], ys[xind4y[xx], yy], zs[zz]]
 
                     fstr = hash_coords(pms, nsf)
                     if fstr not in sd:
                         sd[fstr] = []
                     sd[fstr].append((tag, *pms))
                     tag += 1
-            else:
-                for zz in range(len(zs)):
-                    # Establish left and right nodes
-                    if active is None or active[xx][yy][zz]:
-                        pms = [xs[xx], ys[xx][yy], zs[zz]]
-                        fstr = hash_coords(pms, nsf)
-                        if fstr not in sd:
-                            sd[fstr] = []
-                        sd[fstr].append((tag, *pms))
-                        tag += 1
+
     return sd, tag

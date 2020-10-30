@@ -654,6 +654,10 @@ def wipe(osi):
     """Wipe the current analysis and save the results to file"""
     osi.to_process('wipe', [])
 
+def reset(osi):
+    """Reset the current analysis and save the results to file"""
+    osi.to_process('reset', [])
+
 
 def record(osi):
     """This command is used to cause all the recorders to do a record on the current state of the model."""
