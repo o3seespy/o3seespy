@@ -2,7 +2,7 @@
 History
 =======
 
-3.1.0.XX (2020-X-X)
+3.1.0.34 (2020-11-03)
 ---------------------
 * Added support for parallel MP node numbering, can now set node tag on creation by passing `tag=<tag-number>`,
 * Added support for all OpenSees tags to support parallel MP numbering by having unique numbers for different processor
