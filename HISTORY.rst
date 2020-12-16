@@ -2,6 +2,11 @@
 History
 =======
 
+3.1.0.XX (2020-X-X)
+---------------------
+* Added support for 4 node elements
+* Fixed issues with using the `ManzariDafalias` material
+
 3.1.0.34 (2020-11-03)
 ---------------------
 * Added support for parallel MP node numbering, can now set node tag on creation by passing `tag=<tag-number>`,

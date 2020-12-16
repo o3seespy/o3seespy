@@ -31,8 +31,8 @@ class OpenSeesInstance(object):
         self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
         parameters = ['BasicBuilder', '-ndm', ndm]
         if ndf is not None:
-            if ndf not in [1, 2, 3, 6]:
-                raise ValueError('ndm must be: 1, 2, 3, 6')
+            if ndf not in [1, 2, 3, 4, 6]:
+                raise ValueError('ndm must be: 1, 2, 3, 4, 6')
             self.ndf = int(ndf)
             parameters += ['-ndf', self.ndf]
         else:

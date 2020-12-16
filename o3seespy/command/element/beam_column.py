@@ -40,7 +40,7 @@ class ElasticBeamColumn2D(ElementBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, transf=transf, mass=1.0)
@@ -112,8 +112,8 @@ class ElasticBeamColumn3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> osi = o3.OpenSeesInstance(ndm=3)
+        >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.ElasticBeamColumn3D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, g_mod=1.0, jxx=1.0, iy=1.0, iz=1.0, transf=transf, mass=1.0)
@@ -793,7 +793,10 @@ class SFIMVLEM(ElementBase):
         self.c = float(c)
         self.thick = thick
         self.widths = widths
-        self.mats = mats
+        if mats is not None:
+            self.mats = [x.tag for x in mats]
+        else:
+            self.mats = None
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, self.c]

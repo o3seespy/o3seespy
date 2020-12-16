@@ -31,3 +31,9 @@ stressDensity,PlaneStrain,stress,sxx-syy-sxy
 stressDensity,PlaneStrain,strain,exx-eyy-gxy
 PM4Sand,PlaneStrain,stress,sxx-syy-sxy
 PM4Sand,PlaneStrain,strain,exx-eyy-gxy
+ManzariDafalias,PlaneStrain,stress,sxx-syy-szz-sxy-nur
+ManzariDafalias,PlaneStress,stress,sxx-syy-szz-sxy-nur
+ManzariDafalias,3D,stress,sxx-syy-szz-sxy-syz-szx-nur
+ManzariDafalias,PlaneStrain,strain,exx-eyy-gxy
+ManzariDafalias,PlaneStress,strain,exx-eyy-gxy
+ManzariDafalias,3D,strain,exx-eyy-ezz-gxy-gyz-gzx

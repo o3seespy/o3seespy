@@ -1,7 +1,7 @@
-from o3seespy.base_model import OpenSeesObject, OpenSeesMultiCallObject
+from o3seespy.base_model import OpenSeesObject, OpenSeesMultiCallObject, opy
 from o3seespy.opensees_instance import OpenSeesInstance
-# from o3seespy.cc import
 from o3seespy.exceptions import ModelError
+
 
 def set_node_mass(osi, node, x_mass, y_mass, rot_mass):
     op_type = 'mass'
@@ -376,6 +376,36 @@ class Fix3DOFMulti(OpenSeesMultiCallObject):
             self.to_process(osi)
 
 
+class Fix4DOF(OpenSeesObject):
+    op_base_type = "fix"
+    op_type = None
+
+    def __init__(self, osi, node, x, y, z, pp):
+        """
+        Create a homogeneous SP constraint.
+
+        Parameters
+        ----------
+        osi: OpenSeesInstance
+        node: OpenSeesObject.node.Node()
+        x: int
+            Fixity in x-direction
+        y: int
+            Fixity in y-direction
+        z: int
+            Fixity in z-direction
+        pp: int
+            Fixity in pore-pressure
+        """
+        self.node = node
+        self.x = x
+        self.y = y
+        self.z = z
+        self.pp = pp
+        self._parameters = [self.node.tag, self.x, self.y, self.z, self.pp]
+        self.to_process(osi)
+
+
 class Fix6DOF(OpenSeesObject):
     op_base_type = "fix"
     op_type = None
@@ -531,6 +561,24 @@ class SP(OpenSeesObject):
 
 
 def analyze(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None):
+    """
+    Performs an analysis step.
+
+    Returns 0 if successful, and <0 if fail
+
+    Parameters
+    ----------
+    osi
+    num_inc
+    dt
+    dt_min
+    dt_max
+    jd
+
+    Returns
+    -------
+
+    """
     op_type = 'analyze'
     if dt is None:
         parameters = [int(num_inc)]
@@ -538,14 +586,12 @@ def analyze(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None):
         parameters = [int(num_inc), float(dt)]
     else:
         parameters = [int(num_inc), float(dt), dt_min, dt_max, jd]
-    # opy.analyze(*parameters)
     return osi.to_process(op_type, parameters)
 
 
 def get_node_disp(osi, node, dof):
     op_type = 'nodeDisp'
     parameters = [node.tag, dof]
-    # p_str = ', '.join([str(x) for x in parameters])
     return osi.to_process(op_type, parameters)
 
 
@@ -650,8 +696,10 @@ def wipe_analysis(osi):
     osi.to_process('wipeAnalysis', [])
 
 
-def wipe(osi):
+def wipe(osi=None):
     """Wipe the current analysis and save the results to file"""
+    if osi is None:
+        return opy.wipe()
     osi.to_process('wipe', [])
 
 def reset(osi):

@@ -72,7 +72,7 @@ def test_fsam():
 
 def test_manzari_dafalias():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.nd_material.ManzariDafalias(osi, g0=1.0, nu=1.0, e_init=1.0, mc=1.0, c=1.0, lambda_c=1.0, e0=1.0, ksi=1.0, p_atm=1.0, m=1.0, h0=1.0, ch=1.0, nb=1.0, a0=1.0, nd=1.0, z_max=1.0, cz=1.0, den=1.0)
+    o3.nd_material.ManzariDafalias(osi, g0=1.0, nu=1.0, e_init=1.0, m_c=1.0, c_c=1.0, lambda_c=1.0, e_0=1.0, ksi=1.0, p_atm=1.0, m_yield=1.0, h_0=1.0, c_h=1.0, n_b=1.0, a_0=1.0, n_d=1.0, z_max=1.0, c_z=1.0, den=1.0)
 
 
 def test_pm4sand():

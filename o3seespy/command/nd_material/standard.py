@@ -792,7 +792,7 @@ class ManzariDafalias(NDMaterialBase):
     """
     op_type = 'ManzariDafalias'
 
-    def __init__(self, osi, g0, nu, e_init, mc, c, lambda_c, e0, ksi, p_atm, m, h0, ch, nb, a0, nd, z_max, cz, den):
+    def __init__(self, osi, g0, nu, e_init, m_c, c_c, lambda_c, e_0, ksi, p_atm, m_yield, h_0, c_h, n_b, a_0, n_d, z_max, c_z, den):
         r"""
         Initial method for ManzariDafalias
 
@@ -805,33 +805,33 @@ class ManzariDafalias(NDMaterialBase):
             Poisson ratio
         e_init: float
             Initial void ratio
-        mc: float
+        m_c: float
             Critical state stress ratio
-        c: float
+        c_c: float
             Ratio of critical state stress ratio in extension and compression
         lambda_c: float
             Critical state line constant
-        e0: float
+        e_0: float
             Critical void ratio at p = 0
         ksi: float
             Critical state line constant
         p_atm: float
             Atmospheric pressure
-        m: float
+        m_yield: float
             Yield surface constant (radius of yield surface in stress ratio space)
-        h0: float
+        h_0: float
             Constant parameter
-        ch: float
+        c_h: float
             Constant parameter
-        nb: float
-            Bounding surface parameter, :math:`nb \ge 0`
-        a0: float
+        n_b: float
+            Bounding surface parameter, :math:`n_b \ge 0`
+        a_0: float
             Dilatancy parameter
-        nd: float
-            Dilatancy surface parameter :math:`nd \ge 0`
+        n_d: float
+            Dilatancy surface parameter :math:`n_d \ge 0`
         z_max: float
             Fabric-dilatancy tensor parameter
-        cz: float
+        c_z: float
             Fabric-dilatancy tensor parameter
         den: float
             Mass density of the material
@@ -840,31 +840,32 @@ class ManzariDafalias(NDMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.nd_material.ManzariDafalias(osi, g0=1.0, nu=1.0, e_init=1.0, mc=1.0, c=1.0, lambda_c=1.0, e0=1.0, ksi=1.0, p_atm=1.0, m=1.0, h0=1.0, ch=1.0, nb=1.0, a0=1.0, nd=1.0, z_max=1.0, cz=1.0, den=1.0)
+        >>> o3.nd_material.ManzariDafalias(osi, g0=1.0, nu=1.0, e_init=1.0, m_c=1.0, c_c=1.0, lambda_c=1.0, e_0=1.0,
+        >>> ksi=1.0, p_atm=1.0, m_yield=1.0, h_0=1.0, c_h=1.0, n_b=1.0, a_0=1.0, n_d=1.0, z_max=1.0, c_z=1.0, den=1.0)
         """
         self.osi = osi
         self.g0 = float(g0)
         self.nu = float(nu)
         self.e_init = float(e_init)
-        self.mc = float(mc)
-        self.c = float(c)
+        self.m_c = float(m_c)
+        self.c_c = float(c_c)
         self.lambda_c = float(lambda_c)
-        self.e0 = float(e0)
+        self.e_0 = float(e_0)
         self.ksi = float(ksi)
         self.p_atm = float(p_atm)
-        self.m = float(m)
-        self.h0 = float(h0)
-        self.ch = float(ch)
-        self.nb = float(nb)
-        self.a0 = float(a0)
-        self.nd = float(nd)
+        self.m_yield = float(m_yield)
+        self.h_0 = float(h_0)
+        self.c_h = float(c_h)
+        self.n_b = float(n_b)
+        self.a_0 = float(a_0)
+        self.n_d = float(n_d)
         self.z_max = float(z_max)
-        self.cz = float(cz)
+        self.c_z = float(c_z)
         self.den = float(den)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.mc, self.c, self.lambda_c, self.e0, self.ksi, self.p_atm, self.m, self.h0, self.ch, self.nb, self.a0, self.nd, self.z_max, self.cz, self.den]
+        self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.m_c, self.c_c, self.lambda_c, self.e_0, self.ksi, self.p_atm, self.m_yield, self.h_0, self.c_h, self.n_b, self.a_0, self.n_d, self.z_max, self.c_z, self.den]
         if osi is None:
             self.built = 0
         if osi is not None:
