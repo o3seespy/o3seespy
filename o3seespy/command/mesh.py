@@ -37,6 +37,15 @@ class Line(MeshBase):
         ele_args: list (default=True), optional
             A list of element arguments. the arguments are same as in the element commands, but without element object,
             and node objects.  for example, ``eleargs = ['elasticbeamcolumn', a, e, iz, transfobject]``
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [0, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
+        >>> o3.mesh.Line(osi, numnodes=1, ndtags=ele_nodes, id=1, ndf=1, meshsize=1.0, ele_type='', ele_args=None)
         """
         self.osi = osi
         self.numnodes = int(numnodes)
@@ -95,6 +104,14 @@ class Tri(MeshBase):
         ele_args: list (default=True), optional
             A list of element arguments. the arguments are same as in the element commands, but without element object,
             and node objects.  for example, ``eleargs = ['pfemelementbubble', rho, mu, b1, b2, thickness, kappa]``
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> ltags = [1, 1]
+        >>> o3.mesh.Tri(osi, numlines=1, ltags=ltags, id=1, ndf=1, meshsize=1.0, ele_type='', ele_args=None)
         """
         self.osi = osi
         self.numlines = int(numlines)
@@ -154,6 +171,14 @@ class Quad(MeshBase):
         ele_args: list (default=True), optional
             A list of element arguments. the arguments are same as in the element commands, but without element object,
             and node objects.  for example, ``eleargs = ['pfemelementbubble', rho, mu, b1, b2, thickness, kappa]``
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> ltags = [1, 1]
+        >>> o3.mesh.Quad(osi, numlines=1, ltags=ltags, id=1, ndf=1, meshsize=1.0, ele_type='', ele_args=None)
         """
         self.osi = osi
         self.numlines = int(numlines)
@@ -210,6 +235,14 @@ class Tet(MeshBase):
         ele_args: list (default=True), optional
             A list of element arguments. the arguments are same as in the element commands, but without element object,
             and node objects. 
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mtags = [1, 1]
+        >>> o3.mesh.Tet(osi, nummesh=1, mtags=mtags, id=1, ndf=1, meshsize=1.0, ele_type='', ele_args=None)
         """
         self.osi = osi
         self.nummesh = int(nummesh)
@@ -272,6 +305,15 @@ class Partvel(MeshBase):
             given, only nodes are created
         ele_args: list (default=True), optional
             A list of element arguments. (optional, see :doc:`linemesh` and :doc:`trimesh`)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> p_args = [1.0, 1.0]
+        >>> vel0 = [1.0, 1.0]
+        >>> o3.mesh.Partvel(osi, otype="string", p_args=p_args, ele_type='', ele_args=None, vel0=vel0)
         """
         self.osi = osi
         self.otype = otype
@@ -331,6 +373,14 @@ class Partpressure(MeshBase):
             given, only nodes are created
         ele_args: list (default=True), optional
             A list of element arguments. (optional, see :doc:`linemesh` and :doc:`trimesh`)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> p_args = [1.0, 1.0]
+        >>> o3.mesh.Partpressure(osi, otype="string", p_args=p_args, ele_type='', ele_args=None, p0=1.0)
         """
         self.osi = osi
         self.otype = otype
@@ -385,6 +435,16 @@ class Bgwave(MeshBase):
             Tolerance for cell boundary check. (optional, default 0.1)
         numsub: None, optional
             
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> lower = [1.0, 1.0]
+        >>> upper = [1.0, 1.0]
+        >>> locations = [1.0, 1.0]
+        >>> o3.mesh.Bgwave(osi, lower=lower, upper=upper, tol=1.0, meshtol=1.0, wavefilename="string", numl=1, locations=locations, numsub=1)
         """
         self.osi = osi
         self.lower = lower
@@ -441,6 +501,15 @@ class Bgstructure(MeshBase):
             Tolerance for intri check. (optional, default 1e-10)
         meshtol: float, optional
             Tolerance for cell boundary check. (optional, default 0.1)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> lower = [1.0, 1.0]
+        >>> upper = [1.0, 1.0]
+        >>> o3.mesh.Bgstructure(osi, lower=lower, upper=upper, tol=1.0, meshtol=1.0, id=1, numnodes=1, snodes=1)
         """
         self.osi = osi
         self.lower = lower
@@ -494,6 +563,17 @@ class BglargeSize(MeshBase):
             Tolerance for intri check. (optional, default 1e-10)
         meshtol: float, optional
             Tolerance for cell boundary check. (optional, default 0.1)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> lower = [1.0, 1.0]
+        >>> upper = [1.0, 1.0]
+        >>> llower = [1.0, 1.0]
+        >>> lupper = [1.0, 1.0]
+        >>> o3.mesh.BglargeSize(osi, lower=lower, upper=upper, tol=1.0, meshtol=1.0, level=1, llower=llower, lupper=lupper)
         """
         self.osi = osi
         self.lower = lower

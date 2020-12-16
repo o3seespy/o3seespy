@@ -41,7 +41,7 @@ class ElasticBeamColumn2D(ElementBase):
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> coords = [[0, 0], [1, 0]]
-        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.ElasticBeamColumn2D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, iz=1.0, transf=transf, mass=1.0)
         """
@@ -113,9 +113,10 @@ class ElasticBeamColumn3D(ElementBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=3)
-        >>> coords = [[0, 0], [1, 0]]
-        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
-        >>> transf = o3.geom_transf.Linear2D(osi, [])
+        >>> coords = [[0, 0, 0], [1, 0, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
+        >>> #transf = o3.geom_transf.Linear3D(osi, [])
+        >>> transf = o3.geom_transf.Linear3D(osi, vecxz=[1.0, 1.0, 0.0], d_i=[1.0, 1.0, 0.0], d_j=[1.0, 1.0, 0.5])
         >>> o3.element.ElasticBeamColumn3D(osi, ele_nodes=ele_nodes, area=1.0, e_mod=1.0, g_mod=1.0, jxx=1.0, iy=1.0, iz=1.0, transf=transf, mass=1.0)
         """
         self.osi = osi
@@ -255,8 +256,8 @@ class ElasticTimoshenkoBeam2D(ElementBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
-        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> coords = [[0, 0], [1, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> transf = o3.geom_transf.Linear2D(osi, [])
         >>> o3.element.ElasticTimoshenkoBeam2D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, avy=1.0, transf=transf, mass=1.0)
         """
@@ -333,10 +334,10 @@ class ElasticTimoshenkoBeam3D(ElementBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
-        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
-        >>> transf = o3.geom_transf.Linear2D(osi, [])
+        >>> osi = o3.OpenSeesInstance(ndm=3)
+        >>> coords = [[0, 0, 0], [1, 0, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
+        >>> transf = o3.geom_transf.Linear3D(osi, vecxz=[1.0, 1.0, 0.0], d_i=[1.0, 1.0, 0.0], d_j=[1.0, 1.0, 0.5])
         >>> o3.element.ElasticTimoshenkoBeam3D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, jxx=1.0, iy=1.0, iz_2=1, avy=1.0, avz=1.0, transf=transf, mass=1.0, c_mass=True)
         """
         self.osi = osi
@@ -612,7 +613,7 @@ class DispBeamColumnInt(ElementBase):
         >>> import o3seespy as o3
         >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
+        >>> coords = [[0, 0], [1, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
         >>> transf = o3.geom_transf.Linear2D(osi, [])
@@ -693,13 +694,13 @@ class MVLEM(ElementBase):
         >>> import o3seespy as o3
         >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
-        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
+        >>> coords = [[0, 0], [1, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> mat_conc = [o3.uniaxial_material.Concrete01(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0),
         >>>             o3.uniaxial_material.Concrete01(osi, fpc=1.0, epsc0=1.0, fpcu=1.0, eps_u=1.0)]
         >>> mat_steel = [o3.uniaxial_material.Steel02(osi, fy=1.0, e0=1.0, b=1.0, params=[15, 0.925, 0.15])]
         >>> mat_shear = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)
-        >>> o3.element.MVLEM(osi, dens=1.0, ele_nodes=ele_nodes, m=1, c=1.0, thick=[1.0, 1.0], widths=[1, 1], rho=[1., 1.],
+        >>> o3.element.MVLEM(osi, dens=1.0, ele_nodes=ele_nodes, m=1, c=1.0, thick=[1.0], widths=[1, 1], rho=[1., 1.],
         >>>                  mat_concretes=mat_conc, mat_steels=mat_steel, mat_shear=mat_shear)
         """
         self.osi = osi
@@ -755,7 +756,7 @@ class SFIMVLEM(ElementBase):
     """
     op_type = 'SFI_MVLEM'
 
-    def __init__(self, osi, ele_nodes, m, c, thick=None, widths=None, mats=None):
+    def __init__(self, osi, ele_nodes, m, c, thick=None, widths=None, mats: list=None):
         """
         Initial method for SFIMVLEM
 
@@ -772,19 +773,18 @@ class SFIMVLEM(ElementBase):
             
         widths: None, optional
             
-        mats: None, optional
-            
+        mats: list, optional
+            A list of m macro-fiber ndmaterial1 objects
 
         Examples
         --------
         >>> import o3seespy as o3
         >>> # Example is currently not working
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
-        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
-        >>> mats = [o3.uniaxial_material.Elastic(osi, 1.0, 1.0), o3.uniaxial_material.Elastic(osi, 1.0, 1.0)]
-        >>> mat_tags = [x.tag for x in mats]  # TODO: should pass in mats not mat tags
-        >>> o3.element.SFIMVLEM(osi, ele_nodes=ele_nodes, m=1, c=1.0, thick=[1.0, 1.0], widths=[1.0, 1.0], mat_tags=mat_tags)
+        >>> coords = [[0, 0], [1, 0]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
+        >>> mats = [o3.nd_material.ElasticIsotropic(osi, 1.0, 0.3), o3.nd_material.ElasticIsotropic(osi, 1.0, 0.3)]
+        >>> o3.element.SFIMVLEM(osi, ele_nodes=ele_nodes, m=1, c=1.0, thick=[1.0], widths=[1.0, 1.0], mats=mats)
         """
         self.osi = osi
         self.ele_node_tags = [x.tag for x in ele_nodes]
@@ -793,10 +793,10 @@ class SFIMVLEM(ElementBase):
         self.c = float(c)
         self.thick = thick
         self.widths = widths
-        if mats is not None:
-            self.mats = [x.tag for x in mats]
-        else:
+        if mats is None:
             self.mats = None
+        else:
+            self.mats = [x.tag for x in mats]
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, self.c]

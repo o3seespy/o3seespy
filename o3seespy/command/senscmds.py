@@ -38,6 +38,13 @@ def update_parameter(osi, new_value):
     osi: o3seespy.OpenSeesInstance
     new_value: float
             The updated value to which the parameter needs to be set.
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.update_parameter(osi, new_value=1.0)
     """
     new_value = float(new_value)
     _parameters = [new_value]
@@ -61,12 +68,19 @@ def set_parameter(osi, new_value, start, end, args, eles: list=None):
             A list of strings for the element parameter
     eles: list, optional
             A list of element objects
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> eles = [1, 1]
+    >>> o3.senscmds.set_parameter(osi, new_value=1.0, eles=eles, start=1, end=1, args=1)
     """
-    new_value = float(new_value)
     eles = [x.tag for x in eles]
     start = int(start)
     end = int(end)
-    _parameters = [new_value, '-eleRange', start, end, *args]
+    _parameters = ['-eleRange', start, end, *args]
     if eles is not None:
         _parameters += ['-ele', *eles]
     return osi.to_process("setParameter", _parameters)
@@ -79,6 +93,12 @@ def get_param_tags(osi):
     Parameters
     ----------
     osi: o3seespy.OpenSeesInstance
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.get_param_tags(osi)
     """
     _parameters = []
     return osi.to_process("getParamTags", _parameters)
@@ -91,6 +111,13 @@ def get_param_value(osi):
     Parameters
     ----------
     osi: o3seespy.OpenSeesInstance
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.get_param_value(osi)
     """
     _parameters = []
     return osi.to_process("getParamValue", _parameters)
@@ -103,6 +130,13 @@ def compute_gradients(osi):
     Parameters
     ----------
     osi: o3seespy.OpenSeesInstance
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.compute_gradients(osi)
     """
     _parameters = []
     return osi.to_process("computeGradients", _parameters)
@@ -115,6 +149,13 @@ def sensitivity_algorithm(osi):
     Parameters
     ----------
     osi: o3seespy.OpenSeesInstance
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.sensitivity_algorithm(osi)
     """
     _parameters = []
     return osi.to_process("sensitivityAlgorithm", _parameters)
@@ -131,6 +172,13 @@ def get_sens_node_disp(osi, dof, param):
             Specific dof at the node (1 through ndf)
     param: obj
             Parameter object
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.get_sens_node_disp(osi, dof=1, param=[])
     """
     dof = int(dof)
     _parameters = [dof, param.tag]
@@ -148,6 +196,13 @@ def get_sens_node_vel(osi, dof, param):
             Specific dof at the node (1 through ndf)
     param: obj
             Parameter object
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.get_sens_node_vel(osi, dof=1, param=[])
     """
     dof = int(dof)
     _parameters = [dof, param.tag]
@@ -165,6 +220,13 @@ def get_sens_node_accel(osi, dof, param):
             Specific dof at the node (1 through ndf)
     param: obj
             Parameter object
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.get_sens_node_accel(osi, dof=1, param=[])
     """
     dof = int(dof)
     _parameters = [dof, param.tag]
@@ -178,8 +240,13 @@ def get_sens_lambda(osi, param):
     Parameters
     ----------
     osi: o3seespy.OpenSeesInstance
-    param: obj
-            Parameter object
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.get_sens_lambda(osi, param=[])
     """
     _parameters = [param.tag]
     return osi.to_process("sensLambda", _parameters)
@@ -193,11 +260,18 @@ def get_sens_section_force(osi, sec_num, dof, param):
     ----------
     osi: o3seespy.OpenSeesInstance
     sec_num: int
-            Section number 
+            Section number
     dof: int
             Specific dof at the element (1 through element force ndf)
     param: obj
             Parameter object
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.get_sens_section_force(osi, sec_num=1, dof=1, param=[])
     """
     sec_num = int(sec_num)
     dof = int(dof)
@@ -214,6 +288,13 @@ def get_sens_node_pressure(osi, param):
     osi: o3seespy.OpenSeesInstance
     param: obj
             Parameter object
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.get_sens_node_pressure(osi, param=[])
     """
     _parameters = [param.tag]
     return osi.to_process("sensNodePressure", _parameters)

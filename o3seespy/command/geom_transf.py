@@ -83,10 +83,10 @@ class Linear3D(GeomTransfBase):
         Examples
         --------
         >>> import o3seespy as o3
-        >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> vecxz = [1.0, 1.0]
-        >>> d_i = [1.0, 1.0]
-        >>> d_j = [1.0, 1.0]
+        >>> osi = o3.OpenSeesInstance(ndm=3)
+        >>> vecxz = [1.0, 0.0, 0.0]
+        >>> d_i = [1.0, 1.0, 0.0]
+        >>> d_j = [1.0, 1.0, 0.0]
         >>> o3.geom_transf.Linear3D(osi, vecxz=vecxz, d_i=d_i, d_j=d_j)
         """
         self.osi = osi

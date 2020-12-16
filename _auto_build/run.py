@@ -1687,7 +1687,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 0
+    all = 1
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
@@ -1701,12 +1701,13 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        # parse_generic_single_file(obj_type='elastomericBearingPlasticity', osi_type='ele')
+        p = parse_single_file(up.OPY_DOCS_PATH + 'SFI_MVLEM.rst', osi_type='ele')
+        print(p[0])
         #
-        p = parse_generic_single_file(obj_type='senscmds', osi_type=None, is_fn=True)
-        p = parse_generic_single_file(obj_type='parallelcmds', osi_type=None, is_fn=True)
-        p = parse_generic_single_file(obj_type='reliabilitycmds', osi_type=None, is_fn=True)
-        p = parse_generic_single_file(obj_type='fsicmds', osi_type=None, is_fn=True)
+        # p = parse_generic_single_file(obj_type='senscmds', osi_type=None, is_fn=True)
+        # p = parse_generic_single_file(obj_type='parallelcmds', osi_type=None, is_fn=True)
+        # p = parse_generic_single_file(obj_type='reliabilitycmds', osi_type=None, is_fn=True)
+        # p = parse_generic_single_file(obj_type='fsicmds', osi_type=None, is_fn=True)
 
 
         # p = parse_single_file(up.OPY_DOCS_PATH + 'elastomericBearingBoucWen.rst', osi_type=None)

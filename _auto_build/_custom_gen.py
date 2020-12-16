@@ -92,6 +92,124 @@ class Aggregator(SectionBase):
         self.to_process(osi)
 
 
+class ManzariDafalias(NDMaterialBase):
+    """
+    The ManzariDafalias NDMaterial Class
+
+    This command is used to construct a multi-dimensional Manzari-Dafalias(2004) material.
+    """
+    op_type = 'ManzariDafalias'
+
+    def __init__(self, osi, g0, nu, e_init, m_c, c_c, lambda_c, e_0, ksi, p_atm, m_yield, h_0, c_h, n_b, a_0, n_d,
+                 z_max, c_z, den):
+        r"""
+        Initial method for ManzariDafalias
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        g0: float
+            Shear modulus constant
+        nu: float
+            Poisson ratio
+        e_init: float
+            Initial void ratio
+        m_c: float
+            Critical state stress ratio
+        c_c: float
+            Ratio of critical state stress ratio in extension and compression
+        lambda_c: float
+            Critical state line constant
+        e_0: float
+            Critical void ratio at p = 0
+        ksi: float
+            Critical state line constant
+        p_atm: float
+            Atmospheric pressure
+        m_yield: float
+            Yield surface constant (radius of yield surface in stress ratio space)
+        h_0: float
+            Constant parameter
+        c_h: float
+            Constant parameter
+        n_b: float
+            Bounding surface parameter, :math:`n_b \ge 0`
+        a_0: float
+            Dilatancy parameter
+        n_d: float
+            Dilatancy surface parameter :math:`n_d \ge 0`
+        z_max: float
+            Fabric-dilatancy tensor parameter
+        c_z: float
+            Fabric-dilatancy tensor parameter
+        den: float
+            Mass density of the material
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.nd_material.ManzariDafalias(osi, g0=1.0, nu=1.0, e_init=1.0, m_c=1.0, c_c=1.0, lambda_c=1.0, e_0=1.0,
+        >>> ksi=1.0, p_atm=1.0, m_yield=1.0, h_0=1.0, c_h=1.0, n_b=1.0, a_0=1.0, n_d=1.0, z_max=1.0, c_z=1.0, den=1.0)
+        """
+        self.osi = osi
+        self.g0 = float(g0)
+        self.nu = float(nu)
+        self.e_init = float(e_init)
+        self.m_c = float(m_c)
+        self.c_c = float(c_c)
+        self.lambda_c = float(lambda_c)
+        self.e_0 = float(e_0)
+        self.ksi = float(ksi)
+        self.p_atm = float(p_atm)
+        self.m_yield = float(m_yield)
+        self.h_0 = float(h_0)
+        self.c_h = float(c_h)
+        self.n_b = float(n_b)
+        self.a_0 = float(a_0)
+        self.n_d = float(n_d)
+        self.z_max = float(z_max)
+        self.c_z = float(c_z)
+        self.den = float(den)
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.m_c, self.c_c, self.lambda_c,
+                            self.e_0, self.ksi, self.p_atm, self.m_yield, self.h_0, self.c_h, self.n_b, self.a_0,
+                            self.n_d, self.z_max, self.c_z, self.den]
+        if osi is None:
+            self.built = 0
+        if osi is not None:
+            self.to_process(osi)
+
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
+
+    def set_material_state(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'materialState', value, ele, eles)
+
+    def set_integration_scheme(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'IntegrationScheme', value, ele, eles)
+
+    def set_jacobian(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'Jacobian', value, ele, eles)
+
+    def set_ref_shear_modulus(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'refShearModulus', value, ele, eles)
+
+    def set_g_mod(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'ShearModulus', value, ele, eles)
+
+    def set_nu(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'poissonRatio', value, ele, eles)
+
+    def set_void_ratio(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'voidRatio', value, ele, eles)
+
+    def set_stress_correction(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'stressCorrection', value, ele, eles)
+
+
 class PressureIndependMultiYield(NDMaterialBase):
     op_type = "PressureIndependMultiYield"
 
