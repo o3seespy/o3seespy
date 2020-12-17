@@ -5,10 +5,10 @@ class Node(OpenSeesObject):
     op_base_type = "node"
     op_type = "node"
 
-    def __init__(self, osi, x: float, y=None, z=None, vel=None, acc=None,
+    def __init__(self, osi, x: float, y=None, z=None, vel=None, acc=None, mass: list=None,
                  x_mass=None, y_mass=None, z_mass=None, x_rot_mass=None, y_rot_mass=None, z_rot_mass=None, tag=None):
         """
-        An OpenSEES node
+        An OpenSees node
 
         Parameters
         ----------
@@ -23,6 +23,8 @@ class Node(OpenSeesObject):
         vel : iterable object, optional
             nodal velocities (x, y, z)
         acc : iterable object, optional
+        mass: iterable object, option
+            nodal masses
         """
 
         self.x = float(x)
@@ -30,12 +32,6 @@ class Node(OpenSeesObject):
             self.y = float(y)
         if z is not None:
             self.z = float(z)
-        self.x_mass = x_mass
-        self.y_mass = y_mass
-        self.z_mass = z_mass
-        self.x_rot_mass = x_rot_mass
-        self.y_rot_mass = y_rot_mass
-        self.z_rot_mass = z_rot_mass
         self.vel = vel
         self.acc = acc
         if tag is None:
@@ -44,30 +40,34 @@ class Node(OpenSeesObject):
         else:
             self._tag = int(tag)
         if osi.ndm == 1:
-            self._parameters = [self._tag, *[self.x]]
-            pms = ['x_mass']
+            self._parameters = [self._tag, self.x]
+            poss_mass = [x_mass]
         elif osi.ndm == 2:
-            self._parameters = [self._tag, *[self.x, self.y]]
-            pms = ['x_mass', 'y_mass', 'z_rot_mass']
+            self._parameters = [self._tag, self.x, self.y]
+            poss_mass = [x_mass, y_mass, z_rot_mass]
         elif osi.ndm == 3:
-            self._parameters = [self._tag, *[self.x, self.y, self.z]]
-            pms = ['x_mass', 'y_mass', 'z_mass', 'x_rot_mass', 'y_rot_mass', 'z_rot_mass']
+            self._parameters = [self._tag, self.x, self.y, self.z]
+            poss_mass = [x_mass, y_mass, z_mass, x_rot_mass, y_rot_mass, z_rot_mass]
         else:
-            raise NotImplementedError("Currently only supports 1-3D analyses")
-        masses = []
-        none_found = 0
-        for pm in pms:
-            val = getattr(self, pm)
-            if val is None:
-                none_found = pm
-            else:
-                setattr(self, pm, float(val))
-                if not none_found:
-                    masses.append(float(val))
-                else:
-                    raise ValueError(f'Cannot set {pm} since {none_found} is None')
-        if len(masses):
-            self._parameters += ["-mass", *[self.x_mass]]
+            raise NotImplementedError(f"Currently only supports 1-3D analyses, ndm={osi.ndm}")
+        if mass is None:
+            mass = []
+            if poss_mass[0] is not None:
+                none_found = False
+                for mval in poss_mass:
+                    if mval is None:
+                        none_found = True
+                    else:
+                        if not none_found:
+                            mass.append(float(mval))
+                        else:
+                            mstr = ','.join([str(x) for x in poss_mass])
+                            raise ValueError(f'Cannot set mass, since None in mass=[{mstr}]')
+        else:
+            mass = [float(x) for x in mass]
+        if len(mass):
+            self.mass = mass
+            self._parameters += ["-mass", *mass]
         if self.vel is not None:
             self._parameters += ["-vel", self.vel]
         if self.acc is not None:
@@ -225,21 +225,21 @@ def duplicate_node(osi, node):
     osi.to_process('node', _parameters)
 
 
-def build_node_if_within_segment(osi, coords, segment):
-    """
-
-    Parameters
-    ----------
-    coords
-    segment: array_like
-        if osi.ndm = 1, segment is [[min_x], [max_x]]
-        if osi.num = 2, segment is [[
-
-    Returns
-    -------
-
-    """
-    pass
+# def build_node_if_within_segment(osi, coords, segment):
+#     """
+#
+#     Parameters
+#     ----------
+#     coords
+#     segment: array_like
+#         if osi.ndm = 1, segment is [[min_x], [max_x]]
+#         if osi.num = 2, segment is [[
+#
+#     Returns
+#     -------
+#
+#     """
+#     pass
 
 
 def hash_coords(coords, nsf=8):

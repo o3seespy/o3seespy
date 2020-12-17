@@ -2,10 +2,11 @@
 History
 =======
 
-3.1.0.XX (2020-X-X)
+3.2.0.1 (2020-12-18)
 ---------------------
 * Added support for 4 node elements
 * Fixed issues with using the `ManzariDafalias` material
+* Fixed issue with setting node mass when defining node, can now set with the `mass=[<nodal-masses>]` parameter
 
 3.1.0.34 (2020-11-03)
 ---------------------
