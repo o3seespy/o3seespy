@@ -2,7 +2,12 @@
 History
 =======
 
-3.2.0.1 (2020-12-18)
+3.2.0.0 (2020-12-X)
+---------------------
+* Removed reference to `o3seespy` in import statements within the package
+* Cleaned deprecated files
+
+3.1.0.35 (2020-12-18)
 ---------------------
 * Added support for 4 node elements
 * Fixed issues with using the `ManzariDafalias` material

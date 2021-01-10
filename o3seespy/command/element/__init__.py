@@ -1,4 +1,4 @@
-from o3seespy.command.element.base_element import *
+from .base_element import *
 from .beam_column import *
 from .bearing import *
 from .brick import *

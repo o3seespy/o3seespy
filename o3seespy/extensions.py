@@ -15,16 +15,6 @@ def to_commands(op_base_type, parameters):
     p_str = ', '.join(para)
     return 'opy.%s(%s)' % (op_base_type, p_str)
 
-#
-# def _dep_get_fn_name_and_args(line):
-#     import re
-#     line = line.replace('.', 'stoppoint')
-#     fn_match = re.match(r"(?P<function>\w+)\s?\((?P<arg>(?P<args>\w+(,\s?)?)+)\)", line)
-#     fn_dict = fn_match.groupdict()
-#     args = [arg.strip() for arg in fn_dict['arg'].split(',')]
-#     args = [arg.replace('stoppoint', '.') for arg in args]
-#     return fn_dict['function'], args
-
 
 def _get_fn_name_and_args(line):
     import re

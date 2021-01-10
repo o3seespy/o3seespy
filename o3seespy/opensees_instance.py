@@ -3,7 +3,7 @@ try:
 except ModuleNotFoundError:
     import openseespy.opensees as opy
 from collections import OrderedDict
-from o3seespy import exceptions, extensions
+from . import exceptions, extensions
 
 
 class OpenSeesInstance(object):

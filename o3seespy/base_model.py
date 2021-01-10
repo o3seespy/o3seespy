@@ -3,8 +3,8 @@ try:
     from custom_openseespy import custom_opensees as opy
 except ModuleNotFoundError:
     import openseespy.opensees as opy
-from o3seespy import exceptions
-from o3seespy import extensions
+from . import exceptions
+from . import extensions
 
 
 class OpenSeesObject(object):
