@@ -28,6 +28,7 @@ Contents
 
 .. toctree::
 
+   install
    o3seespy.command
    o3seespy.tools
 
