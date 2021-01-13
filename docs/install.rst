@@ -35,11 +35,3 @@ To do this you need to:
 5. Run the following command `pip install -e custom_openseepy`.
 6. Now you should be able to run o3seespy and it will use the `custom_openseespy` version.
 
-
-External hyperlinks, like `Python
-<http://www.python.org/>`_.
-
-`compiling script
-<https://github.com/eng-tools/OpenSees/blob/master/MAKES/Makefile.def.MacOS10.15-python>`_
-
-
