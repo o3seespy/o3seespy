@@ -29,7 +29,7 @@ History
 3.1.0.27 (2020-09-21)
 ---------------------
 * Added `algorithm.ModifiedNewton`
-* Added Parameter
+* Added `Parameter`
 * Changed install requirements to support latest version of openseespy on Windows and Linux
 
 

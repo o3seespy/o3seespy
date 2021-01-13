@@ -15,7 +15,7 @@ class BeamOnNonlinearWinklerFoundation(object):
         self.sf_mats = sf_mats
 
 
-def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_area, fd_e_mod, fd_iz, r_flag: float =None, orient: list =None):
+def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_area, fd_e_mod, fd_iz, r_flag: float =None, orient: list =None, offset=0.0):
         """
         Generates nodes and elements for a shallow foundation beam on nonlinear foundation
 
@@ -48,11 +48,11 @@ def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_are
             sf_mats = list(sf_mats)
         injected = 0
         pos = list(pos)
-        if top_node.x not in pos:
-            pos.append(top_node.x)
+        if offset not in pos:
+            pos.append(offset)
             pos.sort()
             injected = 1
-        ind = pos.index(top_node.x)
+        ind = pos.index(offset)
         if injected:
             sf_mats.insert(ind, None)  # insert a null material since there should not be a soil spring here
 

@@ -189,6 +189,7 @@ def build_varied_y_node_mesh(osi, xs, ys, zs=None, active=None):
     return array(sn)
 
 
+# UNUSED?
 def duplicate_node(osi, node):
     """
     Copy a node to initialise in another processor in parallel mode
@@ -197,32 +198,41 @@ def duplicate_node(osi, node):
     """
     if osi.ndm == 1:
         _parameters = [node.tag, *[node.x]]
-        pms = ['x_mass']
+        pms = ['mass']
     elif osi.ndm == 2:
         _parameters = [node.tag, *[node.x, node.y]]
-        pms = ['x_mass', 'y_mass', 'z_rot_mass']
+        pms = ['mass']
     elif osi.ndm == 3:
         _parameters = [node.tag, *[node.x, node.y, node.z]]
-        pms = ['x_mass', 'y_mass', 'z_mass', 'x_rot_mass', 'y_rot_mass', 'z_rot_mass']
+        pms = ['mass']
     else:
         raise NotImplementedError("Currently only supports 1-3D analyses")
     masses = []
     none_found = 0
-    for pm in pms:
-        val = getattr(node, pm)
-        if val is None:
-            none_found = pm
-        else:
-            setattr(node, pm, float(val))
-            if not none_found:
-                masses.append(float(val))
-            else:
-                raise ValueError(f'Cannot set {pm} since {none_found} is None')
+    if hasattr(node, 'mass') and node.mass is not None:
+        _parameters += ["-mass", *node.mass]
     if node.vel is not None:
         _parameters += ["-vel", node.vel]
     if node.acc is not None:
         _parameters += ["-accel", node.acc]
     osi.to_process('node', _parameters)
+    
+
+def repeat_node(osi, node):
+    """
+    Copy a node to initialise in another processor in parallel mode
+
+    Note: It has the same node number
+    """
+    
+    if osi.ndm == 1:
+        return Node(osi, node.x)
+    elif osi.ndm == 2:
+        return Node(osi, node.x, node.y)
+    elif osi.ndm == 3:
+        return Node(osi, node.x, node.y, node.z)
+    else:
+        raise NotImplementedError("Currently only supports 1-3D analyses")
 
 
 # def build_node_if_within_segment(osi, coords, segment):
