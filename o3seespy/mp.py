@@ -11,3 +11,7 @@ def get_np():
 
 def get_pid():
     return opy.getPID()
+
+
+def partition():
+    return opy.partition()

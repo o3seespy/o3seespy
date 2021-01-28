@@ -1,4 +1,4 @@
-o3seespy
+O3seespy
 ========
 
 .. toctree::

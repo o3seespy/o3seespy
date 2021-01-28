@@ -3,18 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-o3seespy Documentation
+O3seespy Documentation
 ======================
 
-This is the official documentation of the o3seespy package.
+This is the official documentation of the O3seespy (or simply O3) package.
 
-o3seespy - Object-oriented OpenSees in Python
+O3seespy - Object-oriented OpenSees in Python
 
 The documentation is built off the
 OpenSees tcl and OpenSeesPy documentation and has been amended and added to to cover the additional
-functionality of the o3seespy package.
+functionality of the O3seespy package.
 
-The main difference between o3seespy  and OpenSeesPy is that o3seespy provides a pure python layer
+The main difference between O3seespy  and OpenSeesPy is that O3seespy provides a pure python layer
 to evaluate OpenSees inputs. This improves debugging and allows parameters to be easily accessed within Python.
 
 Contents

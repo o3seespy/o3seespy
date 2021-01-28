@@ -619,13 +619,16 @@ class Aggregator(SectionBase):
             force-deformation relationships (optional)
         """
         self.mats = []
+        self.mats_w_tags = []
         for i, mat in enumerate(mats):
-            self.mats.append(mats[i][0].tag)
+            self.mats_w_tags.append(mats[i][0].tag)
+            self.mats_w_tags.append(mats[i][1])
+            self.mats.append(mats[i][0])
             self.mats.append(mats[i][1])
         self.section = section
         osi.n_sect += 1
         self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag, *self.mats]
+        self._parameters = [self.op_type, self._tag, *self.mats_w_tags]
         if getattr(self, 'section') is not None:
             self._parameters += ['-section', self.section.tag]
         self.to_process(osi)

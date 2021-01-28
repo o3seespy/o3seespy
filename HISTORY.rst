@@ -2,7 +2,12 @@
 History
 =======
 
-3.2.0.0 (2020-12-X)
+3.2.0.1 (2021-01-28)
+---------------------
+* Updated `gen_shallow_foundation_bnwf` command to include shear elements
+* Added `mp.partition` command for automatically partitioning the model
+
+3.2.0.0 (2021-01-10)
 ---------------------
 * Removed reference to `o3seespy` in import statements within the package
 * Cleaned deprecated files
