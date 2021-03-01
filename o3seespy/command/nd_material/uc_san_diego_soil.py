@@ -74,17 +74,20 @@ class PressureIndependMultiYield(NDMaterialBase):
         self.phi = float(phi)
         self.p_ref = float(p_ref)
         self.d = float(d)
-        assert n_surf < 40
-        self.n_surf = int(n_surf)
+
         if strains is not None:
             assert len(strains) == len(ratios)
             yield_surf = []
             for i in range(len(strains)):
-                yield_surf.append(ratios[i])
                 yield_surf.append(strains[i])
+                yield_surf.append(ratios[i])
             self.yield_surf = yield_surf
+            n_surf = -len(strains)  # from docs 'add a minus sign in front of noYieldSurf'
         else:
             self.yield_surf = None
+
+        assert abs(n_surf) < 40
+        self.n_surf = int(n_surf)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
@@ -93,7 +96,7 @@ class PressureIndependMultiYield(NDMaterialBase):
                             self.cohesion, self.peak_strain, self.phi, self.p_ref, self.d]
 
         if self.yield_surf is not None:
-            self._parameters.append(self.n_surf)  # from docs 'add a minus sign in front of noYieldSurf'
+            self._parameters.append(self.n_surf)
             self._parameters += list(self.yield_surf)
 
         else:

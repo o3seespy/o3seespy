@@ -17,7 +17,7 @@ class NDMaterialBase(OpenSeesObject):
         self.osi = osi
         osi.n_mat += 1
         self._tag = osi.n_mat
-        ind = self.parameters.index(None)
-        self.parameters[ind] = self._tag
+        # ind = self.parameters.index(None)
+        self.parameters[1] = self._tag
         self.to_process(osi)
         self.built = 1

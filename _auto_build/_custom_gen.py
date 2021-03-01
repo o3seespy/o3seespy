@@ -105,6 +105,8 @@ class ManzariDafalias(NDMaterialBase):
         r"""
         Initial method for ManzariDafalias
 
+        Note: When in elastic mode the shear modulus is equal to the shear modulus at the atmospheric pressure
+
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
@@ -146,14 +148,18 @@ class ManzariDafalias(NDMaterialBase):
             Mass density of the material
         int_scheme: int, optional (default=1)
             Integration scheme type:
-                * 0 = Forward Euler Explicit
-                * 1 = Elastic? or Backward Euler (MAXENE_MFE)
-                * 2 = Modified Euler
-                * 3 = RungeKutta
-                * 4 = ??? (MAXENE_FE)
+                * 0 = Modified Euler constraining maximum energy increment
+                * 1 = Modified Euler with error control
+                * 2 = Backward Euler (Implicit)
+                * 3 = Runge Kutta 4th order
+                * 4 = Forward Euler constraining maximum energy increment
                 * 5 = Forward Euler
-                * 6, 7, 8, 9 = ???
-                * 45 = RungeKutta45
+                * 6 = Runge-Kutta 4-th order constraining maximum energy increment
+                * 7 = Modified Euler constraining maximum strain increment
+                * 8 = Runge-Kutta 4-th order constraining maximum strain increment
+                * 9 = Forward Euler constraining maximum energy increment
+                * 45 = Runge Kutta 45 with error control after Sloan
+            To use implicit integration, `int_scheme` must be equal to 2
         tan_type: int, optional (default=0)
             Tangent type:
                 * 0: Elastic Tangent
@@ -223,9 +229,9 @@ class ManzariDafalias(NDMaterialBase):
 
     def set_ref_shear_modulus(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'refShearModulus', value, ele, eles)
-
-    def set_g_mod(self, value, ele=None, eles=None):
-        self.set_parameter(self.osi, 'ShearModulus', value, ele, eles)
+    #
+    # def set_g_mod(self, value, ele=None, eles=None):
+    #     self.set_parameter(self.osi, 'ShearModulus', value, ele, eles)
 
     def set_nu(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'poissonRatio', value, ele, eles)

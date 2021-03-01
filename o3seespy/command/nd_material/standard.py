@@ -787,7 +787,7 @@ class FSAM(NDMaterialBase):
 class ManzariDafalias(NDMaterialBase):
     """
     The ManzariDafalias NDMaterial Class
-    
+
     This command is used to construct a multi-dimensional Manzari-Dafalias(2004) material.
     """
     op_type = 'ManzariDafalias'
@@ -796,6 +796,8 @@ class ManzariDafalias(NDMaterialBase):
                  z_max, c_z, den, int_scheme=1, tan_type=0, jaco_type=1, tol_f=1.0e-7, tol_r=1.0e-7):
         r"""
         Initial method for ManzariDafalias
+
+        Note: When in elastic mode the shear modulus is equal to the shear modulus at the atmospheric pressure
 
         Parameters
         ----------
@@ -836,6 +838,31 @@ class ManzariDafalias(NDMaterialBase):
             Fabric-dilatancy tensor parameter
         den: float
             Mass density of the material
+        int_scheme: int, optional (default=1)
+            Integration scheme type:
+                * 0 = Modified Euler constraining maximum energy increment
+                * 1 = Modified Euler with error control
+                * 2 = Backward Euler (Implicit)
+                * 3 = Runge Kutta 4th order
+                * 4 = Forward Euler constraining maximum energy increment
+                * 5 = Forward Euler
+                * 6 = Runge-Kutta 4-th order constraining maximum energy increment
+                * 7 = Modified Euler constraining maximum strain increment
+                * 8 = Runge-Kutta 4-th order constraining maximum strain increment
+                * 9 = Forward Euler constraining maximum energy increment
+                * 45 = Runge Kutta 45 with error control after Sloan
+            To use implicit integration, `int_scheme` must be equal to 2
+        tan_type: int, optional (default=0)
+            Tangent type:
+                * 0: Elastic Tangent
+                * 1: Contiuum ElastoPlastic Tangent
+                2: Consistent ElastoPlastic Tangent
+        jaco_type: int, optional (default=1)
+            Jacobian type:
+                * 0: Finite Difference Jacobian
+                * 1: Analytical Jacobian
+        tol_f: float, optional (default=1.0e-7)
+        tol_r: float, optional (default=1.0e-7)
 
         Examples
         --------
@@ -868,7 +895,6 @@ class ManzariDafalias(NDMaterialBase):
         self.jaco_type = int(jaco_type)
         self.tol_f = float(tol_f)
         self.tol_r = float(tol_r)
-
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
@@ -876,6 +902,9 @@ class ManzariDafalias(NDMaterialBase):
                             self.e_0, self.ksi, self.p_atm, self.m_yield, self.h_0, self.c_h, self.n_b, self.a_0,
                             self.n_d, self.z_max, self.c_z, self.den, self.int_scheme, self.tan_type, self.jaco_type,
                             self.tol_f, self.tol_r]
+        # self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.m_c, self.c_c, self.lambda_c,
+        #                     self.e_0, self.ksi, self.p_atm, self.m_yield, self.h_0, self.c_h, self.n_b, self.a_0,
+        #                     self.n_d, self.z_max, self.c_z, self.den]
         if osi is None:
             self.built = 0
         if osi is not None:
@@ -895,9 +924,9 @@ class ManzariDafalias(NDMaterialBase):
 
     def set_ref_shear_modulus(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'refShearModulus', value, ele, eles)
-
-    def set_g_mod(self, value, ele=None, eles=None):
-        self.set_parameter(self.osi, 'ShearModulus', value, ele, eles)
+    #
+    # def set_g_mod(self, value, ele=None, eles=None):
+    #     self.set_parameter(self.osi, 'ShearModulus', value, ele, eles)
 
     def set_nu(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'poissonRatio', value, ele, eles)
