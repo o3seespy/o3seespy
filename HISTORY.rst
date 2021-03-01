@@ -2,6 +2,11 @@
 History
 =======
 
+Pre-release
+---------------------
+* Fixed issue where the `custom_openseespy` package would not be used if installed
+* Added method to results where node tags can be rezeroed if not using incremental node numbers
+
 3.2.0.1 (2021-01-28)
 ---------------------
 * Updated `gen_shallow_foundation_bnwf` command to include shear elements

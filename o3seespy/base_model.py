@@ -1,6 +1,6 @@
 from collections import OrderedDict
 try:
-    from custom_openseespy import custom_opensees as opy
+    from custom_openseespy import opensees as opy
 except ModuleNotFoundError:
     import openseespy.opensees as opy
 from . import exceptions

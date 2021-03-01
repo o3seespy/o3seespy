@@ -42,14 +42,12 @@ class Results2D(object):
                 o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4, dt=dt)
 
     def wipe_old_files(self):
-        try:
-            os.remove(f'{self.cache_path}ele2node_tags.txt')
-        except FileNotFoundError:
-            pass
-        try:
-            os.remove(f'{self.cache_path}coords.txt')
-        except FileNotFoundError:
-            pass
+        general = ['ele2node_tags', 'coords']
+        for gen_file in general:
+            try:
+                os.remove(f'{self.cache_path}{gen_file}.txt')
+            except FileNotFoundError:
+                pass
         if not self.used_r_starter:
             try:
                 os.remove(f'{self.cache_path}x_disp.txt')
@@ -119,3 +117,16 @@ class Results2D(object):
     def dt(self, dt):
         self._dt = dt
 
+    def rezero_node_tags(self, osi):
+        from numpy import array, arange, searchsorted, where
+        node_tags = array(o3.get_node_tags(osi))
+        new_node_tags = arange(1, len(node_tags) + 1)
+        sidx = node_tags.argsort()
+        k = node_tags[sidx]
+        v = new_node_tags[sidx]
+        for ele_tag in self.ele2node_tags:
+            curr_tags = self.ele2node_tags[ele_tag]
+            idx = searchsorted(k, curr_tags)
+            assert max(idx) < len(k)
+            mask = k[idx] == curr_tags
+            self.ele2node_tags[ele_tag] = where(mask, v[idx], len(k))

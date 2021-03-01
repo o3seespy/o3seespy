@@ -14,6 +14,6 @@ from . import results
 from . import mptools, mp
 
 try:
-    from custom_openseespy import custom_opensees as opy
+    from custom_openseespy import opensees as opy
 except ModuleNotFoundError:
     import openseespy.opensees as opy

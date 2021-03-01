@@ -795,6 +795,18 @@ def get_all_node_coords(osi, ndm=None):
     return coords
 
 
+def get_all_node_coords_w_tag(osi, ndm=None):
+    tags = get_node_tags(osi)
+    coords = []
+    if ndm is not None:
+        pms = [ndm]
+    else:
+        pms = []
+    for tag in tags:
+        coords.append([tag, *osi.to_process('nodeCoord', [tag, *pms])])  # very slow
+    return coords
+
+
 def get_all_ele_node_tags(osi):
     ele_tags = get_ele_tags(osi)
     node_tags = []
