@@ -305,3 +305,9 @@ def apply_mumps_or_sparse_general(osi, **kwargs):
         Mumps(osi, **kwargs)
     else:
         SparseGeneral(osi)
+
+def apply_mumps_or(osi, alt_system, **kwargs):
+    if osi.mp:
+        Mumps(osi, **kwargs)
+    else:
+        alt_system(osi)

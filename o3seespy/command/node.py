@@ -110,9 +110,10 @@ def build_regular_node_mesh(osi, xs, ys, zs=None, active=None, tags=None):
     for xx in range(len(xs)):
         sn.append([])
         for yy in range(len(ys)):
-            if tags is not None:
-                tag = tags[xx][yy]
+
             if len(zs) == 1:
+                if tags is not None:
+                    tag = tags[xx][yy]
                 if active is None or active[xx][yy]:
                     if osi.ndm == 2:
                         pms = [osi, xs[xx], ys[yy]]
@@ -124,6 +125,8 @@ def build_regular_node_mesh(osi, xs, ys, zs=None, active=None, tags=None):
             else:
                 sn[xx].append([])
                 for zz in range(len(zs)):
+                    if tags is not None:
+                        tag = tags[xx][yy][zz]
                     # Establish left and right nodes
                     if active is None or active[xx][yy][zz]:
                         sn[xx][yy].append(Node(osi, xs[xx], ys[yy], zs[zz], tag=tag))

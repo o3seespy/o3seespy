@@ -192,7 +192,7 @@ class Fix1DOFMulti(OpenSeesMultiCallObject):
     op_base_type = "fix"
     op_type = None
 
-    def __init__(self, osi, nodes, x):
+    def __init__(self, osi, nodes, x, is_none='raise'):
         """
         Create a homogeneous SP constraint.
 
@@ -207,8 +207,14 @@ class Fix1DOFMulti(OpenSeesMultiCallObject):
         self.x = x
         self._multi_parameters = []
         for node in self.nodes:
-            self._multi_parameters.append([node.tag, self.x])
-            self.to_process(osi)
+            try:
+                self._multi_parameters.append([node.tag, self.x])
+                self.to_process(osi)
+            except AttributeError as e:
+                if is_none == 'raise':
+                    raise e
+                else:
+                    pass
 
 
 class Fix2DOF(OpenSeesObject):
@@ -270,7 +276,7 @@ class Fix2DOFMulti(OpenSeesMultiCallObject):
 def add_fixity_to_dof(osi, dof, nodes):
     if osi.ndf == 1:
         fn = Fix1DOF
-        arr = [1]
+        arr = [0]
     elif osi.ndf == 2:
         fn = Fix2DOF
         arr = [0, 0]
@@ -293,31 +299,31 @@ def add_fixity_to_dof(osi, dof, nodes):
                 osi.commands = osi.commands[:-1]
             pass
 
-
-class Fix2DOaFMulti(OpenSeesMultiCallObject):
-    op_base_type = "fix"
-    op_type = None
-
-    def __init__(self, osi, nodes, x, y):
-        """
-        Create a homogeneous SP constraint.
-
-        Parameters
-        ----------
-        osi: OpenSeesInstance
-        nodes: list of OpenSeesObject.node.Node()
-        x: int
-            Fixity in x-direction
-        y: int
-            Fixity in y-direction
-        """
-        self.nodes = nodes
-        self.x = x
-        self.y = y
-        self._multi_parameters = []
-        for node in self.nodes:
-            self._multi_parameters.append([node.tag, self.x, self.y])
-            self.to_process(osi)
+# 
+# class Fix2DOaFMulti(OpenSeesMultiCallObject):
+#     op_base_type = "fix"
+#     op_type = None
+# 
+#     def __init__(self, osi, nodes, x, y):
+#         """
+#         Create a homogeneous SP constraint.
+# 
+#         Parameters
+#         ----------
+#         osi: OpenSeesInstance
+#         nodes: list of OpenSeesObject.node.Node()
+#         x: int
+#             Fixity in x-direction
+#         y: int
+#             Fixity in y-direction
+#         """
+#         self.nodes = nodes
+#         self.x = x
+#         self.y = y
+#         self._multi_parameters = []
+#         for node in self.nodes:
+#             self._multi_parameters.append([node.tag, self.x, self.y])
+#             self.to_process(osi)
         
 
 class Fix3DOF(OpenSeesObject):
@@ -351,7 +357,7 @@ class Fix3DOFMulti(OpenSeesMultiCallObject):
     op_base_type = "fix"
     op_type = None
 
-    def __init__(self, osi, nodes, x, y, z_rot):
+    def __init__(self, osi, nodes, x, y, z_rot, is_none='raise'):
         """
         Create a homogeneous SP constraint.
 
@@ -372,8 +378,14 @@ class Fix3DOFMulti(OpenSeesMultiCallObject):
         self.z_rot = z_rot
         self._multi_parameters = []
         for node in self.nodes:
-            self._multi_parameters.append([node.tag, self.x, self.y, self.z_rot])
-            self.to_process(osi)
+            try:
+                self._multi_parameters.append([node.tag, self.x, self.y, self.z_rot])
+                self.to_process(osi)
+            except AttributeError as e:
+                if is_none == 'raise':
+                    raise e
+                else:
+                    pass
 
 
 class Fix4DOF(OpenSeesObject):
@@ -446,7 +458,7 @@ class Fix6DOFMulti(OpenSeesMultiCallObject):
     op_base_type = "fix"
     op_type = None
 
-    def __init__(self, osi, nodes, x, y, z, x_rot, y_rot, z_rot):
+    def __init__(self, osi, nodes, x, y, z, x_rot, y_rot, z_rot, is_none='raise'):
         """
         Create a homogeneous SP constraint.
 
@@ -476,8 +488,14 @@ class Fix6DOFMulti(OpenSeesMultiCallObject):
         self.z_rot = z_rot
         self._multi_parameters = []
         for node in self.nodes:
-            self._multi_parameters.append([node.tag, self.x, self.y, self.z, self.x_rot, self. y_rot, self.z_rot])
-            self.to_process(osi)
+            try:
+                self._multi_parameters.append([node.tag, self.x, self.y, self.z, self.x_rot, self. y_rot, self.z_rot])
+                self.to_process(osi)
+            except AttributeError as e:
+                if is_none == 'raise':
+                    raise e
+                else:
+                    pass
 
 
 class Fix(OpenSeesObject):
@@ -588,6 +606,64 @@ def analyze(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None):
         parameters = [int(num_inc), float(dt), dt_min, dt_max, jd]
     return osi.to_process(op_type, parameters)
 
+
+def loop_for_analyze_w_restart(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None, alts=None, dtime=None):
+    if osi.logfile_name is None:
+        raise ValueError('cannot find logfile, use osi.set_logfile')
+    if len(alts) == 0:
+        return 1  # failed
+    init_time = get_time(osi)
+    curr_alt = alts[0]
+    # alt: (dt, alg)
+    if dtime is None:
+        dtime = num_inc * dt
+    prev_dt = dt
+    if curr_alt[0] is not None:
+        dt = curr_alt[0]
+
+    num_inc = int(dtime / dt)
+    fail = analyze(osi, num_inc=num_inc, dt=dt, dt_min=dt_min, dt_max=dt_max, jd=jd)
+    if fail:
+        curr_time = get_time(osi)
+        dtime = curr_time - init_time
+        if dtime <= 0:
+            return 0
+        alts = alts[1:]
+        fail = loop_for_analyze_w_restart(osi, num_inc=num_inc, dt=dt, dt_min=dt_min, dt_max=dt_max, jd=jd,
+                                      alts=alts, dtime=dtime)
+    return 0
+
+
+class AlternativeAnalysis(object):
+    def __init__(self, dt=None):
+        self.dt = dt
+        pass
+
+def analyze_w_restart(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None, alts=None, dtime=1, nfs=1):
+    if osi.logfile_name is None:
+        raise ValueError('cannot find logfile, use osi.set_logfile')
+    if alts is None:
+        alts = []
+    init_time = get_time(osi)
+    tot_time = num_inc * dt
+    for i in range(nfs):
+        curr_loc_time = get_time(osi) - init_time
+        if curr_loc_time >= tot_time:
+            break
+        num_inc = int(tot_time - curr_loc_time / dt)
+        fail = analyze(osi, num_inc=num_inc, dt=dt, dt_min=dt_min, dt_max=dt_max, jd=jd)
+        if fail:
+            curr_loc_time = get_time(osi) - init_time
+            if curr_loc_time >= tot_time:
+                break
+            num_inc = int(tot_time - curr_loc_time / dt)
+            fail = loop_for_analyze_w_restart(osi, num_inc=num_inc, dt=dt, dt_min=dt_min, dt_max=dt_max, jd=jd,
+                                              alts=alts, dtime=dtime)
+        else:
+            break
+
+        pass
+        # get curr time.
 
 def get_node_disp(osi, node, dof):
     op_type = 'nodeDisp'

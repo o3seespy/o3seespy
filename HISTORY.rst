@@ -2,13 +2,20 @@
 History
 =======
 
-Pre-release
----------------------
-* Fixed issue where the `custom_openseespy` package would not be used if installed
+3.2.0.2 (2021-05-24)
+--------------------
+* Fixed issue where the `custom_openseespy` package would not be used if installed. Now used as the default if available.
+* Can record node and element output to XML file using `NodeToXML`, `NodesToXML`, `ElementToXML` and `ElementsToXML`
+* Added uniaxial materials 'PySimple2', `QzSimple2` and `TzSimple2`
+* Added support for Results2D output to handle manual node numbering.
 * Added method to results where node tags can be rezeroed if not using incremental node numbers
+* `node.build_regular_node_mesh()` can handle manual node numbers for 2D and 3D.
+* Added option for handling error when applying fixities to list of nodes (e.g. `o3.Fix2DOFMulti`) where node may be `None`.
+* New method on `OpenSeesInstance`, `set_log_file()` records logs to a temporary file.
+* Added option for `system.apply_mumps_or(<alternative-solver>)` where tries to apply MUMPS solver and if fails will apply an alternative solver.
 
 3.2.0.1 (2021-01-28)
----------------------
+--------------------
 * Updated `gen_shallow_foundation_bnwf` command to include shear elements
 * Added `mp.partition` command for automatically partitioning the model
 

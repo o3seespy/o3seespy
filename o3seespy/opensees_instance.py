@@ -4,6 +4,7 @@ except ModuleNotFoundError:
     import openseespy.opensees as opy
 from collections import OrderedDict
 from . import exceptions, extensions
+import tempfile
 
 
 class OpenSeesInstance(object):
@@ -29,6 +30,7 @@ class OpenSeesInstance(object):
         self.n_mesh = init_tag
         self.ndm = ndm
         self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
+        self.logfile_name = None
         parameters = ['BasicBuilder', '-ndm', ndm]
         if ndf is not None:
             if ndf not in [1, 2, 3, 4, 6]:
@@ -119,6 +121,18 @@ class OpenSeesInstance(object):
     @state.setter
     def state(self, value):
         self._state = value
+
+    def set_log_file(self, fname=None, append=None, no_echo=None):
+        if fname is None:
+            self.logfile_name = tempfile.NamedTemporaryFile(delete=False).name
+        else:
+            self.logfile_name = fname
+        pms = [self.logfile_name]
+        if append:
+            pms.append('-append')
+        if no_echo:
+            pms.append('-noEcho')
+        opy.logFile(*pms)
 
 
 class OpenseesInstance(OpenSeesInstance):

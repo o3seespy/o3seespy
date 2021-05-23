@@ -412,7 +412,7 @@ class Path(TimeSeriesBase):
             self.dt = None
         else:
             self.dt = float(dt)
-        self.values = values
+        self.values = [float(val) for val in values]
         self.time = time
         self.filepath = filepath
         self.file_time = file_time
