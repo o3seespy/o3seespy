@@ -2,6 +2,14 @@
 History
 =======
 
+Pre-release
+-----------
+* Added option to generate individual fibres
+* Added algorithms `NewtonLineSearch` and `Broyden`
+* Can now call `get_node_coords` using the node tag if kwarg `node_as_tag=True`
+* Fixed bug where parameters could not be passed to `bcast`
+* `results` now has support for parallel processors
+
 3.2.0.2 (2021-05-24)
 --------------------
 * Fixed issue where the `custom_openseespy` package would not be used if installed. Now used as the default if available.

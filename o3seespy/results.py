@@ -16,6 +16,8 @@ class Results2D(object):
     mat2sect_tags = None  # UNUSED  # TODO: implement
     n_nodes_per_ele = [2, 4, 8]  # for 2D
     ele_num_base = 1
+    selected_nodes = None
+    _selected_node_tags = None
 
     def __init__(self, cache_path='', dt=None, dynamic=False, man_nodes=False):
         self.cache_path = cache_path
@@ -32,34 +34,35 @@ class Results2D(object):
 
     def start_recorders(self, osi, dt=None):  # TODO: handle recorder time step
         self.used_r_starter = 1
-        if self.coords is None:
-            self.coords = o3.get_all_node_coords(osi)
         if self.man_nodes and self.selected_nodes is None:
             self.selected_nodes = o3.get_node_tags(osi)
+        if self.coords is None:
+            if self.selected_nodes is not None:
+                self.coords = []
+                for node in self.selected_nodes:
+                    self.coords.append(o3.get_node_coords(osi, node))
+            else:
+                self.coords = o3.get_all_node_coords(osi)
         if not self.ele2node_tags:
             self.ele2node_tags = o3.get_all_ele_node_tags_as_dict(osi)
         if dt is not None:
             self._dt = dt
         if self.dynamic:
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', 'all', [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt)
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', 'all', [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt)
+            node_tags = 'all'
+            if self.selected_nodes is not None:
+                node_tags = self.selected_nodes
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', node_tags, [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', node_tags, [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt)
             if not self.pseudo_dt:
                 o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4, dt=dt)
 
     def wipe_old_files(self):
-        general = ['ele2node_tags', 'coords', 'selected_nodes']
-        for gen_file in general:
-            try:
-                os.remove(f'{self.cache_path}{gen_file}.txt')
-            except FileNotFoundError:
-                pass
+        sfiles = ['ele2node_tags', 'coords', 'selected_node_tags']
         if not self.used_r_starter:
+            sfiles += ['x_disp', 'y_disp', 'timer']
+        for fname in sfiles:
             try:
-                os.remove(f'{self.cache_path}x_disp.txt')
-            except FileNotFoundError:
-                pass
-            try:
-                os.remove(f'{self.cache_path}y_disp.txt')
+                os.remove(f'{self.cache_path}{fname}.txt')
             except FileNotFoundError:
                 pass
 
@@ -69,14 +72,26 @@ class Results2D(object):
             except FileNotFoundError:
                 pass
 
+    @property
+    def selected_node_tags(self):
+        if self._selected_node_tags is None:
+            if self.selected_nodes is None:
+                return None
+            self._selected_node_tags = [x.tag for x in self.selected_nodes]
+        return self._selected_node_tags
+
+    @selected_node_tags.setter
+    def selected_node_tags(self, tags):
+        self._selected_node_tags = tags
+
     def save_to_cache(self):
         self.wipe_old_files()
         if self.coords is not None:
             self.savetxt(self.cache_path + 'coords.txt', self.coords)
         ostr = [f'{ele_tag} ' + ' '.join([str(x) for x in self.ele2node_tags[ele_tag]]) + '\n' for ele_tag in self.ele2node_tags]
         open(self.cache_path + 'ele2node_tags.txt', 'w').writelines(ostr)
-        if self.selected_nodes is not None:
-            self.savetxt(self.cache_path + 'selected_nodes.txt', self.selected_nodes, fmt='%i')
+        if self.selected_node_tags is not None:
+            self.savetxt(self.cache_path + 'selected_node_tags.txt', self.selected_node_tags, fmt='%i')
 
         for i, fname in enumerate(self.meta_files):
             vals = getattr(self, fname)
@@ -95,15 +110,9 @@ class Results2D(object):
 
     def load_from_cache(self):
         self.coords = self.loadtxt(self.cache_path + 'coords.txt')
-        # try:
-        #     self.coords = self.loadtxt(self.cache_path + 'coords.txt')
-        # except OSError:
-        #     self.coords = None
-        #     coords_w_tags = self.loadtxt(self.cache_path + 'coords_w_tags.txt')
-        #     self.coords = coords_w_tags[:, 1:]
-        #     self.selected_nodes = coords_w_tags[:, 0]
+
         try:
-            self.selected_nodes = self.loadtxt(self.cache_path + 'selected_nodes.txt', dtype=int)
+            self.selected_node_tags = self.loadtxt(self.cache_path + 'selected_node_tags.txt', dtype=int)
         except OSError:
             pass
 
@@ -139,10 +148,10 @@ class Results2D(object):
 
     def rezero_node_tags(self, osi=None):
         from numpy import array, arange, searchsorted, where
-        if self.selected_nodes is None:
+        if self.selected_node_tags is None:
             node_tags = array(o3.get_node_tags(osi))
         else:
-            node_tags = self.selected_nodes
+            node_tags = self.selected_node_tags
         new_node_tags = arange(1, len(node_tags) + 1)
         sidx = node_tags.argsort()
         k = node_tags[sidx]

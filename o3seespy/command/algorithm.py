@@ -94,3 +94,21 @@ class ModifiedNewton(AlgorithmBase):
         self.initial = initial
         self._parameters = [self.op_type, self.secant, self.initial]
         self.to_process(osi)
+
+
+class NewtonLineSearch(AlgorithmBase):
+    op_type = 'NewtonLineSearch'
+
+    def __init__(self, osi):
+        self.osi = osi
+        self._parameters = []
+        self.to_process(osi)
+
+
+class Broyden(AlgorithmBase):
+    op_type = 'Broyden'
+
+    def __init__(self, osi, secant=False, initial=False, count=10):
+        self.osi = osi
+        self._parameters = [secant, initial, count]
+        self.to_process(osi)

@@ -111,6 +111,10 @@ class PressureIndependMultiYield(NDMaterialBase):
         from o3seespy import update_material_stage
         update_material_stage(self.osi, self, 1)
 
+    def update_to_linear(self):
+        from o3seespy import update_material_stage
+        update_material_stage(self.osi, self, 0)
+
     def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
             g_mod = 3 * self.bulk_mod_ref * (1 - 2 * nu) / (2 * (1 + nu))

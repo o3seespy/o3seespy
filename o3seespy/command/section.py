@@ -202,89 +202,24 @@ class Fiber(SectionBase):
             self.to_process(osi)
 
 
-class Fiber(SectionBase):
+def gen_fibre_section(osi, y_loc, z_loc, area, mat):
     """
-    The Fiber Section Class
+    This command allows the user to construct a single fiber and add it to the enclosing FiberSection or NDFiberSection.
 
-    This command allows the user to construct a FiberSection object. Each FiberSection object is composed of Fibers,
-    with each fiber containing a UniaxialMaterial, an area and a location (y,z). The dofs for 2D section are ``[P,
-    Mz]``,for 3D are ``[P,Mz,My,T]``.
+    Parameters
+    ----------
+    osi
+    y_loc
+    z_loc
+    area
+    mat_tag
+
+    Returns
+    -------
+
     """
-    op_type = 'Fiber'
-
-    def __init__(self, osi, gj: float = None, torsion_mat=None):
-        """
-        Initial method for Fiber
-
-        Supports pre-building
-
-        Parameters
-        ----------
-        gj: float
-            Linear-elastic torsional stiffness assigned to the section
-        torsion_mat: obj
-            uniaxial_material object assigned to the section for torsional response (can be nonlinear)
-        """
-        self.osi = osi
-        if gj is None:
-            self.gj = None
-        else:
-            self.gj = float(gj)
-        self.torsion_mat = torsion_mat
-        osi.n_sect += 1
-        self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag]
-        if getattr(self, 'gj') is not None:
-            self._parameters += ['-GJ', self.gj]
-        if getattr(self, 'torsion_mat') is not None:
-            self._parameters += ['-torsion', self.torsion_mat.tag]
-        if osi is None:
-            self.built = 0
-        if osi is not None:
-            self.to_process(osi)
-
-
-class Fiber(SectionBase):
-    """
-    The Fiber Section Class
-
-    This command allows the user to construct a FiberSection object. Each FiberSection object is composed of Fibers,
-    with each fiber containing a UniaxialMaterial, an area and a location (y,z). The dofs for 2D section are ``[P,
-    Mz]``,for 3D are ``[P,Mz,My,T]``.
-    """
-    op_type = 'Fiber'
-
-    def __init__(self, osi, gj: float = None, torsion_mat=None):
-        """
-        Initial method for Fiber
-
-        Supports pre-building
-
-        Parameters
-        ----------
-        gj: float
-            Linear-elastic torsional stiffness assigned to the section
-        torsion_mat: obj
-            uniaxial_material object assigned to the section for torsional response (can be nonlinear)
-        """
-        self.osi = osi
-        if gj is None:
-            self.gj = None
-        else:
-            self.gj = float(gj)
-        self.torsion_mat = torsion_mat
-        osi.n_sect += 1
-        self._tag = osi.n_sect
-        self._parameters = [self.op_type, self._tag]
-        if getattr(self, 'gj') is not None:
-            self._parameters += ['-GJ', self.gj]
-        if getattr(self, 'torsion_mat') is not None:
-            self._parameters += ['-torsion', self.torsion_mat.tag]
-        if osi is None:
-            self.built = 0
-        if osi is not None:
-            self.to_process(osi)
-
+    params = [y_loc, z_loc, area, mat.tag]
+    return osi.to_process('fiber', params)
 
 
 class FiberThermal(SectionBase):

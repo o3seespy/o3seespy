@@ -712,7 +712,7 @@ def get_node_reactions(osi, node):
 def get_ele_response(osi, ele, arg, extra_args=None):
     params = [ele.tag, arg]
     if extra_args is not None:
-        params += extra_args
+        params = [ele.tag, *extra_args, arg]
     return osi.to_process('eleResponse', params)
 
 
@@ -850,13 +850,16 @@ def get_ele_tags(osi, mesh=None):
     return osi.to_process('getEleTags', params)
 
 
-def get_node_coords(osi, node, ndm=None):
-
+def get_node_coords(osi, node, ndm=None, node_as_tag=False):
+    if node_as_tag:
+        tag = node
+    else:
+        tag = node.tag
     if ndm is not None:
         pms = [ndm]
     else:
         pms = []
-    return osi.to_process('nodeCoord', [node.tag, *pms])
+    return osi.to_process('nodeCoord', [tag, *pms])
 
 
 def get_all_node_coords(osi, ndm=None):

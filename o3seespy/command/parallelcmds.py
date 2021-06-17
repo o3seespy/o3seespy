@@ -67,7 +67,7 @@ def recv(osi, pid):
     return osi.to_process("recv", _parameters)
 
 
-def bcast(osi):
+def bcast(osi, params=None):
     """
     Broadcast information from processor 0 to all processors.
 
@@ -75,8 +75,9 @@ def bcast(osi):
     ----------
     osi: o3seespy.OpenSeesInstance
     """
-    _parameters = []
-    return osi.to_process("Bcast", _parameters)
+    if params is None:
+        params = []
+    return osi.to_process("Bcast", params)
 
 
 def set_start_node_tag(osi):
