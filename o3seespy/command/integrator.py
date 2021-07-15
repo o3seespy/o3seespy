@@ -512,7 +512,7 @@ class ExplicitDifference(IntegratorBase):
 
 
 class NewmarkExplicit(IntegratorBase):
-    r"""
+    """
     Pass
     """
     op_type = 'NewmarkExplicit'
@@ -529,4 +529,17 @@ class NewmarkExplicit(IntegratorBase):
         self.osi = osi
         self.gamma = gamma
         self._parameters = [self.op_type, self.gamma]
+        self.to_process(osi)
+
+class GimmeMCK(IntegratorBase):
+    """
+    Integrator to obtain M, C and K matrices
+    """
+    op_type = 'GimmeMCK'
+    def __init__(self, osi, m=0.0, c=0.0, k=0.0):
+        self.osi = osi
+        self.m = float(m)
+        self.c = float(c)
+        self.k = float(k)
+        self._parameters = [self.op_type, self.m, self.c, self.k]
         self.to_process(osi)

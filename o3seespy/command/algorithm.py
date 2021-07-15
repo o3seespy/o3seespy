@@ -99,9 +99,18 @@ class ModifiedNewton(AlgorithmBase):
 class NewtonLineSearch(AlgorithmBase):
     op_type = 'NewtonLineSearch'
 
-    def __init__(self, osi):
+    def __init__(self, osi, search_type=True, tol=None, max_iter=None, min_eta=None, max_eta=None):
         self.osi = osi
-        self._parameters = []
+
+        self._parameters = [search_type]
+        if tol is not None:
+            self._parameters += ['-tol', tol]
+        if max_iter is not None:
+            self._parameters += ['-maxIter', max_iter]
+        if min_eta is not None:
+            self._parameters += ['-minEta', min_eta]
+        if max_eta is not None:
+            self._parameters += ['-maxEta', max_eta]
         self.to_process(osi)
 
 

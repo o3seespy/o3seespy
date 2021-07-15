@@ -34,13 +34,13 @@ class Results2D(object):
 
     def start_recorders(self, osi, dt=None):  # TODO: handle recorder time step
         self.used_r_starter = 1
-        if self.man_nodes and self.selected_nodes is None:
-            self.selected_nodes = o3.get_node_tags(osi)
+        if self.man_nodes and self.selected_node_tags is None:
+            self._selected_node_tags = o3.get_node_tags(osi)
         if self.coords is None:
-            if self.selected_nodes is not None:
+            if self.selected_node_tags is not None:
                 self.coords = []
-                for node in self.selected_nodes:
-                    self.coords.append(o3.get_node_coords(osi, node))
+                for node_tag in self.selected_node_tags:
+                    self.coords.append(o3.get_node_coords(osi, node_tag, node_as_tag=True))
             else:
                 self.coords = o3.get_all_node_coords(osi)
         if not self.ele2node_tags:
@@ -49,10 +49,10 @@ class Results2D(object):
             self._dt = dt
         if self.dynamic:
             node_tags = 'all'
-            if self.selected_nodes is not None:
-                node_tags = self.selected_nodes
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', node_tags, [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt)
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', node_tags, [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt)
+            if self.selected_node_tags is not None:
+                node_tags = self.selected_node_tags
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', node_tags, [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt, nodes_as_tags=True)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', node_tags, [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt, nodes_as_tags=True)
             if not self.pseudo_dt:
                 o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4, dt=dt)
 

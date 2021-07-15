@@ -98,7 +98,7 @@ class NodeToXML(RecorderBase):
 class NodesToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None, time=False):
+    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None, time=False, nodes_as_tags=False):
         """
         Records properties of several nodes and saves the results to a file
 
@@ -124,7 +124,10 @@ class NodesToFile(RecorderBase):
         if isinstance(nodes, str) and nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
-            node_tags = [x.tag for x in nodes]
+            if nodes_as_tags:
+                node_tags = nodes
+            else:
+                node_tags = [x.tag for x in nodes]
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
         if dt is not None:
             self._parameters.insert(5, '-dT')
@@ -211,7 +214,7 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
 class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
 
-    def __init__(self, osi, nodes, dofs, res_type, nsd=8, dt=None, fname=None):
+    def __init__(self, osi, nodes, dofs, res_type, nsd=8, dt=None, fname=None, close_on_write=False, nodes_as_tags=False):
         """
         Records properties of several nodes and saves results to a numpy array
 
@@ -233,15 +236,21 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
         if isinstance(nodes, str) and nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
-            node_tags = [x.tag for x in nodes]
+            if nodes_as_tags:
+                node_tags = nodes
+            else:
+                node_tags = [x.tag for x in nodes]
         if fname is None:
             self.fname = tempfile.NamedTemporaryFile(delete=False).name
         else:
             self.fname = fname
         self._parameters = [self.op_type, '-file', self.fname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
-            self._parameters.insert(5,'-dT')
+            self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
+
         self._tag = self.to_process(osi)
 
 

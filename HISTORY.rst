@@ -4,11 +4,18 @@ History
 
 Pre-release
 -----------
+
+3.2.0.3 (2021-07-15)
+--------------------
 * Added option to generate individual fibres
 * Added algorithms `NewtonLineSearch` and `Broyden`
 * Can now call `get_node_coords` using the node tag if kwarg `node_as_tag=True`
 * Fixed bug where parameters could not be passed to `bcast`
 * `results` now has support for parallel processors
+* Added missing parameters to `algorithm.NewtonLineSearch` object
+* Exposed openseespy as `o3.ops` to be consistent with the `ops` convention. `o3.opy` still available for backwards compatibility
+* Added `ModalDamping`
+* Added `integrator.GimmeMCK` to allow export for different matrices
 
 3.2.0.2 (2021-05-24)
 --------------------

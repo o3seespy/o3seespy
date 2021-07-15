@@ -13,15 +13,19 @@ class Mass(OpenSeesObject):
     op_base_type = "mass"
     op_type = None
 
-    def __init__(self, osi, node, x_mass, y_mass, rot_mass=None):
+    def __init__(self, osi, node, x_mass, y_mass=None, rot_mass=None):
         if osi.ndf > 2 and rot_mass is None:
             rot_mass = 0.0
         self.node = node
         self.x_mass = x_mass
         self.y_mass = y_mass
         self.rot_mass = rot_mass
-        self._parameters = [self.node.tag, self.x_mass, self.y_mass]
+        self._parameters = [self.node.tag, self.x_mass]
+        if self.y_mass is not None:
+            self._parameters.append(self.y_mass)
         if self.rot_mass is not None:
+            if self.y_mass is None:
+                self._parameters.append(0.0)
             self._parameters.append(self.rot_mass)
         self.to_process(osi)
         
@@ -109,6 +113,17 @@ class EqualDOFMulti(OpenSeesMultiCallObject):
         for i in range(len(c_nodes)):
             self._multi_parameters.append([r_nodes[i].tag, self.c_nodes[i].tag, *self.dofs])
             self.to_process(osi)
+
+
+class ModalDamping(OpenSeesObject):
+    op_base_type = "modalDamping"
+    op_type = None
+
+    def __init__(self, osi, xis):
+
+        self.xis = xis
+        self._parameters = self.xis
+        self.to_process(osi)
 
 
 def set_rigid_diaphragm(osi, r_node, cnodes, perp_dir):
@@ -665,10 +680,23 @@ def analyze_w_restart(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None
         pass
         # get curr time.
 
-def get_node_disp(osi, node, dof):
+def get_node_disp(osi, node, dof=None, node_as_tag=False):
     op_type = 'nodeDisp'
-    parameters = [node.tag, dof]
+    if node_as_tag:
+        parameters = [node]
+    else:
+        parameters = [node.tag]
+    if dof is not None:
+        parameters.append(dof)
     return osi.to_process(op_type, parameters)
+
+def get_node_disps(osi, node, dofs):
+    op_type = 'nodeDisp'
+    vals = []
+    for dof in dofs:
+        parameters = [node.tag, dof]
+        vals.append(osi.to_process(op_type, parameters))
+    return vals
 
 
 def get_all_node_disps(osi, dof):
@@ -806,6 +834,11 @@ def get_eigen(osi, solver='genBandArpack', n=1):
     outs = osi.to_process("eigen", parameters)
     if not hasattr(outs, '__len__'):
         return [outs]
+    return outs
+
+def get_node_eigen_vector(osi, node, eigen_vector, dof):
+    parameters = [node.tag, eigen_vector, dof]
+    outs = osi.to_process("nodeEigenvector", parameters)
     return outs
 
 

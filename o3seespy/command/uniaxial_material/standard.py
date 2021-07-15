@@ -299,11 +299,12 @@ class Series(UniaxialMaterialBase):
         >>> o3.uniaxial_material.Series(osi, mats=mats)
         """
         self.osi = osi
-        self.mats = [x.tag for x in mats]
+        self.mats = mats
+        self.mat_tags = [x.tag for x in mats]
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, *self.mats]
+        self._parameters = [self.op_type, self._tag, *self.mat_tags]
         if osi is None:
             self.built = 0
         if osi is not None:

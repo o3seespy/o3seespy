@@ -1,8 +1,10 @@
 from collections import OrderedDict
 try:
     from custom_openseespy import opensees as opy
+    from custom_openseespy import opensees as ops
 except ModuleNotFoundError:
     import openseespy.opensees as opy
+    import openseespy.opensees as ops
 from . import exceptions
 from . import extensions
 
