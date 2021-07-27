@@ -321,29 +321,40 @@ def gen_free_field_2d_bc(osi, eles, left_bc, bl_node=0, width=1, connection=None
         Fix2DOFMulti(osi, new_nodes[-1], x=0, y=1)
 
 
-def get_max_node_diff_movement(osi, dt=None):
+def get_max_node_diff_movement(osi, dt=None, steps=2):
     import numpy as np
     import o3seespy as o3
     nts = o3.get_node_tags(osi)
     x_rec = o3.recorder.NodesToArrayCache(osi, nts, dofs=[o3.cc.DOF2D_X], res_type='disp', close_on_write=True, nodes_as_tags=True)
     y_rec = o3.recorder.NodesToArrayCache(osi, nts, dofs=[o3.cc.DOF2D_Y], res_type='disp', close_on_write=True, nodes_as_tags=True)
     o3.record(osi)
-    if not o3.analyze(osi, 1, dt):
+
+    if not o3.analyze(osi, steps, dt):
         x_vals = x_rec.collect()
         y_vals = y_rec.collect()
-        dx = x_vals[1] - x_vals[0]
-        dy = y_vals[1] - y_vals[0]
-        dm = np.sqrt(dx ** 2 + dy ** 2)
-        ind = np.argmax(dm)
+        dms = []
+        dxs = []
+        dys = []
+        maxs = []
+        for i in range(steps):
+            dx = x_vals[i+1] - x_vals[i]
+            dy = y_vals[i+1] - y_vals[i]
+            dm = np.sqrt(dx ** 2 + dy ** 2)
+            dms.append(dm)
+            maxs.append(np.max(dm))
+        step_i = np.argmax(maxs)
+        ind = np.argmax(dms[step_i])
         node_tag = nts[ind]
+        dx_max = x_vals[step_i+1][ind] - x_vals[step_i][ind]
+        dy_max = y_vals[step_i+1][ind] - y_vals[step_i][ind]
         coords = o3.get_node_coords(osi, node_tag, node_as_tag=True)
-        return [nts[ind], coords, dx[ind], dy[ind]]
+        return [nts[ind], coords, dx_max, dy_max]
     raise ValueError
 
-def cycle_until_limit_diff_movement(osi, dt=None, dlim=0.0001):
+def cycle_until_limit_diff_movement(osi, dt=None, dlim=0.0001, steps=2):
     import numpy as np
     import o3seespy as o3
-    movement = get_max_node_diff_movement(osi, dt)
+    movement = get_max_node_diff_movement(osi, dt, steps=steps)
     print('m: ', movement)
     while np.sqrt(movement[2] ** 2 + movement[3] ** 2) > dlim:
         if not o3.analyze(osi, 5, dt):

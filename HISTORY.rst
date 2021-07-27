@@ -4,6 +4,8 @@ History
 
 Pre-release
 -----------
+* Can now define algorithms and test checks without applying them, and can apply/reapply them to the OpenSeesInstance using the method `.reapply()`
+* Adding support for database support
 
 3.2.0.3 (2021-07-15)
 --------------------

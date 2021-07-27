@@ -4,6 +4,14 @@ from o3seespy.base_model import OpenSeesObject
 class AlgorithmBase(OpenSeesObject):
     op_base_type = "algorithm"
 
+    def to_process(self, osi):
+        if osi is None:
+            return
+        OpenSeesObject.to_process(self, osi)
+
+    def reapply(self, osi):
+        self.to_process(osi)
+
 
 class Linear(AlgorithmBase):
     op_type = "Linear"

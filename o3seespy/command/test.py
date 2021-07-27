@@ -4,6 +4,14 @@ from o3seespy.base_model import OpenSeesObject
 class TestBase(OpenSeesObject):
     op_base_type = "test"
 
+    def to_process(self, osi):
+        if osi is None:
+            return
+        OpenSeesObject.to_process(self, osi)
+
+    def reapply(self, osi):
+        self.to_process(osi)
+
 
 class NormUnbalance(TestBase):
     """
@@ -378,7 +386,7 @@ class NormDispAndUnbalance(TestBase):
         osi: o3seespy.OpenSeesInstance
         tol_incr: float
             Tolerance for right hand residual
-        tol_r: None
+        tol_r: float
             
         max_iter: int
             Max number of iterations to check

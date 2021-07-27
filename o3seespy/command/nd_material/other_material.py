@@ -129,6 +129,10 @@ class PM4Sand(NDMaterialBase):
         update_material_stage(osi, self, stage=1)
         # opw.set_parameter(osi, value=0, eles=[ele], args=['FirstCall', 1])
 
+    def update_to_linear(self):
+        from o3seespy import update_material_stage
+        update_material_stage(self.osi, self, 0)
+
     def update_to_nonlinear(self):
         from o3seespy import update_material_stage
         update_material_stage(self.osi, self, 1)

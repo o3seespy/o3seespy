@@ -11,7 +11,7 @@ import tempfile
 
 class OpenSeesInstance(object):
 
-    def __init__(self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000):
+    def __init__(self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000, restore=None):
         init_tag = 0
         if mp:
             pid = opy.getPID()
@@ -47,7 +47,11 @@ class OpenSeesInstance(object):
             else:
                 self.ndf = 6
         opy.wipe()
-        opy.model(*parameters)
+        if restore:
+            ops.database('File', restore[0])
+            ops.restore(restore[1])
+        else:
+            ops.model(*parameters)
         self.commands = []
         self.dict = OrderedDict()
 
