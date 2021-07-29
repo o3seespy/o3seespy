@@ -1461,27 +1461,29 @@ class PM4Silt(NDMaterialBase):
     """
     op_type = 'PM4Silt'
 
-    def __init__(self, osi, s_u, su_rat, g_o, h_po, den_su_factor, patm, nu=0.3, n_g=0.75, h0=None, e_init=0.9,
-                 lamb=0.06, phicv=32.0, nb_wet=0.8, nb_dry=0.5, nd=0.3, ado=0.8, ru_max=None, zmax=None, cz=100.0,
-                 ce=None, cgd=None, ckaf=4.0, m_m=0.01, cg_consol=2.0):
+    def __init__(self, osi, g_o, h_po, den, s_u=None, su_rat=None, su_factor=None, p_atm=None, nu=0.3, n_g=0.75,
+                 h0=None, e_init=0.9, lamb=0.06, phicv=32.0, nb_wet=0.8, nb_dry=0.5, nd=0.3, ado=0.8, ru_max=None,
+                 zmax=None, cz=100.0, ce=None, cgd=None, ckaf=4.0, m_m=0.01, cg_consol=2.0):
         r"""
         Initial method for PM4Silt
 
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        s_u: float
-            Undrained shear strength
-        su_rat: float
-            Undrained shear strength ratio.
+
         g_o: float
             Shear modulus constant
         h_po: float
             Contraction rate parameter
-        den_su_factor: None
+        s_u: float
+            Undrained shear strength
+        su_rat: float
+            Undrained shear strength ratio.
+        den: float
 
-        patm: None
-
+        su_factor: float
+        p_atm: float
+            Atmospheric pressure
         nu: float
             Optional: poisson’s ratio. default value is 0.3.
         n_g: float
@@ -1524,12 +1526,22 @@ class PM4Silt(NDMaterialBase):
             is 2.0.
         """
         self.osi = osi
-        self.s_u = float(s_u)
-        self.su_rat = float(su_rat)
+        if s_u is not None:
+            self.s_u = float(s_u)
+        else:
+            self.s_u = -1.0
+        if su_rat is not None:
+            self.su_rat = float(su_rat)
+        else:
+            self.su_rat = -1.0
         self.g_o = float(g_o)
         self.h_po = float(h_po)
-        self.den_su_factor = den_su_factor
-        self.patm = patm
+        self.den = den
+        if su_rat is not None:
+            self.su_factor = float(su_factor)
+        else:
+            self.su_factor = -1.0
+        self.p_atm = p_atm
         self.nu = float(nu)
         self.n_g = float(n_g)
         if h0 is None:
@@ -1563,10 +1575,10 @@ class PM4Silt(NDMaterialBase):
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.s_u, self.su_rat, self.g_o, self.h_po, self.den_su_factor,
-                            self.patm, self.nu, self.n_g, self.h0, self.e_init, self.lamb, self.phicv, self.nb_wet,
-                            self.nb_dry, self.nd, self.ado, self.ru_max, self.zmax, self.cz, self.ce, self.cgd,
-                            self.ckaf, self.m_m, self.cg_consol]
+        self._parameters = [self.op_type, self._tag, self.s_u, self.su_rat, self.g_o, self.h_po, self.den,
+                            self.su_factor, self.p_atm, self.nu, self.n_g, self.h0, self.e_init, self.lamb, self.phicv,
+                            self.nb_wet, self.nb_dry, self.nd, self.ado, self.ru_max, self.zmax, self.cz, self.ce,
+                            self.cgd, self.ckaf, self.m_m, self.cg_consol]
         if osi is None:
             self.built = 0
         if osi is not None:

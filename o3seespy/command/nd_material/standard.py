@@ -952,25 +952,27 @@ class PM4Silt(NDMaterialBase):
     """
     op_type = 'PM4Silt'
 
-    def __init__(self, osi, s_u, su_rat, g_o, h_po, den_su_factor, patm, nu=0.3, n_g=0.75, h0=None, e_init=0.9, lamb=0.06, phicv=32.0, nb_wet=0.8, nb_dry=0.5, nd=0.3, ado=0.8, ru_max=None, zmax=None, cz=100.0, ce=None, cgd=None, ckaf=4.0, m_m=0.01, cg_consol=2.0):
+    def __init__(self, osi, g_o, h_po, den, s_u=None, su_rat=None, su_factor=None, p_atm=None, nu=0.3, n_g=0.75, h0=None, e_init=0.9, lamb=0.06, phicv=32.0, nb_wet=0.8, nb_dry=0.5, nd=0.3, ado=0.8, ru_max=None, zmax=None, cz=100.0, ce=None, cgd=None, ckaf=4.0, m_m=0.01, cg_consol=2.0):
         r"""
         Initial method for PM4Silt
 
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-        s_u: float
-            Undrained shear strength
-        su_rat: float
-            Undrained shear strength ratio.
+
         g_o: float
             Shear modulus constant
         h_po: float
             Contraction rate parameter
-        den_su_factor: None
-            
-        patm: None
-            
+        s_u: float
+            Undrained shear strength
+        su_rat: float
+            Undrained shear strength ratio.
+        den: float
+
+        su_factor: float
+        p_atm: float
+            Atmospheric pressure
         nu: float
             Optional: poisson’s ratio. default value is 0.3.
         n_g: float
@@ -1013,12 +1015,22 @@ class PM4Silt(NDMaterialBase):
             is 2.0.
         """
         self.osi = osi
-        self.s_u = float(s_u)
-        self.su_rat = float(su_rat)
+        if s_u is not None:
+            self.s_u = float(s_u)
+        else:
+            self.s_u = -1.0
+        if su_rat is not None:
+            self.su_rat = float(su_rat)
+        else:
+            self.su_rat = -1.0
         self.g_o = float(g_o)
         self.h_po = float(h_po)
-        self.den_su_factor = den_su_factor
-        self.patm = patm
+        self.den = float(den)
+        if su_factor is not None:
+            self.su_factor = float(su_factor)
+        else:
+            self.su_factor = -1.0
+        self.p_atm = p_atm
         self.nu = float(nu)
         self.n_g = float(n_g)
         if h0 is None:
@@ -1036,13 +1048,16 @@ class PM4Silt(NDMaterialBase):
             self.ru_max = -1.0
         else:
             self.ru_max = float(ru_max)
-        self.zmax = zmax
+        if zmax is None:
+            self.zmax = -1.0
+        else:
+            self.zmax = float(zmax)
         self.cz = float(cz)
-        if self.ce is None:
+        if ce is None:
             self.ce = -1.0
         else:
             self.ce = float(ce)
-        if self.cgd is None:
+        if cgd is None:
             self.cgd = -1.0
         else:
             self.cgd = float(cgd)
@@ -1052,11 +1067,38 @@ class PM4Silt(NDMaterialBase):
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.s_u, self.su_rat, self.g_o, self.h_po, self.den_su_factor, self.patm, self.nu, self.n_g, self.h0, self.e_init, self.lamb, self.phicv, self.nb_wet, self.nb_dry, self.nd, self.ado, self.ru_max, self.zmax, self.cz, self.ce, self.cgd, self.ckaf, self.m_m, self.cg_consol]
+        self._parameters = [self.op_type, self._tag, self.s_u, self.su_rat, self.g_o, self.h_po, self.den, self.su_factor, self.p_atm, self.nu, self.n_g, self.h0, self.e_init, self.lamb, self.phicv, self.nb_wet, self.nb_dry, self.nd, self.ado, self.ru_max, self.zmax, self.cz, self.ce, self.cgd, self.ckaf, self.m_m, self.cg_consol]
         if osi is None:
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
+    def update_to_linear(self):
+        from o3seespy import update_material_stage
+        update_material_stage(self.osi, self, 0)
+
+    def update_to_nonlinear(self):
+        from o3seespy import update_material_stage
+        update_material_stage(self.osi, self, 1)
+
+    def set_nu(self, nu, ele=None, eles=None):
+        from o3seespy import set_parameter
+        if ele is not None:
+            set_parameter(self.osi, value=nu, eles=[ele], args=['poissonRatio', 1])
+        if eles is not None:
+            set_parameter(self.osi, value=nu, eles=eles, args=['poissonRatio', 1])
+
+    def set_material_state(self, value, ele=None, eles=None):
+        from o3seespy import set_parameter
+        if ele is not None:
+            set_parameter(self.osi, value=value, eles=[ele], args=['materialState', 1])
+        if eles is not None:
+            set_parameter(self.osi, value=value, eles=eles, args=['materialState', 1])
+
+    def set_first_call(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, pstr='FirstCall', pval=self.tag, value=value, ele=ele, eles=eles)
+
+
 
 
 class StressDensity(NDMaterialBase):
