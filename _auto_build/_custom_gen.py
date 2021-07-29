@@ -1450,3 +1450,124 @@ class Series(UniaxialMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
+
+class PM4Silt(NDMaterialBase):
+    """
+    The PM4Silt NDMaterial Class
+
+    Code Developed by: **Long Chen** and `pedro <https://www.ce.washington.edu/facultyfinder/pedro-arduino>`_ at
+    U.Washington.This command is used to construct a 2-dimensional PM4Silt material.
+    """
+    op_type = 'PM4Silt'
+
+    def __init__(self, osi, s_u, su_rat, g_o, h_po, den_su_factor, patm, nu=0.3, n_g=0.75, h0=None, e_init=0.9,
+                 lamb=0.06, phicv=32.0, nb_wet=0.8, nb_dry=0.5, nd=0.3, ado=0.8, ru_max=None, zmax=None, cz=100.0,
+                 ce=None, cgd=None, ckaf=4.0, m_m=0.01, cg_consol=2.0):
+        r"""
+        Initial method for PM4Silt
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        s_u: float
+            Undrained shear strength
+        su_rat: float
+            Undrained shear strength ratio.
+        g_o: float
+            Shear modulus constant
+        h_po: float
+            Contraction rate parameter
+        den_su_factor: None
+
+        patm: None
+
+        nu: float
+            Optional: poisson’s ratio. default value is 0.3.
+        n_g: float
+            Optional: shear modulus exponent. default value is 0.75.
+        h0: float
+            Optional: variable that adjusts the ratio of plastic modulus to elastic modulus. default value is 0.5.
+        e_init: float
+            Optional: initial void ratios. default value is 0.90.
+        lamb: float
+            Optional: the slope of critical state line in e-ln(p) space. default value is 0.060.
+        phicv: float
+            Optional: critical state effective friction angle. default value is 32 degrees.
+        nb_wet: float
+            Optional: bounding surface parameter for loose of critical state conditions :math:`1.0 \geq nb_wet \geq
+            0.01`. default value is 0.8. in cyclic loading
+        nb_dry: float
+            Optional: bounding surface parameter for dense of critical state conditions :math:`nb_dry \geq 0`. default
+            value is 0.5.
+        nd: float
+            Optional: dilatancy surface parameter :math:`nd \geq 0`. default value is 0.3.
+        ado: float
+            Optional: dilatancy parameter. default value is 0.8. with accumulation of fabric
+        ru_max: float
+            Optional: maximum pore pressure ratio based on p’.
+        zmax: None
+
+        cz: float
+            Optional: fabric-dilatancy tensor parameter. default value is 100.0.
+        ce: float
+            Optional: variable that adjusts the rate of strain accumulation in cyclic loading
+        cgd: float
+
+        ckaf: float
+            Optional: variable that controls the effect that sustained static shear stresses have on plastic modulus.
+            default value is 4.0.
+        m_m: float
+            Optional: yield surface constant (radius of yield surface in stress ratio space). default value is 0.01.
+        cg_consol: float
+            Optional: reduction factor of elastic modulus for reconsolidation. :math:`cg_consol \geq 1`. default value
+            is 2.0.
+        """
+        self.osi = osi
+        self.s_u = float(s_u)
+        self.su_rat = float(su_rat)
+        self.g_o = float(g_o)
+        self.h_po = float(h_po)
+        self.den_su_factor = den_su_factor
+        self.patm = patm
+        self.nu = float(nu)
+        self.n_g = float(n_g)
+        if h0 is None:
+            self.h0 = -1.0
+        else:
+            self.h0 = float(h0)
+        self.e_init = float(e_init)
+        self.lamb = float(lamb)
+        self.phicv = float(phicv)
+        self.nb_wet = float(nb_wet)
+        self.nb_dry = float(nb_dry)
+        self.nd = float(nd)
+        self.ado = float(ado)
+        if ru_max is None:
+            self.ru_max = -1.0
+        else:
+            self.ru_max = float(ru_max)
+        self.zmax = zmax
+        self.cz = float(cz)
+        if self.ce is None:
+            self.ce = -1.0
+        else:
+            self.ce = float(ce)
+        if self.cgd is None:
+            self.cgd = -1.0
+        else:
+            self.cgd = float(cgd)
+        self.ckaf = float(ckaf)
+        self.m_m = float(m_m)
+        self.cg_consol = float(cg_consol)
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.s_u, self.su_rat, self.g_o, self.h_po, self.den_su_factor,
+                            self.patm, self.nu, self.n_g, self.h0, self.e_init, self.lamb, self.phicv, self.nb_wet,
+                            self.nb_dry, self.nd, self.ado, self.ru_max, self.zmax, self.cz, self.ce, self.cgd,
+                            self.ckaf, self.m_m, self.cg_consol]
+        if osi is None:
+            self.built = 0
+        if osi is not None:
+            self.to_process(osi)

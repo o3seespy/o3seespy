@@ -123,6 +123,7 @@ def convert_camel_to_snake(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     s1 = re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
     s1 = re.sub(r'(\d)\_', r'\1', s1)  # removes underscore after number (e.g. 2D)
+    s1 = s1.replace('__', '_')
     return s1
 
 
@@ -1320,6 +1321,8 @@ def refine_and_build(doc_str_pms, dtypes, defaults, op_kwargs, descriptions, opt
         else:
             defaults[pm].dtype = dtypes[i]
         defaults[pm].p_description = descriptions[pm]
+        if descriptions[pm].startswith('Optional: '):
+            defaults[pm].default_value = None
 
     if 'eleNodes' in defaults:
         defaults['eleNodes'].list_items_dtype = 'obj'
@@ -1701,7 +1704,10 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        parse_generic_single_file(obj_type='senscmds', osi_type='senscmds')
+        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PM4Silt.rst', osi_type='mat')
+        print(pstr)
+        # parse_all_ndmat()
+        # parse_generic_single_file(obj_type='senscmds', osi_type='senscmds')
         # p = parse_single_file(up.OPY_DOCS_PATH + 'SFI_MVLEM.rst', osi_type='ele')
         # print(p[0])
         #
