@@ -28,7 +28,7 @@ class RecorderToArrayCacheBase(RecorderBase):  # TODO: implement NodeToArray whe
 class NodeToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, node, dofs, res_type, nsd=8, dt=None, time=False):
+    def __init__(self, osi, fname, node, dofs, res_type, nsd=8, dt=None, time=False, close_on_write=False, node_as_tag=False):
         """
         Records properties of a node and saves the results to a file
 
@@ -50,7 +50,13 @@ class NodeToFile(RecorderBase):
             If true the first column is the time
         """
         self.osi = osi
-        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', node.tag]
+        if node_as_tag:
+            self.node_tag = node
+        else:
+            self.node_tag = node.tag
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', self.node_tag]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -63,7 +69,7 @@ class NodeToFile(RecorderBase):
 class NodeToXML(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, node, dofs, res_type, nsd=8, dt=None, time=False):
+    def __init__(self, osi, fname, node, dofs, res_type, nsd=8, dt=None, time=False, close_on_write=False, nodes_as_tags=False):
         """
         Records properties of a node and saves the results to an xml file
 
@@ -85,7 +91,14 @@ class NodeToXML(RecorderBase):
             If true the first column is the time
         """
         self.osi = osi
-        self._parameters = [self.op_type, '-xml', fname, '-precision', nsd, '-node', node.tag]
+        if node_as_tag:
+            self.node_tag = node
+        else:
+            self.node_tag = node.tag
+        self.fname = fname
+        self._parameters = [self.op_type, '-xml', fname, '-precision', nsd, '-node', self.node_tag]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -98,7 +111,7 @@ class NodeToXML(RecorderBase):
 class NodesToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None, time=False, nodes_as_tags=False):
+    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None, time=False, close_on_write=False, nodes_as_tags=False):
         """
         Records properties of several nodes and saves the results to a file
 
@@ -128,7 +141,10 @@ class NodesToFile(RecorderBase):
                 node_tags = nodes
             else:
                 node_tags = [x.tag for x in nodes]
+        self.fname = fname
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -140,7 +156,7 @@ class NodesToFile(RecorderBase):
 class NodesToXML(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None, time=False):
+    def __init__(self, osi, fname, nodes, dofs, res_type, nsd=8, dt=None, time=False, close_on_write=False, nodes_as_tags=False):
         """
         Records properties of several nodes and saves the results to an xml file
 
@@ -166,8 +182,14 @@ class NodesToXML(RecorderBase):
         if isinstance(nodes, str) and nodes == 'all':
             node_tags = osi.to_process('getNodeTags', [])
         else:
-            node_tags = [x.tag for x in nodes]
+            if nodes_as_tags:
+                node_tags = [x.tag for x in nodes]
+            else:
+                node_tags = nodes
+        self.fname = fname
         self._parameters = [self.op_type, '-xml', fname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -179,7 +201,7 @@ class NodesToXML(RecorderBase):
 class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
 
-    def __init__(self, osi, node, dofs, res_type, nsd=8, dt=None, fname=None):
+    def __init__(self, osi, node, dofs, res_type, nsd=8, dt=None, fname=None, node_as_tag=False):
         """
         Records properties of a node and saves results to a numpy array
 
@@ -203,7 +225,11 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
             self.fname = tempfile.NamedTemporaryFile(delete=False).name
         else:
             self.fname = fname
-        self._parameters = [self.op_type, '-file', self.fname, '-precision', nsd, '-node', node.tag]
+        if node_as_tag:
+            node_tag = node
+        else:
+            node_tag = node.tag
+        self._parameters = [self.op_type, '-file', self.fname, '-precision', nsd, '-node', node_tag]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -299,7 +325,7 @@ class TimeToArrayCache(RecorderBase):
 class TimeToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, nsd=8, dt=None):
+    def __init__(self, osi, fname, nsd=8, dt=None, close_on_write=False):
         """
         Records the recorder time and saves to a numpy array
 
@@ -312,8 +338,10 @@ class TimeToFile(RecorderBase):
             Time step
         """
         self.osi = osi
-        self.fname = tempfile.NamedTemporaryFile(delete=False).name
+        self.fname = fname
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-time', '-node', 1]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -324,7 +352,7 @@ class TimeToFile(RecorderBase):
 class ElementToFile(RecorderBase):
     op_type = "Element"
 
-    def __init__(self, osi, fname, ele, material=None, arg_vals=None, nsd=8, dt=None, time=False):
+    def __init__(self, osi, fname, ele, material=None, arg_vals=None, nsd=8, dt=None, time=False, close_on_write=False, ele_as_tag=False):
         """
         Records properties of an element and saves the results to a file
 
@@ -351,7 +379,14 @@ class ElementToFile(RecorderBase):
         extra_pms = []
         if material is not None:
             extra_pms += ['material', material]
-        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-ele', ele.tag, *extra_pms, *arg_vals]
+        if ele_as_tag:
+            self.ele_tag = ele
+        else:
+            self.ele_tag = ele.tag
+        self.fname = fname
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-ele', self.ele_tag, *extra_pms, *arg_vals]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -363,7 +398,7 @@ class ElementToFile(RecorderBase):
 class ElementToXML(RecorderBase):
     op_type = "Element"
 
-    def __init__(self, osi, fname, ele, material=None, arg_vals=None, nsd=8, dt=None, time=False):
+    def __init__(self, osi, fname, ele, material=None, arg_vals=None, nsd=8, dt=None, time=False, close_on_write=False, ele_as_tag=False):
         """
         Records properties of an element and saves the results to an xml file
 
@@ -390,7 +425,14 @@ class ElementToXML(RecorderBase):
         extra_pms = []
         if material is not None:
             extra_pms += ['material', material]
-        self._parameters = [self.op_type, '-xml', fname, '-precision', nsd, '-ele', ele.tag, *extra_pms, *arg_vals]
+        if ele_as_tag:
+            self.ele_tag = ele
+        else:
+            self.ele_tag = ele.tag
+        self.fname = fname
+        self._parameters = [self.op_type, '-xml', fname, '-precision', nsd, '-ele', self.ele_tag, *extra_pms, *arg_vals]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -402,7 +444,7 @@ class ElementToXML(RecorderBase):
 class ElementsToFile(RecorderBase):
     op_type = "Element"
 
-    def __init__(self, osi, fname, eles, material=None, arg_vals=None, nsd=8, dt=None, time=False):
+    def __init__(self, osi, fname, eles, material=None, arg_vals=None, nsd=8, dt=None, time=False, close_on_write=False, eles_as_tags=False):
         """
         Records properties of an element and saves the results to a file
 
@@ -429,8 +471,14 @@ class ElementsToFile(RecorderBase):
         extra_pms = []
         if material is not None:
             extra_pms += ['material', material]
-        self.ele_tags = [x.tag for x in eles]
+        if eles_as_tags:
+            self.ele_tags = eles
+        else:
+            self.ele_tags = [x.tag for x in eles]
+        self.fname = fname
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-ele', *self.ele_tags, *extra_pms, *arg_vals]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -442,7 +490,7 @@ class ElementsToFile(RecorderBase):
 class ElementsToXML(RecorderBase):
     op_type = "Element"
 
-    def __init__(self, osi, fname, eles, material=None, arg_vals=None, nsd=8, dt=None, time=False):
+    def __init__(self, osi, fname, eles, material=None, arg_vals=None, nsd=8, dt=None, time=False, close_on_write=False, eles_as_tags=False):
         """
         Records properties of an element and saves the results to an xml file
 
@@ -469,8 +517,14 @@ class ElementsToXML(RecorderBase):
         extra_pms = []
         if material is not None:
             extra_pms += ['material', material]
-        self.ele_tags = [x.tag for x in eles]
+        if eles_as_tags:
+            self.ele_tags = eles
+        else:
+            self.ele_tags = [x.tag for x in eles]
+        self.fname = fname
         self._parameters = [self.op_type, '-xml', fname, '-precision', nsd, '-ele', *self.ele_tags, *extra_pms, *arg_vals]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)

@@ -298,6 +298,10 @@ class DruckerPrager(NDMaterialBase):
     def set_update_material_stage(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
 
+    @property
+    def nu(self):
+        return (3 * self.k_mod - 2 * self.g_mod) / (2 * (3 * self.k_mod + self.g_mod))
+
 
 class Damage2p(NDMaterialBase):
     """
