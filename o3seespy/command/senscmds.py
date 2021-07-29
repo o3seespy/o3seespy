@@ -7,8 +7,12 @@ def parameter(osi, p_args):
     Parameters
     ----------
     osi: o3seespy.OpenSeesInstance
-    p_args: unk
-            Depend on the object in the fe model encapsulating the desired parameters.
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.parameter(osi, p_args=1)
     """
     _parameters = [p_args]
     return osi.to_process("parameter", _parameters)
@@ -22,8 +26,13 @@ def add_to_parameter(osi, p_args):
     Parameters
     ----------
     osi: o3seespy.OpenSeesInstance
-    p_args: unk
-            Depend on the object in the fe model encapsulating the desired parameters.
+
+    Examples
+    --------
+    >>> import o3seespy as o3
+    >>> # Example is currently not working
+    >>> osi = o3.OpenSeesInstance(ndm=2)
+    >>> o3.senscmds.add_to_parameter(osi, p_args=1)
     """
     _parameters = [p_args]
     return osi.to_process("addToParameter", _parameters)

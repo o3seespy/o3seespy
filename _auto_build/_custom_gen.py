@@ -324,17 +324,20 @@ class PressureIndependMultiYield(NDMaterialBase):
         self.phi = float(phi)
         self.p_ref = float(p_ref)
         self.d = float(d)
-        assert n_surf < 40
-        self.n_surf = int(n_surf)
+
         if strains is not None:
             assert len(strains) == len(ratios)
             yield_surf = []
             for i in range(len(strains)):
-                yield_surf.append(ratios[i])
                 yield_surf.append(strains[i])
+                yield_surf.append(ratios[i])
             self.yield_surf = yield_surf
+            n_surf = -len(strains)  # from docs 'add a minus sign in front of noYieldSurf'
         else:
             self.yield_surf = None
+
+        assert abs(n_surf) < 40
+        self.n_surf = int(n_surf)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
@@ -343,7 +346,7 @@ class PressureIndependMultiYield(NDMaterialBase):
                             self.cohesion, self.peak_strain, self.phi, self.p_ref, self.d]
 
         if self.yield_surf is not None:
-            self._parameters.append(self.n_surf)  # from docs 'add a minus sign in front of noYieldSurf'
+            self._parameters.append(self.n_surf)
             self._parameters += list(self.yield_surf)
 
         else:
@@ -357,6 +360,10 @@ class PressureIndependMultiYield(NDMaterialBase):
     def update_to_nonlinear(self):
         from o3seespy import update_material_stage
         update_material_stage(self.osi, self, 1)
+
+    def update_to_linear(self):
+        from o3seespy import update_material_stage
+        update_material_stage(self.osi, self, 0)
 
     def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
         if adj_g_mod:
@@ -1402,4 +1409,44 @@ class ElastomericBearingBoucWen3D(ElementBase):
             self.to_process(osi)
         except ValueError:
             self._parameters[0] = 'ElastomericBearingBoucWen'
+            self.to_process(osi)
+
+
+class Series(UniaxialMaterialBase):
+    """
+    The Series UniaxialMaterial Class
+
+    This command is used to construct a series material object made up of an arbitrary number of previously-constructed
+    UniaxialMaterial objects.
+    """
+    op_type = 'Series'
+
+    def __init__(self, osi, mats):
+        """
+        Initial method for Series
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        mats: list
+            Identification objects of materials making up the material model
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> mats = [o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None),
+        >>>         o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)]
+        >>> o3.uniaxial_material.Series(osi, mats=mats)
+        """
+        self.osi = osi
+        self.mats = mats
+        self.mat_tags = [x.tag for x in mats]
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, *self.mat_tags]
+        if osi is None:
+            self.built = 0
+        if osi is not None:
             self.to_process(osi)

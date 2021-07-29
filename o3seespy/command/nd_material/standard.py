@@ -902,9 +902,6 @@ class ManzariDafalias(NDMaterialBase):
                             self.e_0, self.ksi, self.p_atm, self.m_yield, self.h_0, self.c_h, self.n_b, self.a_0,
                             self.n_d, self.z_max, self.c_z, self.den, self.int_scheme, self.tan_type, self.jaco_type,
                             self.tol_f, self.tol_r]
-        # self._parameters = [self.op_type, self._tag, self.g0, self.nu, self.e_init, self.m_c, self.c_c, self.lambda_c,
-        #                     self.e_0, self.ksi, self.p_atm, self.m_yield, self.h_0, self.c_h, self.n_b, self.a_0,
-        #                     self.n_d, self.z_max, self.c_z, self.den]
         if osi is None:
             self.built = 0
         if osi is not None:
@@ -944,6 +941,7 @@ class ManzariDafalias(NDMaterialBase):
     def update_to_linear(self):
         from o3seespy import update_material_stage
         update_material_stage(self.osi, self, 0)
+
 
 
 class StressDensity(NDMaterialBase):
