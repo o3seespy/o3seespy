@@ -334,7 +334,7 @@ class Newmark(IntegratorBase):
         self.form = form
         self._parameters = [self.op_type, self.gamma, self.beta]
         if getattr(self, 'form') is not None:
-            self._parameters += ['-formD', self.form]
+            self._parameters += ['-form', self.form]
         self.to_process(osi)
 
 

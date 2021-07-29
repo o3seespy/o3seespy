@@ -358,31 +358,20 @@ class ConfinedConcrete01(UniaxialMaterialBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         sec_type: str
-            Object for the transverse reinforcement configuration. see image below. * ``'s1'`` square section with s1
-            type of transverse reinforcement with or without external frp wrapping * ``'s2'`` square section with s2 type of
-            transverse reinforcement with or without external frp wrapping * ``'s3'`` square section with s3 type of
-            transverse reinforcement with or without external frp wrapping * ``'s4a'`` square section with s4a type
-            of transverse reinforcement with or without external frp wrapping * ``'s4b'`` square section with s4b
-            type of transverse reinforcement with or without external frp wrapping * ``'s5'`` square section
-            with s5 type of transverse reinforcement with or without external frp wrapping * ``'c'``
-            circular section with or without external frp wrapping * ``'r'`` rectangular section
-            with or without external frp wrapping.
+            Object for the transverse reinforcement configuration. see image below.
         fpc: float
             Unconfined cylindrical strength of concrete specimen.
         ec: float
             Initial elastic modulus of unconfined concrete.
         epscu_type: str
-            Method to define confined concrete ultimate strain * ``-epscu`` then value is confined concrete ultimate
-            strain, * ``-gamma`` then value is the ratio of the strength corresponding to ultimate strain to the peak strength
-            of the confined concrete in the range [0, epsculimit] then epsculimit (optional, default: 0.05) will be assumed
-            as ultimate strain.
+            Method to define confined concrete ultimate strain strain to the peak strength of the confined concrete in
+            the range [0, epsculimit] then epsculimit (optional, default: 0.05) will be assumed as ultimate strain.
         epscu_val: float
             Value for the definition of the concrete ultimate strain
         nu: str
-            Or |list|                definition for poisson's ratio. * ``*['-nu', <value of poisson's ratio>]`` *
-            ``'-varub'`` poisson's ratio is defined as a function of axial strain by means of the expression proposed by
-            braga et al. (2006) with the upper bound equal to 0.5 *``'-varnoub'`` poisson's ratio is defined as a
-            function of axial strain by means of the expression proposed by braga et al. (2006) without any upper bound.
+            Or |list|                definition for poisson's ratio. - ``['-nu', <value of poisson's ratio>]`` strain by
+            means of the expression proposed by braga et al. (2006) with the upper bound equal to 0.5 strain by means of the
+            expression proposed by braga et al. (2006) without any upper bound.
         l1: float
             Length/diameter of square/circular core section measured respect to the hoop center line.
         l2: float
@@ -408,9 +397,7 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             transverse reinforcement. if they are not specified they will be assumed equal to the external ones
         wrap_args: list, optional
             ``wrapargs=[cover, am, sw, ful, es0w]`` optional parameters required when section is strengthened with frp
-            wraps. * ``cover`` cover thickness measured from the outer line of hoop. * ``am`` total area of frp wraps (number of
-            layers x wrap thickness x wrap width). * ``sw`` spacing of frp wraps (if continuous wraps are used the spacing is
-            equal to the wrap width). * ``ful`` ultimate strength of frp wraps. * ``es0w`` elastic modulus of frp wraps.
+            wraps.
         gravel: bool
             Unknown
         silica: bool
@@ -421,8 +408,8 @@ class ConfinedConcrete01(UniaxialMaterialBase):
             Unknown
         epscu_limit: float, optional
             Unknown
-        st_ratio: unk, optional
-            Unknown
+        st_ratio: None, optional
+            
 
         Examples
         --------

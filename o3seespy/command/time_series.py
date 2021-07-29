@@ -48,11 +48,11 @@ class Linear(TimeSeriesBase):
     The Linear TimeSeries Class
     
     This command is used to construct a TimeSeries object in which the load factor applied is linearly proportional to
-    the time in the domain, i.e.:math:`\lambda = f(t) = cFactor * t`. 
+    the time in the domain, i.e.:math:`\lambda = f(t) = cFactor * (t-tStart)`. (0 if t < tStart)
     """
     op_type = 'Linear'
 
-    def __init__(self, osi, factor: float=None):
+    def __init__(self, osi, factor: float=None, t_start: float=None):
         """
         Initial method for Linear
 
@@ -60,7 +60,9 @@ class Linear(TimeSeriesBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         factor: float, optional
-            Linear factor. 
+            Linear factor 
+        t_start: float, optional
+            Start time 
 
         Examples
         --------
@@ -73,11 +75,17 @@ class Linear(TimeSeriesBase):
             self.factor = None
         else:
             self.factor = float(factor)
+        if t_start is None:
+            self.t_start = None
+        else:
+            self.t_start = float(t_start)
         osi.n_tseries += 1
         self._tag = osi.n_tseries
         self._parameters = [self.op_type, self._tag]
         if getattr(self, 'factor') is not None:
             self._parameters += ['-factor', self.factor]
+        if getattr(self, 't_start') is not None:
+            self._parameters += ['-tStart', self.t_start]
         self.to_process(osi)
 
 
@@ -381,7 +389,7 @@ class Path(TimeSeriesBase):
     """
     op_type = 'Path'
 
-    def __init__(self, osi, dt: float=None, values: list=None, time: list=None, filepath: str=None, file_time: str=None, factor: float=None, start_time: float=None, use_last=False, prepend_zero=False):
+    def __init__(self, osi, dt: float=None, values: list=None, time: list=None, file_path: str=None, file_time: str=None, factor: float=None, start_time: float=None, use_last=False, prepend_zero=False):
         """
         Initial method for Path
 
@@ -394,7 +402,7 @@ class Path(TimeSeriesBase):
             Load factor values in a |list|. 
         time: list, optional
             Time values in a |list|. 
-        filepath: str, optional
+        file_path: str, optional
             File containing the load factors values. 
         file_time: str, optional
             File containing the time values for corresponding load factors. 
@@ -412,9 +420,9 @@ class Path(TimeSeriesBase):
             self.dt = None
         else:
             self.dt = float(dt)
-        self.values = [float(val) for val in values]
+        self.values = values
         self.time = time
-        self.filepath = filepath
+        self.file_path = file_path
         self.file_time = file_time
         if factor is None:
             self.factor = None
@@ -435,8 +443,8 @@ class Path(TimeSeriesBase):
             self._parameters += ['-values', *self.values]
         if getattr(self, 'time') is not None:
             self._parameters += ['-time', *self.time]
-        if getattr(self, 'filepath') is not None:
-            self._parameters += ['-filepath', self.filepath]
+        if getattr(self, 'file_path') is not None:
+            self._parameters += ['-filePath', self.file_path]
         if getattr(self, 'file_time') is not None:
             self._parameters += ['-fileTime', self.file_time]
         if getattr(self, 'factor') is not None:

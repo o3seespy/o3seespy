@@ -466,3 +466,300 @@ class SSPquad(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.otype, self.thick, self.b1, self.b2]
         self.to_process(osi)
+
+
+class MVLEM3DCoR(ElementBase):
+    """
+    The MVLEM3DCoR Element Class
+    
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kamiar
+    Kalbasi (CSU Fullerton)| Kutay Orakcal (Bogazici University)| John Wallace (UCLA)The MVLEM_3D model (Figure 1a) is a
+    three-dimensional four-node element with 24 DOFs for nonlinear analysis of flexure-controlled non-rectangular
+    reinforced concrete walls subjected to multidirectional loading. The model is an extension of the
+    two-dimensional, two-node Multiple-Vertical-Line-Element-Model (`MVLEM
+    
+    """
+    op_type = 'MVLEM_3D'
+
+    def __init__(self, osi, ele_nodes, m, c, thick: list=None, widths: list=None, rho: list=None, mat_concretes: list=None, mat_steels: list=None, mat_shear=None):
+        r"""
+        Initial method for MVLEM3DCoR
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of four element nodes defined in the counter-clockwise direction
+        m: int
+            Number of element uniaxial fibers
+        c: float
+            Location of center of rotation from the base (optional; default = 0.4 (recommended))
+        thick: list, optional
+            A list of ``m`` macro-fiber thicknesses
+        widths: list, optional
+            A list of ``m`` macro-fiber widths
+        rho: list, optional
+            A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
+            a_{s,i}/a_{gross,i} (1 < i < m)`
+        mat_concretes: list, optional
+            A list of ``m`` uniaxial_material objects for concrete
+        mat_steels: list, optional
+            A list of ``m`` uniaxial_material objects for steel
+        mat_shear: obj, optional
+            Object of uniaxial_material for shear material
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.m = int(m)
+        self.thick = thick
+        self.widths = widths
+        self.rho = rho
+        if mat_concretes is None:
+            self.mat_concretes = None
+        else:
+            self.mat_concretes = [x.tag for x in mat_concretes]
+        if mat_steels is None:
+            self.mat_steels = None
+        else:
+            self.mat_steels = [x.tag for x in mat_steels]
+        self.mat_shear = mat_shear
+        self.c = float(c)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, '-CoR', self.c]
+        if getattr(self, 'thick') is not None:
+            self._parameters += ['-thick', *self.thick]
+        if getattr(self, 'widths') is not None:
+            self._parameters += ['-width', *self.widths]
+        if getattr(self, 'rho') is not None:
+            self._parameters += ['-rho', *self.rho]
+        if getattr(self, 'mat_concretes') is not None:
+            self._parameters += ['-matConcrete', *self.mat_concretes]
+        if getattr(self, 'mat_steels') is not None:
+            self._parameters += ['-matSteel', *self.mat_steels]
+        if getattr(self, 'mat_shear') is not None:
+            self._parameters += ['-matShear', self.mat_shear.tag]
+        self.to_process(osi)
+
+class MVLEM3DThickMod(ElementBase):
+    """
+    The MVLEM3DThickMod Element Class
+    
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kamiar
+    Kalbasi (CSU Fullerton)| Kutay Orakcal (Bogazici University)| John Wallace (UCLA)The MVLEM_3D model (Figure 1a) is a
+    three-dimensional four-node element with 24 DOFs for nonlinear analysis of flexure-controlled non-rectangular
+    reinforced concrete walls subjected to multidirectional loading. The model is an extension of the
+    two-dimensional, two-node Multiple-Vertical-Line-Element-Model (`MVLEM
+    
+    """
+    op_type = 'MVLEM_3D'
+
+    def __init__(self, osi, ele_nodes, m, t_mod, thick: list=None, widths: list=None, rho: list=None, mat_concretes: list=None, mat_steels: list=None, mat_shear=None):
+        r"""
+        Initial method for MVLEM3DThickMod
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of four element nodes defined in the counter-clockwise direction
+        m: int
+            Number of element uniaxial fibers
+        t_mod: float
+            Thickness multiplier (optional; default = 0.63 equivalent to 0.25ig for out-of-plane bending)
+        thick: list, optional
+            A list of ``m`` macro-fiber thicknesses
+        widths: list, optional
+            A list of ``m`` macro-fiber widths
+        rho: list, optional
+            A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
+            a_{s,i}/a_{gross,i} (1 < i < m)`
+        mat_concretes: list, optional
+            A list of ``m`` uniaxial_material objects for concrete
+        mat_steels: list, optional
+            A list of ``m`` uniaxial_material objects for steel
+        mat_shear: obj, optional
+            Object of uniaxial_material for shear material
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.m = int(m)
+        self.thick = thick
+        self.widths = widths
+        self.rho = rho
+        if mat_concretes is None:
+            self.mat_concretes = None
+        else:
+            self.mat_concretes = [x.tag for x in mat_concretes]
+        if mat_steels is None:
+            self.mat_steels = None
+        else:
+            self.mat_steels = [x.tag for x in mat_steels]
+        self.mat_shear = mat_shear
+        self.t_mod = float(t_mod)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, '-ThickMod', self.t_mod]
+        if getattr(self, 'thick') is not None:
+            self._parameters += ['-thick', *self.thick]
+        if getattr(self, 'widths') is not None:
+            self._parameters += ['-width', *self.widths]
+        if getattr(self, 'rho') is not None:
+            self._parameters += ['-rho', *self.rho]
+        if getattr(self, 'mat_concretes') is not None:
+            self._parameters += ['-matConcrete', *self.mat_concretes]
+        if getattr(self, 'mat_steels') is not None:
+            self._parameters += ['-matSteel', *self.mat_steels]
+        if getattr(self, 'mat_shear') is not None:
+            self._parameters += ['-matShear', self.mat_shear.tag]
+        self.to_process(osi)
+
+class MVLEM3DPoisson(ElementBase):
+    """
+    The MVLEM3DPoisson Element Class
+    
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kamiar
+    Kalbasi (CSU Fullerton)| Kutay Orakcal (Bogazici University)| John Wallace (UCLA)The MVLEM_3D model (Figure 1a) is a
+    three-dimensional four-node element with 24 DOFs for nonlinear analysis of flexure-controlled non-rectangular
+    reinforced concrete walls subjected to multidirectional loading. The model is an extension of the
+    two-dimensional, two-node Multiple-Vertical-Line-Element-Model (`MVLEM
+    
+    """
+    op_type = 'MVLEM_3D'
+
+    def __init__(self, osi, ele_nodes, m, nu, thick: list=None, widths: list=None, rho: list=None, mat_concretes: list=None, mat_steels: list=None, mat_shear=None):
+        r"""
+        Initial method for MVLEM3DPoisson
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of four element nodes defined in the counter-clockwise direction
+        m: int
+            Number of element uniaxial fibers
+        nu: float
+            Poisson ratio for out-of-plane bending (optional; default = 0.25)
+        thick: list, optional
+            A list of ``m`` macro-fiber thicknesses
+        widths: list, optional
+            A list of ``m`` macro-fiber widths
+        rho: list, optional
+            A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
+            a_{s,i}/a_{gross,i} (1 < i < m)`
+        mat_concretes: list, optional
+            A list of ``m`` uniaxial_material objects for concrete
+        mat_steels: list, optional
+            A list of ``m`` uniaxial_material objects for steel
+        mat_shear: obj, optional
+            Object of uniaxial_material for shear material
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.m = int(m)
+        self.thick = thick
+        self.widths = widths
+        self.rho = rho
+        if mat_concretes is None:
+            self.mat_concretes = None
+        else:
+            self.mat_concretes = [x.tag for x in mat_concretes]
+        if mat_steels is None:
+            self.mat_steels = None
+        else:
+            self.mat_steels = [x.tag for x in mat_steels]
+        self.mat_shear = mat_shear
+        self.nu = float(nu)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, '-Poisson', self.nu]
+        if getattr(self, 'thick') is not None:
+            self._parameters += ['-thick', *self.thick]
+        if getattr(self, 'widths') is not None:
+            self._parameters += ['-width', *self.widths]
+        if getattr(self, 'rho') is not None:
+            self._parameters += ['-rho', *self.rho]
+        if getattr(self, 'mat_concretes') is not None:
+            self._parameters += ['-matConcrete', *self.mat_concretes]
+        if getattr(self, 'mat_steels') is not None:
+            self._parameters += ['-matSteel', *self.mat_steels]
+        if getattr(self, 'mat_shear') is not None:
+            self._parameters += ['-matShear', self.mat_shear.tag]
+        self.to_process(osi)
+
+class MVLEM3DDensity(ElementBase):
+    """
+    The MVLEM3DDensity Element Class
+    
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kamiar
+    Kalbasi (CSU Fullerton)| Kutay Orakcal (Bogazici University)| John Wallace (UCLA)The MVLEM_3D model (Figure 1a) is a
+    three-dimensional four-node element with 24 DOFs for nonlinear analysis of flexure-controlled non-rectangular
+    reinforced concrete walls subjected to multidirectional loading. The model is an extension of the
+    two-dimensional, two-node Multiple-Vertical-Line-Element-Model (`MVLEM
+    
+    """
+    op_type = 'MVLEM_3D'
+
+    def __init__(self, osi, ele_nodes, m, dens, thick: list=None, widths: list=None, rho: list=None, mat_concretes: list=None, mat_steels: list=None, mat_shear=None):
+        r"""
+        Initial method for MVLEM3DDensity
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of four element nodes defined in the counter-clockwise direction
+        m: int
+            Number of element uniaxial fibers
+        dens: float
+            Density (optional; default = 0.0)
+        thick: list, optional
+            A list of ``m`` macro-fiber thicknesses
+        widths: list, optional
+            A list of ``m`` macro-fiber widths
+        rho: list, optional
+            A list of m reinforcing ratios corresponding to macro-fibers; for each fiber: :math:`rho_i =
+            a_{s,i}/a_{gross,i} (1 < i < m)`
+        mat_concretes: list, optional
+            A list of ``m`` uniaxial_material objects for concrete
+        mat_steels: list, optional
+            A list of ``m`` uniaxial_material objects for steel
+        mat_shear: obj, optional
+            Object of uniaxial_material for shear material
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.m = int(m)
+        self.thick = thick
+        self.widths = widths
+        self.rho = rho
+        if mat_concretes is None:
+            self.mat_concretes = None
+        else:
+            self.mat_concretes = [x.tag for x in mat_concretes]
+        if mat_steels is None:
+            self.mat_steels = None
+        else:
+            self.mat_steels = [x.tag for x in mat_steels]
+        self.mat_shear = mat_shear
+        self.dens = float(dens)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, '-Density', self.dens]
+        if getattr(self, 'thick') is not None:
+            self._parameters += ['-thick', *self.thick]
+        if getattr(self, 'widths') is not None:
+            self._parameters += ['-width', *self.widths]
+        if getattr(self, 'rho') is not None:
+            self._parameters += ['-rho', *self.rho]
+        if getattr(self, 'mat_concretes') is not None:
+            self._parameters += ['-matConcrete', *self.mat_concretes]
+        if getattr(self, 'mat_steels') is not None:
+            self._parameters += ['-matSteel', *self.mat_steels]
+        if getattr(self, 'mat_shear') is not None:
+            self._parameters += ['-matShear', self.mat_shear.tag]
+        self.to_process(osi)

@@ -1,19 +1,19 @@
 from o3seespy.command.nd_material.base_material import NDMaterialBase
 
 
-class FluidSolidPorousMaterial(NDMaterialBase):
+class FluidSolidPorous(NDMaterialBase):
     """
-    The FluidSolidPorousMaterial NDMaterial Class
+    The FluidSolidPorous NDMaterial Class
     
-    FluidSolidPorousMaterial couples the responses of two phases: fluid and solid. The fluid phase response is only
+    FluidSolidPorous material couples the responses of two phases: fluid and solid. The fluid phase response is only
     volumetric and linear elastic. The solid phase can be any NDMaterial. This material is developed to simulate the
     response of saturated porous media under fully undrained condition.
     """
-    op_type = 'FluidSolidPorousMaterial'
+    op_type = 'FluidSolidPorous'
 
     def __init__(self, osi, nd, soil_mat, combined_bulk_modul, pa=101.0):
         r"""
-        Initial method for FluidSolidPorousMaterial
+        Initial method for FluidSolidPorous
 
         Parameters
         ----------
@@ -29,14 +29,6 @@ class FluidSolidPorousMaterial(NDMaterialBase):
         pa: float, optional
             Optional atmospheric pressure for normalization (typically 101 kpa in si units, or 14.65 psi in english
             units)
-
-        Examples
-        --------
-        >>> import o3seespy as o3
-        >>> # Example is currently not working
-        >>> osi = o3.OpenSeesInstance(ndm=2, ndf=2)
-        >>> soil_mat = o3.nd_material.ElasticIsotropic(osi, e_mod=1.0, nu=1.0, rho=0.0)
-        >>> o3.nd_material.FluidSolidPorousMaterial(osi, nd=1.0, soil_mat=soil_mat, combined_bulk_modul=1.0, pa=101.0)
         """
         self.osi = osi
         self.nd = float(nd)
@@ -51,3 +43,9 @@ class FluidSolidPorousMaterial(NDMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
+    def set_update_material_stage(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
+
+    def set_combined_bulk_modulus(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, 'combinedBulkModulus', value, ele, eles)

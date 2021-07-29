@@ -274,7 +274,7 @@ class Parallel(UniaxialMaterialBase):
 class Series(UniaxialMaterialBase):
     """
     The Series UniaxialMaterial Class
-    
+
     This command is used to construct a series material object made up of an arbitrary number of previously-constructed
     UniaxialMaterial objects.
     """
@@ -309,3 +309,4 @@ class Series(UniaxialMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
