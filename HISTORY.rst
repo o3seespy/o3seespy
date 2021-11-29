@@ -5,7 +5,7 @@ History
 Pre-release
 -----------
 
-3.2.0.4 (2021-11-29)
+3.2.0.5 (2021-11-29)
 --------------------
 * Can now define algorithms and test checks without applying them, and can apply/reapply them to the OpenSeesInstance using the method `.reapply()`
 * Adding support for database commands
