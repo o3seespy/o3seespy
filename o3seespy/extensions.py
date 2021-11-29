@@ -27,7 +27,7 @@ def _get_fn_name_and_args(line):
         if "'" in args[i] or '"' in args[i]:
             pass
         #     args[i] = args[i][1:-1]
-        elif '.' in args[i]:
+        elif '.' in args[i] and 'nan' not in args[i]:
             args[i] = float(args[i])
         else:
             try:
@@ -351,7 +351,7 @@ def get_max_node_diff_movement(osi, dt=None, steps=2):
         return [nts[ind], coords, dx_max, dy_max]
     raise ValueError
 
-def cycle_until_limit_diff_movement(osi, dt=None, dlim=0.0001, steps=2):
+def cycle_until_limit_diff_movement(osi, dt=None, dlim=0.0001, steps=2, time_reset=None):
     import numpy as np
     import o3seespy as o3
     movement = get_max_node_diff_movement(osi, dt, steps=steps)
@@ -362,3 +362,6 @@ def cycle_until_limit_diff_movement(osi, dt=None, dlim=0.0001, steps=2):
             print('m: ', movement)
         else:
             raise ValueError
+    if time_reset is not None:
+        o3.set_time(osi, time_reset)
+        

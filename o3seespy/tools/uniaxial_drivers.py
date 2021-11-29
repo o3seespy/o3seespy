@@ -24,8 +24,11 @@ def run_uniaxial_disp_driver(osi, mat_obj, disps, target_d_inc=1.0e-5):
     react: array_like
         Reactions at each displacement
     """
-    left_node = o3.node.Node(osi, 0, 0)
-    right_node = o3.node.Node(osi, 0, 0)
+    if osi is None:
+        osi = o3.OpenSeesInstance(ndm=1, ndf=1)
+        mat_obj.build(osi)
+    left_node = o3.node.Node(osi, 0)
+    right_node = o3.node.Node(osi, 0)
     o3.Fix1DOF(osi, left_node, o3.cc.FIXED)
     o3.Fix1DOF(osi, right_node, o3.cc.FREE)
     ele = o3.element.ZeroLength(osi, [left_node, right_node], mats=[mat_obj], dirs=[o3.cc.DOF2D_X], r_flag=1)
@@ -36,7 +39,7 @@ def run_uniaxial_disp_driver(osi, mat_obj, disps, target_d_inc=1.0e-5):
     o3.constraints.Plain(osi)
     o3.numberer.RCM(osi)
     o3.system.BandGeneral(osi)
-    o3.test_check.NormDispIncr(osi, 0.002, 10, p_flag=0)
+    o3.test_check.NormDispIncr(osi, 1e-5, 20, p_flag=0)
     o3.algorithm.Newton(osi)
     o3.integrator.DisplacementControl(osi, right_node, o3.cc.X, -target_d_inc)
     o3.analysis.Static(osi)

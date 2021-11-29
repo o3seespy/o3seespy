@@ -124,7 +124,7 @@ class Concrete04(UniaxialMaterialBase):
     """
     op_type = 'Concrete04'
 
-    def __init__(self, osi, fc, epsc, epscu, ec, fct, et, beta):
+    def __init__(self, osi, fc, epsc, epscu, ec, fct, et, beta=None):
         """
         Initial method for Concrete04
 
@@ -144,7 +144,7 @@ class Concrete04(UniaxialMaterialBase):
         et: float
             Floating point value defining ultimate tensile strain of concrete 
         beta: float
-            Loating point value defining the exponential curve parameter to define the residual stress (as a factor of
+            Floating point value defining the exponential curve parameter to define the residual stress (as a factor of
             ft) at etu
 
         Examples
@@ -160,11 +160,15 @@ class Concrete04(UniaxialMaterialBase):
         self.ec = float(ec)
         self.fct = float(fct)
         self.et = float(et)
-        self.beta = float(beta)
+        self.beta = beta
+        if beta is not None:
+            self.beta = float(beta)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.fc, self.epsc, self.epscu, self.ec, self.fct, self.et, self.beta]
+        self._parameters = [self.op_type, self._tag, self.fc, self.epsc, self.epscu, self.ec, self.fct, self.et]
+        if self.beta is not None:
+            self._parameters.append(self.beta)
         if osi is None:
             self.built = 0
         if osi is not None:

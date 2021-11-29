@@ -123,6 +123,10 @@ class PressureIndependMultiYield(NDMaterialBase):
             bulk_mod = 2 * self.g_mod_ref * (1 + nu) / (3 * (1 - 2 * nu))
             self.set_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
 
+    @property
+    def nu(self):
+        return (3 * self.bulk_mod_ref - 2 * self.g_mod_ref) / (2 * (3 * self.bulk_mod_ref + self.g_mod_ref))
+
 
 
 class PressureDependMultiYield(NDMaterialBase):

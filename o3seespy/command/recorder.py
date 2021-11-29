@@ -201,7 +201,7 @@ class NodesToXML(RecorderBase):
 class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray where data saved to memory and loaded as array without collect
     op_type = "Node"
 
-    def __init__(self, osi, node, dofs, res_type, nsd=8, dt=None, fname=None, node_as_tag=False):
+    def __init__(self, osi, node, dofs, res_type, nsd=8, dt=None, fname=None, node_as_tag=False, close_on_write=False):
         """
         Records properties of a node and saves results to a numpy array
 
@@ -230,6 +230,8 @@ class NodeToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArray
         else:
             node_tag = node.tag
         self._parameters = [self.op_type, '-file', self.fname, '-precision', nsd, '-node', node_tag]
+        if close_on_write:
+            self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)
@@ -591,3 +593,14 @@ def remove_recorders(osi):
 def load_recorder_options():
     folder_path = os.path.dirname(os.path.realpath(__file__))
     return open(folder_path + '/mat_recorder_options.csv')
+
+def load_ecp2o3_type_dict():
+    ecp2o3_type_dict = {
+        'TAUXY': ['stress', 'sxy'],
+        'TAUYZ': ['stress', 'syz'],
+        'TAUXZ': ['stress', 'szx'],
+        'ESIGY': ['stress', 'syy'],
+        'ESIGX': ['stress', 'sxx'],
+        'ESIGZ': ['stress', 'szz'],
+        'STRSXY': ['strain', 'gxy']}
+    return ecp2o3_type_dict

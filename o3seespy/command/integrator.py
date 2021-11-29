@@ -392,6 +392,55 @@ class HHT(IntegratorBase):
         self.to_process(osi)
 
 
+class HHTExplicit(IntegratorBase):
+    """
+    The HHT Integrator Class
+
+    Create a Hilber-Hughes-Taylor (HHT) integrator. This is an explicit method that allows for energy dissipation and
+    second order accuracy (which is not possible with the regular Newmark object).
+    """
+    op_type = 'HHTExplicit'
+
+    def __init__(self, osi, alpha, gamma: float = None, beta: float = None):
+        r"""
+        Initial method for HHTExplicit
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        alpha: float
+            :math:`\alpha` factor.
+        gamma: float (default=True), optional
+            :math:`\gamma` factor.
+        beta: float (default=True), optional
+            :math:`\beta` factor.
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.integrator.HHTExplicit(osi, alpha=1.0, gamma=1.0)
+        """
+        self.osi = osi
+        self.alpha = float(alpha)
+        if gamma is None:
+            self.gamma = None
+        else:
+            self.gamma = float(gamma)
+        self._parameters = [self.op_type, self.alpha]
+        special_pms = ['gamma']
+        packets = [False, False]
+        for i, pm in enumerate(special_pms):
+            if getattr(self, pm) is not None:
+                if packets[i]:
+                    self._parameters += [*getattr(self, pm)]
+                else:
+                    self._parameters += [getattr(self, pm)]
+            else:
+                break
+        self.to_process(osi)
+
+
 class GeneralizedAlpha(IntegratorBase):
     r"""
     The GeneralizedAlpha Integrator Class
@@ -483,12 +532,17 @@ class TRBDF2(IntegratorBase):
 class ExplicitDifference(IntegratorBase):
     r"""
     The ExplicitDifference Integrator Class
-    
-    Create a ExplicitDifference integrator.#. When using Rayleigh damping, the damping ratio of high vibration modes is
-    overrated, and the critical time step size will be much smaller. Hence Modal damping is more suitable for this
-    method.#. There should be no zero element on the diagonal of the mass matrix when using this method.#.
+
+    When using Rayleigh damping, the damping ratio of high vibration modes is
+    overrated, and the critical time step size will be much smaller.
+    Hence Modal damping is more suitable for this method.
+
+    There should be no zero element on the diagonal of the mass matrix when using this method.
+
     Diagonal solver should be used when lumped mass matrix is used because the equations are uncoupled.#.
     For stability, :math:`\Delta t \leq \left(\sqrt{\zeta^2+1}-\zeta\right)\frac{2}{\omega}`
+
+    So called leap-frog method see (t=26mins) https://www.youtube.com/watch?v=RAMidc6HcvE
     """
     op_type = 'ExplicitDifference'
 
@@ -513,7 +567,7 @@ class ExplicitDifference(IntegratorBase):
 
 class NewmarkExplicit(IntegratorBase):
     """
-    Pass
+    NewmarkExplicit - available since 2012 but does not support modal damping.
     """
     op_type = 'NewmarkExplicit'
 
@@ -524,7 +578,8 @@ class NewmarkExplicit(IntegratorBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
-
+        gamma: float
+            Integration factor, typically 0.5
         """
         self.osi = osi
         self.gamma = gamma

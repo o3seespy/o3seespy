@@ -214,7 +214,7 @@ class DruckerPrager(NDMaterialBase):
     """
     op_type = 'DruckerPrager'
 
-    def __init__(self, osi, k_mod, g_mod, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, atm_pressure=101e3):
+    def __init__(self, osi, k_mod, g_mod, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, p_atm=101e3):
         r"""
         Initial method for DruckerPrager
 
@@ -245,7 +245,7 @@ class DruckerPrager(NDMaterialBase):
             Controls relative proportions of isotropic and kinematic hardening, :math:`0 \le theta \le 1`.
         density: float
             Mass density of the material
-        atm_pressure: float, optional
+        p_atm: float, optional
             Optional atmospheric pressure for update of elastic bulk and shear moduli
 
         Examples
@@ -267,11 +267,11 @@ class DruckerPrager(NDMaterialBase):
         self.big_h = float(big_h)
         self.theta = float(theta)
         self.density = float(density)
-        self.atm_pressure = float(atm_pressure)
+        self.p_atm = float(p_atm)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sigma_y, self.rho, self.rho_bar, self.kinf, self.ko, self.delta1, self.delta2, self.big_h, self.theta, self.density, self.atm_pressure]
+        self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sigma_y, self.rho, self.rho_bar, self.kinf, self.ko, self.delta1, self.delta2, self.big_h, self.theta, self.density, self.p_atm]
         if osi is None:
             self.built = 0
         if osi is not None:
@@ -857,12 +857,12 @@ class ManzariDafalias(NDMaterialBase):
                 * 45 = Runge Kutta 45 with error control after Sloan
             To use implicit integration, `int_scheme` must be equal to 2
         tan_type: int, optional (default=0)
-            Tangent type:
+            Tangent type: (appears to be unused - possibly only used in Implicit scheme)
                 * 0: Elastic Tangent
                 * 1: Contiuum ElastoPlastic Tangent
-                2: Consistent ElastoPlastic Tangent
+                * 2: Consistent ElastoPlastic Tangent
         jaco_type: int, optional (default=1)
-            Jacobian type:
+            Jacobian type: (possibly only used in Implicit scheme)
                 * 0: Finite Difference Jacobian
                 * 1: Analytical Jacobian
         tol_f: float, optional (default=1.0e-7)
@@ -872,8 +872,8 @@ class ManzariDafalias(NDMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.nd_material.ManzariDafalias(osi, g0=1.0, nu=1.0, e_init=1.0, m_c=1.0, c_c=1.0, lambda_c=1.0, e_0=1.0,
-        >>> ksi=1.0, p_atm=1.0, m_yield=1.0, h_0=1.0, c_h=1.0, n_b=1.0, a_0=1.0, n_d=1.0, z_max=1.0, c_z=1.0, den=1.0)
+        >>> o3.nd_material.ManzariDafalias(osi, g0=1110.0, nu=0.05, e_init=0.72, m_c=1.27, c_c=0.712, lambda_c=0.049, e_0=0.845,
+        >>> ksi=0.27, p_atm=101.3, m_yield=0.01, h_0=5.95, c_h=1.01, n_b=2.0, a_0=1.06, n_d=1.17, z_max=4.0, c_z=600.0, den=1.6)
         """
         self.osi = osi
         self.g0 = float(g0)

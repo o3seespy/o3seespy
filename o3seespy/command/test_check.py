@@ -34,6 +34,21 @@ class NormDispIncr(TestBase):
     op_type = "NormDispIncr"
 
     def __init__(self, osi, tol, max_iter, p_flag=0, n_type=2):
+        """
+        
+        osi: 
+        tol: 
+        max_iter: 
+        p_flag: int
+            Print flag (optional):
+            * 0 print nothing.
+            * 1 print information on norms each time ``test()`` is invoked.
+            * 2 print information on norms and number of iterations at end of successful test.
+            * 4 at each step it will print the norms and also the :math:`\\delta u` and :math:`R(u)` vectors.
+            * 5 if it fails to converge at end of ``numiter``
+                it will print an error message **but return a successfull test**.
+        n_type: 
+        """
         self.osi = osi
         self.tol = float(tol)
         self.max_iter = int(max_iter)  # changed to avoid python function iter

@@ -190,7 +190,7 @@ class Hysteretic(UniaxialMaterialBase):
     """
     op_type = 'Hysteretic'
 
-    def __init__(self, osi, p1, p2, p3, n1, n2, n3, pinch_x, pinch_y, damage1, damage2, beta=0.0):
+    def __init__(self, osi, p1, p2, p3=None, n1=None, n2=None, n3=None, pinch_x=1.0, pinch_y=1.0, damage1=0.0, damage2=0.0, beta=0.0):
         """
         Initial method for Hysteretic
 
@@ -242,9 +242,21 @@ class Hysteretic(UniaxialMaterialBase):
         self.p1 = p1
         self.p2 = p2
         self.p3 = p3
-        self.n1 = n1
-        self.n2 = n2
-        self.n3 = n3
+        if n1 is None:
+            self.n1 = [-p1[0], -p1[1]]
+        else:
+            self.n1 = n1
+        if n2 is None:
+            self.n2 = [-p2[0], -p2[1]]
+        else:
+            self.n2 = n2
+        if n3 is None:
+            if p3 is None:
+                self.n3 = None
+            else:
+                self.n3 = [-p3[0], -p3[1]]
+        else:
+            self.n3 = n3
         self.pinch_x = float(pinch_x)
         self.pinch_y = float(pinch_y)
         self.damage1 = float(damage1)
@@ -253,17 +265,11 @@ class Hysteretic(UniaxialMaterialBase):
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, *self.p1, *self.p2]
-        special_pms = ['p3', 'n1', 'n2', 'n3', 'pinch_x', 'pinch_y', 'damage1', 'damage2', 'beta']
-        packets = [True, True, True, True, False, False, False, False, False]
-        for i, pm in enumerate(special_pms):
-            if getattr(self, pm) is not None:
-                if packets[i]:
-                    self._parameters += [*getattr(self, pm)]
-                else:
-                    self._parameters += [getattr(self, pm)]
-            else:
-                break
+        if self.p3 is None:
+            self._parameters = [self.op_type, self._tag, *self.p1, *self.p2, *self.n1, *self.n2]
+        else:
+            self._parameters = [self.op_type, self._tag, *self.p1, *self.p2, *self.p3, *self.n1, *self.n2, *self.n3]
+        self._parameters += [self.pinch_x, self.pinch_y, self.damage1, self.damage2, self.beta]
         if osi is None:
             self.built = 0
         if osi is not None:
@@ -334,16 +340,17 @@ class ReinforcingSteelGABuck(UniaxialMaterialBase):
         if osi is not None:
             self.to_process(osi)
 
-class ReinforcingSteelDMBuck(UniaxialMaterialBase):
+
+class ReinforcingSteel(UniaxialMaterialBase):
     """
     The ReinforcingSteelDMBuck UniaxialMaterial Class
-    
+
     This command is used to construct a ReinforcingSteel uniaxial material object. This object is intended to be used in
     a reinforced concrete fiber section as the steel reinforcing material.
     """
     op_type = 'ReinforcingSteel'
 
-    def __init__(self, osi, fy, fu, es, esh, eps_sh, eps_ult, lsr_2, alpha=1.0):
+    def __init__(self, osi, fy, fu, e_mod, e_mod_sh, eps_sh, eps_ult, buck=None, cm_fatigue=None, mp_curve=None):
         """
         Initial method for ReinforcingSteelDMBuck
 
@@ -354,16 +361,16 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
             Yield stress in tension
         fu: float
             Ultimate stress in tension
-        es: float
+        e_mod: float
             Initial elastic tangent
-        esh: float
+        e_mod_sh: float
             Tangent at initial strain hardening
         eps_sh: float
             Strain corresponding to initial strain hardening
         eps_ult: float
             Strain at peak stress
-        lsr_2: None
-            
+        lsr: float
+            Slenderness ratio
         alpha: float, optional
             Coffin-manson constant a
 
@@ -371,21 +378,114 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.uniaxial_material.ReinforcingSteelDMBuck(osi, fy=1.0, fu=1.0, es=1.0, esh=1.0, eps_sh=1.0, eps_ult=1.0, lsr_2=1, alpha=1.0)
+        >>> o3.uniaxial_material.ReinforcingSteelDMBuck(osi, fy=1.0, fu=1.0, e_mod=1.0, e_mod_sh=1.0, eps_sh=1.0, eps_ult=1.0, lsr_2=1, alpha=1.0)
         """
         self.osi = osi
         self.fy = float(fy)
         self.fu = float(fu)
-        self.es = float(es)
-        self.esh = float(esh)
+        self.e_mod = float(e_mod)
+        self.e_mod_sh = float(e_mod_sh)
         self.eps_sh = float(eps_sh)
         self.eps_ult = float(eps_ult)
-        self.lsr_2 = lsr_2
-        self.alpha = float(alpha)
+        if buck is None:
+            self.buck_pms = []
+        else:
+            self.buck_pms = []  # TODO:
+        if cm_fatigue is None:
+            self.cm_fatigue = None
+            self.cm_params = []
+        else:
+            self.cm_fatigue = cm_fatigue
+            self.cm_params = ['-CMFatigue', cm_fatigue['cf'], cm_fatigue['alpha'], cm_fatigue['cd']]
+        if mp_curve is None:
+            self.mp_curve = None
+            self.mp_params = []
+        else:
+            self.mp_curve = mp_curve
+            r1 = self.mp_curve.setdefault('r1', 0.333)
+            r2 = self.mp_curve.setdefault('r2', 18)
+            r3 = self.mp_curve.setdefault('r3', 4)
+            self.mp_params = ['-MPCurveParams', r1, r2, r3]
+
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.es, self.esh, self.eps_sh, self.eps_ult, '-DMBuck', self.lsr_2, self.alpha]
+        self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.e_mod, self.e_mod_sh, self.eps_sh,
+                            self.eps_ult, *self.buck_pms, *self.cm_params, *self.mp_params]
+        if osi is None:
+            self.built = 0
+        if osi is not None:
+            self.to_process(osi)
+
+
+class ReinforcingSteelDMBuck(UniaxialMaterialBase):
+    """
+    The ReinforcingSteelDMBuck UniaxialMaterial Class
+    
+    This command is used to construct a ReinforcingSteel uniaxial material object. This object is intended to be used in
+    a reinforced concrete fiber section as the steel reinforcing material.
+    """
+    op_type = 'ReinforcingSteel'
+
+    def __init__(self, osi, fy, fu, e_mod, e_mod_sh, eps_sh, eps_ult, lsr, alpha=1.0, cm_fatigue=None, mp_curve=None):
+        """
+        Initial method for ReinforcingSteelDMBuck
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        fy: float
+            Yield stress in tension
+        fu: float
+            Ultimate stress in tension
+        e_mod: float
+            Initial elastic tangent
+        e_mod_sh: float
+            Tangent at initial strain hardening
+        eps_sh: float
+            Strain corresponding to initial strain hardening
+        eps_ult: float
+            Strain at peak stress
+        lsr: float
+            Slenderness ratio
+        alpha: float, optional
+            Coffin-manson constant a
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.uniaxial_material.ReinforcingSteelDMBuck(osi, fy=1.0, fu=1.0, e_mod=1.0, e_mod_sh=1.0, eps_sh=1.0, eps_ult=1.0, lsr_2=1, alpha=1.0)
+        """
+        self.osi = osi
+        self.fy = float(fy)
+        self.fu = float(fu)
+        self.e_mod = float(e_mod)
+        self.e_mod_sh = float(e_mod_sh)
+        self.eps_sh = float(eps_sh)
+        self.eps_ult = float(eps_ult)
+        self.lsr = float(lsr)
+        self.alpha = float(alpha)
+        if cm_fatigue is None:
+            self.cm_fatigue = None
+            self.cm_params = []
+        else:
+            self.cm_fatigue = cm_fatigue
+            self.cm_params = ['-CMFatigue', cm_fatigue['cf'], cm_fatigue['alpha'], cm_fatigue['cd']]
+        if mp_curve is None:
+            self.mp_curve = None
+            self.mp_params = []
+        else:
+            self.mp_curve = mp_curve
+            r1 = self.mp_curve.setdefault('r1', 0.333)
+            r2 = self.mp_curve.setdefault('r2', 18)
+            r3 = self.mp_curve.setdefault('r3', 4)
+            self.mp_params = ['-MPCurveParams', r1, r2, r3]
+
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
+        self._parameters = [self.op_type, self._tag, self.fy, self.fu, self.e_mod, self.e_mod_sh, self.eps_sh, self.eps_ult, '-DMBuck', self.lsr, self.alpha, *self.cm_params, *self.mp_params]
         if osi is None:
             self.built = 0
         if osi is not None:

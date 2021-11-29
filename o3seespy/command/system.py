@@ -95,6 +95,33 @@ class ProfileSPD(SystemBase):
         self.to_process(osi)
 
 
+class SProfileSPD(SystemBase):
+    """
+    The SProfileSPD System Class
+
+    Unknown
+    """
+    op_type = 'SProfileSPD'
+
+    def __init__(self, osi):
+        """
+        Initial method for SProfileSPD
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> o3.system.SProfileSPD(osi)
+        """
+        self.osi = osi
+        self._parameters = [self.op_type]
+        self.to_process(osi)
+
+
 class ParallelProfileSPD(SystemBase):
     """
     The ParallelProfileSPD System Class
@@ -273,6 +300,8 @@ class Mumps(SystemBase):
         self.to_process(osi)
 
 
+#TODO: Add Petsc
+
 class BandGeneral(SystemBase):
     op_type = "BandGeneral"
 
@@ -293,6 +322,24 @@ class ParallelBandGeneral(SystemBase):
 
 class SparseGeneral(SystemBase):
     op_type = "SparseGeneral"
+
+    def __init__(self, osi):
+        self.osi = osi
+        self._parameters = [self.op_type]
+        self.to_process(osi)
+
+
+class Diagonal(SystemBase):
+    op_type = "Diagonal"
+
+    def __init__(self, osi):
+        self.osi = osi
+        self._parameters = [self.op_type]
+        self.to_process(osi)
+
+
+class MPIDiagonal(SystemBase):
+    op_type = "MPIDiagonal"
 
     def __init__(self, osi):
         self.osi = osi

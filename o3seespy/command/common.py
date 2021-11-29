@@ -29,6 +29,27 @@ class Mass(OpenSeesObject):
             self._parameters.append(self.rot_mass)
         self.to_process(osi)
         
+
+class Mass2D(OpenSeesObject):
+    op_base_type = "mass"
+    op_type = None
+
+    def __init__(self, osi, node, x_mass, y_mass=None, rot_mass=None):
+        if osi.ndf > 2 and rot_mass is None:
+            rot_mass = 0.0
+        self.node = node
+        self.x_mass = x_mass
+        self.y_mass = y_mass
+        self.rot_mass = rot_mass
+        self._parameters = [self.node.tag, self.x_mass]
+        if self.y_mass is not None:
+            self._parameters.append(self.y_mass)
+        if self.rot_mass is not None:
+            if self.y_mass is None:
+                self._parameters.append(0.0)
+            self._parameters.append(self.rot_mass)
+        self.to_process(osi)
+        
         
 class Mass3D(OpenSeesObject):
     op_base_type = "mass"
@@ -116,10 +137,26 @@ class EqualDOFMulti(OpenSeesMultiCallObject):
 
 
 class ModalDamping(OpenSeesObject):
+    """
+    ModalDamping class
+
+    Notes:
+        * Need to run eigen() first, do not use 'fullGenLapack' option in eigen analysis
+        * Cannot be used with Newmark_Explicit, but works with other explicit and implicit methods
+        * Creates a full damping matrix, therefore either use solver.FullGen (very slow), or sparse solvers
+         like UmfPack (when doing this using algorithm.KrylovNewton or algorithm.BFGS, not algorithm.NewtonRaphson,
+         see https://portwooddigital.com/2019/09/12/be-careful-with-modal-damping/ for more details)
+    """
     op_base_type = "modalDamping"
     op_type = None
 
     def __init__(self, osi, xis):
+        """
+
+        :param osi:
+        :param xis: array_like
+            List of damping values at each mode, or just provide first value in list.
+        """
 
         self.xis = xis
         self._parameters = self.xis
@@ -769,6 +806,12 @@ def remove(osi, o3_obj):
     op_type = 'remove'
     parameters = [o3_obj.op_base_type, o3_obj.tag]
     return osi.to_process(op_type, parameters)
+
+
+def remove_recorders(osi):
+    """Remove all recorders"""
+    op_type = 'remove'
+    return osi.to_process(op_type, ['recorders'])
 
 
 def set_parameter(osi, value, eles=None, ele_range=None, args=None):

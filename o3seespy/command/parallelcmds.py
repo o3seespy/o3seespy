@@ -49,7 +49,7 @@ def send(osi, pid, data):
             Can be a string
     """
     pid = int(pid)
-    _parameters = [pid, *data]
+    _parameters = ['-pid', pid, *data]
     return osi.to_process("send", _parameters)
 
 
@@ -63,7 +63,7 @@ def recv(osi, pid):
     pid: str
             If ``pid`` is ``'any'``, the processor can receive data from any processor.
     """
-    _parameters = [pid]
+    _parameters = ['-pid', pid]
     return osi.to_process("recv", _parameters)
 
 

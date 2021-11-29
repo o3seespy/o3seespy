@@ -90,7 +90,7 @@ def gen_shallow_foundation_bnwf(osi, bottom_node, top_node, sf_mats, pos, fd_are
             k_add_shear = 1e12
             p_mat = Elastic(osi, 1e12)
             ele = FlatSliderBearing2D(osi, [top_nodes[i], frn_nodes[i]], sf_frn, k_add_shear, p_mat=p_mat,
-                                                 mz_mat=p_mat)
+                                                 mz_mat=p_mat)  # Pretty sure the p_mat can be None?
         if sf_mats[i] is not None:
             sf_eles.append(ZeroLength(osi, [con_nodes[i], bot_nodes[i]], [sf_mats[i]], [cc.DOF2D_Y], r_flag, orient))
         if sf_horz_mats[i] is not None:
