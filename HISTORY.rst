@@ -4,8 +4,14 @@ History
 
 Pre-release
 -----------
+
+3.2.0.4 (2021-11-29)
+--------------------
 * Can now define algorithms and test checks without applying them, and can apply/reapply them to the OpenSeesInstance using the method `.reapply()`
-* Adding support for database support
+* Adding support for database commands
+* Minor changes to way inputs are handled for Hysteretic material
+* More support for Explicit solvers
+* Fixed issue with send command
 
 3.2.0.3 (2021-07-15)
 --------------------
