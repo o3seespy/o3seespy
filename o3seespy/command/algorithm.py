@@ -110,7 +110,7 @@ class NewtonLineSearch(AlgorithmBase):
     def __init__(self, osi, search_type=True, tol=None, max_iter=None, min_eta=None, max_eta=None):
         self.osi = osi
 
-        self._parameters = [search_type]
+        self._parameters = [self.op_type, search_type]
         if tol is not None:
             self._parameters += ['-tol', tol]
         if max_iter is not None:
@@ -127,5 +127,5 @@ class Broyden(AlgorithmBase):
 
     def __init__(self, osi, secant=False, initial=False, count=10):
         self.osi = osi
-        self._parameters = [secant, initial, count]
+        self._parameters = [self.op_type, secant, initial, count]
         self.to_process(osi)
