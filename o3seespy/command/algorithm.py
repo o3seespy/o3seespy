@@ -107,10 +107,24 @@ class ModifiedNewton(AlgorithmBase):
 class NewtonLineSearch(AlgorithmBase):
     op_type = 'NewtonLineSearch'
 
-    def __init__(self, osi, search_type=True, tol=None, max_iter=None, min_eta=None, max_eta=None):
+    def __init__(self, osi, search_type=None, tol=None, max_iter=None, min_eta=None, max_eta=None):
+        """
+        
+        :param osi: 
+        :param search_type: str 
+        :param tol: default 0.8
+        :param max_iter: default=10
+        :param min_eta: deault=0.1
+        :param max_eta: default=10
+        """
         self.osi = osi
-
-        self._parameters = [self.op_type, search_type]
+        if search_type is None:
+            self.search_type = None
+            self._parameters = [self.op_type, search_type]
+        else:
+            self.search_type = search_type
+            self._parameters = [self.op_type, search_type]
+        
         if tol is not None:
             self._parameters += ['-tol', tol]
         if max_iter is not None:
@@ -124,6 +138,14 @@ class NewtonLineSearch(AlgorithmBase):
 
 class Broyden(AlgorithmBase):
     op_type = 'Broyden'
+
+    def __init__(self, osi, secant=False, initial=False, count=10):
+        self.osi = osi
+        self._parameters = [self.op_type, secant, initial, count]
+        self.to_process(osi)
+
+class BFGS(AlgorithmBase):
+    op_type = 'BFGS'
 
     def __init__(self, osi, secant=False, initial=False, count=10):
         self.osi = osi
