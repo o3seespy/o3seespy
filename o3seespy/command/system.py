@@ -285,8 +285,10 @@ class Mumps(SystemBase):
         ----------
         osi: o3seespy.OpenSeesInstance
         icntl14: None, optional
+            Sets ICNTL(14): percentage increase in the estimated working space
             
         icntl7: None, optional
+            Sets ICNTL(7): For sequential analysis - computes a symmetric permutation (0-7). 3=Scotch, 4=PORD, 5=Metis
             
         """
         self.osi = osi
@@ -355,6 +357,6 @@ def apply_mumps_or_sparse_general(osi, **kwargs):
 
 def apply_mumps_or(osi, alt_system, **kwargs):
     if osi.mp:
-        Mumps(osi, **kwargs)
+        return Mumps(osi, **kwargs)
     else:
-        alt_system(osi)
+        return alt_system(osi)

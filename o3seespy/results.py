@@ -2,6 +2,23 @@ import os
 import o3seespy as o3
 
 
+def calc_quad_centroids(xs, ys, axis=-1):  # use axis=-2 for time domain data, since -1 is time
+    import numpy as np
+    x0 = np.array(xs)
+    y0 = np.array(ys)
+    x1 = np.roll(xs, 1, axis=axis)
+    y1 = np.roll(ys, 1, axis=axis)
+    a = x0 * y1 - x1 * y0
+    xc = np.sum((x0 + x1) * a, axis=axis)
+    yc = np.sum((y0 + y1) * a, axis=axis)
+
+    area = 0.5 * np.sum(a, axis=axis)
+    xc /= (6.0 * area)
+    yc /= (6.0 * area)
+
+    return xc, yc
+
+
 class Results2D(object):
     coords = None
     time = None
@@ -162,3 +179,58 @@ class Results2D(object):
             assert max(idx) < len(k)
             mask = k[idx] == curr_tags
             self.ele2node_tags[ele_tag] = where(mask, v[idx], len(k))
+
+
+    def get_eles_by_n_nodes(self, n_nodes):
+        eles_by_n_nodes = {2: [], 4: [], 8: []}
+        for ele in self.ele2node_tags:
+            nn = len(self.ele2node_tags[ele])
+            eles_by_n_nodes[nn].append(ele)
+        return eles_by_n_nodes[n_nodes]
+
+    def compute_ele_strains_and_disps(self):  # currently only available for quad elements
+        #self.rezero_node_tags(self.)
+        import numpy as np
+        rd = {}
+        eles = self.get_eles_by_n_nodes(4)
+        nodes = np.array([self.ele2node_tags[ele] for ele in eles]) - 1
+        xd = self.x_disp[:, nodes].transpose(1, 2, 0)
+        yd = self.y_disp[:, nodes].transpose(1, 2, 0)
+        xc = self.coords[nodes, 0]
+        yc = self.coords[nodes, 1]
+        x_disp_ele, y_disp_ele = calc_quad_centroids(xc[:, :, np.newaxis] + xd, yc[:, :, np.newaxis] + yd, axis=-2)
+
+        rd['XDISP'] = x_disp_ele - x_disp_ele[:, 0][:, np.newaxis]
+        rd['YDISP'] = y_disp_ele - y_disp_ele[:, 0][:, np.newaxis]
+
+        # return
+        # nodes must be anti-clockwise
+        xc0 = xc[0]
+        yc0 = yc[0]
+        i = 0
+        for i in range(4):
+            if xc0[i%4] < xc0[(i+1)%4] and xc0[(i+2)%4] > xc0[(i+3)%4] and yc0[(i+1)%4] < yc0[(i+2)%4]:  # i=bottom-left
+                break
+            if i == 3:
+                print('WARNING could not find bottom left')
+        inds = np.roll(np.arange(4), i)
+        xc = xc[:, inds]
+        yc = yc[:, inds]
+        xd = xd[:, inds]
+        yd = yd[:, inds]
+
+        xlen = (xc[:, 1] - xc[:, 0] + xc[:, 2] - xc[:, 3]) / 2
+        xdelta = (xd[:, 1] - xd[:, 0] + xd[:, 2] - xd[:, 3]) / 2
+        rd['EPS_XX'] = xdelta / xlen[:, np.newaxis]
+        ylen = (yc[:, 2] - yc[:, 1] + yc[:, 3] - yc[:, 0]) / 2
+        ydelta = (yd[:, 2] - yd[:, 1] + yd[:, 3] - yd[:, 0]) / 2
+        rd['EPS_YY'] = ydelta / ylen[:, np.newaxis]
+
+        xd_bot = (xd[:, 1] + xd[:, 0]) / 2
+        xd_top = (xd[:, 2] + xd[:, 3]) / 2
+        yd_lhs = (yd[:, 3] + yd[:, 0]) / 2
+        yd_rhs = (yd[:, 2] + yd[:, 1]) / 2
+        rd['EPS_XY'] = ((xd_bot - xd_top) / ylen[:, np.newaxis] + (yd_rhs - yd_lhs) / xlen[:, np.newaxis]) / 2  # +ve in anti-clockwise
+        rd['SSTR_MAX'] = np.sqrt(((rd['EPS_XX'] - rd['EPS_YY']) / 2) ** 2 + rd['EPS_XY'] ** 2)
+        rd['EPS_VOL'] = rd['EPS_XX'] + rd['EPS_YY']
+        return rd

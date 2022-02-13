@@ -298,6 +298,33 @@ class DruckerPrager(NDMaterialBase):
     def set_update_material_stage(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
 
+    def update_eles_to_nonlinear(self, eles):
+        from numpy import diff
+        ele_tags = [ele.tag for ele in eles]
+        ele_tags.sort()
+        dd = max(diff(ele_tags))
+        if dd == 1:
+            etr = [ele_tags[0], ele_tags[-1]]
+            # Note: materialState 1 has different G and K modulus
+            self.set_parameter(self.osi, 'materialState', 2, ele=None, eles=None, ele_tag_range=etr, pval=None)
+            return
+        # from o3seespy import update_material_stage
+        # update_material_stage(self.osi, self, 1)
+        # self.set_parameter(self.osi, 'materialState', value, pval=None)
+        # self.set_material_state(1)
+        self.set_parameter(self.osi, 'materialState', 2, ele=None, eles=eles, pval=None)
+
+    def update_eles_to_linear(self, eles):
+        from numpy import diff
+        ele_tags = [ele.tag for ele in eles]
+        ele_tags.sort()
+        dd = max(diff(ele_tags))
+        if dd == 1:
+            etr = [ele_tags[0], ele_tags[-1]]
+            self.set_parameter(self.osi, 'materialState', 0, ele=None, eles=None, ele_tag_range=etr, pval=None)
+            return
+        self.set_parameter(self.osi, 'materialState', 0, ele=None, eles=eles, pval=None)
+
     @property
     def nu(self):
         return (3 * self.k_mod - 2 * self.g_mod) / (2 * (3 * self.k_mod + self.g_mod))

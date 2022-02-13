@@ -819,7 +819,7 @@ def remove_recorders(osi):
     return osi.to_process(op_type, ['recorders'])
 
 
-def set_parameter(osi, value, eles=None, ele_range=None, args=None):
+def set_parameter(osi, value, eles=None, ele_range=None, args=None, ele_tag_range=None):
     """Set a parameter on an element"""
     op_type = 'setParameter'
     parameters = ['-val', value]
@@ -829,8 +829,10 @@ def set_parameter(osi, value, eles=None, ele_range=None, args=None):
     elif ele_range is not None:
         ele_tags = [x.tag for x in ele_range]
         parameters += ['-eleRange', *ele_tags]
-    else:
-        raise ValueError("'eles or ele_range must not be None in set_parameter")
+    elif ele_tag_range is not None:
+        parameters += ['-eleRange', *ele_tag_range]
+    # else:
+    #     raise ValueError("'eles or ele_range must not be None in set_parameter")
     if args:
         parameters += [str(x) for x in args]
     else:
