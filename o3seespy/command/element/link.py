@@ -22,7 +22,7 @@ class TwoNodeLink(ElementBase):
     """
     op_type = 'twoNodeLink'
 
-    def __init__(self, osi, ele_nodes, mats: list=None, dir=None, p_delta_vals: list=None, shear_dist=None, do_rayleigh=False, orient: list=None, mass: float=None):
+    def __init__(self, osi, ele_nodes, mats: list=None, dir=None, dirs=None, p_delta_vals: list=None, shear_dist=None, do_rayleigh=False, orient: list=None, mass: float=None):
         """
         Initial method for TwoNodeLink
 
@@ -67,7 +67,9 @@ class TwoNodeLink(ElementBase):
             self.mats = None
         else:
             self.mats = [x.tag for x in mats]
-        self.dir = dir
+        self.dirs = dir
+        if dirs is not None:
+            self.dirs = dirs
         self.p_delta_vals = p_delta_vals
         self.shear_dist = shear_dist
         self.do_rayleigh = do_rayleigh
@@ -81,8 +83,8 @@ class TwoNodeLink(ElementBase):
         self._parameters = [self.op_type, self._tag, *self.ele_node_tags]
         if getattr(self, 'mats') is not None:
             self._parameters += ['-mat', *self.mats]
-        if getattr(self, 'dir') is not None:
-            self._parameters += ['-dir', *self.dir]
+        if getattr(self, 'dirs') is not None:
+            self._parameters += ['-dir', *self.dirs]
         if getattr(self, 'p_delta_vals') is not None:
             self._parameters += ['-pDelta', *self.p_delta_vals]
         if getattr(self, 'shear_dist') is not None:

@@ -49,8 +49,11 @@ def test_add_fixity_to_dof():
 
     n1 = o3.node.Node(osi, 1., 1., 1.)
     o3.Fix3DOF(osi, n1, o3.cc.FIXED, o3.cc.FREE, o3.cc.FIXED)
-    o3.Fix3DOF(osi, n1, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
-    # o3.Fix3DOF(osi, n1, o3.cc.FREE, o3.cc.FREE, o3.cc.FIXED)  # fails with this
+    # o3.Fix3DOF(osi, n1, o3.cc.FREE, o3.cc.FREE, o3.cc.FREE)
+    # o3.Fix3DOF(osi, n1, o3.cc.FIXED, o3.cc.FREE, o3.cc.FIXED)  # fails with this
     o3.add_fixity_to_dof(osi, o3.cc.DOF2D_ROTZ, [n1])
 
+
+if __name__ == '__main__':
+    test_add_fixity_to_dof()
 

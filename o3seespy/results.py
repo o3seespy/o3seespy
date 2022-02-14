@@ -189,7 +189,6 @@ class Results2D(object):
         return eles_by_n_nodes[n_nodes]
 
     def compute_ele_strains_and_disps(self):  # currently only available for quad elements
-        #self.rezero_node_tags(self.)
         import numpy as np
         rd = {}
         eles = self.get_eles_by_n_nodes(4)

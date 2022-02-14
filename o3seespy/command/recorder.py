@@ -285,7 +285,7 @@ class NodesToArrayCache(RecorderToArrayCacheBase):  # TODO: implement NodeToArra
 class TimeToArrayCache(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, nsd=8, dt=None, fname=None):
+    def __init__(self, osi, nsd=8, dt=None, fname=None, dummy_node_tag=1):
         """
         Records the recorder time and saves to a numpy array
 
@@ -302,7 +302,7 @@ class TimeToArrayCache(RecorderBase):
             self.fname = tempfile.NamedTemporaryFile(delete=False).name
         else:
             self.fname = fname
-        self._parameters = [self.op_type, '-file', self.fname, '-precision', nsd, '-time', '-node', 1]
+        self._parameters = [self.op_type, '-file', self.fname, '-precision', nsd, '-time', '-node', dummy_node_tag]
         if dt is not None:
             self._parameters.insert(5, '-dT')
             self._parameters.insert(6, dt)

@@ -640,6 +640,21 @@ class SP(OpenSeesObject):
         self.to_process(osi)
 
 
+class ImposedMotion(OpenSeesObject):
+    op_base_type = "ImposedMotion"
+    op_type = None
+
+    def __init__(self, osi, node, ory, g_motion_tag):
+        """
+
+        """
+        self.node = node
+        self.ory = ory
+        self.g_motion_tag = g_motion_tag
+        self._parameters = [self.node.tag, self.ory, self.g_motion_tag]
+        self.to_process(osi)
+
+
 def analyze(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None):
     """
     Performs an analysis step.
@@ -648,12 +663,19 @@ def analyze(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None):
 
     Parameters
     ----------
-    osi
-    num_inc
-    dt
-    dt_min
-    dt_max
-    jd
+    osi: o3.OpenSeesInstance
+    num_inc: int
+        Number of analysis increments
+    dt: float
+        Time step
+    dt_min: float
+        (Only used in VariableTransient analsyis) Minimum allowable time step
+    dt_max: float
+        (Only used in VariableTransient analsyis) Maximum allowable time step
+    jd: int
+        (Only used in VariableTransient analsyis) Target number of integration steps.
+        In variable transient analysis, time step is scaled by n_iters / jd, and analysis
+        continues until total time increment >= num_inc * dt.
 
     Returns
     -------
