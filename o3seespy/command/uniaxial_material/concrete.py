@@ -145,7 +145,7 @@ class Concrete04(UniaxialMaterialBase):
             Floating point value defining ultimate tensile strain of concrete 
         beta: float
             Floating point value defining the exponential curve parameter to define the residual stress (as a factor of
-            ft) at etu
+            ft) at etu 
 
         Examples
         --------
@@ -852,8 +852,10 @@ class ConcreteCM(UniaxialMaterialBase):
         xcrp: float
             Non-dimensional critical strain on tension envelope (:math:`\epsilon^{+}_{cr}`, where the envelope curve
             starts following a straight line - large value [e.g., 10000] recommended when tension stiffening is considered)
+        mon: int
+            optional, monotonic stress-strain relationship only:  mon=1 (invoked in FSAM only), mon=0 (no impact since monotonic)
         gap_close: float, optional
-            Gapclose = 0, less gradual gap closure (default); gapclose = 1, more gradual gap closure
+            Optional, gapclose = 0, less gradual gap closure (default); gapclose = 1, more gradual gap closure
 
         Examples
         --------
@@ -871,6 +873,7 @@ class ConcreteCM(UniaxialMaterialBase):
         self.et = float(et)
         self.rt = float(rt)
         self.xcrp = float(xcrp)
+
         if gap_close is None:
             self.gap_close = None
         else:

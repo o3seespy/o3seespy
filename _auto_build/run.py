@@ -1676,7 +1676,7 @@ def parse_generic_single_file(obj_type, osi_type, extras=None, multi_def=False, 
             ofile.write('\n'.join(tpara))
 
 
-def test_clean_fn_line():
+def a_test_clean_fn_line():
     ln = ".. function:: element('singleFPBearing', eleTag,*eleNodes,frnMdlTag, Reff, kInit,'-P', PMatTag,'-T', TMatTag,'-My', MyMatTag,'-Mz', MzMatTag,['-orient',[x1, x2, x3], y1, y2, y3],['-shearDist', sDratio],['-doRayleigh'],['-mass', m],['-iter', maxIter, tol])"
     base_type, optype, defaults, op_kwargs = clean_fn_line(ln)
     print(base_type, optype)
@@ -1691,7 +1691,7 @@ if __name__ == '__main__':
     import user_paths as up
     #parse_all_ndmat()
 
-    all = 1
+    all = 0
     # all = 1  # TODO: KikuchiBearing
     # TODO: dettach docstrings - if exists then don't use rst version
     # TODO: add type hinting for default None (w: str = None)
@@ -1705,7 +1705,7 @@ if __name__ == '__main__':
         # parse_generic_single_file(obj_type='geomTransf', osi_type='transformation')
         # parse_generic_single_file(obj_type='beamIntegration', osi_type='integ')
         # print(ts)
-        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PM4Silt.rst', osi_type='mat')
+        pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'Joint2D.rst', osi_type='ele')
         print(pstr)
         # parse_all_ndmat()
         # parse_generic_single_file(obj_type='senscmds', osi_type='senscmds')
@@ -1723,7 +1723,7 @@ if __name__ == '__main__':
         # parse_all_elements()
         # pstr, tstr, istr = parse_single_file(up.OPY_DOCS_PATH + 'PathTs.rst', 'tseries')
         # print(pstr)
-        # test_clean_fn_line()
+        # a_test_clean_fn_line()
         # parse_generic_single_file(obj_type='section', osi_type='sect')
         # parse_generic_single_file(obj_type='patch', osi_type=None, extras=['patch'], multi_def=True)
         # ffp = up.OPY_DOCS_PATH + '%s.rst' % 'patch'

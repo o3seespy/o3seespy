@@ -147,17 +147,17 @@ class ElasticTubularJoint(ElementBase):
 class Joint2D(ElementBase):
     """
     The Joint2D Element Class
-    
+
     This command is used to construct a two-dimensional beam-column-joint element object. The two dimensional
     beam-column joint is idealized as a parallelogram shaped shear panel with adjacent elements connected to its
     mid-points. The midpoints of the parallelogram are referred to as external nodes. These nodes are the only
     analysis components that connect the joint element to the surrounding structure.
 
-    
+
     """
     op_type = 'Joint2D'
 
-    def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat_c, lrg_dsp, dmg, dmg1dmg2dmg3dmg4dmg_c=None):
+    def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat_c, lrg_dsp, dmg, dmg_vals=None):
         """
         Initial method for Joint2D
 
@@ -170,16 +170,16 @@ class Joint2D(ElementBase):
             any other node)
         mat1: int
             Uniaxial material object for interface rotational spring at node 1. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. 
+            that a beam-column element is rigidly framed to the joint.
         mat2: int
             Uniaxial material object for interface rotational spring at node 2. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. 
+            that a beam-column element is rigidly framed to the joint.
         mat3: int
             Uniaxial material object for interface rotational spring at node 3. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. 
+            that a beam-column element is rigidly framed to the joint.
         mat4: int
             Uniaxial material object for interface rotational spring at node 4. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. 
+            that a beam-column element is rigidly framed to the joint.
         mat_c: int
             Uniaxial material object for rotational spring of the central node that describes shear panel behavior
         lrg_dsp: obj
@@ -189,7 +189,7 @@ class Joint2D(ElementBase):
         dmg: obj
             Damage model object
         dmg1dmg2dmg3dmg4dmg_c: None, optional
-            
+
 
         Examples
         --------
@@ -210,10 +210,12 @@ class Joint2D(ElementBase):
         self.mat_c = int(mat_c)
         self.lrg_dsp = lrg_dsp
         self.dmg = dmg
-        self.dmg1dmg2dmg3dmg4dmg_c = dmg1dmg2dmg3dmg4dmg_c
+        self.dmg_vals = dmg_vals
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat1, self.mat2, self.mat3, self.mat4, self.mat_c, self.lrg_dsp.tag, self.dmg.tag]
-        if getattr(self, 'dmg1dmg2dmg3dmg4dmg_c') is not None:
-            self._parameters += ['-damage', self.dmg1dmg2dmg3dmg4dmg_c]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat1, self.mat2, self.mat3, self.mat4, self.mat_c, self.lrg_dsp.tag]
+        if self.dmg is not None:
+            self._parameters += ['-damage', self.dmg.tag]
+        if getattr(self, 'dmg_vals') is not None:
+            self._parameters += ['-damage', self.dmg_vals]
         self.to_process(osi)
