@@ -1583,3 +1583,99 @@ class PM4Silt(NDMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
+
+class Hysteretic(UniaxialMaterialBase):
+    """
+    The Hysteretic UniaxialMaterial Class
+
+    This command is used to construct a uniaxial bilinear hysteretic material object with pinching of force and
+    deformation, damage due to ductility and energy, and degraded unloading stiffness based on ductility.
+    """
+    op_type = 'Hysteretic'
+
+    def __init__(self, osi, p1, p2, p3=None, n1=None, n2=None, n3=None, pinch_x=1.0, pinch_y=1.0, damage1=0.0,
+                 damage2=0.0, beta=0.0):
+        """
+        Initial method for Hysteretic
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        p1: list
+            ``p1=[s1p, e1p]``, stress and strain (or force & deformation) at first point of the envelope in the positive
+            direction
+        p2: list
+            ``p2=[s2p, e2p]``, stress and strain (or force & deformation) at second point of the envelope in the
+            positive direction
+        p3: list (default=True), optional
+            ``p3=[s3p, e3p]``, stress and strain (or force & deformation) at third point of the envelope in the positive
+            direction
+        n1: list
+            ``n1=[s1n, e1n]``, stress and strain (or force & deformation) at first point of the envelope in the negative
+            direction
+        n2: list
+            ``n2=[s2n, e2n]``, stress and strain (or force & deformation) at second point of the envelope in the
+            negative direction
+        n3: list (default=True), optional
+            ``n3=[s3n, e3n]``, stress and strain (or force & deformation) at third point of the envelope in the negative
+            direction
+        pinch_x: float
+            Pinching factor for strain (or deformation) during reloading
+        pinch_y: float
+            Pinching factor for stress (or force) during reloading
+        damage1: float
+            Damage due to ductility: d1(mu-1)
+        damage2: float
+            Damage due to energy: d2(eii/eult)
+        beta: float, optional
+            Power used to determine the degraded unloading stiffness based on ductility, mu-beta (optional, default=0.0)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> p1 = [0.5, 0.5]
+        >>> p2 = [1.0, 1.0]
+        >>> p3 = [0, 1.5]
+        >>> n1 = [-0.5, -0.5]
+        >>> n2 = [-1.0, -1.0]
+        >>> n3 = [0, -1.5]
+        >>> o3.uniaxial_material.Hysteretic(osi, p1=p1, p2=p2, p3=p3, n1=n1, n2=n2, n3=n3, pinch_x=1, pinch_y=0, damage1=0, damage2=0)
+        """
+        self.osi = osi
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+        if n1 is None:
+            self.n1 = [-p1[0], -p1[1]]
+        else:
+            self.n1 = n1
+        if n2 is None:
+            self.n2 = [-p2[0], -p2[1]]
+        else:
+            self.n2 = n2
+        if n3 is None:
+            if p3 is None:
+                self.n3 = None
+            else:
+                self.n3 = [-p3[0], -p3[1]]
+        else:
+            self.n3 = n3
+        self.pinch_x = float(pinch_x)
+        self.pinch_y = float(pinch_y)
+        self.damage1 = float(damage1)
+        self.damage2 = float(damage2)
+        self.beta = float(beta)
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
+        if self.p3 is None:
+            self._parameters = [self.op_type, self._tag, *self.p1, *self.p2, *self.n1, *self.n2]
+        else:
+            self._parameters = [self.op_type, self._tag, *self.p1, *self.p2, *self.p3, *self.n1, *self.n2, *self.n3]
+        self._parameters += [self.pinch_x, self.pinch_y, self.damage1, self.damage2, self.beta]
+        if osi is None:
+            self.built = 0
+        if osi is not None:
+            self.to_process(osi)

@@ -455,7 +455,7 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.uniaxial_material.ReinforcingSteelDMBuck(osi, fy=1.0, fu=1.0, e_mod=1.0, e_mod_sh=1.0, eps_sh=1.0, eps_ult=1.0, lsr_2=1, alpha=1.0)
+        >>> o3.uniaxial_material.ReinforcingSteelDMBuck(osi, fy=1.0, fu=1.0, e_mod=1.0, e_mod_sh=1.0, eps_sh=1.0, eps_ult=1.0, lsr=1, alpha=1.0)
         """
         self.osi = osi
         self.fy = float(fy)

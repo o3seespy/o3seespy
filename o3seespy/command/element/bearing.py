@@ -2307,7 +2307,7 @@ class FPBearingPTV(ElementBase):
     """
     op_type = 'FPBearingPTV'
 
-    def __init__(self, osi, ele_nodes, mu_ref, is_pressure_dependent, p_ref, is_temperature_dependent, diffusivity, conductivity, is_velocity_dependent, rate_parameter, reffective_fp, radius__contact, k_initial, the_material_a, the_material_b, the_material_c, the_material_d, x1, x2, x3, y1, y2, y3, shear_dist, do_rayleigh, mass, max_iter, tol, unit):
+    def __init__(self, osi, ele_nodes, mu_ref, is_pressure_dependent, p_ref, is_temperature_dependent, diffusivity, conductivity, is_velocity_dependent, rate_parameter, reffective_fp, radius_contact, k_initial, the_material_a, the_material_b, the_material_c, the_material_d, x1, x2, x3, y1, y2, y3, shear_dist, do_rayleigh, mass, max_iter, tol, unit):
         """
         Initial method for FPBearingPTV
 
@@ -2334,7 +2334,7 @@ class FPBearingPTV(ElementBase):
             The exponent that determines the shape of the coefficient of friction vs. sliding velocity curve
         reffective_fp: float
             Effective radius of curvature of the sliding surface of the fpbearing
-        radius__contact: float
+        radius_contact: float
             Radius of contact area at the sliding surface
         k_initial: float
             Lateral  stiffness of the sliding bearing before sliding begins
@@ -2393,7 +2393,7 @@ class FPBearingPTV(ElementBase):
         self.is_velocity_dependent = int(is_velocity_dependent)
         self.rate_parameter = float(rate_parameter)
         self.reffective_fp = float(reffective_fp)
-        self.radius__contact = float(radius__contact)
+        self.radius_contact = float(radius_contact)
         self.k_initial = float(k_initial)
         self.the_material_a = int(the_material_a)
         self.the_material_b = int(the_material_b)
@@ -2413,5 +2413,5 @@ class FPBearingPTV(ElementBase):
         self.unit = int(unit)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mu_ref, self.is_pressure_dependent, self.p_ref, self.is_temperature_dependent, self.diffusivity, self.conductivity, self.is_velocity_dependent, self.rate_parameter, self.reffective_fp, self.radius__contact, self.k_initial, self.the_material_a, self.the_material_b, self.the_material_c, self.the_material_d, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.shear_dist, self.do_rayleigh, self.mass, self.max_iter, self.tol, self.unit]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mu_ref, self.is_pressure_dependent, self.p_ref, self.is_temperature_dependent, self.diffusivity, self.conductivity, self.is_velocity_dependent, self.rate_parameter, self.reffective_fp, self.radius_contact, self.k_initial, self.the_material_a, self.the_material_b, self.the_material_c, self.the_material_d, self.x1, self.x2, self.x3, self.y1, self.y2, self.y3, self.shear_dist, self.do_rayleigh, self.mass, self.max_iter, self.tol, self.unit]
         self.to_process(osi)

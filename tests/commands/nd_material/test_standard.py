@@ -79,7 +79,7 @@ def test_manzari_dafalias():
 @pytest.mark.skip()
 def test_sanisandms():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.nd_material.SAniSandMS(osi, g0=1110.0, nu=0.05, e_init=0.72, m_c=1.27, c_c=0.712, lambda_c=0.049, e_0=0.845,
+    o3.nd_material.SAniSandMS(osi, g0=111.0, nu=0.05, e_init=0.72, m_c=1.27, c_c=0.712, lambda_c=0.049, e_0=0.845,
      ksi=0.27, p_atm=101.3, m_yield=0.01, h_0=5.95, c_h=1.01, n_b=2.0, a_0=1.06, n_d=1.17, zeta=0.0005, mu0=260.0,
                               beta=1, den=1.6)
 

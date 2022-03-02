@@ -99,7 +99,7 @@ class ElasticTubularJoint(ElementBase):
     """
     op_type = 'ElasticTubularJoint'
 
-    def __init__(self, osi, ele_nodes, brace__diameter, brace__angle, big_e, chord__diameter, chord__thickness, chord__angle):
+    def __init__(self, osi, ele_nodes, brace_diameter, brace_angle, big_e, chord_diameter, chord_thickness, chord_angle):
         """
         Initial method for ElasticTubularJoint
 
@@ -108,17 +108,17 @@ class ElasticTubularJoint(ElementBase):
         osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
-        brace__diameter: float
+        brace_diameter: float
             Outer diameter of brace
-        brace__angle: float
+        brace_angle: float
             Angle between brace and chord axis 0 < brace_angle < 90
         big_e: float
             Young's modulus
-        chord__diameter: float
+        chord_diameter: float
             Outer diameter of chord
-        chord__thickness: float
+        chord_thickness: float
             Thickness of chord
-        chord__angle: float
+        chord_angle: float
             Angle between chord axis and global x-axis 0 < chord_angle < 180
 
         Examples
@@ -132,15 +132,15 @@ class ElasticTubularJoint(ElementBase):
         self.osi = osi
         self.ele_node_tags = [x.tag for x in ele_nodes]
         self.ele_nodes = ele_nodes
-        self.brace__diameter = float(brace__diameter)
-        self.brace__angle = float(brace__angle)
+        self.brace_diameter = float(brace_diameter)
+        self.brace_angle = float(brace_angle)
         self.big_e = float(big_e)
-        self.chord__diameter = float(chord__diameter)
-        self.chord__thickness = float(chord__thickness)
-        self.chord__angle = float(chord__angle)
+        self.chord_diameter = float(chord_diameter)
+        self.chord_thickness = float(chord_thickness)
+        self.chord_angle = float(chord_angle)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.brace__diameter, self.brace__angle, self.big_e, self.chord__diameter, self.chord__thickness, self.chord__angle]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.brace_diameter, self.brace_angle, self.big_e, self.chord_diameter, self.chord_thickness, self.chord_angle]
         self.to_process(osi)
 
 

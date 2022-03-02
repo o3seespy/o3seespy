@@ -252,7 +252,7 @@ class DruckerPrager(NDMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.nd_material.DruckerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, atm_pressure=101e3)
+        >>> o3.nd_material.DruckerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, p_atm=101e3)
         """
         self.osi = osi
         self.k_mod = float(k_mod)
@@ -899,7 +899,7 @@ class ManzariDafalias(NDMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.nd_material.ManzariDafalias(osi, g0=1110.0, nu=0.05, e_init=0.72, m_c=1.27, c_c=0.712, lambda_c=0.049, e_0=0.845,
+        >>> o3.nd_material.ManzariDafalias(osi, g0=111.0, nu=0.05, e_init=0.72, m_c=1.27, c_c=0.712, lambda_c=0.049, e_0=0.845,
         >>> ksi=0.27, p_atm=101.3, m_yield=0.01, h_0=5.95, c_h=1.01, n_b=2.0, a_0=1.06, n_d=1.17, z_max=4.0, c_z=600.0, den=1.6)
         """
         self.osi = osi
@@ -977,13 +977,15 @@ class ManzariDafalias(NDMaterialBase):
 class PM4Silt(NDMaterialBase):
     """
     The PM4Silt NDMaterial Class
-    
+
     Code Developed by: **Long Chen** and `pedro <https://www.ce.washington.edu/facultyfinder/pedro-arduino>`_ at
     U.Washington.This command is used to construct a 2-dimensional PM4Silt material.
     """
     op_type = 'PM4Silt'
 
-    def __init__(self, osi, g_o, h_po, den, s_u=None, su_rat=None, su_factor=None, p_atm=None, nu=0.3, n_g=0.75, h0=None, e_init=0.9, lamb=0.06, phicv=32.0, nb_wet=0.8, nb_dry=0.5, nd=0.3, ado=0.8, ru_max=None, zmax=None, cz=100.0, ce=None, cgd=None, ckaf=4.0, m_m=0.01, cg_consol=2.0):
+    def __init__(self, osi, g_o, h_po, den, s_u=None, su_rat=None, su_factor=None, p_atm=None, nu=0.3, n_g=0.75,
+                 h0=None, e_init=0.9, lamb=0.06, phicv=32.0, nb_wet=0.8, nb_dry=0.5, nd=0.3, ado=0.8, ru_max=None,
+                 zmax=None, cz=100.0, ce=None, cgd=None, ckaf=4.0, m_m=0.01, cg_consol=2.0):
         r"""
         Initial method for PM4Silt
 
@@ -1029,13 +1031,13 @@ class PM4Silt(NDMaterialBase):
         ru_max: float
             Optional: maximum pore pressure ratio based on p’.
         zmax: None
-            
+
         cz: float
             Optional: fabric-dilatancy tensor parameter. default value is 100.0.
         ce: float
             Optional: variable that adjusts the rate of strain accumulation in cyclic loading
         cgd: float
-            
+
         ckaf: float
             Optional: variable that controls the effect that sustained static shear stresses have on plastic modulus.
             default value is 4.0.
@@ -1098,7 +1100,10 @@ class PM4Silt(NDMaterialBase):
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.s_u, self.su_rat, self.g_o, self.h_po, self.den, self.su_factor, self.p_atm, self.nu, self.n_g, self.h0, self.e_init, self.lamb, self.phicv, self.nb_wet, self.nb_dry, self.nd, self.ado, self.ru_max, self.zmax, self.cz, self.ce, self.cgd, self.ckaf, self.m_m, self.cg_consol]
+        self._parameters = [self.op_type, self._tag, self.s_u, self.su_rat, self.g_o, self.h_po, self.den,
+                            self.su_factor, self.p_atm, self.nu, self.n_g, self.h0, self.e_init, self.lamb, self.phicv,
+                            self.nb_wet, self.nb_dry, self.nd, self.ado, self.ru_max, self.zmax, self.cz, self.ce,
+                            self.cgd, self.ckaf, self.m_m, self.cg_consol]
         if osi is None:
             self.built = 0
         if osi is not None:

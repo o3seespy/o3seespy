@@ -4,7 +4,7 @@ from o3seespy.command.element.base_element import ElementBase
 class TwoNodeLink(ElementBase):
     """
     The TwoNodeLink Element Class
-    
+
     This command is used to construct a twoNodeLink element object, which is defined by two nodes. The element can have
     zero or non-zero length. This element can have 1 to 6 degrees of freedom, where only the transverse and rotational
     degrees of freedom are coupled as long as the element has non-zero length. In addition, if the element length is
@@ -18,11 +18,12 @@ class TwoNodeLink(ElementBase):
     consider the geometry as given by the nodal coordinates, but utilizes the user-defined
     orientation vectors to determine the directions of the springs.
 
-    
+
     """
     op_type = 'twoNodeLink'
 
-    def __init__(self, osi, ele_nodes, mats: list=None, dir=None, dirs=None, p_delta_vals: list=None, shear_dist=None, do_rayleigh=False, orient: list=None, mass: float=None):
+    def __init__(self, osi, ele_nodes, mats: list = None, dir=None, dirs=None, p_delta_vals: list = None,
+                 shear_dist=None, do_rayleigh=False, orient: list = None, mass: float = None):
         """
         Initial method for TwoNodeLink
 
@@ -34,17 +35,17 @@ class TwoNodeLink(ElementBase):
         mats: list, optional
             A list of objects associated with previously-defined uniaxial_material objects
         dir: None, optional
-            
+
         p_delta_vals: list, optional
             P-delta moment contribution ratios, size of ratio vector is 2 for 2d-case and 4 for 3d-case (entries:
             ``[my_inode, my_jnode, mz_inode, mz_jnode]``) ``my_inode`` + ``my_jnode`` <= 1.0, ``mz_inode`` + ``mz_jnode`` <=
-            1.0. remaining p-delta moments are resisted by shear couples. 
+            1.0. remaining p-delta moments are resisted by shear couples.
         shear_dist: None, optional
-            
+
         do_rayleigh: bool
             To include rayleigh damping from the element (optional, default = no rayleigh damping contribution)
         orient: list, optional
-            
+
         mass: float, optional
             Element mass (optional, default = 0.0)
 
