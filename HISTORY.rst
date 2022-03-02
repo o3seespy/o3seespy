@@ -4,6 +4,8 @@ History
 
 Pre-release
 -----------
+* Removed double underscore in parameter names
+* Added support for element Rayleigh damping
 
 3.2.0.5 (2021-11-29)
 --------------------

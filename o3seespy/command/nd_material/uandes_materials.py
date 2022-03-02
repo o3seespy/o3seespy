@@ -10,7 +10,7 @@ class SAniSandMS(NDMaterialBase):
     op_type = 'SAniSandMS'
 
     def __init__(self, osi, g0, nu, e_init, m_c, c_c, lambda_c, e_0, ksi, p_atm, m_yield, h_0, c_h, n_b, a_0, n_d,
-                 zeta, mu0, beta, den, int_scheme, tan_type=0, tol_f=1.0e-7, tol_r=1.0e-7):
+                 zeta, mu0, beta, den, int_scheme=1, tan_type=0, tol_f=1.0e-7, tol_r=1.0e-7):
         r"""
         Initial method for SAniSandMS
 

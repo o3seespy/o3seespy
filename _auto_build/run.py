@@ -99,7 +99,8 @@ def clean_param_names(params, base_type):
             new_pm = new_pm[:-5]
             new_pm += suf
         # if pm == 'eleNodes':
-
+        while '__' in new_pm:
+            new_pm = new_pm.replace('__', '_')
         pms[pm] = params[pm]
         if dtype_is_obj:
             pms[pm].dtype = 'obj'

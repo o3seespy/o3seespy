@@ -1082,3 +1082,11 @@ def domain_change(osi):
 
 def remesh(osi, alpha):
     return osi.to_process('remesh', [alpha])
+
+
+def set_element_rayleigh_damping_factors(osi, ele, alpha_m, beta_k, beta_k0, beta_kc):
+    return osi.to_process('setElementRayleighDampingFactors', [ele.tag, alpha_m, beta_k, beta_k0, beta_kc])
+
+
+def set_ele_rayleigh_damp(osi, ele, alpha_m, beta_k, beta_k0, beta_kc):
+    return osi.to_process('setElementRayleighDampingFactors', [ele.tag, alpha_m, beta_k, beta_k0, beta_kc])

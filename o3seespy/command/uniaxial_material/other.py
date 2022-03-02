@@ -320,7 +320,7 @@ class Bilin(UniaxialMaterialBase):
     """
     op_type = 'Bilin'
 
-    def __init__(self, osi, k0, as__plus, as__neg, my__plus, my__neg, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p__plus, theta_p__neg, theta_pc__plus, theta_pc__neg, res__pos, res__neg, theta_u__plus, theta_u__neg, d__plus, d__neg, n_factor=0.0):
+    def __init__(self, osi, k0, as_plus, as_neg, my_plus, my_neg, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p_plus, theta_p_neg, theta_pc_plus, theta_pc_neg, res_pos, res_neg, theta_u_plus, theta_u_neg, d_plus, d_neg, n_factor=0.0):
         """
         Initial method for Bilin
 
@@ -329,13 +329,13 @@ class Bilin(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         k0: float
             Elastic stiffness
-        as__plus: float
+        as_plus: float
             Strain hardening ratio for positive loading direction
-        as__neg: float
+        as_neg: float
             Strain hardening ratio for negative loading direction
-        my__plus: float
+        my_plus: float
             Effective yield strength for positive loading direction
-        my__neg: float
+        my_neg: float
             Effective yield strength for negative loading direction (negative value)
         lamda_s: float
             Cyclic deterioration parameter for strength deterioration [e_t=lamda_s*m_y; set lamda_s = 0 to disable this
@@ -357,27 +357,27 @@ class Bilin(UniaxialMaterialBase):
             Rate of accelerated reloading deterioration. the default value is 1.0.
         c_k: float
             Rate of unloading stiffness deterioration. the default value is 1.0.
-        theta_p__plus: float
+        theta_p_plus: float
             Pre-capping rotation for positive loading direction (often noted as plastic rotation capacity)
-        theta_p__neg: float
+        theta_p_neg: float
             Pre-capping rotation for negative loading direction (often noted as plastic rotation capacity) (positive
             value)
-        theta_pc__plus: float
+        theta_pc_plus: float
             Post-capping rotation for positive loading direction
-        theta_pc__neg: float
+        theta_pc_neg: float
             Post-capping rotation for negative loading direction (positive value)
-        res__pos: float
+        res_pos: float
             Residual strength ratio for positive loading direction
-        res__neg: float
+        res_neg: float
             Residual strength ratio for negative loading direction (positive value)
-        theta_u__plus: float
+        theta_u_plus: float
             Ultimate rotation capacity for positive loading direction
-        theta_u__neg: float
+        theta_u_neg: float
             Ultimate rotation capacity for negative loading direction (positive value)
-        d__plus: float
+        d_plus: float
             Rate of cyclic deterioration in the positive loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
-        d__neg: float
+        d_neg: float
             Rate of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
         n_factor: float, optional
@@ -388,14 +388,14 @@ class Bilin(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.uniaxial_material.Bilin(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0, n_factor=0.0)
+        >>> o3.uniaxial_material.Bilin(osi, k0=1.0, as_plus=1.0, as_neg=1.0, my_plus=1.0, my_neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p_plus=1.0, theta_p_neg=1.0, theta_pc_plus=1.0, theta_pc_neg=1.0, res_pos=1.0, res_neg=1.0, theta_u_plus=1.0, theta_u_neg=1.0, d_plus=1.0, d_neg=1.0, n_factor=0.0)
         """
         self.osi = osi
         self.k0 = float(k0)
-        self.as__plus = float(as__plus)
-        self.as__neg = float(as__neg)
-        self.my__plus = float(my__plus)
-        self.my__neg = float(my__neg)
+        self.as_plus = float(as_plus)
+        self.as_neg = float(as_neg)
+        self.my_plus = float(my_plus)
+        self.my_neg = float(my_neg)
         self.lamda_s = float(lamda_s)
         self.lamda_c = float(lamda_c)
         self.lamda_a = float(lamda_a)
@@ -404,21 +404,21 @@ class Bilin(UniaxialMaterialBase):
         self.c_c = float(c_c)
         self.c_a = float(c_a)
         self.c_k = float(c_k)
-        self.theta_p__plus = float(theta_p__plus)
-        self.theta_p__neg = float(theta_p__neg)
-        self.theta_pc__plus = float(theta_pc__plus)
-        self.theta_pc__neg = float(theta_pc__neg)
-        self.res__pos = float(res__pos)
-        self.res__neg = float(res__neg)
-        self.theta_u__plus = float(theta_u__plus)
-        self.theta_u__neg = float(theta_u__neg)
-        self.d__plus = float(d__plus)
-        self.d__neg = float(d__neg)
+        self.theta_p_plus = float(theta_p_plus)
+        self.theta_p_neg = float(theta_p_neg)
+        self.theta_pc_plus = float(theta_pc_plus)
+        self.theta_pc_neg = float(theta_pc_neg)
+        self.res_pos = float(res_pos)
+        self.res_neg = float(res_neg)
+        self.theta_u_plus = float(theta_u_plus)
+        self.theta_u_neg = float(theta_u_neg)
+        self.d_plus = float(d_plus)
+        self.d_neg = float(d_neg)
         self.n_factor = float(n_factor)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.k0, self.as__plus, self.as__neg, self.my__plus, self.my__neg, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p__plus, self.theta_p__neg, self.theta_pc__plus, self.theta_pc__neg, self.res__pos, self.res__neg, self.theta_u__plus, self.theta_u__neg, self.d__plus, self.d__neg, self.n_factor]
+        self._parameters = [self.op_type, self._tag, self.k0, self.as_plus, self.as_neg, self.my_plus, self.my_neg, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p_plus, self.theta_p_neg, self.theta_pc_plus, self.theta_pc_neg, self.res_pos, self.res_neg, self.theta_u_plus, self.theta_u_neg, self.d_plus, self.d_neg, self.n_factor]
         if osi is None:
             self.built = 0
         if osi is not None:
@@ -439,7 +439,7 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
     """
     op_type = 'ModIMKPeakOriented'
 
-    def __init__(self, osi, k0, as__plus, as__neg, my__plus, my__neg, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p__plus, theta_p__neg, theta_pc__plus, theta_pc__neg, res__pos, res__neg, theta_u__plus, theta_u__neg, d__plus, d__neg):
+    def __init__(self, osi, k0, as_plus, as_neg, my_plus, my_neg, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p_plus, theta_p_neg, theta_pc_plus, theta_pc_neg, res_pos, res_neg, theta_u_plus, theta_u_neg, d_plus, d_neg):
         """
         Initial method for ModIMKPeakOriented
 
@@ -448,13 +448,13 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         k0: float
             Elastic stiffness
-        as__plus: float
+        as_plus: float
             Strain hardening ratio for positive loading direction
-        as__neg: float
+        as_neg: float
             Strain hardening ratio for negative loading direction
-        my__plus: float
+        my_plus: float
             Effective yield strength for positive loading direction
-        my__neg: float
+        my_neg: float
             Effective yield strength for negative loading direction (negative value)
         lamda_s: float
             Cyclic deterioration parameter for strength deterioration [e_t=lamda_s*m_y, see lignos and krawinkler
@@ -476,27 +476,27 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
             Rate of accelerated reloading deterioration. the default value is 1.0.
         c_k: float
             Rate of unloading stiffness deterioration. the default value is 1.0.
-        theta_p__plus: float
+        theta_p_plus: float
             Pre-capping rotation for positive loading direction (often noted as plastic rotation capacity)
-        theta_p__neg: float
+        theta_p_neg: float
             Pre-capping rotation for negative loading direction (often noted as plastic rotation capacity) (must be
             defined as a positive value)
-        theta_pc__plus: float
+        theta_pc_plus: float
             Post-capping rotation for positive loading direction
-        theta_pc__neg: float
+        theta_pc_neg: float
             Post-capping rotation for negative loading direction (must be defined as a positive value)
-        res__pos: float
+        res_pos: float
             Residual strength ratio for positive loading direction
-        res__neg: float
+        res_neg: float
             Residual strength ratio for negative loading direction (must be defined as a positive value)
-        theta_u__plus: float
+        theta_u_plus: float
             Ultimate rotation capacity for positive loading direction
-        theta_u__neg: float
+        theta_u_neg: float
             Ultimate rotation capacity for negative loading direction (must be defined as a positive value)
-        d__plus: float
+        d_plus: float
             Rate of cyclic deterioration in the positive loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
-        d__neg: float
+        d_neg: float
             Rate  of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
 
@@ -504,14 +504,14 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.uniaxial_material.ModIMKPeakOriented(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
+        >>> o3.uniaxial_material.ModIMKPeakOriented(osi, k0=1.0, as_plus=1.0, as_neg=1.0, my_plus=1.0, my_neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p_plus=1.0, theta_p_neg=1.0, theta_pc_plus=1.0, theta_pc_neg=1.0, res_pos=1.0, res_neg=1.0, theta_u_plus=1.0, theta_u_neg=1.0, d_plus=1.0, d_neg=1.0)
         """
         self.osi = osi
         self.k0 = float(k0)
-        self.as__plus = float(as__plus)
-        self.as__neg = float(as__neg)
-        self.my__plus = float(my__plus)
-        self.my__neg = float(my__neg)
+        self.as_plus = float(as_plus)
+        self.as_neg = float(as_neg)
+        self.my_plus = float(my_plus)
+        self.my_neg = float(my_neg)
         self.lamda_s = float(lamda_s)
         self.lamda_c = float(lamda_c)
         self.lamda_a = float(lamda_a)
@@ -520,20 +520,20 @@ class ModIMKPeakOriented(UniaxialMaterialBase):
         self.c_c = float(c_c)
         self.c_a = float(c_a)
         self.c_k = float(c_k)
-        self.theta_p__plus = float(theta_p__plus)
-        self.theta_p__neg = float(theta_p__neg)
-        self.theta_pc__plus = float(theta_pc__plus)
-        self.theta_pc__neg = float(theta_pc__neg)
-        self.res__pos = float(res__pos)
-        self.res__neg = float(res__neg)
-        self.theta_u__plus = float(theta_u__plus)
-        self.theta_u__neg = float(theta_u__neg)
-        self.d__plus = float(d__plus)
-        self.d__neg = float(d__neg)
+        self.theta_p_plus = float(theta_p_plus)
+        self.theta_p_neg = float(theta_p_neg)
+        self.theta_pc_plus = float(theta_pc_plus)
+        self.theta_pc_neg = float(theta_pc_neg)
+        self.res_pos = float(res_pos)
+        self.res_neg = float(res_neg)
+        self.theta_u_plus = float(theta_u_plus)
+        self.theta_u_neg = float(theta_u_neg)
+        self.d_plus = float(d_plus)
+        self.d_neg = float(d_neg)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.k0, self.as__plus, self.as__neg, self.my__plus, self.my__neg, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p__plus, self.theta_p__neg, self.theta_pc__plus, self.theta_pc__neg, self.res__pos, self.res__neg, self.theta_u__plus, self.theta_u__neg, self.d__plus, self.d__neg]
+        self._parameters = [self.op_type, self._tag, self.k0, self.as_plus, self.as_neg, self.my_plus, self.my_neg, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p_plus, self.theta_p_neg, self.theta_pc_plus, self.theta_pc_neg, self.res_pos, self.res_neg, self.theta_u_plus, self.theta_u_neg, self.d_plus, self.d_neg]
         if osi is None:
             self.built = 0
         if osi is not None:
@@ -552,7 +552,7 @@ class ModIMKPinching(UniaxialMaterialBase):
     """
     op_type = 'ModIMKPinching'
 
-    def __init__(self, osi, k0, as__plus, as__neg, my__plus, my__neg, fpr_pos, fpr_neg, a_pinch, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p__plus, theta_p__neg, theta_pc__plus, theta_pc__neg, res__pos, res__neg, theta_u__plus, theta_u__neg, d__plus, d__neg):
+    def __init__(self, osi, k0, as_plus, as_neg, my_plus, my_neg, fpr_pos, fpr_neg, a_pinch, lamda_s, lamda_c, lamda_a, lamda_k, c_s, c_c, c_a, c_k, theta_p_plus, theta_p_neg, theta_pc_plus, theta_pc_neg, res_pos, res_neg, theta_u_plus, theta_u_neg, d_plus, d_neg):
         """
         Initial method for ModIMKPinching
 
@@ -561,13 +561,13 @@ class ModIMKPinching(UniaxialMaterialBase):
         osi: o3seespy.OpenSeesInstance
         k0: float
             Elastic stiffness
-        as__plus: float
+        as_plus: float
             Strain hardening ratio for positive loading direction
-        as__neg: float
+        as_neg: float
             Strain hardening ratio for negative loading direction
-        my__plus: float
+        my_plus: float
             Effective yield strength for positive loading direction
-        my__neg: float
+        my_neg: float
             Effective yield strength for negative loading direction (must be defined as a negative value)
         fpr_pos: float
             Ratio of the force at which reloading begins to force corresponding to the maximum historic deformation
@@ -597,27 +597,27 @@ class ModIMKPinching(UniaxialMaterialBase):
             Rate of accelerated reloading deterioration. the default value is 1.0.
         c_k: float
             Rate of unloading stiffness deterioration. the default value is 1.0.
-        theta_p__plus: float
+        theta_p_plus: float
             Pre-capping rotation for positive loading direction (often noted as plastic rotation capacity)
-        theta_p__neg: float
+        theta_p_neg: float
             Pre-capping rotation for negative loading direction (often noted as plastic rotation capacity) (must be
             defined as a positive value)
-        theta_pc__plus: float
+        theta_pc_plus: float
             Post-capping rotation for positive loading direction
-        theta_pc__neg: float
+        theta_pc_neg: float
             Post-capping rotation for negative loading direction (must be defined as a positive value)
-        res__pos: float
+        res_pos: float
             Residual strength ratio for positive loading direction
-        res__neg: float
+        res_neg: float
             Residual strength ratio for negative loading direction (must be defined as a positive value)
-        theta_u__plus: float
+        theta_u_plus: float
             Ultimate rotation capacity for positive loading direction
-        theta_u__neg: float
+        theta_u_neg: float
             Ultimate rotation capacity for negative loading direction (must be defined as a positive value)
-        d__plus: float
+        d_plus: float
             Rate of cyclic deterioration in the positive loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
-        d__neg: float
+        d_neg: float
             Rate of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric
             hysteretic behavior for the case of a composite beam). for symmetric hysteretic response use 1.0.
 
@@ -625,14 +625,14 @@ class ModIMKPinching(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
+        >>> o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as_plus=1.0, as_neg=1.0, my_plus=1.0, my_neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p_plus=1.0, theta_p_neg=1.0, theta_pc_plus=1.0, theta_pc_neg=1.0, res_pos=1.0, res_neg=1.0, theta_u_plus=1.0, theta_u_neg=1.0, d_plus=1.0, d_neg=1.0)
         """
         self.osi = osi
         self.k0 = float(k0)
-        self.as__plus = float(as__plus)
-        self.as__neg = float(as__neg)
-        self.my__plus = float(my__plus)
-        self.my__neg = float(my__neg)
+        self.as_plus = float(as_plus)
+        self.as_neg = float(as_neg)
+        self.my_plus = float(my_plus)
+        self.my_neg = float(my_neg)
         self.fpr_pos = float(fpr_pos)
         self.fpr_neg = float(fpr_neg)
         self.a_pinch = float(a_pinch)
@@ -644,20 +644,20 @@ class ModIMKPinching(UniaxialMaterialBase):
         self.c_c = float(c_c)
         self.c_a = float(c_a)
         self.c_k = float(c_k)
-        self.theta_p__plus = float(theta_p__plus)
-        self.theta_p__neg = float(theta_p__neg)
-        self.theta_pc__plus = float(theta_pc__plus)
-        self.theta_pc__neg = float(theta_pc__neg)
-        self.res__pos = float(res__pos)
-        self.res__neg = float(res__neg)
-        self.theta_u__plus = float(theta_u__plus)
-        self.theta_u__neg = float(theta_u__neg)
-        self.d__plus = float(d__plus)
-        self.d__neg = float(d__neg)
+        self.theta_p_plus = float(theta_p_plus)
+        self.theta_p_neg = float(theta_p_neg)
+        self.theta_pc_plus = float(theta_pc_plus)
+        self.theta_pc_neg = float(theta_pc_neg)
+        self.res_pos = float(res_pos)
+        self.res_neg = float(res_neg)
+        self.theta_u_plus = float(theta_u_plus)
+        self.theta_u_neg = float(theta_u_neg)
+        self.d_plus = float(d_plus)
+        self.d_neg = float(d_neg)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.k0, self.as__plus, self.as__neg, self.my__plus, self.my__neg, self.fpr_pos, self.fpr_neg, self.a_pinch, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p__plus, self.theta_p__neg, self.theta_pc__plus, self.theta_pc__neg, self.res__pos, self.res__neg, self.theta_u__plus, self.theta_u__neg, self.d__plus, self.d__neg]
+        self._parameters = [self.op_type, self._tag, self.k0, self.as_plus, self.as_neg, self.my_plus, self.my_neg, self.fpr_pos, self.fpr_neg, self.a_pinch, self.lamda_s, self.lamda_c, self.lamda_a, self.lamda_k, self.c_s, self.c_c, self.c_a, self.c_k, self.theta_p_plus, self.theta_p_neg, self.theta_pc_plus, self.theta_pc_neg, self.res_pos, self.res_neg, self.theta_u_plus, self.theta_u_neg, self.d_plus, self.d_neg]
         if osi is None:
             self.built = 0
         if osi is not None:
