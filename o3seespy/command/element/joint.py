@@ -99,7 +99,7 @@ class ElasticTubularJoint(ElementBase):
     """
     op_type = 'ElasticTubularJoint'
 
-    def __init__(self, osi, ele_nodes, brace__diameter, brace__angle, big_e, chord__diameter, chord__thickness, chord__angle):
+    def __init__(self, osi, ele_nodes, brace_diameter, brace_angle, big_e, chord_diameter, chord_thickness, chord_angle):
         """
         Initial method for ElasticTubularJoint
 
@@ -108,17 +108,17 @@ class ElasticTubularJoint(ElementBase):
         osi: o3seespy.OpenSeesInstance
         ele_nodes: list
             A list of two element nodes
-        brace__diameter: float
+        brace_diameter: float
             Outer diameter of brace
-        brace__angle: float
+        brace_angle: float
             Angle between brace and chord axis 0 < brace_angle < 90
         big_e: float
             Young's modulus
-        chord__diameter: float
+        chord_diameter: float
             Outer diameter of chord
-        chord__thickness: float
+        chord_thickness: float
             Thickness of chord
-        chord__angle: float
+        chord_angle: float
             Angle between chord axis and global x-axis 0 < chord_angle < 180
 
         Examples
@@ -132,32 +132,32 @@ class ElasticTubularJoint(ElementBase):
         self.osi = osi
         self.ele_node_tags = [x.tag for x in ele_nodes]
         self.ele_nodes = ele_nodes
-        self.brace__diameter = float(brace__diameter)
-        self.brace__angle = float(brace__angle)
+        self.brace_diameter = float(brace_diameter)
+        self.brace_angle = float(brace_angle)
         self.big_e = float(big_e)
-        self.chord__diameter = float(chord__diameter)
-        self.chord__thickness = float(chord__thickness)
-        self.chord__angle = float(chord__angle)
+        self.chord_diameter = float(chord_diameter)
+        self.chord_thickness = float(chord_thickness)
+        self.chord_angle = float(chord_angle)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.brace__diameter, self.brace__angle, self.big_e, self.chord__diameter, self.chord__thickness, self.chord__angle]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.brace_diameter, self.brace_angle, self.big_e, self.chord_diameter, self.chord_thickness, self.chord_angle]
         self.to_process(osi)
 
 
 class Joint2D(ElementBase):
     """
     The Joint2D Element Class
-    
+
     This command is used to construct a two-dimensional beam-column-joint element object. The two dimensional
     beam-column joint is idealized as a parallelogram shaped shear panel with adjacent elements connected to its
     mid-points. The midpoints of the parallelogram are referred to as external nodes. These nodes are the only
     analysis components that connect the joint element to the surrounding structure.
 
-    
+
     """
     op_type = 'Joint2D'
 
-    def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat_c, lrg_dsp, dmg, dmg1dmg2dmg3dmg4dmg_c=None):
+    def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat_c, lrg_dsp, dmg, dmg_vals=None):
         """
         Initial method for Joint2D
 
@@ -170,16 +170,16 @@ class Joint2D(ElementBase):
             any other node)
         mat1: int
             Uniaxial material object for interface rotational spring at node 1. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. 
+            that a beam-column element is rigidly framed to the joint.
         mat2: int
             Uniaxial material object for interface rotational spring at node 2. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. 
+            that a beam-column element is rigidly framed to the joint.
         mat3: int
             Uniaxial material object for interface rotational spring at node 3. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. 
+            that a beam-column element is rigidly framed to the joint.
         mat4: int
             Uniaxial material object for interface rotational spring at node 4. use a zero object to indicate the case
-            that a beam-column element is rigidly framed to the joint. 
+            that a beam-column element is rigidly framed to the joint.
         mat_c: int
             Uniaxial material object for rotational spring of the central node that describes shear panel behavior
         lrg_dsp: obj
@@ -189,7 +189,7 @@ class Joint2D(ElementBase):
         dmg: obj
             Damage model object
         dmg1dmg2dmg3dmg4dmg_c: None, optional
-            
+
 
         Examples
         --------
@@ -210,10 +210,12 @@ class Joint2D(ElementBase):
         self.mat_c = int(mat_c)
         self.lrg_dsp = lrg_dsp
         self.dmg = dmg
-        self.dmg1dmg2dmg3dmg4dmg_c = dmg1dmg2dmg3dmg4dmg_c
+        self.dmg_vals = dmg_vals
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat1, self.mat2, self.mat3, self.mat4, self.mat_c, self.lrg_dsp.tag, self.dmg.tag]
-        if getattr(self, 'dmg1dmg2dmg3dmg4dmg_c') is not None:
-            self._parameters += ['-damage', self.dmg1dmg2dmg3dmg4dmg_c]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat1, self.mat2, self.mat3, self.mat4, self.mat_c, self.lrg_dsp.tag]
+        if self.dmg is not None:
+            self._parameters += ['-damage', self.dmg.tag]
+        if getattr(self, 'dmg_vals') is not None:
+            self._parameters += ['-damage', self.dmg_vals]
         self.to_process(osi)

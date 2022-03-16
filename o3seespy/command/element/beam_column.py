@@ -642,19 +642,21 @@ class MVLEM(ElementBase):
     """
     The MVLEM Element Class
     
-    The MVLEM element command is used to generate a two-dimensional Multiple-Vertical-Line-Element-Model (MVLEM; Vulcano
-    et al., 1988; Orakcal et al., 2004, Kolozvari et al., 2015) for simulation of flexure-dominated RC wall behavior. A
-    single model element incorporates six global degrees of freedom, three of each located at the center of rigid top
-    and bottom beams, as illustrated in Figure 1a. The axial/flexural response of the MVLEM is simulated by a series
-    of uniaxial elements (or macro-fibers) connected to the rigid beams at the top and bottom (e.g., floor) levels,
-    whereas the shear response is described by a shear spring located at height ch from the bottom of the wall
-    element (Figure 1a). Shear and flexural responses of the model element are uncoupled. The relative
-    rotation between top and bottom faces of the wall element occurs about the point located on the
-    central axis of the element at height ch (Figure 1b). Rotations and resulting transverse
-    displacements are calculated based on the wall curvature, derived from section and
-    material properties, corresponding to the bending moment at height ch of each
-    element (Figure 1b). A value of c=0.4 was recommended by Vulcano et al.
-    (1988) based on comparison of the model response with experimental results.
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kutay
+    Orakcal (Bogazici University)| John Wallace (UCLA)The MVLEM element command is used to generate a two-dimensional
+    Multiple-Vertical-Line-Element-Model (MVLEM; Vulcano et al., 1988; Orakcal et al., 2004, Kolozvari et al., 2015)
+    for simulation of flexure-dominated RC wall behavior. A single model element incorporates six global degrees of
+    freedom, three of each located at the center of rigid top and bottom beams, as illustrated in Figure 1a. The
+    axial/flexural response of the MVLEM is simulated by a series of uniaxial elements (or macro-fibers)
+    connected to the rigid beams at the top and bottom (e.g., floor) levels, whereas the shear response
+    is described by a shear spring located at height ch from the bottom of the wall element (Figure
+    1a). Shear and flexural responses of the model element are uncoupled. The relative rotation
+    between top and bottom faces of the wall element occurs about the point located on the
+    central axis of the element at height ch (Figure 1b). Rotations and resulting
+    transverse displacements are calculated based on the wall curvature, derived
+    from section and material properties, corresponding to the bending moment
+    at height ch of each element (Figure 1b). A value of c=0.4 was
+    recommended by Vulcano et al. (1988) based on comparison of the model response with experimental results.
 
     
     """
@@ -743,14 +745,16 @@ class SFIMVLEM(ElementBase):
     """
     The SFIMVLEM Element Class
     
-    The SFI_MVLEM command is used to construct a Shear-Flexure Interaction Multiple-Vertical-Line-Element Model
-    (SFI-MVLEM, Kolozvari et al., 2015a, b, c), which captures interaction between axial/flexural and shear
-    behavior of RC structural walls and columns under cyclic loading. The SFI_MVLEM element (Figure 1)
-    incorporates 2-D RC panel behavior described by the Fixed-Strut-Angle-Model (nDMaterial FSAM;
-    Ulugtekin, 2010; Orakcal et al., 2012), into a 2-D macroscopic fiber-based model (MVLEM).
-    The interaction between axial and shear behavior is captured at each RC panel
-    (macro-fiber) level, which further incorporates interaction between shear
-    and flexural behavior at the SFI_MVLEM element level.
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kutay
+    Orakcal (Bogazici University)| Leonardo Massone (University of Chile, Santiago)| John Wallace (UCLA)The SFI_MVLEM
+    command is used to construct a Shear-Flexure Interaction Multiple-Vertical-Line-Element Model (SFI-MVLEM,
+    Kolozvari et al., 2018, 2015a, b, c; Kolozvari 2013), which captures interaction between axial/flexural
+    and shear behavior of RC structural walls and columns under cyclic loading. The SFI_MVLEM element
+    (Figure 1) incorporates 2-D RC panel behavior described by the Fixed-Strut-Angle-Model
+    (nDMaterial FSAM; Ulugtekin, 2010; Orakcal et al., 2012), into a 2-D macroscopic
+    fiber-based model (MVLEM). The interaction between axial and shear behavior is
+    captured at each RC panel (macro-fiber) level, which further incorporates
+    interaction between shear and flexural behavior at the SFI_MVLEM element level.
 
     
     """

@@ -1536,8 +1536,8 @@ class PM4Silt(NDMaterialBase):
             self.su_rat = -1.0
         self.g_o = float(g_o)
         self.h_po = float(h_po)
-        self.den = den
-        if su_rat is not None:
+        self.den = float(den)
+        if su_factor is not None:
             self.su_factor = float(su_factor)
         else:
             self.su_factor = -1.0
@@ -1559,13 +1559,16 @@ class PM4Silt(NDMaterialBase):
             self.ru_max = -1.0
         else:
             self.ru_max = float(ru_max)
-        self.zmax = zmax
+        if zmax is None:
+            self.zmax = -1.0
+        else:
+            self.zmax = float(zmax)
         self.cz = float(cz)
-        if self.ce is None:
+        if ce is None:
             self.ce = -1.0
         else:
             self.ce = float(ce)
-        if self.cgd is None:
+        if cgd is None:
             self.cgd = -1.0
         else:
             self.cgd = float(cgd)
@@ -1583,3 +1586,202 @@ class PM4Silt(NDMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
+    def update_to_linear(self):
+        from o3seespy import update_material_stage
+        update_material_stage(self.osi, self, 0)
+
+    def update_to_nonlinear(self):
+        from o3seespy import update_material_stage
+        update_material_stage(self.osi, self, 1)
+
+    def set_nu(self, nu, ele=None, eles=None):
+        from o3seespy import set_parameter
+        if ele is not None:
+            set_parameter(self.osi, value=nu, eles=[ele], args=['poissonRatio', 1])
+        if eles is not None:
+            set_parameter(self.osi, value=nu, eles=eles, args=['poissonRatio', 1])
+
+    def set_material_state(self, value, ele=None, eles=None):
+        from o3seespy import set_parameter
+        if ele is not None:
+            set_parameter(self.osi, value=value, eles=[ele], args=['materialState', 1])
+        if eles is not None:
+            set_parameter(self.osi, value=value, eles=eles, args=['materialState', 1])
+
+    def set_first_call(self, value, ele=None, eles=None):
+        self.set_parameter(self.osi, pstr='FirstCall', pval=self.tag, value=value, ele=ele, eles=eles)
+
+
+class Hysteretic(UniaxialMaterialBase):
+    """
+    The Hysteretic UniaxialMaterial Class
+
+    This command is used to construct a uniaxial bilinear hysteretic material object with pinching of force and
+    deformation, damage due to ductility and energy, and degraded unloading stiffness based on ductility.
+    """
+    op_type = 'Hysteretic'
+
+    def __init__(self, osi, p1, p2, p3=None, n1=None, n2=None, n3=None, pinch_x=1.0, pinch_y=1.0, damage1=0.0,
+                 damage2=0.0, beta=0.0):
+        """
+        Initial method for Hysteretic
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        p1: list
+            ``p1=[s1p, e1p]``, stress and strain (or force & deformation) at first point of the envelope in the positive
+            direction
+        p2: list
+            ``p2=[s2p, e2p]``, stress and strain (or force & deformation) at second point of the envelope in the
+            positive direction
+        p3: list (default=True), optional
+            ``p3=[s3p, e3p]``, stress and strain (or force & deformation) at third point of the envelope in the positive
+            direction
+        n1: list
+            ``n1=[s1n, e1n]``, stress and strain (or force & deformation) at first point of the envelope in the negative
+            direction
+        n2: list
+            ``n2=[s2n, e2n]``, stress and strain (or force & deformation) at second point of the envelope in the
+            negative direction
+        n3: list (default=True), optional
+            ``n3=[s3n, e3n]``, stress and strain (or force & deformation) at third point of the envelope in the negative
+            direction
+        pinch_x: float
+            Pinching factor for strain (or deformation) during reloading
+        pinch_y: float
+            Pinching factor for stress (or force) during reloading
+        damage1: float
+            Damage due to ductility: d1(mu-1)
+        damage2: float
+            Damage due to energy: d2(eii/eult)
+        beta: float, optional
+            Power used to determine the degraded unloading stiffness based on ductility, mu-beta (optional, default=0.0)
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> p1 = [0.5, 0.5]
+        >>> p2 = [1.0, 1.0]
+        >>> p3 = [0, 1.5]
+        >>> n1 = [-0.5, -0.5]
+        >>> n2 = [-1.0, -1.0]
+        >>> n3 = [0, -1.5]
+        >>> o3.uniaxial_material.Hysteretic(osi, p1=p1, p2=p2, p3=p3, n1=n1, n2=n2, n3=n3, pinch_x=1, pinch_y=0, damage1=0, damage2=0)
+        """
+        self.osi = osi
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+        if n1 is None:
+            self.n1 = [-p1[0], -p1[1]]
+        else:
+            self.n1 = n1
+        if n2 is None:
+            self.n2 = [-p2[0], -p2[1]]
+        else:
+            self.n2 = n2
+        if n3 is None:
+            if p3 is None:
+                self.n3 = None
+            else:
+                self.n3 = [-p3[0], -p3[1]]
+        else:
+            self.n3 = n3
+        self.pinch_x = float(pinch_x)
+        self.pinch_y = float(pinch_y)
+        self.damage1 = float(damage1)
+        self.damage2 = float(damage2)
+        self.beta = float(beta)
+        if osi is not None:
+            osi.n_mat += 1
+            self._tag = osi.n_mat
+        if self.p3 is None:
+            self._parameters = [self.op_type, self._tag, *self.p1, *self.p2, *self.n1, *self.n2]
+        else:
+            self._parameters = [self.op_type, self._tag, *self.p1, *self.p2, *self.p3, *self.n1, *self.n2, *self.n3]
+        self._parameters += [self.pinch_x, self.pinch_y, self.damage1, self.damage2, self.beta]
+        if osi is None:
+            self.built = 0
+        if osi is not None:
+            self.to_process(osi)
+
+
+class Joint2D(ElementBase):
+    """
+    The Joint2D Element Class
+
+    This command is used to construct a two-dimensional beam-column-joint element object. The two dimensional
+    beam-column joint is idealized as a parallelogram shaped shear panel with adjacent elements connected to its
+    mid-points. The midpoints of the parallelogram are referred to as external nodes. These nodes are the only
+    analysis components that connect the joint element to the surrounding structure.
+
+
+    """
+    op_type = 'Joint2D'
+
+    def __init__(self, osi, ele_nodes, mat1, mat2, mat3, mat4, mat_c, lrg_dsp, dmg, dmg_vals=None):
+        """
+        Initial method for Joint2D
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of five element nodes = ``[nd1,nd2,nd3,nd4,ndc]``. ``ndc`` is the central node of beam-column joint.
+            (the object ``ndc`` is used to generate the internal node, thus, the node should not exist in the domain or be used by
+            any other node)
+        mat1: int
+            Uniaxial material object for interface rotational spring at node 1. use a zero object to indicate the case
+            that a beam-column element is rigidly framed to the joint.
+        mat2: int
+            Uniaxial material object for interface rotational spring at node 2. use a zero object to indicate the case
+            that a beam-column element is rigidly framed to the joint.
+        mat3: int
+            Uniaxial material object for interface rotational spring at node 3. use a zero object to indicate the case
+            that a beam-column element is rigidly framed to the joint.
+        mat4: int
+            Uniaxial material object for interface rotational spring at node 4. use a zero object to indicate the case
+            that a beam-column element is rigidly framed to the joint.
+        mat_c: int
+            Uniaxial material object for rotational spring of the central node that describes shear panel behavior
+        lrg_dsp: obj
+            An integer indicating the flag for considering large deformations: * ``0`` - for small deformations and
+            constant geometry * ``1`` - for large deformations and time varying geometry * ``2`` - for large deformations
+            ,time varying geometry and length correction
+        dmg: obj
+            Damage model object
+        dmg1dmg2dmg3dmg4dmg_c: None, optional
+
+
+        Examples
+        --------
+        >>> import o3seespy as o3
+        >>> # Example is currently not working
+        >>> osi = o3.OpenSeesInstance(ndm=2)
+        >>> coords = [[0, 0], [1, 0], [1, 1], [0, 1], [0.5, 0.5]]
+        >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(len(coords))]
+        >>> o3.element.Joint2D(osi, ele_nodes=ele_nodes, mat1=1, mat2=1, mat3=1, mat4=1, mat_c=1, lrg_dsp='', dmg='', dmg1dmg2dmg3dmg4dmg_c=1)
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.mat1 = int(mat1)
+        self.mat2 = int(mat2)
+        self.mat3 = int(mat3)
+        self.mat4 = int(mat4)
+        self.mat_c = int(mat_c)
+        self.lrg_dsp = lrg_dsp
+        self.dmg = dmg
+        self.dmg_vals = dmg_vals
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat1, self.mat2, self.mat3, self.mat4,
+                            self.mat_c, self.lrg_dsp.tag]
+        if self.dmg is not None:
+            self._parameters += ['-damage', self.dmg.tag]
+        if getattr(self, 'dmg_vals') is not None:
+            self._parameters += ['-damage', self.dmg_vals]
+        self.to_process(osi)

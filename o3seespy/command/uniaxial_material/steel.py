@@ -184,13 +184,14 @@ class Steel02(UniaxialMaterialBase):
 class Hysteretic(UniaxialMaterialBase):
     """
     The Hysteretic UniaxialMaterial Class
-    
+
     This command is used to construct a uniaxial bilinear hysteretic material object with pinching of force and
     deformation, damage due to ductility and energy, and degraded unloading stiffness based on ductility.
     """
     op_type = 'Hysteretic'
 
-    def __init__(self, osi, p1, p2, p3=None, n1=None, n2=None, n3=None, pinch_x=1.0, pinch_y=1.0, damage1=0.0, damage2=0.0, beta=0.0):
+    def __init__(self, osi, p1, p2, p3=None, n1=None, n2=None, n3=None, pinch_x=1.0, pinch_y=1.0, damage1=0.0,
+                 damage2=0.0, beta=0.0):
         """
         Initial method for Hysteretic
 
@@ -274,6 +275,7 @@ class Hysteretic(UniaxialMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
 
 
 class ReinforcingSteelGABuck(UniaxialMaterialBase):
@@ -455,7 +457,7 @@ class ReinforcingSteelDMBuck(UniaxialMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.uniaxial_material.ReinforcingSteelDMBuck(osi, fy=1.0, fu=1.0, e_mod=1.0, e_mod_sh=1.0, eps_sh=1.0, eps_ult=1.0, lsr_2=1, alpha=1.0)
+        >>> o3.uniaxial_material.ReinforcingSteelDMBuck(osi, fy=1.0, fu=1.0, e_mod=1.0, e_mod_sh=1.0, eps_sh=1.0, eps_ult=1.0, lsr=1, alpha=1.0)
         """
         self.osi = osi
         self.fy = float(fy)

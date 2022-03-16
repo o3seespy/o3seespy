@@ -25,17 +25,17 @@ def test_bilinear_oil_damper():
 
 def test_bilin():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.uniaxial_material.Bilin(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0, n_factor=0.0)
+    o3.uniaxial_material.Bilin(osi, k0=1.0, as_plus=1.0, as_neg=1.0, my_plus=1.0, my_neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p_plus=1.0, theta_p_neg=1.0, theta_pc_plus=1.0, theta_pc_neg=1.0, res_pos=1.0, res_neg=1.0, theta_u_plus=1.0, theta_u_neg=1.0, d_plus=1.0, d_neg=1.0, n_factor=0.0)
 
 
 def test_mod_imk_peak_oriented():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.uniaxial_material.ModIMKPeakOriented(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
+    o3.uniaxial_material.ModIMKPeakOriented(osi, k0=1.0, as_plus=1.0, as_neg=1.0, my_plus=1.0, my_neg=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p_plus=1.0, theta_p_neg=1.0, theta_pc_plus=1.0, theta_pc_neg=1.0, res_pos=1.0, res_neg=1.0, theta_u_plus=1.0, theta_u_neg=1.0, d_plus=1.0, d_neg=1.0)
 
 
 def test_mod_imk_pinching():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
+    o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as_plus=1.0, as_neg=1.0, my_plus=1.0, my_neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p_plus=1.0, theta_p_neg=1.0, theta_pc_plus=1.0, theta_pc_neg=1.0, res_pos=1.0, res_neg=1.0, theta_u_plus=1.0, theta_u_neg=1.0, d_plus=1.0, d_neg=1.0)
 
 
 def test_saws():
@@ -105,18 +105,18 @@ def test_multi_linear():
 
 def test_init_strain_material():
     osi = o3.OpenSeesInstance(ndm=2)
-    other = o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0, theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0, theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
+    other = o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as_plus=1.0, as_neg=1.0, my_plus=1.0, my_neg=1.0, fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0, lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0, theta_p_plus=1.0, theta_p_neg=1.0, theta_pc_plus=1.0, theta_pc_neg=1.0, res_pos=1.0, res_neg=1.0, theta_u_plus=1.0, theta_u_neg=1.0, d_plus=1.0, d_neg=1.0)
     o3.uniaxial_material.InitStrainMaterial(osi, other=other, init_strain=1.0)
 
 
 def test_init_stress_material():
     osi = o3.OpenSeesInstance(ndm=2)
-    other = o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as__plus=1.0, as__neg=1.0, my__plus=1.0, my__neg=1.0,
+    other = o3.uniaxial_material.ModIMKPinching(osi, k0=1.0, as_plus=1.0, as_neg=1.0, my_plus=1.0, my_neg=1.0,
                                                 fpr_pos=1.0, fpr_neg=1.0, a_pinch=1.0, lamda_s=1.0, lamda_c=1.0,
                                                 lamda_a=1.0, lamda_k=1.0, c_s=1.0, c_c=1.0, c_a=1.0, c_k=1.0,
-                                                theta_p__plus=1.0, theta_p__neg=1.0, theta_pc__plus=1.0,
-                                                theta_pc__neg=1.0, res__pos=1.0, res__neg=1.0, theta_u__plus=1.0,
-                                                theta_u__neg=1.0, d__plus=1.0, d__neg=1.0)
+                                                theta_p_plus=1.0, theta_p_neg=1.0, theta_pc_plus=1.0,
+                                                theta_pc_neg=1.0, res_pos=1.0, res_neg=1.0, theta_u_plus=1.0,
+                                                theta_u_neg=1.0, d_plus=1.0, d_neg=1.0)
     o3.uniaxial_material.InitStressMaterial(osi, other=other, init_stress=-1.0)
 
 

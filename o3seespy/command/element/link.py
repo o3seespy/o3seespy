@@ -22,7 +22,7 @@ class TwoNodeLink(ElementBase):
     """
     op_type = 'twoNodeLink'
 
-    def __init__(self, osi, ele_nodes, mats: list=None, dir=None, dirs=None, p_delta_vals: list=None, shear_dist=None, do_rayleigh=False, orient: list=None, mass: float=None):
+    def __init__(self, osi, ele_nodes, mats: list=None, dirs: list=None, p_delta_vals: list=None, shear_dist=None, do_rayleigh=False, orient: list=None, mass: float=None):
         """
         Initial method for TwoNodeLink
 
@@ -33,8 +33,10 @@ class TwoNodeLink(ElementBase):
             A list of two element nodes
         mats: list, optional
             A list of objects associated with previously-defined uniaxial_material objects
-        dir: None, optional
-            
+        dirs: list, optional
+            A list material directions: * 2d-case: ``1`` , ``2`` - translations along local x,y axes; ``3`` - rotation
+            about local z axis * 3d-case: ``1``, ``2``, ``3`` - translations along local x,y,z axes; ``4``, ``5``, ``6`` -
+            rotations about local x,y,z axes
         p_delta_vals: list, optional
             P-delta moment contribution ratios, size of ratio vector is 2 for 2d-case and 4 for 3d-case (entries:
             ``[my_inode, my_jnode, mz_inode, mz_jnode]``) ``my_inode`` + ``my_jnode`` <= 1.0, ``mz_inode`` + ``mz_jnode`` <=
@@ -67,9 +69,7 @@ class TwoNodeLink(ElementBase):
             self.mats = None
         else:
             self.mats = [x.tag for x in mats]
-        self.dirs = dir
-        if dirs is not None:
-            self.dirs = dirs
+        self.dirs = dirs
         self.p_delta_vals = p_delta_vals
         self.shear_dist = shear_dist
         self.do_rayleigh = do_rayleigh

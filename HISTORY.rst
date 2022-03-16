@@ -5,6 +5,11 @@ History
 Pre-release
 -----------
 
+3.2.0.6 (2022-03-03)
+--------------------
+* Removed double underscore in parameter names
+* Added support for element Rayleigh damping
+
 3.2.0.5 (2021-11-29)
 --------------------
 * Can now define algorithms and test checks without applying them, and can apply/reapply them to the OpenSeesInstance using the method `.reapply()`

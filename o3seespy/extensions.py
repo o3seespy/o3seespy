@@ -154,7 +154,8 @@ def to_py_file(osi, ofile='ofile.py', compress=True, w_analyze=False):
         commands = compress_opy_lines(osi.commands)
     else:
         commands = osi.commands
-    pstr = 'import openseespy.opensees as opy\n' + '\n'.join(commands)
+    # pstr = 'import openseespy.opensees as opy\n' + '\n'.join(commands)
+    pstr = 'from o3seespy import opy\n' + '\n'.join(commands)
     if w_analyze:
         pstr += '\nopy.analyze(1, 0.1)\n'
     ofile = open(ofile, 'w')

@@ -14,7 +14,7 @@ def test_elastic_tubular_joint():
     osi = o3.OpenSeesInstance(ndm=2)
     coords = [[0, 0], [1, 0], [1, 1], [0, 1]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(4)]
-    o3.element.ElasticTubularJoint(osi, ele_nodes=ele_nodes, brace__diameter=1.0, brace__angle=1.0, big_e=1.0, chord__diameter=1.0, chord__thickness=1.0, chord__angle=1.0)
+    o3.element.ElasticTubularJoint(osi, ele_nodes=ele_nodes, brace_diameter=1.0, brace_angle=1.0, big_e=1.0, chord_diameter=1.0, chord_thickness=1.0, chord_angle=1.0)
 
 
 @pytest.mark.skip()

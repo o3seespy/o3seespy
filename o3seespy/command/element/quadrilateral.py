@@ -763,3 +763,228 @@ class MVLEM3DDensity(ElementBase):
         if getattr(self, 'mat_shear') is not None:
             self._parameters += ['-matShear', self.mat_shear.tag]
         self.to_process(osi)
+
+
+class SFIMVLEM3DCoR(ElementBase):
+    """
+    The SFIMVLEM3DCoR Element Class
+    
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kamiar
+    Kalbasi (CSU Fullerton)| Kutay Orakcal (Bogazici University)| John Wallace (UCLA)The SFI-MVLEM-3D model (Figure 1a)
+    is a three-dimensional four-node element with 24 DOFs that incorporates axial-flexural-shear interaction and can
+    be used for nonlinear analysis of non-rectangular reinforced concrete walls subjected to multidirectional
+    loading. The SFI-MVLEM-3D model is an extension of the two-dimensional, two-node
+    Shear-Flexure-Interaction Multiple-Vertical-Line-Element-Model (`SFI-MVLEM
+    
+    """
+    op_type = 'SFI_MVLEM_3D'
+
+    def __init__(self, osi, ele_nodes, m, c, thicks: list=None, widths: list=None, mats: list=None):
+        """
+        Initial method for SFIMVLEM3DCoR
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of four element nodes defined in the counter-clockwise direction
+        m: int
+            Number of element uniaxial fibers
+        c: float
+            Location of center of rotation from the base (optional; default = 0.4 (recommended))
+        thicks: list, optional
+            A list of ``m`` macro-fiber thicknesses
+        widths: list, optional
+            A list of ``m`` macro-fiber widths
+        mats: list, optional
+            A list of ``m`` material objects corresponding to ndmaterial fsam
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.m = int(m)
+        self.thicks = thicks
+        self.widths = widths
+        if mats is None:
+            self.mats = None
+        else:
+            self.mats = [x.tag for x in mats]
+        self.c = float(c)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, '-CoR', self.c]
+        if getattr(self, 'thicks') is not None:
+            self._parameters += ['-thick', *self.thicks]
+        if getattr(self, 'widths') is not None:
+            self._parameters += ['-width', *self.widths]
+        if getattr(self, 'mats') is not None:
+            self._parameters += ['-mat', *self.mats]
+        self.to_process(osi)
+
+class SFIMVLEM3DThickMod(ElementBase):
+    """
+    The SFIMVLEM3DThickMod Element Class
+    
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kamiar
+    Kalbasi (CSU Fullerton)| Kutay Orakcal (Bogazici University)| John Wallace (UCLA)The SFI-MVLEM-3D model (Figure 1a)
+    is a three-dimensional four-node element with 24 DOFs that incorporates axial-flexural-shear interaction and can
+    be used for nonlinear analysis of non-rectangular reinforced concrete walls subjected to multidirectional
+    loading. The SFI-MVLEM-3D model is an extension of the two-dimensional, two-node
+    Shear-Flexure-Interaction Multiple-Vertical-Line-Element-Model (`SFI-MVLEM
+    
+    """
+    op_type = 'SFI_MVLEM_3D'
+
+    def __init__(self, osi, ele_nodes, m, t_mod, thicks: list=None, widths: list=None, mats: list=None):
+        """
+        Initial method for SFIMVLEM3DThickMod
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of four element nodes defined in the counter-clockwise direction
+        m: int
+            Number of element uniaxial fibers
+        t_mod: float
+            Thickness multiplier (optional; default = 0.63 equivalent to 0.25ig for out-of-plane bending)
+        thicks: list, optional
+            A list of ``m`` macro-fiber thicknesses
+        widths: list, optional
+            A list of ``m`` macro-fiber widths
+        mats: list, optional
+            A list of ``m`` material objects corresponding to ndmaterial fsam
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.m = int(m)
+        self.thicks = thicks
+        self.widths = widths
+        if mats is None:
+            self.mats = None
+        else:
+            self.mats = [x.tag for x in mats]
+        self.t_mod = float(t_mod)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, '-ThickMod', self.t_mod]
+        if getattr(self, 'thicks') is not None:
+            self._parameters += ['-thick', *self.thicks]
+        if getattr(self, 'widths') is not None:
+            self._parameters += ['-width', *self.widths]
+        if getattr(self, 'mats') is not None:
+            self._parameters += ['-mat', *self.mats]
+        self.to_process(osi)
+
+class SFIMVLEM3DPoisson(ElementBase):
+    """
+    The SFIMVLEM3DPoisson Element Class
+    
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kamiar
+    Kalbasi (CSU Fullerton)| Kutay Orakcal (Bogazici University)| John Wallace (UCLA)The SFI-MVLEM-3D model (Figure 1a)
+    is a three-dimensional four-node element with 24 DOFs that incorporates axial-flexural-shear interaction and can
+    be used for nonlinear analysis of non-rectangular reinforced concrete walls subjected to multidirectional
+    loading. The SFI-MVLEM-3D model is an extension of the two-dimensional, two-node
+    Shear-Flexure-Interaction Multiple-Vertical-Line-Element-Model (`SFI-MVLEM
+    
+    """
+    op_type = 'SFI_MVLEM_3D'
+
+    def __init__(self, osi, ele_nodes, m, nu, thicks: list=None, widths: list=None, mats: list=None):
+        """
+        Initial method for SFIMVLEM3DPoisson
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of four element nodes defined in the counter-clockwise direction
+        m: int
+            Number of element uniaxial fibers
+        nu: float
+            Poisson ratio for out-of-plane bending (optional; default = 0.25)
+        thicks: list, optional
+            A list of ``m`` macro-fiber thicknesses
+        widths: list, optional
+            A list of ``m`` macro-fiber widths
+        mats: list, optional
+            A list of ``m`` material objects corresponding to ndmaterial fsam
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.m = int(m)
+        self.thicks = thicks
+        self.widths = widths
+        if mats is None:
+            self.mats = None
+        else:
+            self.mats = [x.tag for x in mats]
+        self.nu = float(nu)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, '-Poisson', self.nu]
+        if getattr(self, 'thicks') is not None:
+            self._parameters += ['-thick', *self.thicks]
+        if getattr(self, 'widths') is not None:
+            self._parameters += ['-width', *self.widths]
+        if getattr(self, 'mats') is not None:
+            self._parameters += ['-mat', *self.mats]
+        self.to_process(osi)
+
+class SFIMVLEM3DDensity(ElementBase):
+    """
+    The SFIMVLEM3DDensity Element Class
+    
+    | Developed and implemented by: | `Kristijan Kolozvari <mailto:kkolozvari@fullerton.edu>`_ (CSU Fullerton)| Kamiar
+    Kalbasi (CSU Fullerton)| Kutay Orakcal (Bogazici University)| John Wallace (UCLA)The SFI-MVLEM-3D model (Figure 1a)
+    is a three-dimensional four-node element with 24 DOFs that incorporates axial-flexural-shear interaction and can
+    be used for nonlinear analysis of non-rectangular reinforced concrete walls subjected to multidirectional
+    loading. The SFI-MVLEM-3D model is an extension of the two-dimensional, two-node
+    Shear-Flexure-Interaction Multiple-Vertical-Line-Element-Model (`SFI-MVLEM
+    
+    """
+    op_type = 'SFI_MVLEM_3D'
+
+    def __init__(self, osi, ele_nodes, m, dens, thicks: list=None, widths: list=None, mats: list=None):
+        """
+        Initial method for SFIMVLEM3DDensity
+
+        Parameters
+        ----------
+        osi: o3seespy.OpenSeesInstance
+        ele_nodes: list
+            A list of four element nodes defined in the counter-clockwise direction
+        m: int
+            Number of element uniaxial fibers
+        dens: float
+            Density (optional; default = 0.0)
+        thicks: list, optional
+            A list of ``m`` macro-fiber thicknesses
+        widths: list, optional
+            A list of ``m`` macro-fiber widths
+        mats: list, optional
+            A list of ``m`` material objects corresponding to ndmaterial fsam
+        """
+        self.osi = osi
+        self.ele_node_tags = [x.tag for x in ele_nodes]
+        self.ele_nodes = ele_nodes
+        self.m = int(m)
+        self.thicks = thicks
+        self.widths = widths
+        if mats is None:
+            self.mats = None
+        else:
+            self.mats = [x.tag for x in mats]
+        self.dens = float(dens)
+        osi.n_ele += 1
+        self._tag = osi.n_ele
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.m, '-Density', self.dens]
+        if getattr(self, 'thicks') is not None:
+            self._parameters += ['-thick', *self.thicks]
+        if getattr(self, 'widths') is not None:
+            self._parameters += ['-width', *self.widths]
+        if getattr(self, 'mats') is not None:
+            self._parameters += ['-mat', *self.mats]
+        self.to_process(osi)
