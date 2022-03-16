@@ -298,6 +298,18 @@ class DruckerPrager(NDMaterialBase):
     def set_update_material_stage(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'updateMaterialStage', value, ele, eles)
 
+    def set_nu(self, nu, ele=None, eles=None, adj_g_mod=False):
+        if adj_g_mod:
+            g_mod = 3 * self.k_mod * (1 - 2 * nu) / (2 * (1 + nu))
+            self.set_parameter(self.osi, 'shearModulus', g_mod, ele, eles)
+        else:
+            bulk_mod = 2 * self.g_mod * (1 + nu) / (3 * (1 - 2 * nu))
+            self.set_parameter(self.osi, 'bulkModulus', bulk_mod, ele, eles)
+
+    @property
+    def nu(self):
+        return (3 * self.k_mod - 2 * self.g_mod) / (2 * (3 * self.k_mod + self.g_mod))
+
     def update_eles_to_nonlinear(self, eles):
         from numpy import diff
         ele_tags = [ele.tag for ele in eles]

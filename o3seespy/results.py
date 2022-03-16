@@ -36,7 +36,7 @@ class Results2D(object):
     selected_nodes = None
     _selected_node_tags = None
 
-    def __init__(self, cache_path='', dt=None, dynamic=False, man_nodes=False):
+    def __init__(self, cache_path='', dt=None, dynamic=False, man_nodes=False, prefix=''):
         self.cache_path = cache_path
         self._dt = dt
         self.dynamic = dynamic
@@ -48,6 +48,7 @@ class Results2D(object):
         self.meta_fmt = [None, '%i', '%i', '%i']
         self.pseudo_dt = None  # use if recording steps of a static analysis
         self.man_nodes = man_nodes
+        self.prefix = ''
 
     def start_recorders(self, osi, dt=None):  # TODO: handle recorder time step
         self.used_r_starter = 1
@@ -102,45 +103,47 @@ class Results2D(object):
         self._selected_node_tags = tags
 
     def save_to_cache(self):
+        pf = self.prefix
         self.wipe_old_files()
         if self.coords is not None:
-            self.savetxt(self.cache_path + 'coords.txt', self.coords)
+            self.savetxt(self.cache_path + f'{pf}coords.txt', self.coords)
         ostr = [f'{ele_tag} ' + ' '.join([str(x) for x in self.ele2node_tags[ele_tag]]) + '\n' for ele_tag in self.ele2node_tags]
-        open(self.cache_path + 'ele2node_tags.txt', 'w').writelines(ostr)
+        open(self.cache_path + f'{pf}ele2node_tags.txt', 'w').writelines(ostr)
         if self.selected_node_tags is not None:
-            self.savetxt(self.cache_path + 'selected_node_tags.txt', self.selected_node_tags, fmt='%i')
+            self.savetxt(self.cache_path + f'{pf}selected_node_tags.txt', self.selected_node_tags, fmt='%i')
 
         for i, fname in enumerate(self.meta_files):
             vals = getattr(self, fname)
             if vals is not None:
-                self.savetxt(self.cache_path + f'{fname}.txt', vals, fmt=self.meta_fmt[i])
+                self.savetxt(self.cache_path + f'{pf}{fname}.txt', vals, fmt=self.meta_fmt[i])
         if self.dynamic:
             if not self.used_r_starter:
-                self.savetxt(self.cache_path + 'x_disp.txt', self.x_disp)
-                self.savetxt(self.cache_path + 'y_disp.txt', self.y_disp)
-                self.savetxt(self.cache_path + 'timer.txt', self.time)
+                self.savetxt(self.cache_path + f'{pf}x_disp.txt', self.x_disp)
+                self.savetxt(self.cache_path + f'{pf}y_disp.txt', self.y_disp)
+                self.savetxt(self.cache_path + f'{pf}timer.txt', self.time)
             elif self.pseudo_dt:
                 from numpy import arange
-                x_disp = self.loadtxt(f'{self.cache_path}x_disp.txt', ndmin=2)
+                x_disp = self.loadtxt(f'{self.cache_path}{prefix}x_disp.txt', ndmin=2)
                 self.time = arange(len(x_disp[:, 0])) * self.pseudo_dt
-                self.savetxt(self.cache_path + 'timer.txt', self.time)
+                self.savetxt(self.cache_path + f'{pf}timer.txt', self.time)
 
     def load_from_cache(self):
-        self.coords = self.loadtxt(self.cache_path + 'coords.txt')
+        prefix = self.prefix
+        self.coords = self.loadtxt(self.cache_path + f'{prefix}coords.txt')
 
         try:
-            self.selected_node_tags = self.loadtxt(self.cache_path + 'selected_node_tags.txt', dtype=int)
+            self.selected_node_tags = self.loadtxt(self.cache_path + f'{prefix}selected_node_tags.txt', dtype=int)
         except OSError:
             pass
 
         self.ele2node_tags = {}
-        lines = open(self.cache_path + 'ele2node_tags.txt').read().splitlines()
+        lines = open(self.cache_path + f'{prefix}ele2node_tags.txt').read().splitlines()
         for line in lines:
             parts = [int(x) for x in line.split()]
             self.ele2node_tags[parts[0]] = parts[1:]
         for fname in self.meta_files:
             try:
-                data = self.loadtxt(self.cache_path + f'{fname}.txt')
+                data = self.loadtxt(self.cache_path + f'{prefix}{fname}.txt')
                 if len(data) == 0:
                     data = None
                 setattr(self, fname, data)
@@ -148,9 +151,9 @@ class Results2D(object):
                 pass
 
         if self.dynamic:
-            self.x_disp = self.loadtxt(f'{self.cache_path}x_disp.txt')
-            self.y_disp = self.loadtxt(f'{self.cache_path}y_disp.txt')
-            self.time = self.loadtxt(f'{self.cache_path}timer.txt', ndmin=2)[:, 0]
+            self.x_disp = self.loadtxt(f'{self.cache_path}{prefix}x_disp.txt')
+            self.y_disp = self.loadtxt(f'{self.cache_path}{prefix}y_disp.txt')
+            self.time = self.loadtxt(f'{self.cache_path}{prefix}timer.txt', ndmin=2)[:, 0]
 
     @property
     def dt(self):
