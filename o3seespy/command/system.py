@@ -277,7 +277,7 @@ class Mumps(SystemBase):
     """
     op_type = 'Mumps'
 
-    def __init__(self, osi, icntl14=None, icntl7=None):
+    def __init__(self, osi, icntl14=None, icntl7=None, matrix=None):
         """
         Initial method for Mumps
 
@@ -289,16 +289,21 @@ class Mumps(SystemBase):
             
         icntl7: None, optional
             Sets ICNTL(7): For sequential analysis - computes a symmetric permutation (0-7). 3=Scotch, 4=PORD, 5=Metis
-            
+        matrix: int, optional (default=0)
+            Matrix type. 0=unsymmetric, 1=symmetric positive definite, 2=symmetric general
         """
         self.osi = osi
         self.icntl14 = icntl14
         self.icntl7 = icntl7
+        self.matrix = matrix
         self._parameters = [self.op_type]
         if getattr(self, 'icntl14') is not None:
             self._parameters += ['-ICNTL14', self.icntl14]
         if getattr(self, 'icntl7') is not None:
             self._parameters += ['-ICNTL7', self.icntl7]
+        if self.matrix is not None:
+            self.matrix = int(self.matrix)
+            self._parameters += ['-matrixType', self.matrix]
         self.to_process(osi)
 
 
