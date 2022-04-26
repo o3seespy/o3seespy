@@ -260,6 +260,7 @@ def py2tcl(pystr):
     new = pystr.replace('(', ' ')
     new = new.replace(')', ' ')
     new = new.replace('opy.', '')
+    new = new.replace('ops.', '')
     new = new.replace(',', '')
     new = new.replace("'", '')
     new = new.replace('"', '')
