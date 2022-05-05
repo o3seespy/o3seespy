@@ -327,7 +327,7 @@ class TimeToArrayCache(RecorderBase):
 class TimeToFile(RecorderBase):
     op_type = "Node"
 
-    def __init__(self, osi, fname, nsd=8, dt=None, close_on_write=False):
+    def __init__(self, osi, fname, nsd=8, dt=None, close_on_write=False, dummy_node_tag=1):
         """
         Records the recorder time and saves to a numpy array
 
@@ -341,7 +341,7 @@ class TimeToFile(RecorderBase):
         """
         self.osi = osi
         self.fname = fname
-        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-time', '-node', 1]
+        self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-time', '-node', dummy_node_tag]
         if close_on_write:
             self._parameters.insert(5, '-closeOnWrite')
         if dt is not None:

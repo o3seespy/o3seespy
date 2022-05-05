@@ -1,5 +1,6 @@
 import os
 import o3seespy as o3
+import glob
 
 
 def calc_quad_centroids(xs, ys, axis=-1):  # use axis=-2 for time domain data, since -1 is time
@@ -36,7 +37,7 @@ class Results2D(object):
     selected_nodes = None
     _selected_node_tags = None
 
-    def __init__(self, cache_path='', dt=None, dynamic=False, man_nodes=False, prefix=''):
+    def __init__(self, cache_path='', dt=None, dynamic=False, man_nodes=False, prefix='', mp=0):
         self.cache_path = cache_path
         self._dt = dt
         self.dynamic = dynamic
@@ -48,7 +49,12 @@ class Results2D(object):
         self.meta_fmt = [None, '%i', '%i', '%i']
         self.pseudo_dt = None  # use if recording steps of a static analysis
         self.man_nodes = man_nodes
-        self.prefix = ''
+        self.prefix = prefix
+        self.mp = mp
+        if mp:
+            self.pstr = f'-pid{o3.mp.get_pid()}'
+        else:
+            self.pstr = ''
 
     def start_recorders(self, osi, dt=None):  # TODO: handle recorder time step
         self.used_r_starter = 1
@@ -69,26 +75,35 @@ class Results2D(object):
             node_tags = 'all'
             if self.selected_node_tags is not None:
                 node_tags = self.selected_node_tags
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}x_disp.txt', node_tags, [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt, nodes_as_tags=True)
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}y_disp.txt', node_tags, [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt, nodes_as_tags=True)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}x_disp{self.pstr}.txt', node_tags, [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt, nodes_as_tags=True)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}y_disp{self.pstr}.txt', node_tags, [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt, nodes_as_tags=True)
             if not self.pseudo_dt:
-                o3.recorder.TimeToFile(osi, f'{self.cache_path}timer.txt', nsd=4, dt=dt)
+                if self.mp:
+                    if self.pstr == '-pid0':
+                        nodes = o3.get_node_tags(osi)
+                        o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=4, dt=dt, dummy_node=nodes[0])
+                else:
+                    o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=4, dt=dt)
 
     def wipe_old_files(self):
         sfiles = ['ele2node_tags', 'coords', 'selected_node_tags']
         if not self.used_r_starter:
             sfiles += ['x_disp', 'y_disp', 'timer']
         for fname in sfiles:
-            try:
-                os.remove(f'{self.cache_path}{fname}.txt')
-            except FileNotFoundError:
-                pass
+            ffps = glob.glob(f'{self.cache_path}{self.prefix}{fname}*.txt')
+            for ffp in ffps:
+                try:
+                    os.remove(ffp)
+                except FileNotFoundError:
+                    pass
 
         for fname in self.meta_files:
-            try:
-                os.remove(f'{self.cache_path}{fname}.txt')
-            except FileNotFoundError:
-                pass
+            ffps = glob.glob(f'{self.cache_path}{self.prefix}{fname}*.txt')
+            for ffp in ffps:
+                try:
+                    os.remove(ffp)
+                except FileNotFoundError:
+                    pass
 
     @property
     def selected_node_tags(self):
@@ -102,15 +117,16 @@ class Results2D(object):
     def selected_node_tags(self, tags):
         self._selected_node_tags = tags
 
-    def save_to_cache(self):
+    def save_to_cache(self, wipe_old_files=1):
         pf = self.prefix
-        self.wipe_old_files()
+        if wipe_old_files:
+            self.wipe_old_files()
         if self.coords is not None:
-            self.savetxt(self.cache_path + f'{pf}coords.txt', self.coords)
+            self.savetxt(self.cache_path + f'{pf}coords{self.pstr}.txt', self.coords)
         ostr = [f'{ele_tag} ' + ' '.join([str(x) for x in self.ele2node_tags[ele_tag]]) + '\n' for ele_tag in self.ele2node_tags]
-        open(self.cache_path + f'{pf}ele2node_tags.txt', 'w').writelines(ostr)
+        open(self.cache_path + f'{pf}ele2node_tags{self.pstr}.txt', 'w').writelines(ostr)
         if self.selected_node_tags is not None:
-            self.savetxt(self.cache_path + f'{pf}selected_node_tags.txt', self.selected_node_tags, fmt='%i')
+            self.savetxt(self.cache_path + f'{pf}selected_node_tags{self.pstr}.txt', self.selected_node_tags, fmt='%i')
 
         for i, fname in enumerate(self.meta_files):
             vals = getattr(self, fname)
@@ -129,18 +145,37 @@ class Results2D(object):
 
     def load_from_cache(self):
         prefix = self.prefix
-        self.coords = self.loadtxt(self.cache_path + f'{prefix}coords.txt')
+        from numpy import concatenate
+        if self.mp:
 
+            ffps = glob.glob(self.cache_path + f'{prefix}coords-pid*.txt')
+            ffps.sort()
+            temp_c = []
+            for ffp in ffps:
+                temp_c.append(self.loadtxt(ffp))
+            self.coords = concatenate(temp_c)
+        else:
+            self.coords = self.loadtxt(self.cache_path + f'{prefix}coords.txt')
+        ffps = glob.glob(self.cache_path + f'{prefix}selected_node_tags*.txt')
+        ffps.sort()
         try:
-            self.selected_node_tags = self.loadtxt(self.cache_path + f'{prefix}selected_node_tags.txt', dtype=int)
+            temp_c = []
+            for ffp in ffps:
+                temp_c.append(self.loadtxt(ffp, dtype=int))
+            self.selected_node_tags = concatenate(temp_c)
         except OSError:
+            pass
+        except ValueError:  # if empty list
             pass
 
         self.ele2node_tags = {}
-        lines = open(self.cache_path + f'{prefix}ele2node_tags.txt').read().splitlines()
-        for line in lines:
-            parts = [int(x) for x in line.split()]
-            self.ele2node_tags[parts[0]] = parts[1:]
+        ffps = glob.glob(self.cache_path + f'{prefix}ele2node_tags*.txt')
+        ffps.sort()
+        for ffp in ffps:
+            lines = open(ffp).read().splitlines()
+            for line in lines:
+                parts = [int(x) for x in line.split()]
+                self.ele2node_tags[parts[0]] = parts[1:]
         for fname in self.meta_files:
             try:
                 data = self.loadtxt(self.cache_path + f'{prefix}{fname}.txt')
@@ -151,8 +186,18 @@ class Results2D(object):
                 pass
 
         if self.dynamic:
-            self.x_disp = self.loadtxt(f'{self.cache_path}{prefix}x_disp.txt')
-            self.y_disp = self.loadtxt(f'{self.cache_path}{prefix}y_disp.txt')
+            if self.mp:
+                ps = [('x_disp', 'x_disp'), ('y_disp', 'y_disp')]
+                for pp in ps:
+                    ffps = glob.glob(self.cache_path + f'{prefix}{pp[1]}*.txt')
+                    ffps.sort()
+                    temp = []
+                    for ffp in ffps:
+                        temp.append(self.loadtxt(ffp, ndmin=2).T)
+                    setattr(self, pp[1], concatenate(temp).T)
+            else:
+                self.x_disp = self.loadtxt(f'{self.cache_path}{prefix}x_disp.txt')
+                self.y_disp = self.loadtxt(f'{self.cache_path}{prefix}y_disp.txt')
             self.time = self.loadtxt(f'{self.cache_path}{prefix}timer.txt', ndmin=2)[:, 0]
 
     @property

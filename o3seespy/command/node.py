@@ -6,7 +6,8 @@ class Node(OpenSeesObject):
     op_type = "node"
 
     def __init__(self, osi, x: float, y=None, z=None, vel=None, acc=None, mass: list=None,
-                 x_mass=None, y_mass=None, z_mass=None, x_rot_mass=None, y_rot_mass=None, z_rot_mass=None, tag=None):
+                 x_mass=None, y_mass=None, z_mass=None, x_rot_mass=None, y_rot_mass=None, z_rot_mass=None, tag=None,
+                 build=1):
         """
         An OpenSees node
 
@@ -72,7 +73,8 @@ class Node(OpenSeesObject):
             self._parameters += ["-vel", self.vel]
         if self.acc is not None:
             self._parameters += ["-accel", self.acc]
-        self.to_process(osi)
+        if build:
+            self.to_process(osi)
 
 
 def build_regular_node_mesh(osi, xs, ys, zs=None, active=None, tags=None):
