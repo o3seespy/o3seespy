@@ -80,8 +80,8 @@ class Results2D(object):
             if not self.pseudo_dt:
                 if self.mp:
                     if self.pstr == '-pid0':
-                        nodes = o3.get_node_tags(osi)
-                        o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=4, dt=dt, dummy_node=nodes[0])
+                        all_node_tags = o3.get_node_tags(osi)
+                        o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=4, dt=dt, dummy_node_tag=all_node_tags[0])
                 else:
                     o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=4, dt=dt)
 
