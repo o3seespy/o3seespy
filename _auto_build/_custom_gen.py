@@ -148,18 +148,25 @@ class ManzariDafalias(NDMaterialBase):
             Mass density of the material
         int_scheme: int, optional (default=1)
             Integration scheme type:
-                * 0 = Modified Euler constraining maximum energy increment
+                * 0 = Modified Euler constraining maximum energy increment (See Note 6)
                 * 1 = Modified Euler with error control
                 * 2 = Backward Euler (Implicit)
-                * 3 = Runge Kutta 4th order
-                * 4 = Forward Euler constraining maximum energy increment
+                * 3 = Runge Kutta 4th order (inconsistent results to other methods - 3&6 produce same)
+                * 4 = Forward Euler constraining maximum energy increment (See Note 6)
                 * 5 = Forward Euler
-                * 6 = Runge-Kutta 4-th order constraining maximum energy increment
-                * 7 = Modified Euler constraining maximum strain increment
-                * 8 = Runge-Kutta 4-th order constraining maximum strain increment
+                * 6 = Runge-Kutta 4-th order constraining maximum energy increment (inconsistent results to other methods - 3&6 produce same)
+                * 7 = Not implemented. runs int_scheme=9. Modified Euler constraining maximum strain increment
+                * 8 = Not implemented. runs int_scheme=9. Runge-Kutta 4-th order constraining maximum strain increment
                 * 9 = Forward Euler constraining maximum energy increment
-                * 45 = Runge Kutta 45 with error control after Sloan
-            To use implicit integration, `int_scheme` must be equal to 2
+                * 45 = Runge Kutta 45 with error control after Sloan [very slow]
+            Notes:
+                1. To use implicit integration, `int_scheme` must be equal to 2
+                2. IS=3,6 - RK4 methods. produce same results under small time steps (diff to others)
+                3. IS=0,1 - Modified Euler methods. produce same results under small time steps and same as Backward Euler.
+                4. IS=4,5,9 - Forward Euler methods. produce same results under small time steps (diff to others)
+                5. The maximum strain increment is hardcoded as 1e-5
+                6. WARNING: The maximum energy increment is hardcoded as 1e-4 (not normalised, should use p_atm=101 (i.e. kPa))
+                   also only does 2 substeps at half strain increment, if exceeds energy increment.
         tan_type: int, optional (default=0)
             Tangent type:
                 * 0: Elastic Tangent
