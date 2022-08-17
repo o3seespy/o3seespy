@@ -139,43 +139,56 @@ class Results2D(object):
                 self.savetxt(self.cache_path + f'{pf}timer.txt', self.time)
             elif self.pseudo_dt:
                 from numpy import arange
-                x_disp = self.loadtxt(f'{self.cache_path}{prefix}x_disp.txt', ndmin=2)
+                x_disp = self.loadtxt(f'{self.cache_path}{pf}x_disp.txt', ndmin=2)
                 self.time = arange(len(x_disp[:, 0])) * self.pseudo_dt
                 self.savetxt(self.cache_path + f'{pf}timer.txt', self.time)
 
     def load_from_cache(self):
         prefix = self.prefix
-        from numpy import concatenate
+        from numpy import concatenate, unique
         if self.mp:
 
             ffps = glob.glob(self.cache_path + f'{prefix}coords-pid*.txt')
             ffps.sort()
-            temp_c = []
+            temp_c0 = []
             for ffp in ffps:
-                temp_c.append(self.loadtxt(ffp))
-            self.coords = concatenate(temp_c)
+                temp_c0.append(self.loadtxt(ffp))
+            self.coords = concatenate(temp_c0)
         else:
             self.coords = self.loadtxt(self.cache_path + f'{prefix}coords.txt')
         ffps = glob.glob(self.cache_path + f'{prefix}selected_node_tags*.txt')
         ffps.sort()
-        try:
-            temp_c = []
-            for ffp in ffps:
-                temp_c.append(self.loadtxt(ffp, dtype=int))
-            self.selected_node_tags = concatenate(temp_c)
-        except OSError:
-            pass
-        except ValueError:  # if empty list
-            pass
+        # try:
+        uindices = None
+        temp_c = []
+        for ffp in ffps:
+            temp_c.append(self.loadtxt(ffp, dtype=int))
+        if len(temp_c):
+            snts = concatenate(temp_c)
+            uniq, uindices = unique(snts, return_index=True)
+            self.selected_node_tags = uniq
+            self.coords = self.coords[uindices]
+        # except OSError as e:
+        #     pass
+        # except ValueError as e:  # if empty list
+        #     pass
+
 
         self.ele2node_tags = {}
+        self.ele2pid = {}
         ffps = glob.glob(self.cache_path + f'{prefix}ele2node_tags*.txt')
         ffps.sort()
         for ffp in ffps:
+            if 'pid' in ffp:
+                pid = ffp.split('pid')[-1]
+                pid = int(pid.split('.')[0])
+            else:
+                pid = 0
             lines = open(ffp).read().splitlines()
             for line in lines:
                 parts = [int(x) for x in line.split()]
                 self.ele2node_tags[parts[0]] = parts[1:]
+                self.ele2pid[parts[0]] = pid
         for fname in self.meta_files:
             try:
                 data = self.loadtxt(self.cache_path + f'{prefix}{fname}.txt')
@@ -194,7 +207,11 @@ class Results2D(object):
                     temp = []
                     for ffp in ffps:
                         temp.append(self.loadtxt(ffp, ndmin=2).T)
-                    setattr(self, pp[1], concatenate(temp).T)
+                    if uindices is not None:
+                        vals = concatenate(temp)[uindices]
+                    else:
+                        vals = concatenate(temp)
+                    setattr(self, pp[1], vals.T)
             else:
                 self.x_disp = self.loadtxt(f'{self.cache_path}{prefix}x_disp.txt')
                 self.y_disp = self.loadtxt(f'{self.cache_path}{prefix}y_disp.txt')
@@ -212,7 +229,7 @@ class Results2D(object):
         self._dt = dt
 
     def rezero_node_tags(self, osi=None):
-        from numpy import array, arange, searchsorted, where
+        from numpy import array, arange, searchsorted, where, clip
         if self.selected_node_tags is None:
             node_tags = array(o3.get_node_tags(osi))
         else:
@@ -225,6 +242,7 @@ class Results2D(object):
             curr_tags = self.ele2node_tags[ele_tag]
             idx = searchsorted(k, curr_tags)
             assert max(idx) < len(k)
+            # idx = clip(idx, None, len(k) - 1)
             mask = k[idx] == curr_tags
             self.ele2node_tags[ele_tag] = where(mask, v[idx], len(k))
 

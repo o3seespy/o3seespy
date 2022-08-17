@@ -4,6 +4,9 @@ History
 
 Pre-release
 -----------
+* Allow saving results with a prefix for file names
+* Improved support for variable transient analysis
+* Improved mesh partitioning support for tied boundaries
 
 3.2.0.6 (2022-03-03)
 --------------------

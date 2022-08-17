@@ -37,9 +37,18 @@ def build_graph_links(mesh_eles, inactive_value=-1):
     return g_adjs, mlist
 
 
-def build_nodes_in_partition_2dmatrix(ele_partitions, pid):
+def build_nodes_in_partition_2dmatrix(ele_partitions, pid, wrap=None):
     import numpy as np
-    partitions = np.pad(ele_partitions, ((0, 1), (0, 1)), 'constant', constant_values=-1)
+    if wrap == 'x':
+        
+        partitions = np.pad(ele_partitions, ((0, 0), (0, 1)), 'constant', constant_values=-1)
+        x_vals = partitions[0]
+        ps = list(partitions)
+        ps.append(x_vals)
+        partitions = np.array(ps)
+        # partitions = np.insert(partitions, len(partitions), x_vals)
+    else:
+        partitions = np.pad(ele_partitions, ((0, 1), (0, 1)), 'constant', constant_values=-1)
     ni = len(partitions)
     nj = len(partitions[0])
     rolled_down = np.roll(partitions, 1, axis=0)
