@@ -524,8 +524,9 @@ class FlatSliderBearing2D(ElementBase):
             Maximum number of iterations to undertake to satisfy element equilibrium (optional, default = 20)
         tol: float, optional
             Convergence tolerance to satisfy element equilibrium (optional, default = 1e-8)
-        orient: None, optional
-            
+        orient: list, optional
+            [x1, x2, x3, y1, y2, y3] defines local x and y, note that local x is in the P direction,
+            whereas friction acts along y. Therefore [0, 1, 0, -1, 0, 0] is a normal setup for a horizontal slider.
         mass: float, optional
             Element mass (optional, default = 0.0)
         shear_dist: float, optional
