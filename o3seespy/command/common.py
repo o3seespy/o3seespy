@@ -749,6 +749,7 @@ def analyze_w_restart(osi, num_inc=1, dt=None, dt_min=None, dt_max=None, jd=None
         pass
         # get curr time.
 
+
 def get_node_disp(osi, node, dof=None, node_as_tag=False):
     op_type = 'nodeDisp'
     if node_as_tag:
@@ -758,6 +759,7 @@ def get_node_disp(osi, node, dof=None, node_as_tag=False):
     if dof is not None:
         parameters.append(dof)
     return osi.to_process(op_type, parameters)
+
 
 def get_node_disps(osi, node, dofs, node_as_tag=False):
     op_type = 'nodeDisp'
@@ -814,6 +816,12 @@ def get_node_unbalance(osi, node, dof=None):
     parameters = [node.tag]
     if dof is not None:
         parameters.append(dof)
+    return osi.to_process(op_type, parameters)
+
+
+def get_node_pressure(osi, node):
+    op_type = 'nodePressure'
+    parameters = [node.tag, 2]
     return osi.to_process(op_type, parameters)
 
 
@@ -1101,3 +1109,7 @@ def set_element_rayleigh_damping_factors(osi, ele, alpha_m, beta_k, beta_k0, bet
 
 def set_ele_rayleigh_damp(osi, ele, alpha_m, beta_k, beta_k0, beta_kc):
     return osi.to_process('setElementRayleighDampingFactors', [ele.tag, alpha_m, beta_k, beta_k0, beta_kc])
+
+
+def imposed_motion(osi, node, direct, gm):
+    return osi.to_process('imposedMotion', node.tag, direct, gm.tag)

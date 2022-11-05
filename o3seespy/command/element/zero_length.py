@@ -28,7 +28,9 @@ class ZeroLength(ElementBase):
         r_flag: float, optional
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default)
         orient: list, optional
-            
+            [x1, x2, x3, y1, y2, y3] to define local x and y directions.
+            Note that compression is loading opposite to axis direction.
+            i.e. orient = [-1, 0, 0, 0, -1, 0] results in compression in the left and downward dirs.
 
         Examples
         --------
@@ -64,7 +66,7 @@ class ZeroLength(ElementBase):
         if getattr(self, 'r_flag') is not None:
             self._parameters += ['-doRayleigh', self.r_flag]
         if getattr(self, 'orient') is not None:
-            self._parameters += ['--orient', *self.orient]
+            self._parameters += ['-orient', *self.orient]
         self.to_process(osi)
 
 
@@ -92,7 +94,8 @@ class ZeroLengthND(ElementBase):
             Object associated with previously-defined uniaxial_material object which may be used to represent uncoupled
             behavior orthogonal to the plane of the ndmaterial response. see notes 2 and 3.
         orient: list, optional
-            
+            Either [x1, x2, x3] to define local x direction
+            or [x1, x2, x3, y1, y2, y3] to define local x and y direction
 
         Examples
         --------
@@ -115,7 +118,7 @@ class ZeroLengthND(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.mat.tag, self.uni.tag]
         if getattr(self, 'orient') is not None:
-            self._parameters += ['--orient', *self.orient]
+            self._parameters += ['-orient', *self.orient]
         self.to_process(osi)
 
 
@@ -168,7 +171,7 @@ class ZeroLengthSection(ElementBase):
         if getattr(self, 'r_flag') is not None:
             self._parameters += ['-doRayleigh', self.r_flag]
         if getattr(self, 'orient') is not None:
-            self._parameters += ['--orient', *self.orient]
+            self._parameters += ['-orient', *self.orient]
         self.to_process(osi)
 
 

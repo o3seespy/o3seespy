@@ -92,7 +92,7 @@ class TwoNodeLink(ElementBase):
         if getattr(self, 'do_rayleigh'):
             self._parameters += ['-doRayleigh']
         if getattr(self, 'orient') is not None:
-            self._parameters += ['--orient', *self.orient]
+            self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         self.to_process(osi)

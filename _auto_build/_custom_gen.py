@@ -157,26 +157,30 @@ class ManzariDafalias(NDMaterialBase):
                 * 6 = Runge-Kutta 4-th order constraining maximum energy increment (inconsistent results to other methods - 3&6 produce same)
                 * 7 = Not implemented. runs int_scheme=9. Modified Euler constraining maximum strain increment
                 * 8 = Not implemented. runs int_scheme=9. Runge-Kutta 4-th order constraining maximum strain increment
-                * 9 = Forward Euler constraining maximum energy increment
+                * 9 = Forward Euler constraining maximum strain increment
                 * 45 = Runge Kutta 45 with error control after Sloan [very slow]
             Notes:
                 1. To use implicit integration, `int_scheme` must be equal to 2
                 2. IS=3,6 - RK4 methods. produce same results under small time steps (diff to others)
                 3. IS=0,1 - Modified Euler methods. produce same results under small time steps and same as Backward Euler.
-                4. IS=4,5,9 - Forward Euler methods. produce same results under small time steps (diff to others)
+                4. IS=4,5,9 - Forward Euler methods. produce same results as 0, 1 and 2 under small time steps
                 5. The maximum strain increment is hardcoded as 1e-5
                 6. WARNING: The maximum energy increment is hardcoded as 1e-4 (not normalised, should use p_atm=101 (i.e. kPa))
                    also only does 2 substeps at half strain increment, if exceeds energy increment.
+                9. IS=9 is the preferred method for global explicit methods since has no substepping in Euler step,
+                   which is fine since time step typically small enough, however, has an additional strain check which
+                   may result in substepping.
         tan_type: int, optional (default=0)
             Tangent type:
                 * 0: Elastic Tangent
                 * 1: Contiuum ElastoPlastic Tangent
-                2: Consistent ElastoPlastic Tangent
+                * 2: Consistent ElastoPlastic Tangent
         jaco_type: int, optional (default=1)
             Jacobian type:
                 * 0: Finite Difference Jacobian
                 * 1: Analytical Jacobian
         tol_f: float, optional (default=1.0e-7)
+            Tolerance for evaluating whether stress state outside yield surface
         tol_r: float, optional (default=1.0e-7)
 
         Examples

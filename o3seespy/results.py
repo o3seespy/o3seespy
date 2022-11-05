@@ -60,6 +60,7 @@ class Results2D(object):
         self.used_r_starter = 1
         if self.man_nodes and self.selected_node_tags is None:
             raise ValueError('if man_nodes then selected_node_tags must be manually set')
+            # self._selected_node_tags = o3.get_node_tags(osi)
         if self.coords is None:
             if self.selected_node_tags is not None:
                 self.coords = []
@@ -75,15 +76,18 @@ class Results2D(object):
             node_tags = 'all'
             if self.selected_node_tags is not None:
                 node_tags = self.selected_node_tags
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}x_disp{self.pstr}.txt', node_tags, [o3.cc.DOF2D_X], 'disp', nsd=4, dt=dt, nodes_as_tags=True)
-            o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}y_disp{self.pstr}.txt', node_tags, [o3.cc.DOF2D_Y], 'disp', nsd=4, dt=dt, nodes_as_tags=True)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}x_disp{self.pstr}.txt', node_tags,
+                                    [o3.cc.DOF2D_X], 'disp', nsd=5, dt=dt, nodes_as_tags=True)
+            o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}y_disp{self.pstr}.txt', node_tags,
+                                    [o3.cc.DOF2D_Y], 'disp', nsd=5, dt=dt, nodes_as_tags=True)
             if not self.pseudo_dt:
                 if self.mp:
                     if self.pstr == '-pid0':
                         all_node_tags = o3.get_node_tags(osi)
-                        o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=4, dt=dt, dummy_node_tag=all_node_tags[0])
+                        o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=5, dt=dt,
+                                               dummy_node_tag=all_node_tags[0])
                 else:
-                    o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=4, dt=dt)
+                    o3.recorder.TimeToFile(osi, f'{self.cache_path}{self.prefix}timer.txt', nsd=5, dt=dt)
 
     def wipe_old_files(self):
         sfiles = ['ele2node_tags', 'coords', 'selected_node_tags']
@@ -134,14 +138,14 @@ class Results2D(object):
                 self.savetxt(self.cache_path + f'{pf}{fname}.txt', vals, fmt=self.meta_fmt[i])
         if self.dynamic:
             if not self.used_r_starter:
-                self.savetxt(self.cache_path + f'{pf}x_disp.txt', self.x_disp)
-                self.savetxt(self.cache_path + f'{pf}y_disp.txt', self.y_disp)
-                self.savetxt(self.cache_path + f'{pf}timer.txt', self.time)
+                self.savetxt(self.cache_path + f'{pf}x_disp.txt', self.x_disp, fmt='%.5g')
+                self.savetxt(self.cache_path + f'{pf}y_disp.txt', self.y_disp, fmt='%.5g')
+                self.savetxt(self.cache_path + f'{pf}timer.txt', self.time, fmt='%.5g')
             elif self.pseudo_dt:
                 from numpy import arange  # TODO: support mp, where x_disp-pid*
                 x_disp = self.loadtxt(f'{self.cache_path}{pf}x_disp.txt', ndmin=2)
                 self.time = arange(len(x_disp[:, 0])) * self.pseudo_dt
-                self.savetxt(self.cache_path + f'{pf}timer.txt', self.time)
+                self.savetxt(self.cache_path + f'{pf}timer.txt', self.time, fmt='%.5g')
 
     def load_from_cache(self):
         prefix = self.prefix

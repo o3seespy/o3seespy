@@ -1625,7 +1625,7 @@ class YamamotoBiaxialHDRcoRS(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.tp, self.d_do, self.d_di, self.hr, '-coRS', self.cr, self.cs]
         if getattr(self, 'orient') is not None:
-            self._parameters += ['--orient', *self.orient]
+            self._parameters += ['-orient', *self.orient]
         if getattr(self, 'mass') is not None:
             self._parameters += ['-mass', self.mass]
         self.to_process(osi)

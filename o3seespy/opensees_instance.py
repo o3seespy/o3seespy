@@ -141,12 +141,6 @@ class OpenSeesInstance(object):
         opy.logFile(*pms)
 
 
-class OpenseesInstance(OpenSeesInstance):
-    def __init__(self, ndm: int, ndf=None, state=0):
-        print('Please use OpenSeesInstance instead of OpenseesInstance')
-        super(OpenseesInstance, self).__init__(ndm, ndf, state)
-
-
 class _OpenSeesInstanceTestMP(OpenSeesInstance):
     def __init__(self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000, pid=None):
         init_tag = 0

@@ -6,7 +6,7 @@ from .command import node, algorithm, rayleigh, test, uniaxial_material, element
 from .command.common import *
 from .command import section, beam_integration, constraints, numberer, system, region, friction_model
 from .command import integrator, analysis, recorder, pattern, time_series, geom_transf, patch, layer
-from .command import mesh, senscmds
+from .command import mesh, senscmds, ground_motion
 import o3seespy.tools
 from .command import test_check  # deprecated
 from .__about__ import __version__
