@@ -759,11 +759,14 @@ def get_node_disp(osi, node, dof=None, node_as_tag=False):
         parameters.append(dof)
     return osi.to_process(op_type, parameters)
 
-def get_node_disps(osi, node, dofs):
+def get_node_disps(osi, node, dofs, node_as_tag=False):
     op_type = 'nodeDisp'
     vals = []
     for dof in dofs:
-        parameters = [node.tag, dof]
+        if node_as_tag:
+            parameters = [node, dof]
+        else:
+            parameters = [node.tag, dof]
         vals.append(osi.to_process(op_type, parameters))
     return vals
 
@@ -803,6 +806,14 @@ def get_node_reaction(osi, node, dof):
 def get_node_reactions(osi, node):
     op_type = 'nodeReaction'
     parameters = [node.tag]
+    return osi.to_process(op_type, parameters)
+
+
+def get_node_unbalance(osi, node, dof=None):
+    op_type = 'nodeUnbalance'
+    parameters = [node.tag]
+    if dof is not None:
+        parameters.append(dof)
     return osi.to_process(op_type, parameters)
 
 

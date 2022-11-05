@@ -354,8 +354,9 @@ def get_max_node_diff_movement(osi, dt=None, steps=2, dtmin_f=None):
         dx_max = x_vals[step_i+1][ind] - x_vals[step_i][ind]
         dy_max = y_vals[step_i+1][ind] - y_vals[step_i][ind]
         coords = o3.get_node_coords(osi, node_tag, node_as_tag=True)
-        return [nts[ind], coords, dx_max, dy_max]
+        return [node_tag, coords, dx_max, dy_max]
     raise ValueError
+
 
 def cycle_until_limit_diff_movement(osi, dt=None, dlim=0.0001, steps=2, time_reset=None, dtmin_f=None):
     import numpy as np
@@ -370,4 +371,5 @@ def cycle_until_limit_diff_movement(osi, dt=None, dlim=0.0001, steps=2, time_res
             raise ValueError
     if time_reset is not None:
         o3.set_time(osi, time_reset)
+    return movement
         

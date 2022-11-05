@@ -59,7 +59,7 @@ class Results2D(object):
     def start_recorders(self, osi, dt=None):  # TODO: handle recorder time step
         self.used_r_starter = 1
         if self.man_nodes and self.selected_node_tags is None:
-            self._selected_node_tags = o3.get_node_tags(osi)
+            raise ValueError('if man_nodes then selected_node_tags must be manually set')
         if self.coords is None:
             if self.selected_node_tags is not None:
                 self.coords = []
@@ -138,7 +138,7 @@ class Results2D(object):
                 self.savetxt(self.cache_path + f'{pf}y_disp.txt', self.y_disp)
                 self.savetxt(self.cache_path + f'{pf}timer.txt', self.time)
             elif self.pseudo_dt:
-                from numpy import arange
+                from numpy import arange  # TODO: support mp, where x_disp-pid*
                 x_disp = self.loadtxt(f'{self.cache_path}{pf}x_disp.txt', ndmin=2)
                 self.time = arange(len(x_disp[:, 0])) * self.pseudo_dt
                 self.savetxt(self.cache_path + f'{pf}timer.txt', self.time)

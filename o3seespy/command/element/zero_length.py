@@ -44,8 +44,10 @@ class ZeroLength(ElementBase):
         self.ele_nodes = ele_nodes
         if mats is None:
             self.mats = None
+            self.mat_tags = None
         else:
-            self.mats = [x.tag for x in mats]
+            self.mats = mats
+            self.mat_tags = [x.tag for x in mats]
         self.dirs = dirs
         if r_flag is None:
             self.r_flag = None
@@ -56,7 +58,7 @@ class ZeroLength(ElementBase):
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_node_tags]
         if getattr(self, 'mats') is not None:
-            self._parameters += ['-mat', *self.mats]
+            self._parameters += ['-mat', *self.mat_tags]
         if getattr(self, 'dirs') is not None:
             self._parameters += ['-dir', *self.dirs]
         if getattr(self, 'r_flag') is not None:

@@ -223,7 +223,7 @@ def duplicate_node(osi, node):
     osi.to_process('node', _parameters)
     
 
-def repeat_node(osi, node):
+def repeat_node(osi, node, tag=None):
     """
     Copy a node to initialise in another processor in parallel mode
 
@@ -231,11 +231,11 @@ def repeat_node(osi, node):
     """
     
     if osi.ndm == 1:
-        return Node(osi, node.x)
+        return Node(osi, node.x, tag=tag)
     elif osi.ndm == 2:
-        return Node(osi, node.x, node.y)
+        return Node(osi, node.x, node.y, tag=tag)
     elif osi.ndm == 3:
-        return Node(osi, node.x, node.y, node.z)
+        return Node(osi, node.x, node.y, node.z, tag=tag)
     else:
         raise NotImplementedError("Currently only supports 1-3D analyses")
 
