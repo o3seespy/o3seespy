@@ -11,7 +11,7 @@ import tempfile
 
 class OpenSeesInstance(object):
 
-    def __init__(self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000, restore=None):
+    def __init__(self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000, restore=None, wipe=1):
         init_tag = 0
         if mp:
             pid = opy.getPID()
@@ -46,7 +46,8 @@ class OpenSeesInstance(object):
                 self.ndf = 3
             else:
                 self.ndf = 6
-        opy.wipe()
+        if wipe:
+            opy.wipe()
         if restore:
             ops.database('File', restore[0])
             ops.restore(restore[1])
@@ -56,14 +57,16 @@ class OpenSeesInstance(object):
         self.dict = OrderedDict()
 
         if state == 1:
-            self.commands.append('opy.wipe()')
+            if wipe:
+                self.commands.append('opy.wipe()')
             self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
         if state == 2:
             self.dict['ndm'] = ndm
             self.dict['ndf'] = ndf
             # base_types = ['node', 'element', 'section', 'uniaxial_material']
         elif state == 3:
-            self.commands.append('opy.wipe()')
+            if wipe:
+                self.commands.append('opy.wipe()')
             self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
 
     def reset_model_params(self, ndm, ndf):
