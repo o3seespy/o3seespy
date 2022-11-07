@@ -29,7 +29,7 @@ class ZeroLength(ElementBase):
             Optional, default = 0 * ``rflag`` = 0 no rayleigh damping (default)
         orient: list, optional
             [x1, x2, x3, y1, y2, y3] to define local x and y directions.
-            Note that compression is loading opposite to axis direction.
+            Note that compression is loading in the axis direction (when loading the first node).
             i.e. orient = [-1, 0, 0, 0, -1, 0] results in compression in the left and downward dirs.
 
         Examples
