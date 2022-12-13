@@ -303,3 +303,19 @@ class Results2D(object):
         rd['SSTR_MAX'] = np.sqrt(((rd['EPS_XX'] - rd['EPS_YY']) / 2) ** 2 + rd['EPS_XY'] ** 2)
         rd['EPS_VOL'] = rd['EPS_XX'] + rd['EPS_YY']
         return rd
+
+
+def rezero_node_tags(node_tags, ele2node_tags, first=0):
+    from numpy import array, arange, searchsorted, where, clip
+
+    new_node_tags = arange(first, len(node_tags) + first)
+    sidx = node_tags.argsort()
+    k = node_tags[sidx]
+    v = new_node_tags[sidx]
+    for ele_tag in ele2node_tags:
+        curr_tags = ele2node_tags[ele_tag]
+        idx = searchsorted(k, curr_tags)
+        assert max(idx) < len(k)
+        mask = k[idx] == curr_tags
+        ele2node_tags[ele_tag] = where(mask, v[idx], len(k))
+    return ele2node_tags

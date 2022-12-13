@@ -15,16 +15,20 @@ class Plain(GroundMotionBase):
         Parameters
         ----------
         osi: o3seespy.OpenSeesInstance
+        mtype: str
+            motion type: 'disp', 'vel', 'accel'
 
         Examples
         --------
 
         """
         self.osi = osi
+        osi.n_gms += 1
+        self._tag = osi.n_gms
         self.mtype = mtype
         self.ts = ts
         self.fact = fact
-        self._parameters = [self.op_type, f'-{self.mtype}', self.ts.tag, self.fact]
+        self._parameters = [self._tag, self.op_type, f'-{self.mtype}', self.ts.tag, '-fact', self.fact]
         self.to_process(osi)
 
 

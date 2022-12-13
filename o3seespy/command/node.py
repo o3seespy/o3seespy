@@ -194,6 +194,66 @@ def build_varied_y_node_mesh(osi, xs, ys, zs=None, active=None):
     return array(sn)
 
 
+def build_varied_xy_node_mesh(osi, xs, ys, zs=None, active=None, tags=None):
+    """
+    Creates an array of nodes that vary in both x and y but are still in a grid.
+
+    The mesh has len(xs)=ln(ys) nodes in the x-direction and len(ys[0]) in the y-direction.
+    If zs is not None then has len(zs) in the z-direction.
+
+    Parameters
+    ----------
+    osi
+    xs
+    ys
+    zs
+    active
+
+    Returns
+    -------
+    np.array
+        axis-0 = x-direction
+        axis-1 = y-direction
+        axis-2 = z  # not included if len(zs)=1 or zs=None
+    """
+    # axis-0 = x  # unless x or y are singular
+    # axis-1 = y
+    # axis-2 = z  # not included if len(zs)=1 or
+    tag = None
+    from numpy import array
+    if not hasattr(zs, '__len__'):
+        zs = [zs]
+    sn = []
+    for xx in range(len(xs)):
+        sn.append([])
+        for yy in range(len(ys[xx])):
+
+            if len(zs) == 1:
+                if tags is not None:
+                    tag = tags[xx][yy]
+                if active is None or active[xx][yy]:
+                    if osi.ndm == 2:
+                        pms = [osi, xs[xx][yy], ys[xx][yy]]
+                    else:
+                        pms = [osi, xs[xx][yy], ys[xx][yy], zs[0]]
+                    sn[xx].append(Node(*pms, tag=tag))
+                else:
+                    sn[xx].append(None)
+            else:
+                sn[xx].append([])
+                for zz in range(len(zs)):
+                    if tags is not None:
+                        tag = tags[xx][yy][zz]
+                    # Establish left and right nodes
+                    if active is None or active[xx][yy][zz]:
+                        sn[xx][yy].append(Node(osi, xs[xx][yy], ys[xx][yy], zs[zz], tag=tag))
+                    else:
+                        sn[xx][yy].append(None)
+    # if len(zs) == 1:
+    #     return sn[0]
+    return array(sn)
+
+
 # UNUSED?
 def duplicate_node(osi, node):
     """

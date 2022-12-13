@@ -23,6 +23,7 @@ class OpenSeesInstance(object):
         self.n_mat = init_tag
         self.n_sect = init_tag
         self.n_tseries = init_tag
+        self.n_gms = init_tag
         self.n_pat = init_tag
         self.n_fix = init_tag
         self.n_integ = init_tag

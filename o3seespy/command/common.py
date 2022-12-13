@@ -1112,4 +1112,4 @@ def set_ele_rayleigh_damp(osi, ele, alpha_m, beta_k, beta_k0, beta_kc):
 
 
 def imposed_motion(osi, node, direct, gm):
-    return osi.to_process('imposedMotion', node.tag, direct, gm.tag)
+    return osi.to_process('imposedMotion', [node.tag, direct, gm.tag])
