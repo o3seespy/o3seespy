@@ -8,7 +8,7 @@ from .command import section, beam_integration, constraints, numberer, system, r
 from .command import integrator, analysis, recorder, pattern, time_series, geom_transf, patch, layer
 from .command import mesh, senscmds, ground_motion
 import o3seespy.tools
-from .command import test_check  # deprecated
+# from .command import test_check  # deprecated
 from .__about__ import __version__
 from . import results
 from . import mptools, mp

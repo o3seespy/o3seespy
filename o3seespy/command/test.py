@@ -221,11 +221,14 @@ class RelativeNormDispIncr(TestBase):
             Tolerance criteria used to check for convergence.
         max_iter: int
             Max number of iterations to check
-        p_flag: int, optional
-            Print flag : * 0 print nothing. * 1 print information on norms each time ``test()`` is invoked. * 2 print
-            information on norms and number of iterations at end of successful test. * 4 at each step it will print the norms
-            and also the :math:`\delta u` and :math:`r(u)` vectors. * 5 if it fails to converge at end of ``numiter`` it
-            will print an error message **but return a successfull test**.
+         p_flag: int
+            Print flag (optional):
+            * 0 print nothing.
+            * 1 print information on norms each time ``test()`` is invoked.
+            * 2 print information on norms and number of iterations at end of successful test.
+            * 4 at each step it will print the norms and also the :math:`\\delta u` and :math:`R(u)` vectors.
+            * 5 if it fails to converge at end of ``numiter``
+                it will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
 
