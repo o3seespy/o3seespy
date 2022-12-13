@@ -3,6 +3,7 @@ from . import exceptions
 from . import extensions
 from . import cc
 from .command import node, algorithm, rayleigh, test, uniaxial_material, element, nd_material
+from .command import test as test_check
 from .command.common import *
 from .command import section, beam_integration, constraints, numberer, system, region, friction_model
 from .command import integrator, analysis, recorder, pattern, time_series, geom_transf, patch, layer

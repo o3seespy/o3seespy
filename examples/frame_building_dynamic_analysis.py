@@ -5,7 +5,7 @@ import eqsig
 
 import numpy as np
 
-from openseespy import opensees as opy
+from o3seespy import opy as opy
 import o3seespy as o3
 
 

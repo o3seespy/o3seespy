@@ -4,9 +4,13 @@ History
 
 Pre-release
 -----------
+
+3.2.0.7 (2022-12-13)
+--------------------
 * Allow saving results with a prefix for file names
 * Improved support for variable transient analysis
 * Improved mesh partitioning support for tied boundaries
+* Fixed issue with modelling imposed ground motions and multi supports
 
 3.2.0.6 (2022-03-03)
 --------------------

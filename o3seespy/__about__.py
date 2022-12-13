@@ -1,4 +1,4 @@
 __project__ = "o3seespy"
 __author__ = "Maxim Millen & Minjie Zhu"
-__version__ = "3.2.0.7"
+__version__ = "3.2.0.8"
 __license__ = "MIT with OpenSees License"
