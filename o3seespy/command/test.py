@@ -380,7 +380,7 @@ class NormDispAndUnbalance(TestBase):
     """
     op_type = 'NormDispAndUnbalance'
 
-    def __init__(self, osi, tol_incr, tol_r, max_iter, p_flag=0, n_type=2, maxincr=-1):
+    def __init__(self, osi, tol_incr, tol_r, max_iter, p_flag=0, n_type=2, max_incr=None):
         r"""
         Initial method for NormDispAndUnbalance
 
@@ -400,14 +400,14 @@ class NormDispAndUnbalance(TestBase):
             will print an error message **but return a successfull test**.
         n_type: int, optional
             Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). 
-        maxincr: int, optional
+        max_incr: int, optional
             Maximum times of error increasing. 
 
         Examples
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.test.NormDispAndUnbalance(osi, tol_incr=1.0, tol_r=1, max_iter=1, p_flag=0, n_type=2, maxincr=-1)
+        >>> o3.test.NormDispAndUnbalance(osi, tol_incr=1.0, tol_r=1, max_iter=1, p_flag=0, n_type=2)
         """
         self.osi = osi
         self.tol_incr = float(tol_incr)
@@ -415,8 +415,12 @@ class NormDispAndUnbalance(TestBase):
         self.max_iter = int(max_iter)
         self.p_flag = int(p_flag)
         self.n_type = int(n_type)
-        self.maxincr = int(maxincr)
-        self._parameters = [self.op_type, self.tol_incr, self.tol_r, self.max_iter, self.p_flag, self.n_type, self.maxincr]
+        self.max_incr = max_incr
+        if max_incr is not None:
+            self.max_incr = int(max_incr)
+        self._parameters = [self.op_type, self.tol_incr, self.tol_r, self.max_iter, self.p_flag, self.n_type]
+        if max_incr is not None:
+            self._parameters.append(self.max_incr)
         self.to_process(osi)
 
 

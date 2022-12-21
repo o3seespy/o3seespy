@@ -364,7 +364,7 @@ def cycle_until_limit_diff_movement(osi, dt=None, dlim=0.0001, steps=2, time_res
     movement = get_max_node_diff_movement(osi, dt, steps=steps, dtmin_f=dtmin_f)
     print('m: ', movement)
     while np.sqrt(movement[2] ** 2 + movement[3] ** 2) > dlim:
-        if not o3.analyze(osi, 5, dt):  # TODO: add dtmin_f here
+        if not o3.analyze(osi, 5, dt, dt * dtmin_f, dt, jd=5):  # TODO: add dtmin_f here
             movement = get_max_node_diff_movement(osi, dt, dtmin_f=dtmin_f)
             print('m: ', movement)
         else:

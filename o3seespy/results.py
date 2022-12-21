@@ -20,7 +20,7 @@ def calc_quad_centroids(xs, ys, axis=-1):  # use axis=-2 for time domain data, s
     return xc, yc
 
 
-class Results2D(object):
+class Results(object):
     coords = None
     time = None
     x_disp = None
@@ -36,6 +36,8 @@ class Results2D(object):
     ele_num_base = 1
     selected_nodes = None
     _selected_node_tags = None
+    dyn_files = None
+    ndm = None
 
     def __init__(self, cache_path='', dt=None, dynamic=False, man_nodes=False, prefix='', mp=0):
         self.cache_path = cache_path
@@ -51,6 +53,7 @@ class Results2D(object):
         self.man_nodes = man_nodes
         self.prefix = prefix
         self.mp = mp
+        self.dyn_files = ['timer']
         if mp:
             self.pstr = f'-pid{o3.mp.get_pid()}'
         else:
@@ -77,9 +80,12 @@ class Results2D(object):
             if self.selected_node_tags is not None:
                 node_tags = self.selected_node_tags
             o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}x_disp{self.pstr}.txt', node_tags,
-                                    [o3.cc.DOF2D_X], 'disp', nsd=5, dt=dt, nodes_as_tags=True)
+                                    [o3.cc.X], 'disp', nsd=5, dt=dt, nodes_as_tags=True)
             o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}y_disp{self.pstr}.txt', node_tags,
-                                    [o3.cc.DOF2D_Y], 'disp', nsd=5, dt=dt, nodes_as_tags=True)
+                                    [o3.cc.Y], 'disp', nsd=5, dt=dt, nodes_as_tags=True)
+            if self.ndm == 3:
+                o3.recorder.NodesToFile(osi, f'{self.cache_path}{self.prefix}z_disp{self.pstr}.txt', node_tags,
+                                        [o3.cc.DOF3D_Z], 'disp', nsd=5, dt=dt, nodes_as_tags=True)
             if not self.pseudo_dt:
                 if self.mp:
                     if self.pstr == '-pid0':
@@ -92,7 +98,7 @@ class Results2D(object):
     def wipe_old_files(self):
         sfiles = ['ele2node_tags', 'coords', 'selected_node_tags']
         if not self.used_r_starter:
-            sfiles += ['x_disp', 'y_disp', 'timer']
+            sfiles += self.dyn_files
         for fname in sfiles:
             ffps = glob.glob(f'{self.cache_path}{self.prefix}{fname}*.txt')
             for ffp in ffps:
@@ -126,11 +132,13 @@ class Results2D(object):
         if wipe_old_files:
             self.wipe_old_files()
         if self.coords is not None:
-            self.savetxt(self.cache_path + f'{pf}coords{self.pstr}.txt', self.coords)
+            self.savetxt(self.cache_path + f'{pf}coords{self.pstr}.txt', self.coords, fmt='%.6g')
         ostr = [f'{ele_tag} ' + ' '.join([str(x) for x in self.ele2node_tags[ele_tag]]) + '\n' for ele_tag in self.ele2node_tags]
         open(self.cache_path + f'{pf}ele2node_tags{self.pstr}.txt', 'w').writelines(ostr)
-        if self.selected_node_tags is not None:
+
+        if self.selected_node_tags is not None and len(self.selected_node_tags):
             self.savetxt(self.cache_path + f'{pf}selected_node_tags{self.pstr}.txt', self.selected_node_tags, fmt='%i')
+
 
         for i, fname in enumerate(self.meta_files):
             vals = getattr(self, fname)
@@ -138,9 +146,10 @@ class Results2D(object):
                 self.savetxt(self.cache_path + f'{pf}{fname}.txt', vals, fmt=self.meta_fmt[i])
         if self.dynamic:
             if not self.used_r_starter:
-                self.savetxt(self.cache_path + f'{pf}x_disp.txt', self.x_disp, fmt='%.5g')
-                self.savetxt(self.cache_path + f'{pf}y_disp.txt', self.y_disp, fmt='%.5g')
-                self.savetxt(self.cache_path + f'{pf}timer.txt', self.time, fmt='%.5g')
+                for fname in self.dyn_files:
+                    self.savetxt(self.cache_path + f'{pf}{fname}.txt', getattr(self, fname), fmt='%.5g')
+                # self.savetxt(self.cache_path + f'{pf}y_disp.txt', self.y_disp, fmt='%.5g')
+                # self.savetxt(self.cache_path + f'{pf}timer.txt', self.time, fmt='%.5g')
             elif self.pseudo_dt:
                 from numpy import arange  # TODO: support mp, where x_disp-pid*
                 x_disp = self.loadtxt(f'{self.cache_path}{pf}x_disp.txt', ndmin=2)
@@ -152,7 +161,7 @@ class Results2D(object):
         from numpy import concatenate, unique
         if self.mp:
 
-            ffps = glob.glob(self.cache_path + f'{prefix}coords-pid*.txt')
+            ffps = glob.glob(self.cache_path + f'{prefix}coords*pid*.txt')  # old files used -pid
             ffps.sort()
             temp_c0 = []
             for ffp in ffps:
@@ -204,21 +213,25 @@ class Results2D(object):
 
         if self.dynamic:
             if self.mp:
-                ps = [('x_disp', 'x_disp'), ('y_disp', 'y_disp')]
-                for pp in ps:
-                    ffps = glob.glob(self.cache_path + f'{prefix}{pp[1]}*.txt')
+                for pp in self.dyn_files:
+                    if pp == 'timer':
+                        continue
+                    ffps = glob.glob(self.cache_path + f'{prefix}{pp}*.txt')
                     ffps.sort()
                     temp = []
                     for ffp in ffps:
                         temp.append(self.loadtxt(ffp, ndmin=2).T)
                     if uindices is not None:
-                        vals = concatenate(temp)[uindices]
+                        all_vals = concatenate(temp)
+                        vals = all_vals[uindices]
                     else:
                         vals = concatenate(temp)
-                    setattr(self, pp[1], vals.T)
+                    setattr(self, pp, vals.T)
             else:
-                self.x_disp = self.loadtxt(f'{self.cache_path}{prefix}x_disp.txt')
-                self.y_disp = self.loadtxt(f'{self.cache_path}{prefix}y_disp.txt')
+                for fname in self.dyn_files:
+                    setattr(self, fname, self.loadtxt(f'{self.cache_path}{prefix}{fname}.txt'))
+
+                # self.y_disp = self.loadtxt(f'{self.cache_path}{prefix}y_disp.txt')
             self.time = self.loadtxt(f'{self.cache_path}{prefix}timer.txt', ndmin=2)[:, 0]
 
     @property
@@ -232,13 +245,13 @@ class Results2D(object):
     def dt(self, dt):
         self._dt = dt
 
-    def rezero_node_tags(self, osi=None):
+    def rezero_node_tags(self, osi=None, first=1):
         from numpy import array, arange, searchsorted, where, clip
         if self.selected_node_tags is None:
             node_tags = array(o3.get_node_tags(osi))
         else:
             node_tags = self.selected_node_tags
-        new_node_tags = arange(1, len(node_tags) + 1)
+        new_node_tags = arange(first, len(node_tags) + first)
         sidx = node_tags.argsort()
         k = node_tags[sidx]
         v = new_node_tags[sidx]
@@ -252,11 +265,20 @@ class Results2D(object):
 
 
     def get_eles_by_n_nodes(self, n_nodes):
-        eles_by_n_nodes = {2: [], 4: [], 8: []}
+        eles_by_n_nodes = {2: [], 4: [], 8: []}  # TODO: extend to all 5 node and 9
         for ele in self.ele2node_tags:
             nn = len(self.ele2node_tags[ele])
             eles_by_n_nodes[nn].append(ele)
         return eles_by_n_nodes[n_nodes]
+
+
+class Results2D(Results):
+
+    def __init__(self, cache_path='', dt=None, dynamic=False, man_nodes=False, prefix='', mp=0):
+        super(Results2D, self).__init__(cache_path=cache_path, dt=dt, dynamic=dynamic, man_nodes=man_nodes,
+                                        prefix=prefix, mp=mp)
+        self.dyn_files += ['x_disp', 'y_disp']
+        self.ndm = 2
 
     def compute_ele_strains_and_disps(self):  # currently only available for quad elements
         import numpy as np
@@ -303,6 +325,16 @@ class Results2D(object):
         rd['SSTR_MAX'] = np.sqrt(((rd['EPS_XX'] - rd['EPS_YY']) / 2) ** 2 + rd['EPS_XY'] ** 2)
         rd['EPS_VOL'] = rd['EPS_XX'] + rd['EPS_YY']
         return rd
+
+
+class Results3D(Results):
+    z_disp = None
+
+    def __init__(self, cache_path='', dt=None, dynamic=False, man_nodes=False, prefix='', mp=0):
+        super(Results3D, self).__init__(cache_path=cache_path, dt=dt, dynamic=dynamic, man_nodes=man_nodes,
+                                        prefix=prefix, mp=mp)
+        self.dyn_files += ['x_disp', 'y_disp', 'z_disp']
+        self.ndm = 3
 
 
 def rezero_node_tags(node_tags, ele2node_tags, first=0):

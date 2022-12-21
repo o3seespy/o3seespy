@@ -14,6 +14,9 @@ DOF3D_Z = 3
 DOF3D_ROTX = 4
 DOF3D_ROTY = 5
 DOF3D_ROTZ = 6
+# NDF6_ROTX = 4
+# NDF6_ROTY = 5
+# NDF6_ROTZ = 6
 
 P = 'P'
 M_Z = 'Mz'
