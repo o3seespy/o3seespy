@@ -283,7 +283,7 @@ class ZeroLengthContact3D(ElementBase):
     """
     op_type = 'zeroLengthContact3D'
 
-    def __init__(self, osi, ele_nodes, kn, kt, mu, c, dir):
+    def __init__(self, osi, ele_nodes, kn, kt, mu, c, direction):
         """
         Initial method for ZeroLengthContact3D
 
@@ -320,10 +320,10 @@ class ZeroLengthContact3D(ElementBase):
         self.kt = float(kt)
         self.mu = float(mu)
         self.c = float(c)
-        self.dir = int(dir)
+        self.direction = int(direction)
         osi.n_ele += 1
         self._tag = osi.n_ele
-        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.kn, self.kt, self.mu, self.c, self.dir]
+        self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.kn, self.kt, self.mu, self.c, self.direction]
         self.to_process(osi)
 
 
