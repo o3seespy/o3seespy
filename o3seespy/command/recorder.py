@@ -140,7 +140,7 @@ class NodesToFile(RecorderBase):
             if nodes_as_tags:
                 node_tags = nodes
             else:
-                node_tags = [x.tag for x in nodes]
+                node_tags = [x.tag for x in nodes if x is not None]
         self.fname = fname
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-node', *node_tags, '-dof', *dofs, res_type]
         if close_on_write:
@@ -476,7 +476,7 @@ class ElementsToFile(RecorderBase):
         if eles_as_tags:
             self.ele_tags = eles
         else:
-            self.ele_tags = [x.tag for x in eles]
+            self.ele_tags = [x.tag for x in eles if x is not None]
         self.fname = fname
         self._parameters = [self.op_type, '-file', fname, '-precision', nsd, '-ele', *self.ele_tags, *extra_pms, *arg_vals]
         if close_on_write:

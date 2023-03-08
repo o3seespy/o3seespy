@@ -222,6 +222,8 @@ class Results(object):
                     for ffp in ffps:
                         temp.append(self.loadtxt(ffp, ndmin=2).T)
                     if uindices is not None:
+                        if len(temp) == 0:
+                            print('not found: ', prefix, pp)
                         all_vals = concatenate(temp)
                         vals = all_vals[uindices]
                     else:

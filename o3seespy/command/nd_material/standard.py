@@ -214,7 +214,7 @@ class DruckerPrager(NDMaterialBase):
     """
     op_type = 'DruckerPrager'
 
-    def __init__(self, osi, k_mod, g_mod, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, density, p_atm=101e3):
+    def __init__(self, osi, k_mod, g_mod, sigma_y, rho, rho_bar, kinf, ko, delta1, delta2, big_h, theta, den, p_atm=101e3):
         r"""
         Initial method for DruckerPrager
 
@@ -243,7 +243,7 @@ class DruckerPrager(NDMaterialBase):
             Linear hardening parameter, :math:`h \ge 0`.
         theta: float
             Controls relative proportions of isotropic and kinematic hardening, :math:`0 \le theta \le 1`.
-        density: float
+        den: float
             Mass density of the material
         p_atm: float, optional
             Optional atmospheric pressure for update of elastic bulk and shear moduli
@@ -252,7 +252,7 @@ class DruckerPrager(NDMaterialBase):
         --------
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
-        >>> o3.nd_material.DruckerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, p_atm=101e3)
+        >>> o3.nd_material.DruckerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, den=1.0, p_atm=101e3)
         """
         self.osi = osi
         self.k_mod = float(k_mod)
@@ -266,12 +266,12 @@ class DruckerPrager(NDMaterialBase):
         self.delta2 = float(delta2)
         self.big_h = float(big_h)
         self.theta = float(theta)
-        self.density = float(density)
+        self.den = float(den)
         self.p_atm = float(p_atm)
         if osi is not None:
             osi.n_mat += 1
             self._tag = osi.n_mat
-        self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sigma_y, self.rho, self.rho_bar, self.kinf, self.ko, self.delta1, self.delta2, self.big_h, self.theta, self.density, self.p_atm]
+        self._parameters = [self.op_type, self._tag, self.k_mod, self.g_mod, self.sigma_y, self.rho, self.rho_bar, self.kinf, self.ko, self.delta1, self.delta2, self.big_h, self.theta, self.den, self.p_atm]
         if osi is None:
             self.built = 0
         if osi is not None:
@@ -919,7 +919,7 @@ class ManzariDafalias(NDMaterialBase):
         >>> import o3seespy as o3
         >>> osi = o3.OpenSeesInstance(ndm=2)
         >>> o3.nd_material.ManzariDafalias(osi, g0=111.0, nu=0.05, e_init=0.72, m_c=1.27, c_c=0.712, lambda_c=0.049, e_0=0.845,
-        >>> ksi=0.27, p_atm=101.3, m_yield=0.01, h_0=5.95, c_h=1.01, n_b=2.0, a_0=1.06, n_d=1.17, z_max=4.0, c_z=600.0, den=1.6)
+        >>> ksi=0.27, p_atm=101.3, m_yield=0.01, h_0=5.95, c_h=1.01, n_b=2.0, a_0=1.06, n_d=1.17, z_max=4.0, c_z=600.0, rho=1.6)
         """
         self.osi = osi
         self.g0 = float(g0)
@@ -1155,8 +1155,6 @@ class PM4Silt(NDMaterialBase):
         self.set_parameter(self.osi, pstr='FirstCall', pval=self.tag, value=value, ele=ele, eles=eles)
 
 
-
-
 class StressDensity(NDMaterialBase):
     op_type = "stressDensity"
 
@@ -1167,9 +1165,9 @@ class StressDensity(NDMaterialBase):
 
         Parameters
         ----------
-        m_den: float
+        den: float
             Mass density
-        e_not: float
+        e_init: float
             Initial void ratio
         big_a: float
             Constant for elastic shear modulus
@@ -1250,7 +1248,6 @@ class StressDensity(NDMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
-
 
 
 class AcousticMedium(NDMaterialBase):

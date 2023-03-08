@@ -526,7 +526,7 @@ class NonlinearBeamColumn(ElementBase):
         mass: float, optional
             Element mass density (per unit length), from which a lumped-mass matrix is formed 
         int_type: str, optional
-            Integration type (optional, default is ``'lobatto'``) * ``'lobatto'`` * ``'legendre'`` * ``'radau'`` *
+            Integration type (optional, default is ``'Lobatto'``) * ``'Lobatto'`` * ``'Trapezoidal'`` * ``'radau'`` *
             ``'newtoncotes'`` * ``'trapezoidal'``
 
         Examples
