@@ -44,7 +44,7 @@ def test_fixed_num_iter():
 
 def test_norm_disp_and_unbalance():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.test.NormDispAndUnbalance(osi, tol_incr=1.0, tol_r=1, max_iter=1, p_flag=0, n_type=2, maxincr=-1)
+    o3.test.NormDispAndUnbalance(osi, tol_incr=1.0, tol_r=1, max_iter=1, p_flag=0, n_type=2, max_incr=-1)
 
 
 def test_norm_disp_or_unbalance():

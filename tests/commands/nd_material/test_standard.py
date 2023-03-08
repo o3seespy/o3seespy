@@ -24,7 +24,7 @@ def test_j2plasticity():
 
 def test_drucker_prager():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.nd_material.DruckerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, density=1.0, p_atm=101e3)
+    o3.nd_material.DruckerPrager(osi, k_mod=1.0, g_mod=1.0, sigma_y=1.0, rho=1.0, rho_bar=1.0, kinf=1.0, ko=1.0, delta1=1.0, delta2=1.0, big_h=1.0, theta=1.0, den=1.0, p_atm=101e3)
 
 
 @pytest.mark.skip()
