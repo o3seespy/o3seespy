@@ -390,7 +390,7 @@ class EnhancedQuad(ElementBase):
             Element thickness
         otype: str
             String representing material behavior. valid options depend on the ndmaterial object and its available
-            material formulations. the type parameter can be either ``'planestrain'`` or ``'planestress'``
+            material formulations. the type parameter can be either ``'PlaneStrain'`` or ``'PlaneStress'``
         mat: obj
             Object of ndmaterial
 

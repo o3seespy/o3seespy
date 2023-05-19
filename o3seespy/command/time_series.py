@@ -400,7 +400,7 @@ class Path(TimeSeriesBase):
             Time interval between specified points. 
         values: list, optional
             Load factor values in a |list|. 
-        time: list, optional
+        time: array_like, optional
             Time values in a |list|. 
         file_path: str, optional
             File containing the load factors values. 

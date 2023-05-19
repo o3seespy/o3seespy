@@ -127,6 +127,14 @@ class PressureIndependMultiYield(NDMaterialBase):
     def nu(self):
         return (3 * self.bulk_mod_ref - 2 * self.g_mod_ref) / (2 * (3 * self.bulk_mod_ref + self.g_mod_ref))
 
+    @property
+    def den(self):
+        return self.rho
+
+    @den.setter
+    def den(self, value):
+        self.rho = value
+
 
 
 class PressureDependMultiYield(NDMaterialBase):
@@ -279,6 +287,14 @@ class PressureDependMultiYield(NDMaterialBase):
     @property
     def nu(self):
         return (3 * self.bulk_mod_ref - 2 * self.g_mod_ref) / (2 * (3 * self.bulk_mod_ref + self.g_mod_ref))
+
+    @property
+    def den(self):
+        return self.rho
+
+    @den.setter
+    def den(self, value):
+        self.rho = value
 
 
 class PressureDependMultiYield02(NDMaterialBase):
@@ -442,6 +458,14 @@ class PressureDependMultiYield02(NDMaterialBase):
     def nu(self):
         return (3 * self.bulk_mod_ref - 2 * self.g_mod_ref) / (2 * (3 * self.bulk_mod_ref + self.g_mod_ref))
 
+    @property
+    def den(self):
+        return self.rho
+
+    @den.setter
+    def den(self, value):
+        self.rho = value
+
 
 class PressureDependMultiYield03(NDMaterialBase):
     """
@@ -567,3 +591,11 @@ class PressureDependMultiYield03(NDMaterialBase):
 
     def set_cohesion(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'shearModulus', value, ele, eles)
+
+    @property
+    def den(self):
+        return self.rho
+
+    @den.setter
+    def den(self, value):
+        self.rho = value

@@ -341,6 +341,14 @@ class DruckerPrager(NDMaterialBase):
     def nu(self):
         return (3 * self.k_mod - 2 * self.g_mod) / (2 * (3 * self.k_mod + self.g_mod))
 
+    @property
+    def den(self):
+        return self.density
+
+    @den.setter
+    def den(self, value):
+        self.density = value
+
 
 class Damage2p(NDMaterialBase):
     """
@@ -513,6 +521,14 @@ class PlaneStress(NDMaterialBase):
 
     def set_strains(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'strain', value, ele, eles)
+
+    @property
+    def den(self):
+        return self.rho
+
+    @den.setter
+    def den(self, value):
+        self.rho = value
 
 
 class PlaneStrain(NDMaterialBase):
