@@ -51,6 +51,16 @@ class ElasticIsotropic(NDMaterialBase):
     def set_rho(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'rho', value, ele, eles)
 
+    @property
+    def den(self):
+        return self.rho
+
+    @den.setter
+    def den(self, value):
+        self.rho = value
+
+
+
 
 class ElasticOrthotropic(NDMaterialBase):
     """
@@ -583,6 +593,14 @@ class PlaneStrain(NDMaterialBase):
     def set_strains(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'strain', value, ele, eles)
 
+    @property
+    def den(self):
+        return self.rho
+
+    @den.setter
+    def den(self, value):
+        self.rho = value
+
 
 class MultiaxialCyclicPlasticity(NDMaterialBase):
     """
@@ -642,6 +660,14 @@ class MultiaxialCyclicPlasticity(NDMaterialBase):
             self.built = 0
         if osi is not None:
             self.to_process(osi)
+
+    @property
+    def den(self):
+        return self.rho
+
+    @den.setter
+    def den(self, value):
+        self.rho = value
 
 
 class BoundingCamClay(NDMaterialBase):
@@ -707,6 +733,14 @@ class BoundingCamClay(NDMaterialBase):
 
     def set_material_state(self, value, ele=None, eles=None):
         self.set_parameter(self.osi, 'materialState', value, ele, eles)
+
+    @property
+    def den(self):
+        return self.mass_density
+
+    @den.setter
+    def den(self, value):
+        self.mass_density = value
 
 
 class PlateFiber(NDMaterialBase):

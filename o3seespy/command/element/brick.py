@@ -75,7 +75,7 @@ class BbarBrick(ElementBase):
         mat: obj
             Object of ndmaterial
         b1: float
-            Body forces in global x,y,z directions
+            Body forces in global x,y,z directions (defined as a load, not as an accel, see o3seespy-examples)
         b2: float
             Body forces in global x,y,z directions
         b3: float

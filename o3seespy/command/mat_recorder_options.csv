@@ -45,3 +45,9 @@ DruckerPrager,3D,stress,sxx-syy-szz-sxy-syz-szx
 DruckerPrager,PlaneStrain,strain,exx-eyy-gxy
 DruckerPrager,PlaneStress,strain,exx-eyy-gxy
 DruckerPrager,3D,strain,exx-eyy-ezz-gxy-gyz-gzx
+CycLiqCPSP,PlaneStrain,stress,sxx-syy-sxy
+CycLiqCPSP,PlaneStress,stress,sxx-syy-sxy
+CycLiqCPSP,3D,stress,sxx-syy-szz-sxy-syz-szx
+CycLiqCPSP,PlaneStrain,strain,exx-eyy-gxy
+CycLiqCPSP,PlaneStress,strain,exx-eyy-gxy
+CycLiqCPSP,3D,strain,exx-eyy-ezz-gxy-gyz-gzx
