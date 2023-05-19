@@ -179,7 +179,7 @@ class Trapezoidal(BeamIntegrationBase):
         osi: o3seespy.OpenSeesInstance
         sec: obj
             
-        big_n: None
+        big_n: int
             
 
         Examples

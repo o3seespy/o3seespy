@@ -33,7 +33,7 @@ setup(name='o3seespy',
       install_requires=[
         "numpy",  # now it is optional
         'openseespy>=3.1.5.12 ; sys_platform!="darwin"',
-        'openseespy==3.1.5.12 ; sys_platform=="darwin"',
+        # 'openseespy==3.1.5.12 ; sys_platform=="darwin"',
 
       ],
       # List additional groups of dependencies here (e.g. development
