@@ -442,6 +442,10 @@ class PressureDependMultiYield02(NDMaterialBase):
         if osi is not None:
             self.to_process(osi)
 
+    def update_to_linear(self):
+        from o3seespy import update_material_stage
+        update_material_stage(self.osi, self, 0)
+
     def update_to_nonlinear(self):
         from o3seespy import update_material_stage
         update_material_stage(self.osi, self, 1)
