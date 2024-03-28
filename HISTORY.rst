@@ -5,6 +5,11 @@ History
 Pre-release
 -----------
 
+3.4.0.3 (2024-03-28)
+--------------------
+* Updates for PDMY02 and CYCLIQCPSP
+* Added `den` to objects in consistent manner referring to mass density
+
 3.2.0.7 (2022-12-13)
 --------------------
 * Allow saving results with a prefix for file names
