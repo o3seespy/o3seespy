@@ -553,13 +553,16 @@ class Aggregator(SectionBase):
             Tag of previously-defined section object to which the uniaxialmaterial objects are aggregated as additional
             force-deformation relationships (optional)
         """
+        def capitalize_first_letter(dof:str) -> str:
+            return dof[0].upper() + dof[1:]
+
         self.mats = []
         self.mats_w_tags = []
         for i, mat in enumerate(mats):
             self.mats_w_tags.append(mats[i][0].tag)
-            self.mats_w_tags.append(mats[i][1])
+            self.mats_w_tags.append(capitalize_first_letter(mats[i][1]))
             self.mats.append(mats[i][0])
-            self.mats.append(mats[i][1])
+            self.mats.append(capitalize_first_letter(mats[i][1]))
         self.section = section
         osi.n_sect += 1
         self._tag = osi.n_sect
