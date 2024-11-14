@@ -25,7 +25,7 @@ def test_zero_length_section():
     coords = [[0, 0], [0, 0]]
     ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
     sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
-    o3.element.ZeroLengthSection(osi, ele_nodes=ele_nodes, sec=sec, r_flag=1.0, orient=[1])
+    o3.element.ZeroLengthSection(osi, ele_nodes=ele_nodes, sec=sec, r_flag=1.0, orient=[1.0, 1.0, 1.0])
 
 
 def test_coupled_zero_length():

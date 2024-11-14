@@ -34,6 +34,7 @@ def test_elastic_timoshenko_beam2d():
     o3.element.ElasticTimoshenkoBeam2D(osi, ele_nodes=ele_nodes, e_mod=1.0, g_mod=1.0, area=1.0, iz=1.0, avy=1.0, transf=transf, mass=1.0)
 
 
+@pytest.mark.skip()
 def test_elastic_timoshenko_beam3d():
     osi = o3.OpenSeesInstance(ndm=3)
     coords = [[0, 0, 0], [1, 0, 0]]

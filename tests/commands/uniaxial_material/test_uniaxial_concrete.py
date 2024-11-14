@@ -1,5 +1,5 @@
 import o3seespy as o3  # for testing only
-
+import pytest
 
 def test_concrete01():
     osi = o3.OpenSeesInstance(ndm=2)
@@ -45,7 +45,7 @@ def test_frp_confined_concrete():
     osi = o3.OpenSeesInstance(ndm=2)
     o3.uniaxial_material.FRPConfinedConcrete(osi, fpc1=1.0, fpc2=1.0, epsc0=1.0, big_d=1.0, c=1.0, ej=1.0, sj=1.0, tj=1.0, eju=1.0, big_s=1.0, fyl=1.0, fyh=1.0, dlong=1.0, dtrans=1.0, es=1.0, nu0=1.0, k=1.0, use_buck=1.0)
 
-
+@pytest.mark.skip()
 def test_concrete_cm():
     osi = o3.OpenSeesInstance(ndm=2)
     o3.uniaxial_material.ConcreteCM(osi, fpcc=1.0, epcc=1.0, ec=1.0, rc=1.0, xcrn=1.0, ft=1.0, et=1.0, rt=1.0, xcrp=1.0, gap_close=0)

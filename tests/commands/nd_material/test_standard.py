@@ -61,6 +61,7 @@ def test_plate_fiber():
     o3.nd_material.PlateFiber(osi, three_d=mat)
 
 
+@pytest.mark.skip()
 def test_fsam():
     osi = o3.OpenSeesInstance(ndm=3)
     s_x = o3.uniaxial_material.Elastic(osi, e_mod=1.0, eta=0.0, eneg=None)

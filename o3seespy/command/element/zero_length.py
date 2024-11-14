@@ -64,7 +64,7 @@ class ZeroLength(ElementBase):
         if getattr(self, 'dirs') is not None:
             self._parameters += ['-dir', *self.dirs]
         if getattr(self, 'r_flag') is not None:
-            self._parameters += ['-doRayleigh', self.r_flag]
+            self._parameters += ['-doRayleigh', int(self.r_flag)]
         if getattr(self, 'orient') is not None:
             self._parameters += ['-orient', *self.orient]
         self.to_process(osi)
@@ -154,7 +154,7 @@ class ZeroLengthSection(ElementBase):
         >>> coords = [[0, 0], [0, 0]]
         >>> ele_nodes = [o3.node.Node(osi, *coords[x]) for x in range(2)]
         >>> sec = o3.section.Elastic2D(osi, 10.0, 1.0, 1.0)
-        >>> o3.element.ZeroLengthSection(osi, ele_nodes=ele_nodes, sec=sec, r_flag=1.0, orient=[1])
+        >>> o3.element.ZeroLengthSection(osi, ele_nodes=ele_nodes, sec=sec, r_flag=1, orient=[1, 0, 0])
         """
         self.osi = osi
         self.ele_node_tags = [x.tag for x in ele_nodes]
@@ -163,7 +163,7 @@ class ZeroLengthSection(ElementBase):
         if r_flag is None:
             self.r_flag = None
         else:
-            self.r_flag = float(r_flag)
+            self.r_flag = int(r_flag)
         self.orient = orient
         osi.n_ele += 1
         self._tag = osi.n_ele
@@ -216,7 +216,7 @@ class CoupledZeroLength(ElementBase):
         self.dirn1 = int(dirn1)
         self.dirn2 = int(dirn2)
         self.mat = mat
-        self.r_flag = float(r_flag)
+        self.r_flag = int(r_flag)
         osi.n_ele += 1
         self._tag = osi.n_ele
         self._parameters = [self.op_type, self._tag, *self.ele_node_tags, self.dirn1, self.dirn2, self.mat.tag, self.r_flag]

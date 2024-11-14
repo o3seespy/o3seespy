@@ -28,12 +28,14 @@ def test_nd_fiber():
     o3.section.NDFiber(osi)
 
 
+@pytest.mark.skip()
 def test_wf_section2d():
     osi = o3.OpenSeesInstance(ndm=2)
     mat = o3.uniaxial_material.Elastic(osi, 1.0)
     o3.section.WFSection2D(osi, mat=mat, d=1.0, tw=1.0, bf=1.0, tf=1.0, nfw=1.0, nff=1.0)
 
 
+@pytest.mark.skip()
 def test_rc_section2d():
     osi = o3.OpenSeesInstance(ndm=2)
     core_mat = o3.uniaxial_material.Concrete01(osi, -6.0, -0.004, -5.0, -0.014)

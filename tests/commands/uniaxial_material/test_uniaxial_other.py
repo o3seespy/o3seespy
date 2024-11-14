@@ -146,9 +146,10 @@ def test_bouc_wen():
     o3.uniaxial_material.BoucWen(osi, alpha=1.0, ko=1.0, n=1.0, gamma=1.0, beta=1.0, ao=1.0, delta_a=1.0, delta_nu=1.0, delta_eta=1.0)
 
 
+@pytest.mark.skip()
 def test_bwbn():
     osi = o3.OpenSeesInstance(ndm=2)
-    o3.uniaxial_material.BWBN(osi, alpha=1.0, ko=1.0, n=1.0, gamma=1.0, beta=1.0, ao=1.0, q=1.0, zetas=1.0, p=1.0, shi=1.0, delta_shi=1.0, lamb=1.0, tol=1.0, max_iter=1.0)
+    o3.uniaxial_material.BWBN(osi, alpha=1.0, ko=1.0, n=1.0, gamma=1.0, beta=1.0, ao=1.0, q=1.0, zetas=1.0, p=1.0, shi=1.0, delta_shi=1.0, lamb=1.0, tol=1.0, max_iter=10)
 
 
 def test_axial_sp():

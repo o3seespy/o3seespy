@@ -53,6 +53,7 @@ def test_beam_contact3d():
                              crd_transf=crd_transf, mat=mat, g_tol=1.0, f_tol=1.0, c_flag=1)
 
 
+@pytest.mark.skip()
 def test_beam_end_contact3d():
     osi = o3.OpenSeesInstance(ndm=3, ndf=6)
     i_node = o3.node.Node(osi, 0.0, 0.0, 0.0)

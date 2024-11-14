@@ -5,6 +5,11 @@ History
 Pre-release
 -----------
 
+3.4.0.4 (2024-11-14)
+--------------------
+* Fixed issue with Aggregator
+* Fixed issue with rflag in zero length changing from float to int in OpenSees.cpp
+
 3.4.0.3 (2024-03-28)
 --------------------
 * Updates for PDMY02 and CYCLIQCPSP
