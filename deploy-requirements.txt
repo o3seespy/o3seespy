@@ -2,7 +2,7 @@ coverage
 codecov
 pylint
 # issue with version 3.3 requiring Rust on CircleCi
-SecretStorage==3.2.0
-cryptography==3.2.1
-keyring==15.1
-twine==3.2.0
+#SecretStorage==3.2.0
+#cryptography==3.2.1
+#keyring==15.1
+twine
