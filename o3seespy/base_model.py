@@ -1,12 +1,25 @@
 from collections import OrderedDict
+
 try:
-    from custom_openseespy import opensees as opy
     from custom_openseespy import opensees as ops
-except ModuleNotFoundError:
-    import openseespy.opensees as opy
-    import openseespy.opensees as ops
-from . import exceptions
-from . import extensions
+    from custom_openseespy import opensees as opy
+
+    _OpenSeesError = opy.OpenSeesError
+except ModuleNotFoundError as error:
+    if error.name != "custom_openseespy":
+        raise
+    try:
+        import openseespy.opensees as ops
+        import openseespy.opensees as opy
+
+        _OpenSeesError = opy.OpenSeesError
+    except ModuleNotFoundError as error:
+        if error.name not in ("openseespy", "openseespy.opensees"):
+            raise
+        import opensees.openseespy as ops
+        import opensees.openseespy as opy
+        from opensees.errors import XaraError as _OpenSeesError
+from . import exceptions, extensions
 
 
 class OpenSeesObject(object):
@@ -41,22 +54,29 @@ class OpenSeesObject(object):
         try:
             try:
                 return getattr(opy, self.op_base_type)(*self.parameters)
-            except opy.OpenSeesError as e:
+            except _OpenSeesError as e:
                 com = extensions.to_commands(self.op_base_type, self.parameters)
                 raise ValueError('{0} caused error "{1}"'.format(com, e))
 
         except SystemError as e:
             if None in self.parameters:
                 print(self.parameters)
-                raise exceptions.ModelError("%s of type: %s contains 'None'" % (self.op_base_type, self.op_type))
+                raise exceptions.ModelError(
+                    "%s of type: %s contains 'None'" % (self.op_base_type, self.op_type)
+                )
             else:
                 raise SystemError(e)
         except AttributeError as e:
             print(e)
-            print('opensees.{0}({1}) caused error "{2}"'.format(self.op_base_type,
-                                                                               ','.join(str(x) for x in self.parameters),
-                                                                                        e))
-            raise exceptions.ModelError("op_base_type: '%s' does not exist in opensees module" % self.op_base_type)
+            print(
+                'opensees.{0}({1}) caused error "{2}"'.format(
+                    self.op_base_type, ",".join(str(x) for x in self.parameters), e
+                )
+            )
+            raise exceptions.ModelError(
+                "op_base_type: '%s' does not exist in opensees module"
+                % self.op_base_type
+            )
 
     def to_commands(self):
         return extensions.to_commands(self.op_base_type, self.parameters)
@@ -76,7 +96,7 @@ class OpenSeesObject(object):
     def to_dict(self, export_none=False):
         outputs = OrderedDict()
         for item in self.__dict__:
-            if '_' == item[0]:  # do not export private variables
+            if "_" == item[0]:  # do not export private variables
                 continue
             value = self.__getattribute__(item)
             if not export_none and value is None:
@@ -122,5 +142,3 @@ def collect_serial_value(value):
                 return values
     else:
         return value
-
-
