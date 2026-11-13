@@ -1,17 +1,33 @@
 try:
-    from custom_openseespy import opensees as opy
     from custom_openseespy import opensees as ops
-except ModuleNotFoundError:
-    import openseespy.opensees as opy
-    import openseespy.opensees as ops
-from collections import OrderedDict
-from . import exceptions, extensions
+    from custom_openseespy import opensees as opy
+
+    _OpenSeesError = opy.OpenSeesError
+except ModuleNotFoundError as error:
+    if error.name != "custom_openseespy":
+        raise
+    try:
+        import openseespy.opensees as ops
+        import openseespy.opensees as opy
+
+        _OpenSeesError = opy.OpenSeesError
+    except ModuleNotFoundError as error:
+        if error.name not in ("openseespy", "openseespy.opensees"):
+            raise
+        import opensees.openseespy as ops
+        import opensees.openseespy as opy
+        from opensees.errors import XaraError as _OpenSeesError
+
 import tempfile
+from collections import OrderedDict
+
+from . import exceptions, extensions
 
 
 class OpenSeesInstance(object):
-
-    def __init__(self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000, restore=None, wipe=1):
+    def __init__(
+        self, ndm: int, ndf=None, state=0, mp=False, nnpp=10000, restore=None, wipe=1
+    ):
         init_tag = 0
         if mp:
             pid = opy.getPID()
@@ -34,12 +50,12 @@ class OpenSeesInstance(object):
         self.ndm = ndm
         self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
         self.logfile_name = None
-        parameters = ['BasicBuilder', '-ndm', ndm]
+        parameters = ["BasicBuilder", "-ndm", ndm]
         if ndf is not None:
             if ndf not in [1, 2, 3, 4, 6]:
-                raise ValueError('ndm must be: 1, 2, 3, 4, 6')
+                raise ValueError("ndm must be: 1, 2, 3, 4, 6")
             self.ndf = int(ndf)
-            parameters += ['-ndf', self.ndf]
+            parameters += ["-ndf", self.ndf]
         else:
             if ndm == 1:
                 self.ndf = 1
@@ -50,7 +66,7 @@ class OpenSeesInstance(object):
         if wipe:
             opy.wipe()
         if restore:
-            ops.database('File', restore[0])
+            ops.database("File", restore[0])
             ops.restore(restore[1])
         else:
             ops.model(*parameters)
@@ -59,26 +75,30 @@ class OpenSeesInstance(object):
 
         if state == 1:
             if wipe:
-                self.commands.append('opy.wipe()')
-            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
+                self.commands.append("opy.wipe()")
+            self.commands.append(
+                f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})"
+            )
         if state == 2:
-            self.dict['ndm'] = ndm
-            self.dict['ndf'] = ndf
+            self.dict["ndm"] = ndm
+            self.dict["ndf"] = ndf
             # base_types = ['node', 'element', 'section', 'uniaxial_material']
         elif state == 3:
             if wipe:
-                self.commands.append('opy.wipe()')
-            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
+                self.commands.append("opy.wipe()")
+            self.commands.append(
+                f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})"
+            )
 
     def reset_model_params(self, ndm, ndf):
-        opy.model('BasicBuilder', '-ndm', ndm, '-ndf', ndf)
+        opy.model("BasicBuilder", "-ndm", ndm, "-ndf", ndf)
         self.ndm = ndm
         self.ndf = ndf
         if self._state == 1:
             self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {ndf})")
         if self._state == 2:
-            self.dict['ndm'] = ndm
-            self.dict['ndf'] = ndf
+            self.dict["ndm"] = ndm
+            self.dict["ndf"] = ndf
             # base_types = ['node', 'element', 'section', 'uniaxial_material']
         elif self._state == 3:
             self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {ndf})")
@@ -89,7 +109,9 @@ class OpenSeesInstance(object):
     def to_dict(self, os_model, export_none=False):
         if os_model.op_type not in self.dict:
             self.dict[os_model.op_type] = OrderedDict()
-        self.dict[os_model.op_type][os_model.tag] = os_model.to_dict(export_none=export_none)
+        self.dict[os_model.op_type][os_model.tag] = os_model.to_dict(
+            export_none=export_none
+        )
 
     def to_process(self, op_base_type, parameters):
         if self.state == 0:
@@ -107,22 +129,31 @@ class OpenSeesInstance(object):
         try:
             try:
                 return getattr(opy, op_base_type)(*parameters)
-            except opy.OpenSeesError as e:
-                raise ValueError('opensees.{0}({1}) caused error "{2}"'.format(op_base_type,
-                                                                               ','.join(str(x) for x in parameters), e))
+            except _OpenSeesError as e:
+                raise ValueError(
+                    'opensees.{0}({1}) caused error "{2}"'.format(
+                        op_base_type, ",".join(str(x) for x in parameters), e
+                    )
+                )
 
         except SystemError as e:
             if None in parameters:
                 print(parameters)
-                raise exceptions.ModelError("%s of type: %s contains 'None'" % (op_base_type))
+                raise exceptions.ModelError(
+                    "%s of type: %s contains 'None'" % (op_base_type)
+                )
             else:
                 raise SystemError(e)
         except AttributeError as e:
             print(e)
-            print('opensees.{0}({1}) caused error "{2}"'.format(op_base_type,
-                                                                               ','.join(str(x) for x in parameters),
-                                                                                        e))
-            raise exceptions.ModelError("op_base_type: '%s' does not exist in opensees module" % op_base_type)
+            print(
+                'opensees.{0}({1}) caused error "{2}"'.format(
+                    op_base_type, ",".join(str(x) for x in parameters), e
+                )
+            )
+            raise exceptions.ModelError(
+                "op_base_type: '%s' does not exist in opensees module" % op_base_type
+            )
 
     @property
     def state(self):
@@ -139,9 +170,9 @@ class OpenSeesInstance(object):
             self.logfile_name = fname
         pms = [self.logfile_name]
         if append:
-            pms.append('-append')
+            pms.append("-append")
         if no_echo:
-            pms.append('-noEcho')
+            pms.append("-noEcho")
         opy.logFile(*pms)
 
 
@@ -168,12 +199,12 @@ class _OpenSeesInstanceTestMP(OpenSeesInstance):
         self.n_mesh = init_tag
         self.ndm = ndm
         self._state = state  # 0=execute line by line, 1=export to raw openseespy, 2=export reloadable json
-        parameters = ['BasicBuilder', '-ndm', ndm]
+        parameters = ["BasicBuilder", "-ndm", ndm]
         if ndf is not None:
             if ndf not in [1, 2, 3, 6]:
-                raise ValueError('ndm must be: 1, 2, 3, 6')
+                raise ValueError("ndm must be: 1, 2, 3, 6")
             self.ndf = int(ndf)
-            parameters += ['-ndf', self.ndf]
+            parameters += ["-ndf", self.ndf]
         else:
             if ndm == 1:
                 self.ndf = 1
@@ -187,12 +218,16 @@ class _OpenSeesInstanceTestMP(OpenSeesInstance):
         self.dict = OrderedDict()
 
         if state == 1:
-            self.commands.append('opy.wipe()')
-            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
+            self.commands.append("opy.wipe()")
+            self.commands.append(
+                f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})"
+            )
         if state == 2:
-            self.dict['ndm'] = ndm
-            self.dict['ndf'] = ndf
+            self.dict["ndm"] = ndm
+            self.dict["ndf"] = ndf
             # base_types = ['node', 'element', 'section', 'uniaxial_material']
         elif state == 3:
-            self.commands.append('opy.wipe()')
-            self.commands.append(f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})")
+            self.commands.append("opy.wipe()")
+            self.commands.append(
+                f"opy.model('basic', '-ndm', {ndm}, '-ndf', {self.ndf})"
+            )
